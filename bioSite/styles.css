@@ -66,17 +66,34 @@ address a:visited {
     margin: 0 auto;
 }
 
+
+/* -------- Footer Styles -------- */
 footer {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+    background-color: #205072;
     text-align: center;
-    background-color: white;
+}
+
+footer, footer p {
+    color: #FFF;
+}
+footer a {
+    text-decoration: none;
+    color: #FFF;
+}
+footer a:hover {
+    text-decoration: underline;
 }
 
 
-/* Picture Styles */
+/* -------- Picture Styles -------- */
+img.biosite-img {
+    border: 1px solid black;
+}
+
 .portrait {
     width: 300px;
     height: 533px;
@@ -84,8 +101,4 @@ footer {
     float: left;
     margin-right: 20px;
     /* margin-bottom: 10px; */
-}
-
-img.biosite-img {
-    border: 1px solid black;
 }
