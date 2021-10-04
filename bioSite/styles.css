@@ -1,5 +1,16 @@
 html, body {
     font-size: 16px;
+    margin: 0;
+}
+
+header {
+    /* background-color: #3c275a; */
+    background-color: #205072;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    /* border-bottom: 3px solid #56C596; */
+    border-bottom: 3px solid #329D9C;
 }
 
 p {
@@ -75,6 +86,7 @@ footer {
     right: 0;
     background-color: #205072;
     text-align: center;
+    border-top: 3px solid #56C596;
 }
 
 footer, footer p {
