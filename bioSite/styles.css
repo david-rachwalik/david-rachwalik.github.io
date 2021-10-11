@@ -77,6 +77,10 @@ address a:visited {
     margin: 0 auto;
 }
 
+figcaption {
+    font-size: 1.2em;
+}
+
 
 /* -------- Footer Styles -------- */
 footer {
