@@ -1,4 +1,11 @@
-html, body {
+/*
+    Title: styles.css
+    Author: David Rachwalik
+    Date: 10/24/2021
+    Description: Main styling for web-231 site
+ */
+
+ html, body {
     font-family: 'Oswald', Verdana, Arial, sans-serif;
     font-size: 16px;
     margin: 0;
