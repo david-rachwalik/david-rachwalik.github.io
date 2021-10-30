@@ -1,0 +1,10 @@
+/*
+    Title: payroll.css
+    Author: David Rachwalik
+    Date: 10/30/2021
+    Description: Styling for Exercise 2.3 of WEB-231 (Bellevue University course)
+ */
+
+.employeeRecord {
+    border: 1px dotted red;
+}
