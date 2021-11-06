@@ -1,0 +1,50 @@
+<!--
+    Title: temp-conversion.html
+    Author: David Rachwalik
+    Date: 2021/11/06
+    Description: Exercise 3.2 for Bellevue University course WEB-231
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WEB 231 – Enterprise JavaScript I</title>
+    
+    <meta name="description" content="Learning JavaScript" />
+    <meta name="keywords" content="Bellevue, HTML, CSS, JS" />
+    <meta name="author" content="David Rachwalik" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="nofollow" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; child-src 'none'; object-src 'none'">
+
+    <link rel="stylesheet" type="text/css" href="temp-conversion.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="container">
+        <h1 id="app-header">Welcome to the Temperature Conversion App!</h1>
+
+        <div class="card">
+            <div class="card-title">Fahrenheit to Celsius Converter</div>
+            <form>
+                <label for="txtFahrenheit">Fahrenheit value:</label>
+                <input type="text" id="txtFahrenheit"></input>
+                <br /><br />
+                <input id="id" type="button" value="Convert Temperature">
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Conversion Results</div>
+            <div id="txtResult">0.00</div>
+        </div>
+
+        <a href="../index.html" class="return-home">Return</a>
+
+    </div>
+
+    <script src="temp-conversion.js"></script>
+
+</body>
+</html>
