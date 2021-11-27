@@ -37,7 +37,9 @@ html, body {
 
 #btnDisplayListing {
     background-color: #4F3674;
-    border: 1px solid #3C275A;
+    /* border: 1px solid #3C275A; */
+    border: 2px solid black;
+    border-radius: 5px;
     color: white;
     padding: 12px 90px;
     margin-bottom: 20px;
@@ -45,7 +47,6 @@ html, body {
 }
 #btnDisplayListing:active {
     background-color: #d6a800;
-    border: 1px solid white;
     color: #4F3674;
 }
 #txtResult {
@@ -62,14 +63,15 @@ table {
     width: 100%;
     margin-bottom: 30px;
 }
-thead tr th {
-    padding: 12px 6px;
+th, td {
+    border: 1px solid #DDD;
+    padding: 6px;
+}
+th {
     text-align: left;
     background-color: #4F3674;
     color: white;
-}
-thead, tbody, th, td {
-    border: 1px solid #DDD;
+    padding: 12px 6px;
 }
 tbody tr:hover {
     background-color: #D6A800;
