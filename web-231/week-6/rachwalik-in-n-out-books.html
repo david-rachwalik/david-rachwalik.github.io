@@ -1,0 +1,107 @@
+<!--
+    Title: rachwalik-in-n-out-books.html
+    Author: David Rachwalik
+    Date: 2021/11/27
+    Description: Exercise 6.2 for Bellevue University course WEB-231
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WEB 231 – Enterprise JavaScript I</title>
+    
+    <meta name="description" content="Learning JavaScript" />
+    <meta name="keywords" content="Bellevue, HTML, CSS, JS" />
+    <meta name="author" content="David Rachwalik" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="nofollow" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; child-src 'none'; object-src 'none'">
+
+    <link rel="stylesheet" type="text/css" href="global.css">
+    <link rel="stylesheet" type="text/css" href="rachwalik-in-n-out-books.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="container">
+        <h1 id="app-header">Welcome to In-N-Out-Books</h1>
+
+        <div class="card">
+            <div class="card-title">My Favorites</div>
+            <form>
+                <label for="favoriteList">Choose a listing:</label>
+                <!-- <input type="text" id="txtMyNumber"></input> -->
+                <select id="favoriteList" class="drop-down-menu">
+                    <option value="select">--Select--</option>
+                    <option value="books">Top 3 Favorite Books</option>
+                    <option value="authors">Top 3 Favorite Authors</option>
+                </select>
+                <br /><br />
+                <input id="btnDisplayListing" type="button" value="Display Listing">
+            </form>
+        </div>
+
+        <div id="favorite-books" class="card">
+            <div class="card-title">Top 3 Favorite Books</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ISBN</th>
+                        <th>Title</th>
+                        <th>Pages</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="txtLordOfTheRingsISBN"></td>
+                        <td id="txtLordOfTheRingsTitle"></td>
+                        <td id="txtLordOfTheRingsPages"></td>
+                    </tr>
+                    <tr>
+                        <td id="txtIllustratedManISBN"></td>
+                        <td id="txtIllustratedManTitle"></td>
+                        <td id="txtIllustratedManPages"></td>
+                    </tr>
+                    <tr>
+                        <td id="txtMartianISBN"></td>
+                        <td id="txtMartianTitle"></td>
+                        <td id="txtMartianPages"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="favorite-authors" class="card">
+            <div class="card-title">Top 3 Favorite Authors</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Genre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="txtJrrTolkienName"></td>
+                        <td id="txtJrrTolkienGenre"></td>
+                    </tr>
+                    <tr>
+                        <td id="txtRumikoTakahashiName"></td>
+                        <td id="txtRumikoTakahashiGenre"></td>
+                    </tr>
+                    <tr>
+                        <td id="txtHajimeIsayamaName"></td>
+                        <td id="txtHajimeIsayamaGenre"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a href="../index.html" class="return-home">Return</a>
+
+    </div>
+
+    <script src="rachwalik-in-n-out-books.js"></script>
+
+</body>
+</html>

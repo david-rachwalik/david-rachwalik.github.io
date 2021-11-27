@@ -1,0 +1,78 @@
+/*
+    Title: rachwalik-in-n-out-books.css
+    Author: David Rachwalik
+    Date: 2021/11/27
+    Description: Styling for Exercise 6.2 of WEB-231 (Bellevue University course)
+ */
+
+
+html, body {
+    font-family: 'Oswald', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+}
+
+#container {
+    margin: 50px 100px 0;
+}
+
+#app-header {
+    text-align: center;
+    font-weight: 400;
+}
+
+.card {
+    padding: 0 30px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin: 40px auto;
+}
+
+.card-title {
+    width: 100%;
+    color: #4F3674;
+    text-align: center;
+    font-size: 1.75rem;
+    padding: 5px 0;
+}
+
+#btnDisplayListing {
+    background-color: #4F3674;
+    border: 1px solid #3C275A;
+    color: white;
+    padding: 12px 90px;
+    margin-bottom: 20px;
+
+}
+#btnDisplayListing:active {
+    background-color: #d6a800;
+    border: 1px solid white;
+    color: #4F3674;
+}
+#txtResult {
+    width: 100%;
+    font-size: 1.75rem;
+    text-align: center;
+}
+#favorite-books, #favorite-authors {
+    padding-bottom: 1px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 30px;
+}
+thead tr th {
+    padding: 12px 6px;
+    text-align: left;
+    background-color: #4F3674;
+    color: white;
+}
+thead, tbody, th, td {
+    border: 1px solid #DDD;
+}
+tbody tr:hover {
+    background-color: #D6A800;
+    color: #4F3674;
+    cursor: pointer;
+}
