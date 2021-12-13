@@ -1,0 +1,25 @@
+/*
+    Title: global.css
+    Author: David Rachwalik
+    Date: 2021/12/12
+    Description: Styling for Exercise 8.2 of WEB-231 (Bellevue University course)
+ */
+
+.return-home {
+    color: #4F3674;
+    text-decoration: none;
+}
+.return-home:hover {
+    background-color: #D6A800;
+    color: #4F3674;
+}
+.return-home:visited {
+    color: #3C275A;
+}
+
+.drop-down-menu {
+    border-radius: 5px;
+    border: 2px solid #cdd9ed;
+    padding: 5px;
+    margin: 15px;
+}

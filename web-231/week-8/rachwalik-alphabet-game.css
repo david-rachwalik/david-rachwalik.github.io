@@ -1,0 +1,92 @@
+/*
+    Title: rachwalik-alphabet-game.css
+    Author: David Rachwalik
+    Date: 2021/12/12
+    Description: Styling for Exercise 8.2 of WEB-231 (Bellevue University course)
+ */
+
+
+html, body {
+    font-family: 'Oswald', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+}
+
+#container {
+    margin: 50px 100px 0;
+}
+
+#app-header {
+    text-align: center;
+    font-weight: 400;
+}
+
+.card {
+    padding: 0 30px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin: 40px auto;
+}
+
+.card-title {
+    width: 100%;
+    color: #4F3674;
+    text-align: center;
+    font-size: 1.75rem;
+    padding: 5px 0;
+}
+
+
+#txtPosition {
+    border-radius: 5px;
+    border: 2px solid #cdd9ed;
+    padding: 5px;
+    margin: 15px;
+}
+
+#btnFindLetter {
+    background-color: #4F3674;
+    /* border: 1px solid #3C275A; */
+    border: 2px solid black;
+    border-radius: 5px;
+    color: white;
+    padding: 12px 90px;
+    margin-bottom: 20px;
+
+}
+#btnFindLetter:active {
+    background-color: #d6a800;
+    color: #4F3674;
+}
+
+#txtResult, #txtAlphabet {
+    width: 100%;
+    font-size: 1.75rem;
+    text-align: center;
+}
+
+
+#products, #services, #employees {
+    display: none;
+    padding-bottom: 1px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 30px;
+}
+th, td {
+    border: 1px solid #DDD;
+    padding: 6px;
+}
+th {
+    text-align: left;
+    background-color: #4F3674;
+    color: white;
+    padding: 12px 6px;
+}
+tbody tr:hover {
+    background-color: #D6A800;
+    color: #4F3674;
+    cursor: pointer;
+}
