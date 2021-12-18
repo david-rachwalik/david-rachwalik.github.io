@@ -1,0 +1,84 @@
+/*
+    Title: rachwalik-card-game.css
+    Author: David Rachwalik
+    Date: 2021/12/17
+    Description: Styling for Exercise 9.2 of WEB-231 (Bellevue University course)
+ */
+
+
+html, body {
+    font-family: 'Oswald', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+}
+
+#container {
+    max-width: 720px;
+    /* margin: 50px 100px 0; */
+    margin: 50px auto;
+}
+
+#app-header {
+    text-align: center;
+    font-weight: 400;
+}
+
+.card, .card-dealer {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin: 40px auto;
+}
+.card-dealer {
+    padding: 0 20px;
+}
+.card-header {
+    width: 100%;
+    color: #4F3674;
+    text-align: center;
+    font-size: 1.75rem;
+    padding: 5px 0;
+}
+
+
+#btnDealCards {
+    width: 100%;
+    background-color: #4F3674;
+    border: 1px solid #3C275A;
+    color: white;
+    padding: 12px 90px;
+    margin-bottom: 8px;
+}
+#btnDealCards:active {
+    background-color: #d6a800;
+    color: #4F3674;
+}
+.form-center {
+    text-align: center;
+}
+
+#player-card-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    columns: 4;
+    padding: 10px;
+    grid-gap: 10px;
+}
+
+#player-card-container .card {
+    position: relative;
+    padding: 25px 0;    /* bottom padding 25 */
+    margin: 0;
+}
+
+#player-card-container .card-title {
+    position: absolute;
+    top: 5px;
+    left: 10px;         /* left padding 10 */
+    font-size: 20px;
+    color: #4F3674;
+}
+
+#player-card-container .card-content {
+    margin: auto;
+    text-align: center;
+    font-size: 28px;
+}
