@@ -104,12 +104,12 @@ h1 {
 
 input,
 .drop-down-menu {
-    border-color: var(----input-border-color);
+    border-color: var(--input-border-color);
 }
 
 .drop-down-menu {
     border-radius: 5px;
-    border: 2px solid var(----input-border-color);
+    border: 2px solid var(--input-border-color);
     padding: 5px;
     margin: 15px;
 }
