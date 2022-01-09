@@ -1,0 +1,10 @@
+# https://prettier.io/docs/en/configuration.html
+# https://prettier.io/docs/en/options.html
+# https://github.com/prettier/prettier-vscode#default-formatter
+# https://prettier.io/docs/en/configuration.html#sharing-configurations
+---
+printWidth: 160
+tabWidth: 4
+semi: false
+trailingComma: "none"
+bracketSameLine: true
