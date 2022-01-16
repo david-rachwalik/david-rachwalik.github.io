@@ -76,3 +76,42 @@
     margin: 20px 100px 0;
     margin-top: 1em;
 }
+
+/* -------- Card Styles -------- */
+
+.card {
+    padding: 5px 30px;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin: 20px auto;
+}
+.card-title {
+    width: 100%;
+    color: #4f3674;
+    text-align: center;
+    font-size: 1.75rem;
+    margin-bottom: 5px;
+}
+
+.card input[type="button"] {
+    padding: 8px 90px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.card input[type="text"] {
+    border-radius: 5px;
+    border: 2px solid #cdd9ed;
+    padding: 5px;
+    margin: 15px;
+}
+
+/* -------- Styles for Assign_2 -------- */
+
+h1#app-header {
+    background: none;
+    border: 0;
+    color: var(--text-color);
+    font-weight: normal;
+    text-align: center;
+}
