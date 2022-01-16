@@ -1,0 +1,25 @@
+{
+    "name": "david-rachwalik.github.io",
+    "version": "1.0.0",
+    "description": "DMR personal site for content drops",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lite": "lite-server",
+        "start": "concurrently \"npm run lite\" "
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/david-rachwalik/david-rachwalik.github.io.git"
+    },
+    "author": "David Rachwalik",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/david-rachwalik/david-rachwalik.github.io/issues"
+    },
+    "homepage": "https://github.com/david-rachwalik/david-rachwalik.github.io#readme",
+    "dependencies": {
+        "concurrently": "^6.3.0",
+        "lite-server": "^2.6.1"
+    }
+}
