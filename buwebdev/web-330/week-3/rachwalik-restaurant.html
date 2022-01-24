@@ -1,0 +1,123 @@
+<!--
+    Title: rachwalik-restaurant.html
+    Author: David Rachwalik
+    Date: 2022/01/23
+    Description: Restaurant App for WEB-330 site
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Restaurant App</title>
+    <meta charset="UTF-8">
+    <meta name="author" content="David Rachwalik" />
+    <meta name="description" content="Personal site for David Rachwalik" />
+    <meta name="keywords" content="Blog, Gaming, Game, Dev, Learning, Programming" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="nofollow" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none';
+        style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;">
+
+    <link rel="stylesheet" type="text/css" href="../styles/theme.css">
+    <link rel="stylesheet" type="text/css" href="../styles/site.css">
+    <link rel="stylesheet" type="text/css" href="./rachwalik-restaurant.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="light-theme">
+    <div id="container">
+        <h1 id="app-header">Welcome to the Restaurant App!</h1>
+
+        <div class="card">
+            <div class="card-title">Restaurant Menu</div>
+            <div class="card-context row">
+
+                <div class="card inner-card">
+                    <div class="card-title">Beverages</div>
+                    <div class="card-context" id="beverages">
+                        <label for="soda">
+                            <input type="checkbox" id="soda" name="soda" data-value="3.30" /> Soda ($3.30)
+                        </label><br />
+                        <label for="tea">
+                            <input type="checkbox" id="tea" name="tea" data-value="3.30" /> Sweet Tea ($3.30)
+                        </label><br />
+                        <label for="coffee">
+                            <input type="checkbox" id="coffee" name="coffee" data-value="2.49" /> Iced Coffee ($2.49)
+                        </label><br />
+                        <label for="water">
+                            <input type="checkbox" id="water" name="water" data-value="2.15" /> Bottled Water ($2.15)
+                        </label><br />
+                    </div>
+                </div>
+
+                <div class="card inner-card">
+                    <div class="card-title">Appetizers</div>
+                    <div class="card-context" id="appetizers">
+                        <label for="nachos">
+                            <input type="checkbox" id="nachos" name="nachos" data-value="6.60" /> Nachos ($6.60)
+                        </label><br />
+                        <label for="chips">
+                            <input type="checkbox" id="chips" name="chips" data-value="5.50" /> Chips and Salsa ($5.50)
+                        </label><br />
+                        <label for="pretzel">
+                            <input type="checkbox" id="pretzel" name="pretzel" data-value="8.80" /> Pretzel with Cheese ($8.80)
+                        </label><br />
+                        <label for="pickles">
+                            <input type="checkbox" id="pickles" name="pickles" data-value="8.25" /> Fried Pickles ($8.25)
+                        </label><br />
+                    </div>
+                </div>
+
+                <div class="card inner-card">
+                    <div class="card-title">Main Courses</div>
+                    <div class="card-context" id="main-courses">
+                        <label for="tacos">
+                            <input type="checkbox" id="tacos" name="tacos" data-value="9.70" /> Street Tacos ($9.70)
+                        </label><br />
+                        <label for="wings">
+                            <input type="checkbox" id="wings" name="wings" data-value="12.80" /> Boneless Wings ($12.80)
+                        </label><br />
+                        <label for="burger">
+                            <input type="checkbox" id="burger" name="burger" data-value="12.65" /> Cheese Burger with Fries ($12.65)
+                        </label><br />
+                        <label for="wrap">
+                            <input type="checkbox" id="wrap" name="wrap" data-value="9.65" /> Chicken Wrap with Salad ($9.65)
+                        </label><br />
+                    </div>
+                </div>
+
+                <div class="card inner-card">
+                    <div class="card-title">Desserts</div>
+                    <div class="card-context" id="desserts">
+                        <label for="icecream">
+                            <input type="checkbox" id="icecream" name="icecream" data-value="4.30" /> Ice Cream ($4.30)
+                        </label><br />
+                        <label for="chococake">
+                            <input type="checkbox" id="chococake" name="chococake" data-value="5.40" /> Chocolate Cake ($5.40)
+                        </label><br />
+                        <label for="applepie">
+                            <input type="checkbox" id="applepie" name="applepie" data-value="3.80" /> Apple Pie ($3.80)
+                        </label><br />
+                    </div>
+                    <input id="btnOrder" class="btn-primary" type="button" value="Place Order" />
+                </div>
+
+            </div>
+        </div>
+
+        <a href="../index.html" class="return-home">Return</a>
+        <br /><br />
+
+        <div class="card">
+            <div class="card-title">Order Summary</div>
+            <div id="order-total" class="card-content assign-results-text"></div>
+        </div>
+    </div>
+
+    <script type="module" src="./rachwalik-restaurant.js"></script>
+</body>
+
+</html>
