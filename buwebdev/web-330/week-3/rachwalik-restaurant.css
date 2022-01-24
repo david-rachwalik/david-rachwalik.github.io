@@ -5,7 +5,20 @@
     Description: Exercise 3.2 styles for WEB-330 site
  */
 
+.row {
+    display: flex;
+    flex-flow: row wrap;
+}
+
 .inner-card {
     display: flex;
     flex-wrap: wrap;
+    flex: 0 0 auto;
+    width: 37%;
+    vertical-align: top;
+}
+
+#btnOrder {
+    margin-top: 8px;
+    width: 100%;
 }
