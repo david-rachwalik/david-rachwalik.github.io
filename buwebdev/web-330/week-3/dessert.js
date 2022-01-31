@@ -7,10 +7,10 @@
 ;===========================================
 */
 
-import { Product } from "./product.js";
+import { Product } from './product.js';
 
 export class Dessert extends Product {
-    constructor(name, price) {
-        super(name, price);
-    }
+  constructor(name, price) {
+    super(name, price);
+  }
 }

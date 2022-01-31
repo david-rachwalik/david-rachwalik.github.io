@@ -7,33 +7,31 @@
 ;===========================================
 */
 
-"use strict";
-(function() {
-    // Generate random number between 1 & 10
-    const rnd = Math.floor((Math.random() * 10) + 1);
-    console.log("rnd: " + rnd);
+(function () {
+  // Generate random number between 1 & 10
+  const rnd = Math.floor(Math.random() * 10 + 1);
+  console.log(`rnd: ${rnd}`);
 
-    function calcNumberGame() {
-        let tempInput = document.getElementById("txtMyNumber");
-        let myNumber = Number.parseFloat(tempInput.value);
-        // console.log("myNumber: " + myNumber);
+  function calcNumberGame() {
+    const tempInput = document.getElementById('txtMyNumber');
+    const myNumber = Number.parseFloat(tempInput.value);
+    // console.log("myNumber: " + myNumber);
 
-        let result = "";
-        if (myNumber > rnd) {
-            result = "The number is less than " + myNumber;
-        } else if (myNumber < rnd) {
-            result = "The number is greater than " + myNumber;
-        } else {
-            result = "Congratulations! You picked the correct number!";
-        }
-        // console.log("result: " + result);
+    let result = '';
+    if (myNumber > rnd) {
+      result = `The number is less than ${myNumber}`;
+    } else if (myNumber < rnd) {
+      result = `The number is greater than ${myNumber}`;
+    } else {
+      result = 'Congratulations! You picked the correct number!';
+    }
+    // console.log("result: " + result);
 
-        // Print result message to client display
-        let txtResult = document.getElementById("txtResult");
-        txtResult.innerHTML = result;
-    };
+    // Print result message to client display
+    const txtResult = document.getElementById('txtResult');
+    txtResult.innerHTML = result;
+  }
 
-    let submitButton = document.getElementById("id");
-    submitButton.onclick = calcNumberGame;
-
+  const submitButton = document.getElementById('id');
+  submitButton.onclick = calcNumberGame;
 })();
