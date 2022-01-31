@@ -10,8 +10,18 @@ class CalorieConverter {
     new FoodModel(1012, 'Soda', 150),
   ];
 
+  // static find(name) {
+  //   return this.data.filter((f) => String(f.name).toLowerCase() === String(name).toLowerCase());
+  // }
+
   static find(name) {
-    return this.data.filter((f) => String(f.name).toLowerCase() === String(name).toLowerCase());
+    const results = [];
+    const names = name.split(',');
+    for (const n of names) {
+      const match = this.data.filter((f) => String(f.name).toLowerCase() === String(n).trim().toLowerCase());
+      if (n && match) results.push(match[0]);
+    }
+    return results;
   }
 }
 

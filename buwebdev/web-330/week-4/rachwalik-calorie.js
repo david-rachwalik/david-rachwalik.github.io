@@ -23,26 +23,31 @@ function populateFoodList() {
 populateFoodList();
 
 // Calorie web app click event
-function checkPhrase() {
-  const txtFoodItemEl = document.getElementById('txtFoodItem');
+function checkFoodItems() {
   const searchResultsEl = document.getElementById('searchResults');
+  const txtFoodItemEl = document.getElementById('txtFoodItem');
+  if (!searchResultsEl || !txtFoodItemEl) return;
   const txtFoodItem = txtFoodItemEl.value;
   const foods = CalorieConverter.find(txtFoodItem);
-  // console.log('foods: ', foods);
+  console.log('foods: ', foods);
 
-  let tableData = '<table class="table">';
-  tableData += '<thead><tr><th>Name</th><th>Calories</th></tr></thead><tbody>';
-  for (const food of foods) {
-    tableData += `<tr><td>${food.name}</td><td>${food.calories}</td></tr>`;
+  let tableData = '';
+  if (foods.length > 0) {
+    // Generate table HTML for food data
+    tableData += '<table class="table">';
+    tableData += '<thead><tr><th>Name</th><th>Calories</th></tr></thead><tbody>';
+    for (const food of foods) {
+      tableData += `<tr><td>${food.name}</td><td>${food.calories}</td></tr>`;
+    }
+    tableData += '</tbody></table>';
   }
-  tableData += '</tbody></table>';
 
   // Send table data to client display
   searchResultsEl.innerHTML = tableData;
 }
 
 const submitButton = document.getElementById('btnSearch');
-submitButton.addEventListener('click', checkPhrase);
+submitButton.addEventListener('click', checkFoodItems);
 
 // Prevent default refresh on form
 window.addEventListener('keydown', (event) => {
