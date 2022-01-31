@@ -1,0 +1,43 @@
+#foodList {
+  float: right;
+  color: #df546a;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+#txtFoodItem,
+#btnSearch {
+  width: 100%;
+}
+
+#btnSearch {
+  border: 1px solid var(--heading-background-color);
+  border-radius: 0;
+}
+
+.card form {
+  width: 55%;
+}
+.card input[type='text'] {
+  margin: 0;
+}
+
+/* 
+.card form label[for=txtFoodItem] {
+  float: left;
+}
+#txtFoodItem {
+  float: none;
+  overflow: hidden;
+} */
+
+/* https://www.w3schools.com/css/css3_flexbox_container.asp */
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+.flex-container label {
+  white-space: nowrap;
+  padding: 5px 0;
+  margin-right: 5px;
+}

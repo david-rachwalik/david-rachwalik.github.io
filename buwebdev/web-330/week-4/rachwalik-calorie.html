@@ -1,0 +1,66 @@
+<!--
+    Title: rachwalik-calorie.html
+    Author: David Rachwalik
+    Date: 2022/01/30
+    Description: Calorie App for WEB-330 site
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>DMR Personal Site</title>
+    <meta charset="UTF-8">
+    <meta name="author" content="David Rachwalik" />
+    <meta name="description" content="Personal site for David Rachwalik" />
+    <meta name="keywords" content="Blog, Gaming, Game, Dev, Learning, Programming" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="nofollow" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none';
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;">
+
+    <link rel="stylesheet" type="text/css" href="../styles/theme.css">
+    <link rel="stylesheet" type="text/css" href="../styles/site.css">
+    <link rel="stylesheet" type="text/css" href="./rachwalik-calorie.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="light-theme">
+    <div id="icon-container">
+        <i id="icon-mode" class="fa fa-toggle-off pull-right"><span id="icon-text"></span></i>
+    </div>
+
+    <div id="container" class="container">
+        <h1 id="app-header">Welcome to the Calorie App!</h1>
+
+        <div class="card">
+            <div class="card-title">Calorie Search Form</div>
+            <form>
+                <div class="flex-container">
+                    <label for="txtFoodItem">Enter a food item:</label>
+                    <input type="text" id="txtFoodItem" />
+                </div>
+                <span id="foodList"></span>
+                <br /><br />
+                <input id="btnSearch" class="btn-primary" type="button" value="Search" />
+            </form>
+        </div>
+
+        <a href="../index.html" class="return-home">Return</a>
+        <br /><br />
+
+        <div class="card">
+            <div class="card-title">Search Results</div>
+            <div id="searchResults" class="card-content"></div>
+        </div>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script type="module" src="rachwalik-calorie.js"></script>
+    <script type="module" src="calorie-converter.js"></script>
+</body>
+
+</html>

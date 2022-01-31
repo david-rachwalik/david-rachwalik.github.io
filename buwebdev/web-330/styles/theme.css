@@ -1,48 +1,60 @@
 /*
     Title: theme.css
     Author: David Rachwalik
-    Date: 2022/01/09
+    Date: 2022/01/30
     Description: Theme styles for WEB-330 site
  */
 
 body.light-theme {
-    --text-color: #000;
-    --background-color: white;
-    --anchor-color: #4f3674;
-    --h1-background-color: #3c275a;
-    --h1-border-color: #d6a800;
-    --heading-background-color: #3c275a;
-    --heading-color: white;
-    --heading-border-color: #d6a800;
-    --anchor-hover-color: #4f3674;
-    --anchor-hover-background-color: #d6a800;
-    --card-background-color: white;
-    --card-title-color: #4f3674;
-    --btn-background-color: #4f3674;
-    --btn-color: white;
-    --btn-hover-background-color: #d6a800;
-    --btn-hover-color: #4f3674;
-    --input-border-color: #ccc;
+  --text-color: #000;
+  --background-color: white;
+  --anchor-color: #4f3674;
+  --h1-background-color: #3c275a;
+  --h1-border-color: #d6a800;
+  --heading-background-color: #3c275a;
+  --heading-color: white;
+  --heading-border-color: #d6a800;
+  --anchor-hover-color: #4f3674;
+  --anchor-hover-background-color: #d6a800;
+  --card-background-color: white;
+  --card-title-color: #4f3674;
+  --btn-background-color: #4f3674;
+  --btn-color: white;
+  --btn-hover-background-color: #d6a800;
+  --btn-hover-color: #4f3674;
+  --input-border-color: #ccc;
+  /* added in week-4 */
+  --table-header-background-color: #4f3674;
+  --table-header-color: #fff;
+  --table-border-color: #ddd;
+  --table-hover-background-color: #d6a800;
+  --table-hover-color: #4f3674;
 }
 
 body.dark-theme {
-    --text-color: #fafafa;
-    --background-color: #303030;
-    --anchor-color: white;
-    --h1-background-color: #9c27b0;
-    --h1-border-color: #9c27b0;
-    --heading-background-color: #424242;
-    --heading-color: white;
-    --heading-border-color: #424242;
-    --anchor-hover-color: #d176e1;
-    --anchor-hover-background-color: #303030;
-    --card-background-color: #424242;
-    --card-title-color: #d176e1;
-    --btn-background-color: #d176e1;
-    --btn-color: white;
-    --btn-hover-background-color: #7d4787;
-    --btn-hover-color: white;
-    --input-border-color: #303030;
+  --text-color: #fafafa;
+  --background-color: #303030;
+  --anchor-color: white;
+  --h1-background-color: #9c27b0;
+  --h1-border-color: #9c27b0;
+  --heading-background-color: #424242;
+  --heading-color: white;
+  --heading-border-color: #424242;
+  --anchor-hover-color: #d176e1;
+  --anchor-hover-background-color: #303030;
+  --card-background-color: #424242;
+  --card-title-color: #d176e1;
+  --btn-background-color: #d176e1;
+  --btn-color: white;
+  --btn-hover-background-color: #7d4787;
+  --btn-hover-color: white;
+  --input-border-color: #303030;
+  /* added in week-4 */
+  --table-header-background-color: #d176e1;
+  --table-header-color: #fff;
+  --table-border-color: #303030;
+  --table-hover-background-color: #7d4787;
+  --table-hover-color: #fff;
 }
 
 /*
@@ -50,66 +62,88 @@ body.dark-theme {
  */
 
 * {
-    font-family: "Oswald", Verdana, Arial, sans-serif;
+  font-family: 'Oswald', Verdana, Arial, sans-serif;
 }
 
 body {
-    margin: 0;
-    color: var(--text-color);
-    background: var(--background-color);
+  margin: 0;
+  color: var(--text-color);
+  background: var(--background-color);
 }
 
 a {
-    color: var(--anchor-color);
-    text-decoration: none;
+  color: var(--anchor-color);
+  text-decoration: none;
 }
 a:hover {
-    background-color: var(--anchor-hoverbackground-color);
-    color: var(--anchor-hover-color);
-    text-decoration: underline;
+  background-color: var(--anchor-hoverbackground-color);
+  color: var(--anchor-hover-color);
+  text-decoration: underline;
 }
 a:visited {
-    color: var(--anchor-visited-color);
+  color: var(--anchor-visited-color);
 }
 
 h1,
 h2,
 h3,
 h4 {
-    background-color: var(--heading-background-color);
-    color: var(--heading-color);
-    border: 1px solid var(--heading-border-color);
-    padding: 10px;
+  background-color: var(--heading-background-color);
+  color: var(--heading-color);
+  border: 1px solid var(--heading-border-color);
+  padding: 10px;
 }
 h1 {
-    background-color: var(--h1-background-color);
-    border: 1px solid var(--h1-border-color);
+  background-color: var(--h1-background-color);
+  border: 1px solid var(--h1-border-color);
 }
 
 .card {
-    background-color: var(--card-background-color);
+  background-color: var(--card-background-color);
 }
 .card-title {
-    color: var(--card-title-color);
+  color: var(--card-title-color);
 }
 
 .btn-primary {
-    background-color: var(--btn-background-color);
-    color: var(--btn-color);
+  background-color: var(--btn-background-color);
+  color: var(--btn-color);
 }
 .btn-primary:hover {
-    background-color: var(--btn-hover-background-color);
-    color: var(--btn-hover-color);
+  background-color: var(--btn-hover-background-color);
+  color: var(--btn-hover-color);
 }
 
 input,
 .drop-down-menu {
-    border-color: var(--input-border-color);
+  border-color: var(--input-border-color);
 }
 
 .drop-down-menu {
-    border-radius: 5px;
-    border: 2px solid var(--input-border-color);
-    padding: 5px;
-    margin: 15px;
+  border-radius: 5px;
+  border: 2px solid var(--input-border-color);
+  padding: 5px;
+  margin: 15px;
+}
+
+/* added in week-4 */
+
+.table {
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.table th {
+  background-color: var(--table-header-background-color);
+  color: var(--table-header-color);
+}
+.table th,
+.table td {
+  border: 1px solid var(--table-border-color);
+  padding: 5px;
+}
+.table tr:hover {
+  background-color: var(--table-hover-background-color);
+  color: var(--tablehover-color);
+  cursor: pointer;
 }
