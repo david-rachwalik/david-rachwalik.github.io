@@ -38,5 +38,5 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'no-underscore-dangle': 'off',
   },
-  ignorePatterns: ['node_modules', 'wwwroot/dist'],
+  ignorePatterns: ['node_modules/', 'wwwroot/', 'dist/'],
 };
