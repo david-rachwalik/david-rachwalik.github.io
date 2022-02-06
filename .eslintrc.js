@@ -37,6 +37,7 @@ module.exports = {
     'no-useless-constructor': 'off',
     'no-restricted-syntax': 'off',
     'no-underscore-dangle': 'off',
+    'no-alert': 'off',
   },
   ignorePatterns: ['node_modules/', 'wwwroot/', 'dist/'],
 };
