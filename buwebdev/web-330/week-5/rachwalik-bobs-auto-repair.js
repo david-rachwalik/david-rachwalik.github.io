@@ -39,9 +39,9 @@ function addProduct() {
 
   // Generate table HTML for food data (instr: see Exhibit C, item 11)
   let cartDisplayTable = '<table class="table">';
-  cartDisplayTable += '<thead><tr><th>Name</th><th>Price</th></tr></thead><tbody>';
+  cartDisplayTable += '<thead><tr><th>ID</th><th>Name</th><th>Price</th></tr></thead><tbody>';
   for (const item of shoppingCart.getProducts()) {
-    cartDisplayTable += `<tr><td>${item.name}</td><td>${item.price}</td></tr>`;
+    cartDisplayTable += `<tr><td>${item.id}</td><td>${item.name}</td><td>${item.price}</td></tr>`;
   }
   cartDisplayTable += '</tbody></table>';
   // Send table data to client display
