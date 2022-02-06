@@ -30,17 +30,17 @@
 </head>
 
 <body class="light-theme">
-    <div id="icon-container">
-        <i id="icon-mode" class="fa fa-toggle-off pull-right"><span id="icon-text"></span></i>
-    </div>
-
     <div id="container" class="container">
+        <div id="icon-container">
+            <i id="icon-mode" class="fa fa-toggle-off pull-right"><span id="icon-text"></span></i>
+        </div>
+
         <h1 id="app-header">Welcome to Bob's Automotive Repair Shop!</h1>
 
         <div class="card">
             <div class="card-title">Product Listing</div>
-
             <cart-component></cart-component>
+            <br />
 
             <form>
                 <div class="flex-container">
@@ -55,7 +55,6 @@
                 <i id="cart-message">To view your shopping cart, click on the cart icon</i>
                 <br /><br />
                 <input id="btnAddProduct" class="btn-primary" type="button" value="Add to Cart" />
-
             </form>
         </div>
 

@@ -32,8 +32,8 @@
   text-decoration: none;
 }
 .return-home:hover {
-background-color: var(--anchor-hover-background-color);
-color: var(--anchor-hover-color);
+  background-color: var(--anchor-hover-background-color);
+  color: var(--anchor-hover-color);
 }
 
 .form {
@@ -56,7 +56,7 @@ color: var(--anchor-hover-color);
 }
 @media only screen and (max-width: 1100px) {
   #container {
-      margin: 0 100px 50px;
+    margin: 0 100px 50px;
   }
 }
 
@@ -76,7 +76,6 @@ color: var(--anchor-hover-color);
 }
 #icon-container {
   overflow: hidden; /* required to contain float */
-  margin: 20px 100px 0;
   margin-top: 1em;
 }
 
@@ -95,13 +94,13 @@ color: var(--anchor-hover-color);
   margin-bottom: 5px;
 }
 
-.card input[type="button"] {
+.card input[type='button'] {
   padding: 8px 90px;
   border: 2px solid black;
   border-radius: 5px;
   margin-bottom: 20px;
 }
-.card input[type="text"] {
+.card input[type='text'] {
   border-radius: 5px;
   border: 2px solid #cdd9ed;
   padding: 5px;
@@ -118,11 +117,36 @@ h1#app-header {
   text-align: center;
 }
 
+/* -------- Styles for Assign_4 -------- */
 
 /* Content respects width, not pushed beyond by padding */
 html {
   box-sizing: border-box;
 }
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
+}
+
+/* https://www.w3schools.com/css/css3_flexbox_container.asp */
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+.flex-container label {
+  white-space: nowrap;
+  padding: 5px 0;
+  margin-right: 5px;
+}
+
+.card form {
+  width: 55%;
+}
+
+.btn-primary,
+.card input,
+.card select {
+  width: 100%;
+  margin: 0;
 }
