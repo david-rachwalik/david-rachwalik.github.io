@@ -22,3 +22,12 @@
 i:hover {
   cursor: pointer;
 }
+
+cart-component {
+  display: block;
+  width: 100%;
+  color: var(--card-title-color);
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 5px;
+}
