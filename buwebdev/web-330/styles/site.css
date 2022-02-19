@@ -1,7 +1,7 @@
 /*
     Title: site.css
     Author: David Rachwalik
-    Date: 2022/01/30
+    Date: 2022/02/18
     Description: Global styles for WEB-330 site
  */
 
@@ -149,4 +149,10 @@ html {
 .card select {
   width: 100%;
   margin: 0;
+}
+
+/* -------- Styles for Assign_7 -------- */
+
+.book-details {
+  list-style-type: none;
 }
