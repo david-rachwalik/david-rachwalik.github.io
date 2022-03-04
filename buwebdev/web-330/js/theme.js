@@ -1,8 +1,8 @@
 /*
     Title: theme.js
     Author: David Rachwalik
-    Date: 2022/01/09
-    Description: Theme scripts for WEB-330 site
+    Date: 2022/03/03
+    Description: Theme script for WEB-330 site
  */
 
 function setSelectedTheme(theme, iconMode, iconText) {
@@ -41,10 +41,12 @@ function toggleMode(event) {
 }
 
 /*
-    Page ready actions
+    App load page ready actions
  */
 
-setDefaultTheme();
+document.addEventListener('DOMContentLoaded', (event) => {
+  setDefaultTheme(); // style theme mode
 
-// Apply event handlers
-document.getElementById('icon-mode').addEventListener('click', toggleMode);
+  // Apply event handlers
+  document.getElementById('icon-mode').addEventListener('click', toggleMode);
+});
