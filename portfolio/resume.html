@@ -1,0 +1,162 @@
+<!--
+    Title: portfolio/resume.html
+    Author: David Rachwalik
+    Date: 2022/03/04
+    Description: Portfolio resume page
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="nofollow" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none';
+        script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+        style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;
+        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;">
+    <meta name="author" content="David Rachwalik" />
+    <meta name="description" content="Portfolio resume page" />
+    <title>David Rachwalik - Personal Portfolio</title>
+
+    <!-- Style References -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cabin:wght@300;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+</head>
+
+<body class="light-theme">
+    <header-component></header-component>
+
+    <div class="container">
+        <div class="card-wrap position-relative">
+            <h6 class="breadcrumb"><a href="/portfolio/index.html">Index</a>&nbsp;/ Resume</h6>
+
+            <div id="btnResumeDownload">
+                <a href="assets/Rach_Resume_Portfolio_2022.docx">
+                    <button type="button" class="btn btn-info btn-sm">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                    </button>
+                </a>
+            </div>
+
+            <div class="card-title">David M. Rachwalik</div>
+            <div id="resumeEmail" class="text-center fst-italic fw-light">
+                <a href="mailto:david.m.rachwalik@gmail.com">david.m.rachwalik@gmail.com</a>
+            </div>
+            <hr />
+
+            <h4 class="resume-title">Summary:</h4>
+            <div class="resume-content mb-4">
+                Software engineer with a passion for learning the latest technologies, patterns, and best practices.&nbsp;
+                Over 5 years of programming experience in a full-stack software development lifecycle - from concept through delivery of applications.&nbsp;
+                3 years' experience in database administration.&nbsp; 8 years' experience as Air Force comptroller in budget &amp; accounting.
+            </div>
+
+            <h4 class="resume-title">Professional Work Experience:</h4>
+            <div class="resume-content mb-4">
+                <div class="work-title">System &amp; Database Administrator</div>
+                <table class="work-locations mb-2">
+                    <tr>
+                        <td>Perspecta</td>
+                        <td>(Jun 2018 - Sep 2020)</td>
+                        <td>901 Sac Blvd # 1A1, Minuteman Cir, Offutt AFB, NE 681130</td>
+                    </tr>
+                    <tr>
+                        <td>DXC Technology</td>
+                        <td>(Nov 2017 - May 2018)</td>
+                        <td>901 Sac Blvd # 1A1, Minuteman Cir, Offutt AFB, NE 681130</td>
+                    </tr>
+                </table>
+                <ul>
+                    <li>Performed administration of database and middle-tier system updates</li>
+                    <li>Monitored system for potential traffic threats and malicious actions</li>
+                </ul>
+
+                <div class="work-title">Web Developer / Software Engineer / Technical Writer</div>
+                <table class="work-locations mb-2">
+                    <tr>
+                        <td>CSRA</td>
+                        <td>(Nov 2015 - Sep 2017)</td>
+                        <td>901 Sac Blvd # 1A1, Minuteman Cir, Offutt AFB, NE 681130</td>
+                    </tr>
+                    <tr>
+                        <td>TEKSystems</td>
+                        <td>(Nov 2014 - Oct 2015)</td>
+                        <td>9140 West Dodge Road, Suite 350, Omaha, NE 68114</td>
+                    </tr>
+                </table>
+                <ul>
+                    <li>Founding member of USSTRATCOM's 1st team to implement Agile Scrum methodology</li>
+                    <li>Developed web-based applications to track historical data for over 390 types of military assets (radars, satellites, bases, aircraft,
+                        submarines, missiles, etc.)</li>
+                    <li>Devised &amp; coded D3.js visualizations based on business rules and data trend analysis</li>
+                    <li>Collaborated on GUI and database design, daily stand-ups, weekly backlog grooming and discussions with users, and bimonthly sprint
+                        planning and retrospectives</li>
+                    <li>Accomplished tech training talks, peer reviews, and automated testing</li>
+                    <li>Technical writer for user guide, developer documentation, quality assurance standards, etc.</li>
+                </ul>
+
+                <div class="work-title">Budget Analyst / Accounting Comptroller / Finance Customer Service</div>
+                <table class="work-locations mb-2">
+                    <tr>
+                        <td>Air National Guard - 155th CPTF</td>
+                        <td>(Nov 2014 - Jan 2017)</td>
+                        <td>NW 25th St, Lincoln, NE 68524</td>
+                    </tr>
+                    <tr>
+                        <td>US Air Force - 55th CPTS</td>
+                        <td>(Nov 2011 - Nov 2014)</td>
+                        <td>106 Peacekeeper Drive, Offutt AFB, NE 68113</td>
+                    </tr>
+                </table>
+                <ul class="mb-0">
+                    <li>Created dozens of programs to automate and optimize office processes, such as:
+                        <ul>
+                            <li>Tracker that monitors training records and generates compliance reports and email notifications</li>
+                            <li>Analyzer for budget transactions, enabling more rapid problem spotting</li>
+                            <li>Daily website scraper for status updates to hundreds of government contracts</li>
+                            <li>Sign-in program with customer interface, customer service profiles, metric tracking, history search & filter, and ability to
+                                export to excel or pdf</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <h4 class="resume-title">Education:</h4>
+            <div class="resume-content mb-2">
+                <ul>
+                    <li><a href="https://www.bellevue.edu/degrees/bachelor/web-development-bs" target="_blank">Bachelor of Science Degree: Web Development</a>
+                        - Bellevue University (expected 2023)</li>
+                    <li>High School Diploma - Omaha Central High School (2001)</li>
+                </ul>
+            </div>
+
+            <h4 class="resume-title">Certifications:</h4>
+            <div class="resume-content mb-2">
+                <ul>
+                    <li>Certified in <a href="https://www.comptia.org/certifications/security" target="_blank">CompTIA Security+</a> (2018)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+
+    <footer-component></footer-component>
+
+    <!-- Script References -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script type="module" src="components/nav-component.js"></script>
+    <script type="module" src="components/header-component.js"></script>
+    <script type="module" src="components/footer-component.js"></script>
+    <!-- <script type="module" src="js/portfolio.js"></script> -->
+</body>
+
+</html>

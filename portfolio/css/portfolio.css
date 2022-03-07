@@ -1,0 +1,203 @@
+/*
+============================================
+; Title:        portfolio.css
+; Author:       David Rachwalik
+; Date:         2022/03/05
+; Description:  Styles for personal portfolio site
+;===========================================
+*/
+
+html,
+body {
+  min-height: 100% !important;
+  margin: 0;
+  color: #222;
+}
+
+body {
+  background-color: #ccffff;
+  background-image: linear-gradient(to bottom right, #ccffff, white);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  font-size: 1.5rem;
+}
+
+/* -------- Site Navigation Panel -------- */
+
+.nav-main-bg {
+  background-image: linear-gradient(white, #ffffcc);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+
+.dmr-header {
+  background: #fff099;
+  background: -webkit-repeating-linear-gradient(to bottom right, #fff099 0%, #fff099 40%, #fefefa 50%, #00ffff 60%, #00ffff 100%);
+  background: -moz-repeating-linear-gradient(to bottom right, #fff099 0%, #fff099 40%, #fefefa 50%, #00ffff 60%, #00ffff 100%);
+  background: repeating-linear-gradient(to bottom right, #fff099 0%, #fff099 40%, #fefefa 50%, #00ffff 60%, #00ffff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Additional styling beyond color */
+  position: relative;
+  /* top: -3px; */
+  font-size: xx-large;
+  /* text-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px; */
+  -webkit-text-stroke: 1px darkcyan;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.75rem;
+  background: #22c1c3;
+  background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(153, 255, 204, 1) 100%);
+}
+
+/* -------- Experimental Area -------- */
+
+.font-preview p {
+  /* font-size: xx-large; */
+  font-size: 4rem;
+  font-style: italic;
+  /* https://www.cssportal.com/css-text-gradient-generator */
+}
+
+#navMainZone iframe {
+  border: 0;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+.b-example-divider {
+  height: 3rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: solid rgba(0, 0, 0, 0.15);
+  border-width: 1px 0;
+  box-shadow: inset 0 0.5em 1.5em rgb(0 0 0 / 10%), inset 0 0.125em 0.5em rgb(0 0 0 / 15%);
+}
+
+#btnAddProduct {
+  border: 1px solid var(--heading-background-color);
+  border-radius: 0;
+}
+
+#cart-message {
+  /* from instructions page 5, step 6a */
+  float: right;
+  color: #df546a;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+i:hover {
+  cursor: pointer;
+}
+
+cart-component {
+  display: block;
+  width: 100%;
+  color: var(--card-title-color);
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 5px;
+}
+
+.breadcrumb,
+.breadcrumb a {
+  color: #747474;
+  font-size: 14px;
+  font-family: Cabin, Verdana, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+#bucketList td {
+  vertical-align: top;
+  padding: 8px;
+}
+
+.card-image {
+  max-width: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
+}
+
+#quickLinks {
+  list-style-type: square;
+}
+
+/* -------- Scrollbar Area -------- */
+
+/* Scrollbar is HTML and falls outside the theme without JS */
+:root {
+  --scrollbar-thumb-color: #434343;
+  --scrollbar-thumb-shadow: hsl(0deg 0% 100% / 25%);
+  --scrollbar-track-color: #111;
+  --scrollbar-track-shadow: rgb(0 0 0 / 25%);
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+/* html::-webkit-scrollbar-thumb {
+  background: #434343;
+  border-radius: 16px;
+  box-shadow: inset 2px 2px 2px hsl(0deg 0% 100% / 25%), inset -2px -2px 2px rgb(0 0 0 / 25%);
+}
+html::-webkit-scrollbar-track {
+  background: linear-gradient(90deg, #434343, #434343 1px, #111 0, #111);
+} */
+html::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  /* border-radius: 10px; */
+  box-shadow: inset 2px 2px 2px var(--scrollbar-thumb-shadow), inset -2px -2px 2px var(--scrollbar-track-shadow);
+}
+html::-webkit-scrollbar-track {
+  background: linear-gradient(
+    90deg,
+    var(--scrollbar-thumb-color),
+    var(--scrollbar-thumb-color) 1px,
+    var(--scrollbar-track-color) 0,
+    var(--scrollbar-track-color)
+  );
+}
+
+/* -------- Scrollbar Area -------- */
+
+body.light-theme {
+  --resume-header-color: #4f3674;
+  --work-title-color: #4f81bd;
+}
+
+.resume-title {
+  color: var(--resume-header-color);
+  font-size: 1.2rem;
+  font-family: Cabin, Verdana, Arial, Helvetica, sans-serif;
+}
+
+.work-title {
+  color: var(--work-title-color);
+  font-style: italic;
+}
+
+table.work-locations {
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+#btnResumeDownload {
+  position: absolute;
+  top: 5px;
+  right: 30px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
+}
