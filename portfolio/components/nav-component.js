@@ -29,6 +29,9 @@ class NavComponent extends HTMLElement {
             <a href="/portfolio/projects.html" class="nav-link ml-5 px-2 link-dark">Projects</a>
           </li>
           <li class="nav-item">
+            <a href="/buwebdev/web-335/rachwalik-diagrams.html" class="nav-link ml-5 px-2 link-dark">WEB-335 Diagrams</a>
+          </li>
+          <li class="nav-item">
             <a href="/portfolio/diagrams.html" class="nav-link ml-5 px-2 link-dark">Database Diagrams</a>
           </li>
           <li class="nav-item">
