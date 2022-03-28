@@ -1,0 +1,25 @@
+{
+  "id": 99,
+  "first_name": "Joe",
+  "last_name": "Smith",
+  "date_of_birth": "1970-01-01T00:00:00.000Z",
+  "user_name": "Default",
+  "invoices": [
+    {
+      "id": 11,
+      "date_created": "1970-01-01T00:00:00.000Z",
+      "date_shipped": "1970-01-01T00:00:00.000Z",
+      "subtotal": 10,
+      "tax": 2.5,
+      "total": 12.5,
+      "lines_items": [
+        {
+          "id": 23,
+          "name": "Item01",
+          "price": 13.98,
+          "quantity": 2
+        }
+      ]
+    }
+  ]
+}
