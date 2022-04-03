@@ -1,0 +1,26 @@
+{
+  "publisher_name": "Addison-Wesley Professional",
+  "publisher_code": "B0090J3SYW",
+  "publisher_address": "",
+  "books": [
+    {
+      "books_isbn": "0321826620",
+      "books_name": "NoSQL Distilled (1st Edition)",
+      "books_price": 19.79,
+      "authors": [
+        {
+          "author_first_name": "Pramod",
+          "author_last_name": "Sadalage",
+          "author_phone": "",
+          "author_email": ""
+        },
+        {
+          "author_first_name": "Martin",
+          "author_last_name": "Fowler",
+          "author_phone": "",
+          "author_email": ""
+        }
+      ]
+    }
+  ]
+}

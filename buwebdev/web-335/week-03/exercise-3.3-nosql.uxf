@@ -1,0 +1,35 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;240&lt;/x&gt;&lt;y&gt;190&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;50&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=-
+m1=0..n
+m2=0..1
+teaches to &amp;gt;&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;170;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;240&lt;/x&gt;&lt;y&gt;190&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;50&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=-
+m1=0..n
+m2=0..1
+teaches to &amp;gt;&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;170;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;Space for diagram notes&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;240&lt;/x&gt;&lt;y&gt;190&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;50&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=-
+m1=0..n
+m2=0..1
+teaches to &amp;gt;&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;170;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;</help_text><element><id>UMLClass</id><coordinates><x>91</x><y>40</y><w>300</w><h>130</h></coordinates><panel_attributes>PUBLISHER
+--
+{
+  "publisher_name": "Addison-Wesley Professional",
+  "publisher_code": "B0090J3SYW",
+  "publisher_address": "",
+  "books": []
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>201</x><y>200</y><w>290</w><h>130</h></coordinates><panel_attributes>BOOK
+--
+{
+  "books_isbn": "0321826620",
+  "books_name": "NoSQL Distilled (1st Edition)",
+  "books_price": 19.79,
+  "authors": []
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>321</x><y>360</y><w>210</w><h>130</h></coordinates><panel_attributes>AUTHOR
+--
+{
+  "author_first_name": "Pramod",
+  "author_last_name": "Sadalage",
+  "author_phone": "",
+  "author_email": ""
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>160</y><w>90</w><h>110</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..n</panel_attributes><additional_attributes>10;10;10;80;70;80</additional_attributes></element><element><id>Relation</id><coordinates><x>250</x><y>320</y><w>90</w><h>110</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..n</panel_attributes><additional_attributes>10;10;10;80;70;80</additional_attributes></element></diagram>

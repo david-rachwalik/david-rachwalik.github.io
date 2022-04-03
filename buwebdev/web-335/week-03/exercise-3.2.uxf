@@ -1,0 +1,37 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;240&lt;/x&gt;&lt;y&gt;190&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;50&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=-
+m1=0..n
+m2=0..1
+teaches to &amp;gt;&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;170;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;240&lt;/x&gt;&lt;y&gt;190&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;50&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=-
+m1=0..n
+m2=0..1
+teaches to &amp;gt;&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;170;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;Space for diagram notes&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;240&lt;/x&gt;&lt;y&gt;190&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;50&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=-
+m1=0..n
+m2=0..1
+teaches to &amp;gt;&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;170;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;</help_text><element><id>UMLClass</id><coordinates><x>58</x><y>50</y><w>230</w><h>100</h></coordinates><panel_attributes>USER
+--
+_id: integer
+first_name: string
+last_name: string
+--
+link_user_roles: LINK_USER_ROLE[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>178</x><y>180</y><w>160</w><h>70</h></coordinates><panel_attributes>LINK_USER_ROLE
+--
+user: USER
+role: ROLE</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>278</x><y>290</y><w>310</w><h>100</h></coordinates><panel_attributes>ROLE
+--
+_id: integer
+role_type: string
+--
+link_role_permissions: LINK_ROLE_PERMISSION[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>207</x><y>240</y><w>90</w><h>120</h></coordinates><panel_attributes>lt=-
+m1=1..n
+m2=1</panel_attributes><additional_attributes>10;10;10;90;70;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>377</x><y>430</y><w>210</w><h>70</h></coordinates><panel_attributes>LINK_ROLE_PERMISSION
+--
+role: ROLE
+permission: PERMISSION</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>107</x><y>140</y><w>90</w><h>120</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..n</panel_attributes><additional_attributes>10;10;10;90;70;90</additional_attributes></element><element><id>Relation</id><coordinates><x>307</x><y>380</y><w>90</w><h>120</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..n</panel_attributes><additional_attributes>10;10;10;90;70;90</additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>490</y><w>80</w><h>110</h></coordinates><panel_attributes>lt=-
+m1=1..n
+m2=1</panel_attributes><additional_attributes>10;10;10;80;60;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>460</x><y>540</y><w>170</w><h>60</h></coordinates><panel_attributes>PERMISSION
+--
+title: string</panel_attributes><additional_attributes></additional_attributes></element></diagram>

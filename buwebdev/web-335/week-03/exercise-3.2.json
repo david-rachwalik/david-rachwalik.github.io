@@ -1,0 +1,31 @@
+{
+  "_id": 99,
+  "first_name": "Joe",
+  "last_name": "Smith",
+  "link_user_roles": [
+    {
+      "_id": 1,
+      "role_type": "user",
+      "link_role_permissions": [
+        {
+          "title": "query"
+        }
+      ]
+    },
+    {
+      "_id": 2,
+      "role_type": "admin",
+      "link_role_permissions": [
+        {
+          "title": "create"
+        },
+        {
+          "title": "update"
+        },
+        {
+          "title": "archive"
+        }
+      ]
+    }
+  ]
+}
