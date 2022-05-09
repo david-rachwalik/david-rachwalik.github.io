@@ -1,0 +1,75 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;240&lt;/x&gt;&lt;y&gt;190&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;50&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=-
+m1=0..n
+m2=0..1
+teaches to &amp;gt;&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;170;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;240&lt;/x&gt;&lt;y&gt;190&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;50&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=-
+m1=0..n
+m2=0..1
+teaches to &amp;gt;&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;170;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;Space for diagram notes&lt;diagram program="umletino" version="14.4.0-SNAPSHOT"&gt;&lt;zoom_level&gt;10&lt;/zoom_level&gt;&lt;element&gt;&lt;id&gt;Relation&lt;/id&gt;&lt;coordinates&gt;&lt;x&gt;240&lt;/x&gt;&lt;y&gt;190&lt;/y&gt;&lt;w&gt;190&lt;/w&gt;&lt;h&gt;50&lt;/h&gt;&lt;/coordinates&gt;&lt;panel_attributes&gt;lt=-
+m1=0..n
+m2=0..1
+teaches to &amp;gt;&lt;/panel_attributes&gt;&lt;additional_attributes&gt;10;20;170;20&lt;/additional_attributes&gt;&lt;/element&gt;&lt;/diagram&gt;</help_text><element><id>UMLClass</id><coordinates><x>101</x><y>70</y><w>210</w><h>190</h></coordinates><panel_attributes>ACCOUNT
+--
+_id: ObjectId
+email: string
+password: string
+subscriptions: SUBSCRIPTION[]
+users: USER[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>741</x><y>640</y><w>210</w><h>150</h></coordinates><panel_attributes>INVOICE
+--
+_id: ObjectId
+date_charged: string
+subtotal: number
+tax: number
+total: number</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>590</y><w>80</w><h>140</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..*</panel_attributes><additional_attributes>10;10;10;110;60;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>560</x><y>70</y><w>210</w><h>130</h></coordinates><panel_attributes>SUBSCRIPTION
+--
+_id: ObjectId
+plan: PLAN
+payment_preferred: PAYMENT
+payment_methods: PAYMENT[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>310</y><w>210</w><h>210</h></coordinates><panel_attributes>USER_PROFILE
+--
+_id: ObjectId
+user_name: string
+first_name: string
+last_name: string
+autoplay: boolean
+subtitles: boolean
+subtitle_size: number
+media_favorites: MEDIA[]
+media_active: MEDIA
+media_active_language: string
+media_active_subtitle: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>120</x><y>250</y><w>90</w><h>130</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..*</panel_attributes><additional_attributes>10;10;10;100;70;100</additional_attributes></element><element><id>Relation</id><coordinates><x>300</x><y>110</y><w>280</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..*</panel_attributes><additional_attributes>10;10;260;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>740</x><y>240</y><w>210</w><h>150</h></coordinates><panel_attributes>PLAN
+--
+_id: ObjectId
+streaming_devices_max: number
+commercials: string
+dvr: string
+movies_and_tv: string
+sports_events: string
+premium_channels: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>430</y><w>210</w><h>170</h></coordinates><panel_attributes>PAYMENT
+--
+_id: ObjectId
+first_name: string
+last_name: string
+card_number: string
+expiration_date: string
+cvv: string
+invoices: INVOICE[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>680</x><y>190</y><w>80</w><h>130</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1</panel_attributes><additional_attributes>10;10;10;100;60;100</additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>190</y><w>80</w><h>320</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..*</panel_attributes><additional_attributes>10;10;10;290;60;290</additional_attributes></element><element><id>UMLClass</id><coordinates><x>260</x><y>570</y><w>250</w><h>140</h></coordinates><panel_attributes>MEDIA
+--
+_id: ObjectId
+category: string
+display_name: string
+summary: string
+description: string
+accessible_languages: string[]
+accessible_subtitles: string[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>510</y><w>80</w><h>140</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1..*</panel_attributes><additional_attributes>10;10;10;110;60;110</additional_attributes></element></diagram>
