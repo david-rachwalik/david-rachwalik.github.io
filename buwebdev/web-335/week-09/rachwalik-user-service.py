@@ -10,15 +10,15 @@ import pprint
 
 from pymongo.mongo_client import MongoClient
 
-client = MongoClient('localhost', 27017)
-db = client.web335
+client = MongoClient("localhost", 27017)
+db = client["web335"]
 employee_id = "0000008"
 
 # create user
 user = {
-    "first_name": "Claude",
-    "last_name": "Debussy",
-    "email": "cdebussy@me.com",
+    "first_name": "David",
+    "last_name": "Rachwalik",
+    "email": "example@me.com",
     "employee_id": employee_id,
     "date_created": datetime.datetime.utcnow()
 }
