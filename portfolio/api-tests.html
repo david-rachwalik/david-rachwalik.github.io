@@ -1,7 +1,7 @@
 <!--
     Title: portfolio/api-tests.html
     Author: David Rachwalik
-    Date: 2022/03/04
+    Date: 2022/05/15
     Description: Portfolio API unit test page
 -->
 
@@ -40,69 +40,61 @@
 
             <div class="card-title">API Unit Tests</div>
             <div id="apiTests" class="card-content row">
-                <div class="col-4 p-2">
+                <div class="col-12 p-2">
                     <div class="card">
                         <div class="card-header">
-                            Lorem Ipsum
+                            WEB-420 API Tests
                         </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ullamcorper velit sed ullamcorper morbi tincidunt. Feugiat pretium nibh ipsum consequat. Consequat id porta nibh venenatis.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 p-2">
-                    <div class="card">
-                        <div class="card-header">
-                            Lorem Ipsum
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ullamcorper velit sed ullamcorper morbi tincidunt. Feugiat pretium nibh ipsum consequat. Consequat id porta nibh venenatis.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 p-2">
-                    <div class="card">
-                        <div class="card-header">
-                            Lorem Ipsum
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ullamcorper velit sed ullamcorper morbi tincidunt. Feugiat pretium nibh ipsum consequat. Consequat id porta nibh venenatis.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 p-2">
-                    <div class="card">
-                        <div class="card-header">
-                            Lorem Ipsum
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ullamcorper velit sed ullamcorper morbi tincidunt. Feugiat pretium nibh ipsum consequat. Consequat id porta nibh venenatis.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 p-2">
-                    <div class="card">
-                        <div class="card-header">
-                            Lorem Ipsum
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ullamcorper velit sed ullamcorper morbi tincidunt. Feugiat pretium nibh ipsum consequat. Consequat id porta nibh venenatis.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 p-2">
-                    <div class="card">
-                        <div class="card-header">
-                            Lorem Ipsum
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ullamcorper velit sed ullamcorper morbi tincidunt. Feugiat pretium nibh ipsum consequat. Consequat id porta nibh venenatis.
+                        <div class="card-body bg-dark text-white">
+
+                            <!-- Carousel (https://www.w3schools.com/bootstrap5/bootstrap_carousel.php) -->
+                            <!-- https://getbootstrap.com/docs/5.1/utilities/spacing -->
+                            <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <!-- The slideshow/carousel -->
+                                <div class="carousel-inner text-center">
+                                    <!-- Week-09 -->
+                                    <div class="carousel-item active">
+                                        9.2 findAllTeams
+                                        <br />
+                                        <img src="../../portfolio/assets/nosql-api-tests/web-420-9.2-findAllTeams.png" alt="ORD" class="d-block mx-auto">
+                                    </div>
+                                    <div class="carousel-item">
+                                        9.2 deleteTeamById
+                                        <br />
+                                        <img src="../../portfolio/assets/nosql-api-tests/web-420-9.2-deleteTeamById.png" alt="ORD" class="d-block mx-auto">
+                                    </div>
+                                    <div class="carousel-item">
+                                        9.2 assignPlayerToTeam
+                                        <br />
+                                        <img src="../../portfolio/assets/nosql-api-tests/web-420-9.2-assignPlayerToTeam.png" alt="ORD" class="d-block mx-auto">
+                                    </div>
+                                    <div class="carousel-item">
+                                        9.2 findAllPlayersByTeamId
+                                        <br />
+                                        <img src="../../portfolio/assets/nosql-api-tests/web-420-9.2-findAllPlayersByTeamId.png" alt="ORD"
+                                            class="d-block mx-auto">
+                                    </div>
+
+                                </div>
+                                <br /><br />
+
+                                <!-- Indicators/dots -->
+                                <div class="carousel-indicators">
+                                    <button type="button" data-bs-target="#portfolioCarousel" data-bs-slide-to="0" class="active"></button>
+                                    <button type="button" data-bs-target="#portfolioCarousel" data-bs-slide-to="1"></button>
+                                    <button type="button" data-bs-target="#portfolioCarousel" data-bs-slide-to="2"></button>
+                                    <button type="button" data-bs-target="#portfolioCarousel" data-bs-slide-to="3"></button>
+                                </div>
+
+                                <!-- Left and right controls/icons -->
+                                <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
