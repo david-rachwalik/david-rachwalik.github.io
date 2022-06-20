@@ -37,6 +37,9 @@ class NavComponent extends HTMLElement {
           <li class="nav-item">
             <a href="/portfolio/api-tests.html" class="nav-link ml-5 px-2 link-dark">API Unit Tests</a>
           </li>
+          <li class="nav-item">
+            <a href="/buwebdev/web-430/index.html" class="nav-link ml-5 px-2 link-dark">DevOps</a>
+          </li>
         </ul>
       </nav>
     `;
