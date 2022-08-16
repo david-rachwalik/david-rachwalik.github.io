@@ -1,14 +1,16 @@
 {
-  "name": "angular",
-  "version": "0.0.0",
+  "private": true,
+  "homepage": "https://github.com/david-rachwalik/david-rachwalik.github.io",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start-bak": "ng serve --hmr --open",
+    "start": "ng serve --open",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "predeploy": "npm run build",
+    "deploy": "ng deploy"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^14.0.0",
     "@angular/cdk": "^14.1.2",
