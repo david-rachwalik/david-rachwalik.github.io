@@ -61,28 +61,11 @@
   Applying the theme styles
 */
 
-* {
-  font-family: 'Oswald', Verdana, Arial, sans-serif;
-}
-
 [data-theme='light-theme'],
 [data-theme='dark-theme'] {
   margin: 0;
   color: var(--text-color);
   background: var(--background-color);
-}
-
-a {
-  color: var(--anchor-color);
-  text-decoration: none;
-}
-a:hover {
-  background-color: var(--anchor-hoverbackground-color);
-  color: var(--anchor-hover-color);
-  text-decoration: underline;
-}
-a:visited {
-  color: var(--anchor-visited-color);
 }
 
 h1,

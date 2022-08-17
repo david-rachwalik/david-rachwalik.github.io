@@ -15,19 +15,19 @@ const routes: Routes = [
         path: '',
         component: HomeComponent,
       },
-      {
-        path: 'profile',
-        loadChildren: () =>
-          import('@modules/profile/profile.module').then(
-            (m) => m.ProfileModule,
-          ),
-      },
-      {
-        path: 'demo',
-        loadChildren: () =>
-          import('@modules/demo/demo.module').then((m) => m.DemoModule),
-      },
     ],
+  },
+  {
+    path: 'portfolio',
+    loadChildren: () =>
+      import('@modules/portfolio/portfolio.module').then(
+        (m) => m.PortfolioModule,
+      ),
+  },
+  {
+    path: 'demo',
+    loadChildren: () =>
+      import('@modules/demo/demo.module').then((m) => m.DemoModule),
   },
   // Wild card route for 404 requests
   { path: '**', component: NotFoundComponent },

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfileLayoutComponent } from './profile-layout.component';
+import { ResumeComponent } from './resume.component';
 
-describe('ProfileLayoutComponent', () => {
-  let component: ProfileLayoutComponent;
-  let fixture: ComponentFixture<ProfileLayoutComponent>;
+describe('ResumeComponent', () => {
+  let component: ResumeComponent;
+  let fixture: ComponentFixture<ResumeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileLayoutComponent ]
+      declarations: [ ResumeComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProfileLayoutComponent);
+    fixture = TestBed.createComponent(ResumeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

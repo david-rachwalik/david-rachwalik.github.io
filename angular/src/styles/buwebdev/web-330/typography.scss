@@ -1,0 +1,158 @@
+/* -------- Typography -------- */
+
+// (fonts/typefaces, size, style, position/spacing, color)
+/*
+  --- Fonts / Typefaces ---
+  - font-family
+  
+  --- Size ---
+  - font-size
+  - line-height
+
+  --- Style ---
+  - font-weight
+  - font-style
+  - text-decoration
+
+  --- Position / Spacing ---
+  - text-align
+
+  --- Color ---
+  - color
+  - background (rare, for rich text)
+*/
+
+// https://ansrsource.com/elements-of-typography
+// https://careerfoundry.com/en/blog/ui-design/beginners-guide-to-typography
+
+// Targeting .mat-typography activates more overrides without requiring !important
+body.mat-typography {
+  app-base-layout,
+  app-portfolio-layout {
+    font-family: 'Oswald', Verdana, Arial, sans-serif;
+
+    a {
+      text-decoration: none;
+      color: var(--anchor-color);
+    }
+    a:hover {
+      text-decoration: underline;
+      background-color: var(--anchor-hoverbackground-color);
+      color: var(--anchor-hover-color);
+    }
+    a:visited {
+      color: var(--anchor-visited-color);
+    }
+  }
+
+  app-portfolio-layout {
+    /* -------- Site Navigation Panel -------- */
+
+    .dmr-header {
+      background: #fff099;
+      background: -webkit-repeating-linear-gradient(
+        to bottom right,
+        #fff099 0%,
+        #fff099 40%,
+        #fefefa 50%,
+        #00ffff 60%,
+        #00ffff 100%
+      );
+      background: -moz-repeating-linear-gradient(
+        to bottom right,
+        #fff099 0%,
+        #fff099 40%,
+        #fefefa 50%,
+        #00ffff 60%,
+        #00ffff 100%
+      );
+      background: repeating-linear-gradient(
+        to bottom right,
+        #fff099 0%,
+        #fff099 40%,
+        #fefefa 50%,
+        #00ffff 60%,
+        #00ffff 100%
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 1px darkcyan;
+      /* Additional styling beyond color */
+      font-size: 32px;
+      line-height: 48px;
+      /* text-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px; */
+    }
+
+    .dmr-main-bg {
+      text-align: center;
+    }
+
+    .profile-subheader {
+      a {
+        font-size: 1rem;
+        line-height: 1.5rem;
+      }
+      a:not(:first-of-type) {
+        margin-left: 16px;
+      }
+    }
+
+    button {
+      font-size: 1.5rem;
+    }
+
+    footer {
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    /* -------- Experimental Area -------- */
+
+    .font-preview p {
+      /* font-size: xx-large; */
+      font-size: 4rem;
+      font-style: italic;
+      /* https://www.cssportal.com/css-text-gradient-generator */
+    }
+
+    .breadcrumb,
+    .breadcrumb a {
+      color: #747474;
+      font-size: 14px;
+      font-family: Cabin, Verdana, Arial, Helvetica, sans-serif;
+      font-weight: bold;
+    }
+
+    #cart-message {
+      /* from instructions page 5, step 6a */
+      float: right;
+      color: #df546a;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    cart-component {
+      color: var(--card-title-color);
+      text-align: center;
+      font-size: 1.75rem;
+    }
+
+    /* -------- Scrollbar Area -------- */
+
+    .resume-title {
+      color: var(--resume-header-color);
+      font-size: 1.2rem;
+      font-family: Cabin, Verdana, Arial, Helvetica, sans-serif;
+    }
+
+    .work-title {
+      color: var(--work-title-color);
+      font-style: italic;
+    }
+
+    table.work-locations {
+      font-size: 0.85rem;
+    }
+  }
+}

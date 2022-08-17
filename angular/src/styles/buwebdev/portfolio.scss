@@ -1,0 +1,151 @@
+/*
+============================================
+; Title:        portfolio.css
+; Author:       David Rachwalik
+; Date:         2022/06/19
+; Description:  Styles for personal portfolio site
+;===========================================
+*/
+
+body {
+  background-color: #ccffff;
+  background-image: linear-gradient(to bottom right, #ccffff, white);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* -------- Site Navigation Panel -------- */
+
+.dmr-main-bg {
+  margin-bottom: 1px;
+  padding: 8px;
+  background-image: linear-gradient(white, #ffffcc);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #22c1c3;
+  background: linear-gradient(
+    0deg,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(153, 255, 204, 1) 100%
+  );
+}
+
+/* -------- Experimental Area -------- */
+
+#navMainZone iframe {
+  border: 0;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+.b-example-divider {
+  height: 3rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: solid rgba(0, 0, 0, 0.15);
+  border-width: 1px 0;
+  box-shadow: inset 0 0.5em 1.5em rgb(0 0 0 / 10%),
+    inset 0 0.125em 0.5em rgb(0 0 0 / 15%);
+}
+
+#btnAddProduct {
+  border: 1px solid var(--heading-background-color);
+  border-radius: 0;
+}
+
+i:hover {
+  cursor: pointer;
+}
+
+cart-component {
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+#bucketList td {
+  vertical-align: top;
+  padding: 8px;
+}
+
+.card-image {
+  max-width: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
+}
+
+#quickLinks {
+  list-style-type: square;
+}
+
+/* -------- Scrollbar Area -------- */
+
+/* Scrollbar is HTML and falls outside the theme without JS */
+:root {
+  --scrollbar-thumb-color: #434343;
+  --scrollbar-thumb-shadow: hsl(0deg 0% 100% / 25%);
+  --scrollbar-track-color: #111;
+  --scrollbar-track-shadow: rgb(0 0 0 / 25%);
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+/* html::-webkit-scrollbar-thumb {
+  background: #434343;
+  border-radius: 16px;
+  box-shadow: inset 2px 2px 2px hsl(0deg 0% 100% / 25%), inset -2px -2px 2px rgb(0 0 0 / 25%);
+}
+html::-webkit-scrollbar-track {
+  background: linear-gradient(90deg, #434343, #434343 1px, #111 0, #111);
+} */
+html::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  /* border-radius: 10px; */
+  box-shadow: inset 2px 2px 2px var(--scrollbar-thumb-shadow),
+    inset -2px -2px 2px var(--scrollbar-track-shadow);
+}
+html::-webkit-scrollbar-track {
+  background: linear-gradient(
+    90deg,
+    var(--scrollbar-thumb-color),
+    var(--scrollbar-thumb-color) 1px,
+    var(--scrollbar-track-color) 0,
+    var(--scrollbar-track-color)
+  );
+}
+
+/* -------- Scrollbar Area -------- */
+
+body.light-theme {
+  --resume-header-color: #4f3674;
+  --work-title-color: #4f81bd;
+}
+
+table.work-locations {
+  width: 100%;
+}
+
+#btnResumeDownload {
+  position: absolute;
+  top: 5px;
+  right: 30px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
+}
+
+.videoPresentation {
+  max-width: 100%;
+  border: 1px solid black;
+  border-radius: 3px;
+}
