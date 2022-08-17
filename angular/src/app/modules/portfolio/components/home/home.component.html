@@ -1,17 +1,12 @@
-<h1 id="app-header">Welcome to my portfolio!</h1>
+<h1 class="app-header">Welcome to my portfolio!</h1>
 
 <mat-card class="mat-elevation-z3">
-    <!-- <mat-card-title>Actions Buttons</mat-card-title>
-    <mat-card-subtitle>Start</mat-card-subtitle>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions> -->
-
-    <mat-card-title>Quick Links</mat-card-title>
-    <mat-card-content>
-
-        <ul id="quickLinks">
+    <mat-card-title class="card-title">Quick Links</mat-card-title>
+    <mat-card-subtitle>
+        <h6 class="breadcrumb">Index / Home</h6>
+    </mat-card-subtitle>
+    <mat-card-content class="card-content">
+        <!-- <ul class="quickLinks">
             <li><a href="https://github.com/david-rachwalik?tab=repositories" target="_blank">David Rachwalik's GitHub Repos</a></li>
             <li><a href="https://validator.w3.org" target="_blank">W3C HTML Validator</a></li>
             <li><a href="https://jigsaw.w3.org/css-validator" target="_blank">W3C CSS Validator</a></li>
@@ -19,47 +14,62 @@
             <li><a href="https://www.bellevue.edu/degrees/bachelor/web-development-bs" target="_blank">Bellevue University: Web Development Degree</a>
             </li>
             <li><a href="https://github.com/buwebdev" target="_blank">Bellevue University: Web Dev GitHub Repo</a></li>
-        </ul>
+        </ul> -->
+
+        <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px grid">
+            <div fxFlex="60%">
+                <ul class="quickLinks">
+                    <li><a href="https://github.com/david-rachwalik?tab=repositories" target="_blank">David Rachwalik's GitHub Repos</a></li>
+                    <li><a href="https://www.bellevue.edu/degrees/bachelor/web-development-bs" target="_blank">Bellevue University: Web Development Degree</a>
+                    </li>
+                    <li><a href="https://github.com/buwebdev" target="_blank">Bellevue University: Web Dev GitHub Repo</a></li>
+                </ul>
+            </div>
+            <div fxFlex="40%">
+                <ul class="quickLinks">
+                    <li><a href="https://validator.w3.org" target="_blank">W3C HTML Validator</a></li>
+                    <li><a href="https://jigsaw.w3.org/css-validator" target="_blank">W3C CSS Validator</a></li>
+                    <li><a href="https://loremipsum.io" target="_blank">Lorem Ipsum Generator</a></li>
+                </ul>
+            </div>
+        </div>
+
     </mat-card-content>
 </mat-card>
+<br />
 
-
-<div class="card-wrap">
-    <h6 class="breadcrumb">Index / Home</h6>
-
-    <div class="card-title">Quick Links</div>
-    <div class="card-content">
-        <ul id="quickLinks">
-            <li><a href="https://github.com/david-rachwalik?tab=repositories" target="_blank">David Rachwalik's GitHub Repos</a></li>
-            <li><a href="https://validator.w3.org" target="_blank">W3C HTML Validator</a></li>
-            <li><a href="https://jigsaw.w3.org/css-validator" target="_blank">W3C CSS Validator</a></li>
-            <li><a href="https://loremipsum.io" target="_blank">Lorem Ipsum Generator</a></li>
-            <li><a href="https://www.bellevue.edu/degrees/bachelor/web-development-bs" target="_blank">Bellevue University: Web Development Degree</a>
-            </li>
-            <li><a href="https://github.com/buwebdev" target="_blank">Bellevue University: Web Dev GitHub Repo</a></li>
-        </ul>
-    </div>
-</div>
-
-<div class="card-wrap">
-    <div class="card-title">Bucket List</div>
-    <div class="card-content">
-        <table id="bucketList">
-            <tr>
-                <td>Create RPG game engine</td>
-                <td>Create a free text RPG with dynamic character transformations &amp; relationships</td>
-                <td>Enable anyone to submit custom content</td>
-            </tr>
-            <tr>
-                <td>Create online business</td>
-                <td>Earn enough make game design primary focus</td>
-                <td>No longer being tied to any location</td>
-            </tr>
-            <tr>
-                <td>Commission reference art of my avatar</td>
-                <td>Commission a 3D avatar model for video use</td>
-                <td>Vacation to Japan</td>
-            </tr>
-        </table>
-    </div>
-</div>
+<mat-card class="mat-elevation-z3">
+    <mat-card-title class="card-title">Bucket List</mat-card-title>
+    <mat-card-content class="card-content">
+        <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px grid">
+            <div fxFlex="33%">
+                Create RPG game engine
+            </div>
+            <div fxFlex="33%">
+                Create a free text RPG with dynamic character transformations &amp; relationships
+            </div>
+            <div fxFlex="33%">
+                Enable anyone to submit custom content
+            </div>
+            <div fxFlex="33%">
+                Create online business
+            </div>
+            <div fxFlex="33%">
+                Earn enough make game design primary focus
+            </div>
+            <div fxFlex="33%">
+                No longer being tied to any location
+            </div>
+            <div fxFlex="33%">
+                Commission reference art of my avatar
+            </div>
+            <div fxFlex="33%">
+                Commission a 3D avatar model for video use
+            </div>
+            <div fxFlex="33%">
+                Vacation to Japan
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+<br />

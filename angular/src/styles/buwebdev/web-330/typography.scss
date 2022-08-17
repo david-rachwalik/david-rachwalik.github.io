@@ -29,7 +29,9 @@
 body.mat-typography {
   app-base-layout,
   app-portfolio-layout {
-    font-family: 'Oswald', Verdana, Arial, sans-serif;
+    * {
+      font-family: 'Oswald', Verdana, Arial, sans-serif;
+    }
 
     a {
       text-decoration: none;
@@ -46,6 +48,15 @@ body.mat-typography {
   }
 
   app-portfolio-layout {
+    .app-header {
+      font-size: 2rem;
+      line-height: 3rem;
+      text-align: center;
+      color: var(--text-color);
+      background: none;
+      border: none;
+    }
+
     /* -------- Site Navigation Panel -------- */
 
     .dmr-header {
@@ -107,6 +118,17 @@ body.mat-typography {
       text-align: center;
     }
 
+    /* -------- Card Styles -------- */
+
+    .card-title {
+      font-size: 1.75rem;
+      line-height: 2.625rem;
+      font-weight: normal;
+      text-align: center;
+      color: var(--card-title-color);
+      margin-bottom: 5px;
+    }
+
     /* -------- Experimental Area -------- */
 
     .font-preview p {
@@ -118,10 +140,13 @@ body.mat-typography {
 
     .breadcrumb,
     .breadcrumb a {
+      position: absolute;
+      top: 4px;
+
       color: #747474;
       font-size: 14px;
-      font-family: Cabin, Verdana, Arial, Helvetica, sans-serif;
-      font-weight: bold;
+      // font-family: Cabin, Verdana, Arial, Helvetica, sans-serif;
+      // font-weight: bold;
     }
 
     #cart-message {
