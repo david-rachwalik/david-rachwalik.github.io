@@ -29,7 +29,7 @@
 body.mat-typography {
   app-base-layout,
   app-portfolio-layout {
-    * {
+    *:not(mat-icon) {
       font-family: 'Oswald', Verdana, Arial, sans-serif;
     }
 
