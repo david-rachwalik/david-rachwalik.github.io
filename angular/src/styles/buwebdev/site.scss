@@ -1,0 +1,283 @@
+/* -------- Theme Styles -------- */
+
+/*
+  Applying the theme styles
+*/
+
+[data-theme='light-theme'],
+[data-theme='dark-theme'] {
+  margin: 0;
+  color: var(--text-color);
+  background: var(--background-color);
+}
+
+app-base-layout,
+app-buwebdev-layout {
+  .main-container {
+    max-width: 900px;
+    margin: 0 auto;
+
+    h1 {
+      margin-top: 0.2em;
+    }
+
+    .icon-container {
+      overflow: hidden; /* required to contain float */
+      padding-top: 1em;
+    }
+  }
+  @media only screen and (max-width: 1100px) {
+    .main-container {
+      margin: 0 100px;
+    }
+  }
+}
+
+app-base-layout,
+app-buwebdev-layout {
+  h1,
+  h2,
+  h3,
+  h4 {
+    background-color: var(--heading-background-color);
+    color: var(--heading-color);
+    border: 1px solid var(--heading-border-color);
+    padding: 10px;
+  }
+  h1 {
+    background-color: var(--h1-background-color);
+    border: 1px solid var(--h1-border-color);
+  }
+
+  .btn-primary {
+    background-color: var(--btn-background-color);
+    color: var(--btn-color);
+  }
+  .btn-primary:hover {
+    background-color: var(--btn-hover-background-color);
+    color: var(--btn-hover-color);
+  }
+
+  input,
+  .drop-down-menu {
+    border-color: var(--input-border-color);
+  }
+
+  .drop-down-menu {
+    border-radius: 5px;
+    border: 2px solid var(--input-border-color);
+    padding: 5px;
+  }
+
+  /* added in week-4 */
+
+  .table {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .table th {
+    background-color: var(--table-header-background-color);
+    color: var(--table-header-color);
+  }
+  .table th,
+  .table td {
+    border: 1px solid var(--table-border-color);
+    padding: 5px;
+  }
+  .table tr:hover {
+    background-color: var(--table-hover-background-color);
+    color: var(--tablehover-color);
+    cursor: pointer;
+  }
+
+  /* -------- Styles via Web 330 HTML, CSS, and JavaScript Requirements document -------- */
+
+  .assign-container {
+    padding: 10px;
+  }
+  .assign-content {
+    width: 600px;
+    margin: 3% auto 0;
+  }
+  .assign-results-text {
+    text-align: center;
+    font-size: 28px;
+  }
+
+  .return-home {
+    color: var(--anchor-color);
+    text-decoration: none;
+  }
+  .return-home:hover {
+    background-color: var(--anchor-hover-background-color);
+    color: var(--anchor-hover-color);
+  }
+
+  .form {
+    display: inline-grid;
+    grid-template-columns: auto;
+  }
+  .form-field {
+    padding: 20px;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  /* -------- Styles via Assign_1 instructions -------- */
+
+  .main-container {
+    max-width: 900px;
+    margin: 0 auto;
+
+    h1 {
+      margin-top: 0.2em;
+    }
+
+    .icon-container {
+      overflow: hidden; /* required to contain float */
+      padding-top: 1em;
+    }
+  }
+  // @media only screen and (max-width: 1100px) {
+  //   .main-container {
+  //     margin: 0 100px 50px;
+  //   }
+  // }
+  @media only screen and (max-width: 1100px) {
+    .main-container {
+      margin: 0 100px;
+    }
+  }
+
+  #icon-mode:hover {
+    cursor: pointer;
+  }
+  #icon-text {
+    padding-left: 10px;
+  }
+
+  .pull-right {
+    float: right;
+  }
+
+  /* -------- Card Styles -------- */
+
+  .card {
+    padding: 5px 30px;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin: 20px auto;
+    background-color: var(--card-background-color);
+  }
+
+  .card input[type='button'] {
+    padding: 8px 90px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  .card input[type='text'] {
+    border-radius: 5px;
+    border: 2px solid #cdd9ed;
+    padding: 5px;
+    margin: 15px;
+  }
+
+  /* -------- Styles for Assign_4 -------- */
+
+  /* Content respects width, not pushed beyond by padding */
+  html {
+    box-sizing: border-box;
+  }
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
+  /* https://www.w3schools.com/css/css3_flexbox_container.asp */
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+  }
+  .flex-container label {
+    white-space: nowrap;
+    padding: 5px 0;
+    margin-right: 5px;
+  }
+
+  .card form {
+    width: 55%;
+  }
+
+  .btn-primary,
+  .card input,
+  .card select {
+    width: 100%;
+    margin: 0;
+  }
+
+  /* -------- Styles for Assign_7 -------- */
+
+  .book-details {
+    list-style-type: none;
+  }
+}
+
+/* -------- Integrating Old Baseline Styles -------- */
+
+.mat-typography {
+  app-base-layout,
+  app-buwebdev-layout {
+    // --- TODO: ---
+
+    // .mat-icon {
+    //   // height: 12px;
+    //   // width: 12px;
+    //   transform: scale(0.8);
+    // }
+
+    // .icon-sm {
+    //   transform: scale(0.6);
+    // }
+
+    .icon-sun,
+    .icon-moon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+    .icon-sun {
+      // color: gold;
+      color: #fbac13;
+    }
+    .icon-moon {
+      // color: cyan;
+      // color: #f4f1c9;
+      color: #3686a0;
+    }
+
+    .mat-slide-toggle {
+      transform: scale(0.6);
+      // height: 90px;
+
+      // .mat-slide-toggle-bar {
+      //   height: 8px;
+      //   width: 26px;
+      // }
+
+      // .mat-slide-toggle-thumb {
+      //   height: 14px;
+      //   width: 14px;
+      // }
+    }
+
+    // .mat-slide-toggle .mat-slide-toggle-ripple {
+    //   height: 24px;
+    //   width: 24px;
+    // }
+  }
+}

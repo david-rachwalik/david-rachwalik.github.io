@@ -8,9 +8,10 @@ import { BaseLayoutComponent } from '@shared/components/base-layout/base-layout.
 import { HomeComponent } from '@shared/components/home/home.component';
 import { NotFoundComponent } from '@shared/components/not-found/not-found.component';
 import { MaterialModule } from '@shared/material.module';
+import { BuwebdevLayoutComponent } from './components/buwebdev-layout/buwebdev-layout.component';
 
 @NgModule({
-  declarations: [NotFoundComponent, BaseLayoutComponent, HomeComponent],
+  declarations: [NotFoundComponent, BaseLayoutComponent, HomeComponent, BuwebdevLayoutComponent],
   imports: [
     CommonModule,
     RouterModule,

@@ -1,0 +1,15 @@
+<div class="main-container">
+    <div class="icon-container" fxLayout="row">
+        <div fxFlex></div>
+        <div fxFlexAlign="right center">
+            <!-- https://material.angular.io/components/icon -->
+            <mat-icon class="icon-sun" aria-label="Icon for light mode">light_mode</mat-icon>
+            <!-- https://material.angular.io/components/slide-toggle -->
+            <mat-slide-toggle [checked]="slideChecked" (change)="toggleThemeMode()"></mat-slide-toggle>
+            <mat-icon class="icon-moon" aria-label="Icon for dark mode">dark_mode</mat-icon>
+        </div>
+    </div>
+
+    <router-outlet></router-outlet>
+</div>
+<br /><br />

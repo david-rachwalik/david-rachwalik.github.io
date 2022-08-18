@@ -13,6 +13,27 @@ body {
 }
 
 app-portfolio-layout {
+  .main-container {
+    max-width: 900px;
+    margin: 0 auto;
+
+    h1 {
+      margin-top: 0.2em;
+    }
+
+    .icon-container {
+      overflow: hidden; /* required to contain float */
+      padding-top: 1em;
+    }
+  }
+  @media only screen and (max-width: 1100px) {
+    .main-container {
+      margin: 0 100px;
+    }
+  }
+
+  /* -------- Card Styles -------- */
+
   .mat-card-content {
     font-size: 1rem;
     line-height: 1.5rem;
@@ -23,7 +44,8 @@ app-portfolio-layout {
   }
 
   .app-header {
-    margin: 8px 0;
+    padding: 0;
+    margin: 0 0 16px;
   }
 
   main {
@@ -135,25 +157,49 @@ html::-webkit-scrollbar-track {
 
   /* -------- Scrollbar Area -------- */
 
-  body.light-theme {
-    --resume-header-color: #4f3674;
-    --work-title-color: #4f81bd;
-  }
-
   table.work-locations {
     width: 100%;
-  }
-
-  #btnResumeDownload {
-    position: absolute;
-    top: 5px;
-    right: 30px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
   }
 
   .videoPresentation {
     max-width: 100%;
     border: 1px solid black;
     border-radius: 3px;
+  }
+
+  /* -------- Resume -------- */
+
+  .resume-download {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+
+    button {
+      min-width: 0;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      font-size: 14px;
+      line-height: 21px;
+      background-color: #0dcaf0;
+
+      mat-icon {
+        font-size: 1.25rem;
+        line-height: 1.25rem;
+      }
+    }
+    button:hover {
+      background-color: #31d2f2;
+    }
+  }
+
+  .resume-email {
+    font-weight: 300;
+    text-align: center;
+    font-style: italic;
+  }
+
+  .mat-divider {
+    margin: 16px 0;
   }
 }

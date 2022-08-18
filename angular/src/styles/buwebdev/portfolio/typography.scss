@@ -27,7 +27,6 @@
 
 // Targeting .mat-typography activates more overrides without requiring !important
 body.mat-typography {
-  app-base-layout,
   app-portfolio-layout {
     *:not(mat-icon) {
       font-family: 'Oswald', Verdana, Arial, sans-serif;
@@ -45,9 +44,7 @@ body.mat-typography {
     a:visited {
       color: var(--anchor-visited-color);
     }
-  }
 
-  app-portfolio-layout {
     .app-header {
       font-size: 2rem;
       line-height: 3rem;
@@ -138,8 +135,7 @@ body.mat-typography {
       /* https://www.cssportal.com/css-text-gradient-generator */
     }
 
-    .breadcrumb,
-    .breadcrumb a {
+    .breadcrumb {
       position: absolute;
       top: 4px;
 
@@ -163,21 +159,40 @@ body.mat-typography {
       font-size: 1.75rem;
     }
 
-    /* -------- Scrollbar Area -------- */
+    /* -------- Resume Area -------- */
 
-    .resume-title {
-      color: var(--resume-header-color);
-      font-size: 1.2rem;
-      font-family: Cabin, Verdana, Arial, Helvetica, sans-serif;
-    }
+    app-resume {
+      .resume-title {
+        color: #4f3674;
+        font-size: 1.2rem;
+        line-height: 1.8rem;
+        font-family: Cabin, Verdana, Arial, Helvetica, sans-serif;
+        margin: 0 0 8px;
+      }
 
-    .work-title {
-      color: var(--work-title-color);
-      font-style: italic;
-    }
+      .resume-content {
+        margin-bottom: 24px;
+        ul {
+          margin: 0;
+        }
+      }
 
-    table.work-locations {
-      font-size: 0.85rem;
+      .work-title {
+        color: #4f81bd;
+        font-style: italic;
+      }
+
+      .work-locations {
+        font-size: 0.85rem;
+        line-height: 1.275rem;
+        margin-bottom: 8px;
+      }
+
+      .work-employer {
+        color: #4f3674;
+        // font-style: italic;
+        font-weight: 500;
+      }
     }
   }
 }
