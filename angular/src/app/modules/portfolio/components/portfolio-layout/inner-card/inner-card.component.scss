@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+mat-card {
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+mat-card-title {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: normal;
+
+  padding: 0.5rem 1rem;
+  margin-bottom: 0;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+mat-card-content {
+  padding: 0.5rem 1rem;
+}

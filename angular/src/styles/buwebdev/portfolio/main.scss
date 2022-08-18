@@ -34,13 +34,23 @@ app-portfolio-layout {
 
   /* -------- Card Styles -------- */
 
-  .mat-card-content {
-    font-size: 1rem;
-    line-height: 1.5rem;
+  .mat-card-title {
+    margin: 0 0 5px;
+  }
+  app-projects,
+  app-devops {
+    .card-title {
+      margin: 0 0 16px;
+    }
   }
 
   .mat-card-subtitle {
     margin: 0;
+  }
+
+  .mat-card-content {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   .app-header {
@@ -67,6 +77,7 @@ app-portfolio-layout {
     position: fixed;
     bottom: 0;
     width: 100%;
+    z-index: 1;
     background: #22c1c3;
     background: linear-gradient(
       0deg,
@@ -201,5 +212,21 @@ html::-webkit-scrollbar-track {
 
   .mat-divider {
     margin: 16px 0;
+  }
+
+  /* -------- Database Diagrams -------- */
+
+  app-db-diagrams,
+  app-api-tests {
+    .mat-tab-label {
+      min-width: 0;
+    }
+    .mat-tab-body {
+      margin-top: 1rem;
+      text-align: center;
+      img {
+        max-width: 100%;
+      }
+    }
   }
 }

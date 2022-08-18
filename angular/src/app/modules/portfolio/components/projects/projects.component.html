@@ -1,0 +1,11 @@
+<mat-card class="mat-elevation-z3">
+    <mat-card-title class="card-title">Bellevue University Projects</mat-card-title>
+    <mat-card-subtitle>
+        <h6 class="breadcrumb">Portfolio / Projects</h6>
+    </mat-card-subtitle>
+
+    <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid">
+        <portfolio-inner-card *ngFor="let card of projectCards" [fxFlex]="card.flex" [path]="card.path" [header]="card.header" [content]="card.content">
+        </portfolio-inner-card>
+    </mat-card-content>
+</mat-card>
