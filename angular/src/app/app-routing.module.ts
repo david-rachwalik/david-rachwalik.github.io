@@ -5,6 +5,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { BuwebdevLayoutComponent } from '@shared/components/buwebdev-layout/buwebdev-layout.component';
 import { HomeComponent } from '@shared/components/home/home.component';
 import { NotFoundComponent } from '@shared/components/not-found/not-found.component';
+import { RoadmapComponent } from '@shared/pages/roadmap/roadmap.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -20,6 +21,11 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'buwebdev',
+    loadChildren: () =>
+      import('@modules/buwebdev/buwebdev.module').then((m) => m.BuwebdevModule),
+  },
+  {
     path: 'portfolio',
     loadChildren: () =>
       import('@modules/portfolio/portfolio.module').then(
@@ -30,6 +36,10 @@ const routes: Routes = [
     path: 'demo',
     loadChildren: () =>
       import('@modules/demo/demo.module').then((m) => m.DemoModule),
+  },
+  {
+    path: 'roadmap',
+    component: RoadmapComponent,
   },
   // Wild card route for 404 requests
   { path: '**', component: NotFoundComponent },
