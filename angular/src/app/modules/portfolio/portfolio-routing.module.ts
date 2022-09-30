@@ -32,7 +32,7 @@ const routes: Routes = [
         component: ProjectsComponent,
       },
       {
-        path: 'web-335/diagrams',
+        path: 'diagrams',
         component: DbDiagramsComponent,
       },
       {
@@ -40,7 +40,7 @@ const routes: Routes = [
         component: ApiTestsComponent,
       },
       {
-        path: 'web-430/devops',
+        path: 'devops',
         component: DevopsComponent,
       },
     ],
