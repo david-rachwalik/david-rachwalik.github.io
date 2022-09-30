@@ -1,0 +1,123 @@
+body.mat-typography {
+  app-biosite-layout {
+    * {
+      font-size: 1rem;
+      line-height: 1.5em;
+    }
+
+    .main-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      /* background-color: #3c275a; */
+      background-color: #205072;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      /* border-bottom: 3px solid #56C596; */
+      border-bottom: 3px solid #329d9c;
+    }
+
+    p {
+      font-family: 'Quattrocento', Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+    }
+
+    h1,
+    h2 {
+      font-family: 'Oswald', Verdana, Arial, sans-serif;
+    }
+
+    h1 {
+      font-weight: 700;
+      text-transform: uppercase;
+      word-spacing: 0.5em;
+      margin: 0;
+      text-align: center;
+      font-size: 3.052em;
+    }
+
+    h2 {
+      font-weight: 500;
+      font-size: 2.441em;
+      word-spacing: 0.2em;
+      margin: 0;
+      text-align: left;
+      // padding-top: 15px;
+    }
+
+    address {
+      font-family: 'Quattrocento', Georgia, 'Times New Roman', serif;
+      text-align: center;
+    }
+
+    address a {
+      font-size: 1.25em;
+      font-weight: bold;
+      text-decoration: none;
+      color: #4f3674;
+    }
+
+    address a:hover {
+      text-decoration: underline;
+      background-color: #d6a800;
+    }
+
+    address a:visited {
+      color: #3b2957;
+    }
+
+    .sentence {
+      font-style: italic;
+    }
+
+    .intro {
+      text-indent: 2em;
+      margin-top: 0.5rem;
+    }
+
+    figcaption {
+      font-size: 1.2em;
+    }
+
+    /* -------- Footer Styles -------- */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #205072;
+      text-align: center;
+      border-top: 2px solid #56c596;
+      padding: 8px 0;
+    }
+
+    footer,
+    footer p {
+      color: #fff;
+    }
+    footer a {
+      text-decoration: none;
+      color: #fff;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* -------- Picture Styles -------- */
+    img.biosite-img {
+      border: 1px solid black;
+    }
+
+    .portrait {
+      width: 300px;
+      height: 533px;
+      border: 1px solid black;
+      float: left;
+      margin-right: 20px;
+      /* margin-bottom: 10px; */
+    }
+  }
+}
