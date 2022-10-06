@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { PortfolioLayoutComponent } from '@shared/components/portfolio-layout/portfolio-layout.component';
 import { BiositeLayoutComponent } from './components/biosite-layout/biosite-layout.component';
 import { AboutComponent } from './pages/bioSite/about/about.component';
 import { HobbyComponent } from './pages/bioSite/hobby/hobby.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
   },
   {
     path: 'web-430',
+    component: PortfolioLayoutComponent,
     children: [
       { path: '', redirectTo: '/portfolio/devops', pathMatch: 'full' },
       {

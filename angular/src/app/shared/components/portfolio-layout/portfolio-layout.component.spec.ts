@@ -8,9 +8,8 @@ describe('PortfolioLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PortfolioLayoutComponent ]
-    })
-    .compileComponents();
+      declarations: [PortfolioLayoutComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PortfolioLayoutComponent);
     component = fixture.componentInstance;

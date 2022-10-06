@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 import { PortfolioRoutingModule } from './portfolio-routing.module';
 
-import { FooterComponent } from './components/portfolio-layout/footer/footer.component';
-import { HeaderComponent } from './components/portfolio-layout/header/header.component';
-import { InnerCardComponent } from './components/portfolio-layout/inner-card/inner-card.component';
-import { PortfolioLayoutComponent } from './components/portfolio-layout/portfolio-layout.component';
-import { SubheaderComponent } from './components/portfolio-layout/subheader/subheader.component';
+import { FooterComponent } from '@shared/components/portfolio-layout/footer/footer.component';
+import { HeaderComponent } from '@shared/components/portfolio-layout/header/header.component';
+import { InnerCardComponent } from '@shared/components/portfolio-layout/inner-card/inner-card.component';
+import { PortfolioLayoutComponent } from '@shared/components/portfolio-layout/portfolio-layout.component';
+import { SubheaderComponent } from '@shared/components/portfolio-layout/subheader/subheader.component';
 import { AboutComponent } from './pages/about/about.component';
 import { ApiTestsComponent } from './pages/api-tests/api-tests.component';
 import { DbDiagramsComponent } from './pages/db-diagrams/db-diagrams.component';

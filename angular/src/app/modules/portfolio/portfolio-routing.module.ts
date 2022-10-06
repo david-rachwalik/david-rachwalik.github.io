@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PortfolioLayoutComponent } from './components/portfolio-layout/portfolio-layout.component';
+import { PortfolioLayoutComponent } from '@shared/components/portfolio-layout/portfolio-layout.component';
 import { AboutComponent } from './pages/about/about.component';
 import { ApiTestsComponent } from './pages/api-tests/api-tests.component';
 import { DbDiagramsComponent } from './pages/db-diagrams/db-diagrams.component';
