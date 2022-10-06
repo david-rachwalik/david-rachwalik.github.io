@@ -33,6 +33,7 @@ const routes: Routes = [
   {
     path: 'web-430',
     children: [
+      { path: '', redirectTo: '/portfolio/devops', pathMatch: 'full' },
       {
         path: 'ci',
         component: CiComponent,
