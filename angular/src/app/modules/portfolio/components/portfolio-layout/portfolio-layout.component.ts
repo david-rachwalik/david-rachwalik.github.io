@@ -19,6 +19,8 @@ export class PortfolioLayoutComponent implements AfterViewInit {
 
   // ngOnInit(): void {}
 
+  // https://stackoverflow.com/questions/46670795/how-to-change-whole-page-background-color-in-angular
+  // https://angular.io/guide/lifecycle-hooks#lifecycle-event-sequence
   ngAfterViewInit() {
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
       '#ccffff';
