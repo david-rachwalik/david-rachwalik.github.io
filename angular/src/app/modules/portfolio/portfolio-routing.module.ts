@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AboutComponent } from './components/about/about.component';
-import { ApiTestsComponent } from './components/api-tests/api-tests.component';
-import { DbDiagramsComponent } from './components/db-diagrams/db-diagrams.component';
-import { DevopsComponent } from './components/devops/devops.component';
-import { HomeComponent } from './components/home/home.component';
 import { PortfolioLayoutComponent } from './components/portfolio-layout/portfolio-layout.component';
-import { ProjectsComponent } from './components/projects/projects.component';
-import { ResumeComponent } from './components/resume/resume.component';
+import { AboutComponent } from './pages/about/about.component';
+import { ApiTestsComponent } from './pages/api-tests/api-tests.component';
+import { DbDiagramsComponent } from './pages/db-diagrams/db-diagrams.component';
+import { DevopsComponent } from './pages/devops/devops.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ProjectsComponent } from './pages/projects/projects.component';
+import { ResumeComponent } from './pages/resume/resume.component';
 
 const routes: Routes = [
   {
