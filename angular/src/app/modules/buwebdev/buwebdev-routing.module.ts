@@ -6,11 +6,11 @@ import { BiositeLayoutComponent } from './components/biosite-layout/biosite-layo
 import { AboutComponent } from './pages/bioSite/about/about.component';
 import { HobbyComponent } from './pages/bioSite/hobby/hobby.component';
 import { HomeComponent } from './pages/bioSite/home/home.component';
-import { CaProcessesComponent } from './pages/web430/ca-processes/ca-processes.component';
-import { ChangeManagementComponent } from './pages/web430/change-management/change-management.component';
-import { CiComponent } from './pages/web430/ci/ci.component';
-import { ItVsBusinessComponent } from './pages/web430/it-vs-business/it-vs-business.component';
-import { SourceControlSecurityComponent } from './pages/web430/source-control-security/source-control-security.component';
+import { CaProcessesComponent } from './pages/web-430/ca-processes/ca-processes.component';
+import { ChangeManagementComponent } from './pages/web-430/change-management/change-management.component';
+import { CiComponent } from './pages/web-430/ci/ci.component';
+import { ItVsBusinessComponent } from './pages/web-430/it-vs-business/it-vs-business.component';
+import { SourceControlSecurityComponent } from './pages/web-430/source-control-security/source-control-security.component';
 
 const routes: Routes = [
   {
