@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BuwebdevLayoutComponent } from '@shared/components/buwebdev-layout/buwebdev-layout.component';
 
 import { PortfolioLayoutComponent } from '@shared/components/portfolio-layout/portfolio-layout.component';
 import { BiositeLayoutComponent } from './components/biosite-layout/biosite-layout.component';
 import { AboutComponent } from './pages/bioSite/about/about.component';
 import { HobbyComponent } from './pages/bioSite/hobby/hobby.component';
-import { HomeComponent } from './pages/bioSite/home/home.component';
+import { BiositeHomeComponent } from './pages/bioSite/home/home.component';
+import { Web231HomeComponent } from './pages/web-231/home/home.component';
+import { Web330HomeComponent } from './pages/web-330/home/home.component';
 import { CaProcessesComponent } from './pages/web-430/ca-processes/ca-processes.component';
 import { ChangeManagementComponent } from './pages/web-430/change-management/change-management.component';
 import { CiComponent } from './pages/web-430/ci/ci.component';
@@ -19,7 +22,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent,
+        component: BiositeHomeComponent,
       },
       {
         path: 'about',
@@ -28,6 +31,26 @@ const routes: Routes = [
       {
         path: 'hobby',
         component: HobbyComponent,
+      },
+    ],
+  },
+  {
+    path: 'web-231',
+    component: BuwebdevLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: Web231HomeComponent,
+      },
+    ],
+  },
+  {
+    path: 'web-330',
+    component: BuwebdevLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: Web330HomeComponent,
       },
     ],
   },
