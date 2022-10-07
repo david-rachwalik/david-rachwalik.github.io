@@ -18,6 +18,20 @@ export class ProjectsComponent implements OnInit {
   constructor() {
     this.projectCards = [
       {
+        flex: '100%',
+        header: "WEB-450 - Assignment #2 - Bob's Computer Repair Shop",
+        path: 'https://slytherin-bcrs-web450.herokuapp.com',
+        content:
+          'Demo page of Angular <i>BCRS</i>&nbsp; that tracks account role access, repair services, invoices, and data graphs.',
+      },
+      {
+        flex: '100%',
+        header: 'WEB-450 - Assignment #1 - nodebucket',
+        path: 'https://rachwalik-nodebucket.herokuapp.com',
+        content:
+          'Demo page of Angular <i>nodebucket</i>&nbsp; that provides a to-do tracker for logged-in users.',
+      },
+      {
         flex: '33.3%',
         header: 'WEB-231 Index',
         path: '/buwebdev/web-231',
@@ -77,14 +91,14 @@ export class ProjectsComponent implements OnInit {
         header: 'WEB-425 - Assignment 8.2 - Server-side Communications',
         path: 'https://david-rachwalik.github.io/in-n-out-books',
         content:
-          'Demo page of Angular <i>In-N-Out-Books</i> application using a service with API calls to populate book data.',
+          'Demo page of Angular <i>In-N-Out-Books</i>&nbsp; application using a service with API calls to populate book data.',
       },
       {
         flex: '100%',
         header: 'WEB-425 - Assignment 9.2 - Capstone',
         path: 'https://david-rachwalik.github.io/loan-app',
         content:
-          'Demo page of Angular <i>Loan App</i> that calculates loan interest and shows communication between components.',
+          'Demo page of Angular <i>Loan App</i>&nbsp; that calculates loan interest and shows communication between components.',
       },
     ];
   }
