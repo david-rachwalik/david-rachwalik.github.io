@@ -73,13 +73,6 @@ export class ProjectsComponent implements OnInit {
         content: 'Demo web API for the WEB-420 capstone project.',
       },
       {
-        flex: '33.3%',
-        header: 'WEB-430 Index',
-        path: '/buwebdev/web-430',
-        content:
-          'Collection of my WEB-430 course projects created during Bellevue University.',
-      },
-      {
         flex: '100%',
         header: 'WEB-425 - Assignment 7.3 - Form Validation',
         path: 'https://david-rachwalik.github.io/gpa-calculator-app/session/sign-in',
@@ -99,6 +92,13 @@ export class ProjectsComponent implements OnInit {
         path: 'https://david-rachwalik.github.io/loan-app',
         content:
           'Demo page of Angular <i>Loan App</i>&nbsp; that calculates loan interest and shows communication between components.',
+      },
+      {
+        flex: '33.3%',
+        header: 'WEB-430 Index',
+        path: '/buwebdev/web-430',
+        content:
+          'Collection of my DevOps course presentations created during Bellevue University.',
       },
     ];
   }
