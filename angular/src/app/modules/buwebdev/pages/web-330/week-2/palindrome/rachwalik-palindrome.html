@@ -1,0 +1,50 @@
+<h1 id="app-header">Welcome to the Palindrome App!</h1>
+
+<mat-card class="mat-elevation-z4">
+    <mat-card-title>Palindrome Checker</mat-card-title>
+    <br />
+
+    <form [formGroup]="form" (ngSubmit)="checkPhrase()">
+        <mat-card-content>
+            <!-- <input id="btnCheckPhrase" class="btn-primary" type="button" value="Check Phrase" (click)="mockCheckPhrase" /> -->
+            <!-- <input id="btnCheckPhrase" class="btn-primary" type="button" value="Check Phrase" /> -->
+            <!-- <br /><br /> -->
+
+            <!-- <label for="txtPhrase">Phrase value:</label>
+            <input type="text" id="txtPhrase" />
+            <br /><br /> -->
+
+            <div fxLayout="column" fxLayoutGap="10px grid">
+                <label for="txtPhrase">Phrase value:</label>
+                <input matInput formControlName="txtPhrase" placeholder="Role text..." (keydown.enter)="checkPhrase()">
+                <br /><br />
+
+                <!-- form controls enforce required fields -->
+                <!-- <mat-form-field>
+                    <mat-error class="error" *ngIf="form.controls['txtPhrase'].hasError('required') && form.controls['text'].touched">
+                        Role is a Required field.
+                    </mat-error>
+                </mat-form-field> -->
+            </div>
+            <br />
+
+            <!-- <button mat-raised-button type="submit" id="btnCheckPhrase" class="btn-primary" color="primary">Submit</button> -->
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-raised-button type="submit" id="btnCheckPhrase" class="btn-primary" color="primary">Submit</button>
+        </mat-card-actions>
+    </form>
+</mat-card>
+<br />
+
+<a routerLink="/" class="return-home">Return</a>
+<br /><br />
+
+<mat-card class="mat-elevation-z1">
+    <mat-card-title>Palindrome Results</mat-card-title>
+    <br />
+
+    <div id="assign-results-header"></div>
+    <div id="assign-results" class="assign-results-text"></div>
+</mat-card>

@@ -7,6 +7,8 @@ import { BiositeLayoutComponent } from './components/biosite-layout/biosite-layo
 import { AboutComponent } from './pages/bioSite/about/about.component';
 import { HobbyComponent } from './pages/bioSite/hobby/hobby.component';
 import { BiositeHomeComponent } from './pages/bioSite/home/home.component';
+import { Web231HomeComponent } from './pages/web-231/home/home.component';
+import { Web330HomeComponent } from './pages/web-330/home/home.component';
 import { PalindromeComponent } from './pages/web-330/week-2/palindrome/palindrome.component';
 import { RestaurantComponent } from './pages/web-330/week-3/restaurant/restaurant.component';
 import { CalorieComponent } from './pages/web-330/week-4/calorie/calorie.component';
@@ -27,7 +29,10 @@ import { SourceControlSecurityComponent } from './pages/web-430/source-control-s
     BiositeHomeComponent,
     AboutComponent,
     HobbyComponent,
+    // WEB-231
+    Web231HomeComponent,
     // WEB-330
+    Web330HomeComponent,
     PalindromeComponent,
     RestaurantComponent,
     CalorieComponent,
