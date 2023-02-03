@@ -1,27 +1,109 @@
-# Angular
+# david-rachwalik.github.io (Client)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.1.
+## Web App ([site](https://david-rachwalik.github.io), [repo](https://github.com/david-rachwalik/david-rachwalik.github.io))
 
-## Development server
+Personal site for hobbies, aspirations, game news, game design, engine info, and patch notes.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Project Commands Used
 
-## Code scaffolding
+Generate a new Angular application ([tutorial](https://angular.io/tutorial/toh-pt5), [layouts](https://indepth.dev/posts/1235/how-to-reuse-common-layouts-in-angular-using-router-2), [RxJS](https://www.learnrxjs.io))
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+ng new <app-name>
+```
 
-## Build
+Install linting & Prettier
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm i -D eslint prettier
+npm i -D eslint-config-airbnb eslint-config-airbnb-typescript
+npm i -D eslint-config-prettier eslint-plugin-prettier eslint-plugin-html
+npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser
+```
 
-## Running unit tests
+<!-- Install [Angular Flex-Layout](https://github.com/angular/flex-layout) ([wiki](https://github.com/angular/flex-layout/wiki), [API](https://github.com/angular/flex-layout/wiki/API-Documentation))
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm i @angular/cdk @angular/flex-layout
+``` -->
 
-## Running end-to-end tests
+Install [PostCSS](https://github.com/angular/flex-layout) ([wiki](https://github.com/angular/flex-layout/wiki), [API](https://github.com/angular/flex-layout/wiki/API-Documentation))
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+npm i -D postcss postcss-cli postcss-nested postcss-import autoprefixer cssnano
+```
 
-## Further help
+Install [Tailwind CSS](https://tailwindcss.com/docs/guides/angular) ([CheatSheet](https://nerdcave.com/tailwind-cheat-sheet), [Need-to-Know](https://www.bitovi.com/blog/tailwind-css-with-angular-v12-what-you-need-to-know), [Use with preprocessors](https://tailwindcss.com/docs/using-with-preprocessors), [Box Shadow](https://tailwindcss.com/docs/box-shadow))
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+npm i -D tailwindcss
+npx tailwindcss init
+```
+
+Install Angular Material ("custom" theme, 'y' typography, 'y' animations) ([background](https://material.angular.io/guide/theming#application-background-color))
+
+```bash
+ng add @angular/material
+```
+
+Install [NGX-Markdown](https://github.com/jfcere/ngx-markdown) for Angular markdown components with scripts/styles
+
+```bash
+npm i ngx-markdown marked prismjs
+npm i -D @types/marked
+```
+
+Install [NGRX](https://ngrx.io) [Store](https://ngrx.io/guide/store) for state management
+
+```bash
+ng add @ngrx/store --minimal=false --statePath=core/store
+ng add @ngrx/store-devtools --skip-confirmation
+ng add @ngrx/effects --skip-confirmation
+ng add @ngrx/entity --skip-confirmation
+ng add @ngrx/data --skip-confirmation
+```
+
+Install [GitHub Pages deployment package for Angular](https://www.npmjs.com/package/angular-cli-ghpages) ([Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows))
+
+```bash
+ng add angular-cli-ghpages
+```
+
+---
+
+[Default Angular component css display block](https://stackoverflow.com/questions/51032328/angular-component-default-style-css-display-block) (generated components will contain css `:host { display: block; }`)
+
+```json
+...
+// Set default value in angular.json (Angular v9.1+)
+"projectType": "application",
+"schematics": {
+  "@schematics/angular:component": {
+    "displayBlock": true
+  }
+}
+...
+```
+
+Install lodash
+
+```bash
+npm i lodash
+npm i @types/lodash
+```
+
+- also consider adding Angular blog ([Scully](https://scully.io), [example](https://solocoding.dev))
+
+### Angular Generate Commands Used
+
+Generate a new Angular component
+
+```bash
+ng g c <component-name>
+```
+
+Generate a new Angular module
+
+```bash
+ng g m <module-name>
+```

@@ -1,4 +1,4 @@
-<mat-card class="project-card mat-elevation-z1">
+<mat-card appearance="raised" class="project-card mat-elevation-z1">
     <mat-card-title>
         <a *ngIf="isHref(path)" [href]="path" target="_blank">{{ header }}</a>
         <a *ngIf="!isHref(path)" [routerLink]="path">{{ header }}</a>

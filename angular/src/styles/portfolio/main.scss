@@ -34,7 +34,7 @@ app-portfolio-layout {
 
   /* -------- Card Styles -------- */
 
-  .mat-card-title {
+  .mat-mdc-card-title {
     margin: 0 0 5px;
   }
   app-projects,
@@ -44,11 +44,11 @@ app-portfolio-layout {
     }
   }
 
-  .mat-card-subtitle {
+  .mat-mdc-card-subtitle {
     margin: 0;
   }
 
-  .mat-card-content {
+  .mat-mdc-card-content {
     font-size: 1rem;
     line-height: 1.5rem;
   }
@@ -218,10 +218,13 @@ html::-webkit-scrollbar-track {
 
   app-db-diagrams,
   app-api-tests {
+    /*
+TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.
+*/
     .mat-tab-label {
       min-width: 0;
     }
-    .mat-tab-body {
+    .mat-mdc-tab-body {
       margin-top: 1rem;
       text-align: center;
       img {
