@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/defaultConfig.stub.js */
+@import 'tailwindcss/base'; /* @tailwind base; */
+@import 'tailwindcss/components'; /* @tailwind components; */
+@import 'tailwindcss/utilities'; /* @tailwind utilities; */
+
+@import 'styles/fixes';
+
+/* --- test styles for TailwindCSS --- */
+.tw-blue-btn {
+  @apply tw-py-2 tw-px-3 tw-m-2 tw-rounded-md;
+  @apply tw-bg-blue-500 hover:tw-bg-blue-700 tw-text-white;
+}
