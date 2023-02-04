@@ -4,13 +4,9 @@
 
 Personal site for hobbies, aspirations, game news, game design, engine info, and patch notes.
 
-### Project Tech Stack
+### Project Commands Used (global)
 
-Angular, Angular Material, NGRX (data store)
-
-### Project Commands Used
-
-Install linting & Prettier
+Install linting (ESLint) & formatting (Prettier)
 
 ```bash
 npm i -D eslint prettier

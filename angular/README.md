@@ -4,6 +4,10 @@
 
 Personal site for hobbies, aspirations, game news, game design, engine info, and patch notes.
 
+### Project Tech Stack
+
+Angular, Angular Material, NGRX (data store)
+
 ### Project Commands Used
 
 Generate a new Angular application ([tutorial](https://angular.io/tutorial/toh-pt5), [layouts](https://indepth.dev/posts/1235/how-to-reuse-common-layouts-in-angular-using-router-2), [RxJS](https://www.learnrxjs.io))
@@ -12,25 +16,16 @@ Generate a new Angular application ([tutorial](https://angular.io/tutorial/toh-p
 ng new <app-name>
 ```
 
-Install linting & Prettier
-
-```bash
-npm i -D eslint prettier
-npm i -D eslint-config-airbnb eslint-config-airbnb-typescript
-npm i -D eslint-config-prettier eslint-plugin-prettier eslint-plugin-html
-npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser
-```
-
 <!-- Install [Angular Flex-Layout](https://github.com/angular/flex-layout) ([wiki](https://github.com/angular/flex-layout/wiki), [API](https://github.com/angular/flex-layout/wiki/API-Documentation))
 
 ```bash
 npm i @angular/cdk @angular/flex-layout
 ``` -->
 
-Install [PostCSS](https://github.com/angular/flex-layout) ([wiki](https://github.com/angular/flex-layout/wiki), [API](https://github.com/angular/flex-layout/wiki/API-Documentation))
+Install [PostCSS](https://postcss.org) ([plugins](https://www.postcss.parts))
 
 ```bash
-npm i -D postcss postcss-cli postcss-nested postcss-import autoprefixer cssnano
+npm i -D postcss postcss-import postcss-advanced-variables postcss-nested postcss-scss autoprefixer cssnano
 ```
 
 Install [Tailwind CSS](https://tailwindcss.com/docs/guides/angular) ([CheatSheet](https://nerdcave.com/tailwind-cheat-sheet), [Need-to-Know](https://www.bitovi.com/blog/tailwind-css-with-angular-v12-what-you-need-to-know), [Use with preprocessors](https://tailwindcss.com/docs/using-with-preprocessors), [Box Shadow](https://tailwindcss.com/docs/box-shadow))

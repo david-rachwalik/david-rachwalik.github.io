@@ -16,9 +16,8 @@ Install linting (ESLint) & formatting (Prettier)
 
 ```bash
 npm i -D eslint prettier
-npm i -D eslint-config-airbnb eslint-config-airbnb-typescript
+npm i -D eslint-config-airbnb
 npm i -D eslint-config-prettier eslint-plugin-prettier eslint-plugin-html
-npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 Install Light Server (basic HTML localhost) & Concurrently (for multiple commands at once)
