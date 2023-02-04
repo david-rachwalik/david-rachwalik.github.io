@@ -45,7 +45,7 @@ module.exports = {
       // https://stackoverflow.com/questions/64933543/parsing-error-cannot-read-file-tsconfig-json-eslint
       parserOptions: {
         project: 'tsconfig.json',
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: `${__dirname}/client-angular`,
         sourceType: 'module',
       },
       rules: {
