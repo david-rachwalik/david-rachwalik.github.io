@@ -8,4 +8,9 @@
         <portfolio-inner-card *ngFor="let card of projectCards" [fxFlex]="card.flex" [path]="card.path" [header]="card.header" [content]="card.content">
         </portfolio-inner-card>
     </mat-card-content>
+
+    <!-- <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid">
+        <portfolio-inner-card *ngFor="let card of projectCards" [ngClass]="card.cls" [path]="card.path" [header]="card.header" [content]="card.content">
+        </portfolio-inner-card>
+    </mat-card-content> -->
 </mat-card>

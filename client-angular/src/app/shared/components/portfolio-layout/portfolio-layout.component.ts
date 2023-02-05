@@ -9,8 +9,6 @@ import {
   selector: 'app-portfolio-layout',
   templateUrl: './portfolio-layout.component.html',
   styleUrls: ['./portfolio-layout.component.scss'],
-  // TODO: remove below line if styles no longer need to be global to work
-  // ViewEncapsulation used for lazy loading module styles
   encapsulation: ViewEncapsulation.None,
 })
 // export class PortfolioLayoutComponent implements OnInit {
@@ -22,16 +20,28 @@ export class PortfolioLayoutComponent implements AfterViewInit {
   // https://stackoverflow.com/questions/46670795/how-to-change-whole-page-background-color-in-angular
   // https://angular.io/guide/lifecycle-hooks#lifecycle-event-sequence
   ngAfterViewInit() {
-    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
-      '#ccffff';
-    this.elementRef.nativeElement.ownerDocument.body.style.backgroundImage =
-      'linear-gradient(to bottom right, #ccffff, white)';
+    try {
+      this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
+        '#ccffff';
+      this.elementRef.nativeElement.ownerDocument.body.style.backgroundImage =
+        'linear-gradient(to bottom right, #ccffff, white)';
+    } catch (e) {
+      if (e instanceof Error /* CustomError */) {
+        console.log(e.message);
+      }
+    }
   }
 
   ngOnDestroy() {
-    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
-      'white';
-    this.elementRef.nativeElement.ownerDocument.body.style.backgroundImage =
-      'none';
+    try {
+      this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
+        'white';
+      this.elementRef.nativeElement.ownerDocument.body.style.backgroundImage =
+        'none';
+    } catch (e) {
+      if (e instanceof Error /* CustomError */) {
+        console.log(e.message);
+      }
+    }
   }
 }

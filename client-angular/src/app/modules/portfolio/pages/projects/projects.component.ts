@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 interface ProjectCard {
   flex: string;
+  cls: string;
   header: string;
   path: string;
   content: string;
@@ -14,11 +15,14 @@ interface ProjectCard {
 })
 export class ProjectsComponent implements OnInit {
   projectCards: ProjectCard[];
+  widthFull = 'tw-flex-item-full';
+  widthOneThird = 'tw-flex-item-1/3';
 
   constructor() {
     this.projectCards = [
       {
         flex: '100%',
+        cls: this.widthFull,
         header: "WEB-450 - Assignment #2 - Bob's Computer Repair Shop",
         path: 'https://slytherin-bcrs-web450.herokuapp.com',
         content:
@@ -26,6 +30,7 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '100%',
+        cls: this.widthFull,
         header: 'WEB-450 - Assignment #1 - nodebucket',
         path: 'https://rachwalik-nodebucket.herokuapp.com',
         content:
@@ -33,6 +38,7 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '33.3%',
+        cls: this.widthOneThird,
         header: 'WEB-231 Index',
         path: '/buwebdev/web-231',
         content:
@@ -40,6 +46,7 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '33.3%',
+        cls: this.widthOneThird,
         header: 'Card Dealer App',
         path: '/buwebdev/web-231/card-game',
         content:
@@ -47,6 +54,7 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '33.3%',
+        cls: this.widthOneThird,
         header: 'Number Guessing Game App',
         path: '/buwebdev/web-231/number-game',
         content:
@@ -54,6 +62,7 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '33.3%',
+        cls: this.widthOneThird,
         header: 'WEB-330 Index',
         path: '/buwebdev/web-330',
         content:
@@ -61,6 +70,7 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '33.3%',
+        cls: this.widthOneThird,
         header: 'Future Value Calculator',
         path: '/buwebdev/web-330/future-value',
         content:
@@ -68,12 +78,14 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '33.3%',
+        cls: this.widthOneThird,
         header: 'WEB-420 Capstone API',
         path: 'https://rachwalik-capstone.herokuapp.com',
         content: 'Demo web API for the WEB-420 capstone project.',
       },
       {
         flex: '100%',
+        cls: this.widthFull,
         header: 'WEB-425 - Assignment 7.3 - Form Validation',
         path: 'https://david-rachwalik.github.io/gpa-calculator-app/session/sign-in',
         content:
@@ -81,6 +93,7 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '100%',
+        cls: this.widthFull,
         header: 'WEB-425 - Assignment 8.2 - Server-side Communications',
         path: 'https://david-rachwalik.github.io/in-n-out-books',
         content:
@@ -88,6 +101,7 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '100%',
+        cls: this.widthFull,
         header: 'WEB-425 - Assignment 9.2 - Capstone',
         path: 'https://david-rachwalik.github.io/loan-app',
         content:
@@ -95,6 +109,7 @@ export class ProjectsComponent implements OnInit {
       },
       {
         flex: '33.3%',
+        cls: this.widthOneThird,
         header: 'WEB-430 Index',
         path: '/buwebdev/web-430',
         content:

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 interface ThemeDetails {
   theme: string;
@@ -10,6 +10,7 @@ interface ThemeDetails {
   selector: 'app-buwebdev-layout',
   templateUrl: './buwebdev-layout.component.html',
   styleUrls: ['./buwebdev-layout.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BuwebdevLayoutComponent implements OnInit {
   slideChecked: boolean;
