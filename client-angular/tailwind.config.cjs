@@ -1,8 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{html,js,jsx,ts,tsx,vue}'],
+  content: ['./src/**/*.{html,js,jsx,ts,tsx,vue,scss}'],
   theme: {
     extend: {},
+    listStyleType: {
+      none: 'none',
+      disc: 'disc',
+      circle: 'circle',
+      decimal: 'decimal',
+      square: 'square',
+      roman: 'upper-roman',
+    },
   },
   plugins: [],
   // add a unique prefix to Tailwind classes to avoid class name overlap
