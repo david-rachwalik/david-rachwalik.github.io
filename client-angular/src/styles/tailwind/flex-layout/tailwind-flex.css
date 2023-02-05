@@ -1,0 +1,83 @@
+/* --- Additional Flex Styles for TailwindCSS --- */
+
+/* https://tailwindcss.com/docs/flex-basis */
+/* https://tailwindcss.com/docs/width */
+/* https://tailwindcss.com/docs/max-width */
+
+.tw-item,
+.tw-item-auto {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-auto tw-w-auto tw-max-w-none;
+}
+
+.tw-item-25\%,
+.tw-item-1\/4 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-1/4 tw-w-1/4 tw-max-w-[25%];
+}
+
+.tw-item-30\%,
+.tw-item-3\/10 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-[30%] tw-w-[30%] tw-max-w-[30%];
+}
+
+.tw-item-33\%,
+.tw-item-1\/3 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-1/3 tw-w-1/3 tw-max-w-[33.333333%];
+}
+
+.tw-item-40\%,
+.tw-item-2\/5 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-2/5 tw-w-2/5 tw-max-w-[40%];
+}
+
+.tw-item-45\%,
+.tw-item-9\/20 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-[45%] tw-w-[45%] tw-max-w-[45%];
+}
+
+.tw-item-50\%,
+.tw-item-1\/2 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-1/2 tw-w-1/2 tw-max-w-[50%];
+}
+
+.tw-item-60\%,
+.tw-item-3\/5 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-3/5 tw-w-3/5 tw-max-w-[60%];
+}
+
+.tw-item-67\%,
+.tw-item-2\/3 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-2/3 tw-w-2/3 tw-max-w-[66.666667%];
+}
+
+.tw-item-75\%,
+.tw-item-3\/4 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-3/4 tw-w-3/4 tw-max-w-[75%];
+}
+
+.tw-item-80\%,
+.tw-item-4\/5 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-4/5 tw-w-4/5 tw-max-w-[80%];
+}
+
+.tw-item-95\%,
+.tw-item-19\/20 {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-[95%] tw-w-[95%] tw-max-w-[95%];
+}
+
+.tw-item-100\%,
+.tw-item-full {
+  @apply tw-box-border tw-flex;
+  @apply tw-basis-full tw-w-full tw-max-w-full;
+}
