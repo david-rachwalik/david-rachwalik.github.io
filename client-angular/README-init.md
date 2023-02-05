@@ -25,3 +25,9 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+---
+
+## Update to Angular 15
+
+References: [Release Post](https://blog.angular.io/angular-v15-is-now-available-df7be7f2f4c8), [Feature Changes](https://angular.io/guide/update-to-version-15), [Migrate to MDC-based Material components](https://material.angular.io/guide/mdc-migration)
