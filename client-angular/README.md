@@ -22,13 +22,13 @@ ng new <app-name>
 npm i @angular/cdk @angular/flex-layout
 ``` -->
 
-Install [PostCSS](https://postcss.org) ([plugins](https://www.postcss.parts))
+<!-- Install [PostCSS](https://postcss.org) ([plugins](https://www.postcss.parts))
 
 ```bash
-npm i -D postcss postcss-import postcss-advanced-variables postcss-nested postcss-scss autoprefixer cssnano
-```
+npm i -D postcss postcss-import postcss-advanced-variables postcss-nested-ancestors postcss-nested postcss-scss autoprefixer cssnano
+``` -->
 
-Install [Tailwind CSS](https://tailwindcss.com/docs/guides/angular) ([CheatSheet](https://nerdcave.com/tailwind-cheat-sheet), [Need-to-Know](https://www.bitovi.com/blog/tailwind-css-with-angular-v12-what-you-need-to-know), [Use with preprocessors](https://tailwindcss.com/docs/using-with-preprocessors), [Box Shadow](https://tailwindcss.com/docs/box-shadow))
+Install [Tailwind CSS](https://tailwindcss.com/docs/guides/angular) ([CheatSheet](https://nerdcave.com/tailwind-cheat-sheet), [Need-to-Know](https://www.bitovi.com/blog/tailwind-css-with-angular-v12-what-you-need-to-know), [Use with preprocessors](https://tailwindcss.com/docs/using-with-preprocessors), [Box Shadow](https://tailwindcss.com/docs/box-shadow)) and generate configuration
 
 ```bash
 npm i -D tailwindcss
