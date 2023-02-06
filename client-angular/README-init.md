@@ -28,6 +28,25 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ---
 
+## Modify default 'generate' behavior
+
+Set the [Angular component's display block](https://stackoverflow.com/questions/51032328/angular-component-default-style-css-display-block) in angular.json (Angular v9.1+)
+
+- Newly generated components will contain css `:host { display: block; }`
+
+```json
+...
+"projectType": "application",
+"schematics": {
+  "@schematics/angular:component": {
+    "displayBlock": true
+  }
+}
+...
+```
+
+---
+
 ## Update to Angular 15
 
 References: [Release Post](https://blog.angular.io/angular-v15-is-now-available-df7be7f2f4c8), [Feature Changes](https://angular.io/guide/update-to-version-15), [Migrate to MDC-based Material components](https://material.angular.io/guide/mdc-migration)

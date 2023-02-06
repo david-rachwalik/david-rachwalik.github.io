@@ -4,11 +4,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { BaseLayoutComponent } from '@shared/components/base-layout/base-layout.component';
-import { MaterialModule } from '@shared/material.module';
-import { HomeComponent } from '@shared/pages/home/home.component';
-import { NotFoundComponent } from '@shared/pages/not-found/not-found.component';
+import { BaseLayoutComponent } from './components/base-layout/base-layout.component';
 import { BuwebdevLayoutComponent } from './components/buwebdev-layout/buwebdev-layout.component';
+import { MaterialModule } from './material.module';
+import { HomeComponent } from './pages/home/home.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { RoadmapComponent } from './pages/roadmap/roadmap.component';
 
 @NgModule({

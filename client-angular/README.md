@@ -6,7 +6,9 @@ Personal site for hobbies, aspirations, game news, game design, engine info, and
 
 ### Project Tech Stack
 
-Angular, Angular Material, NGRX (data store)
+_Languages:_ HTML, CSS, JavaScript, SCSS, TypeScript
+
+Angular, Angular Material, NGRX (data store, redux)
 
 ### Project Commands Used
 
@@ -16,11 +18,11 @@ Generate a new Angular application ([tutorial](https://angular.io/tutorial/toh-p
 ng new <app-name>
 ```
 
-<!-- Install [Angular Flex-Layout](https://github.com/angular/flex-layout) ([wiki](https://github.com/angular/flex-layout/wiki), [API](https://github.com/angular/flex-layout/wiki/API-Documentation))
+Install [Angular Flex-Layout](https://github.com/angular/flex-layout) ([wiki](https://github.com/angular/flex-layout/wiki), [API](https://github.com/angular/flex-layout/wiki/API-Documentation))
 
 ```bash
 npm i @angular/cdk @angular/flex-layout
-``` -->
+```
 
 <!-- Install [PostCSS](https://postcss.org) ([plugins](https://www.postcss.parts))
 
@@ -28,24 +30,17 @@ npm i @angular/cdk @angular/flex-layout
 npm i -D postcss postcss-import postcss-advanced-variables postcss-nested-ancestors postcss-nested postcss-scss autoprefixer cssnano
 ``` -->
 
-Install [Tailwind CSS](https://tailwindcss.com/docs/guides/angular) ([CheatSheet](https://nerdcave.com/tailwind-cheat-sheet), [Need-to-Know](https://www.bitovi.com/blog/tailwind-css-with-angular-v12-what-you-need-to-know), [Use with preprocessors](https://tailwindcss.com/docs/using-with-preprocessors), [Box Shadow](https://tailwindcss.com/docs/box-shadow)) and generate configuration
+Install [Tailwind CSS](https://tailwindcss.com/docs/guides/angular) with configuration file ([CheatSheet](https://nerdcave.com/tailwind-cheat-sheet), [Need-to-Know](https://www.bitovi.com/blog/tailwind-css-with-angular-v12-what-you-need-to-know), [Use with preprocessors](https://tailwindcss.com/docs/using-with-preprocessors), [Box Shadow](https://tailwindcss.com/docs/box-shadow))
 
 ```bash
 npm i -D tailwindcss
 npx tailwindcss init
 ```
 
-Install Angular Material ("custom" theme, 'y' typography, 'y' animations) ([background](https://material.angular.io/guide/theming#application-background-color))
+Install [Angular Material](https://material.angular.io) ("custom" theme, 'y' typography, 'y' animations) ([background](https://material.angular.io/guide/theming#application-background-color))
 
 ```bash
 ng add @angular/material
-```
-
-Install [NGX-Markdown](https://github.com/jfcere/ngx-markdown) for Angular markdown components with scripts/styles
-
-```bash
-npm i ngx-markdown marked prismjs
-npm i -D @types/marked
 ```
 
 Install [NGRX](https://ngrx.io) [Store](https://ngrx.io/guide/store) for state management
@@ -58,38 +53,45 @@ ng add @ngrx/entity --skip-confirmation
 ng add @ngrx/data --skip-confirmation
 ```
 
+<!-- Install lodash
+
+```bash
+npm i lodash
+npm i @types/lodash
+``` -->
+
+---
+
+#### Deployment Options
+
 Install [GitHub Pages deployment package for Angular](https://www.npmjs.com/package/angular-cli-ghpages) ([Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows))
 
 ```bash
 ng add angular-cli-ghpages
 ```
 
----
+#### Blog Options
 
-[Default Angular component css display block](https://stackoverflow.com/questions/51032328/angular-component-default-style-css-display-block) (generated components will contain css `:host { display: block; }`)
+Install [NGX-Markdown](https://github.com/jfcere/ngx-markdown) for Angular markdown components with scripts/styles
 
-```json
-...
-// Set default value in angular.json (Angular v9.1+)
-"projectType": "application",
-"schematics": {
-  "@schematics/angular:component": {
-    "displayBlock": true
-  }
-}
-...
-```
-
-Install lodash
+- other refs: [makeuseof guide](https://www.makeuseof.com/angular-markdown-files-website), [blog guide](https://daviddalbusco.medium.com/add-a-blog-to-your-angular-website-using-markdown-files-31cdb0627bdd), [clean blog theme](https://startbootstrap.com/theme/clean-blog)
 
 ```bash
-npm i lodash
-npm i @types/lodash
+npm i ngx-markdown marked prismjs
+npm i -D @types/marked
 ```
 
-- also consider adding Angular blog ([Scully](https://scully.io), [example](https://solocoding.dev))
+Install [Scully](https://scully.io) ([repo](https://github.com/scullyio/scully), [example](https://solocoding.dev))
 
-### Angular Generate Commands Used
+- other refs:
+
+```bash
+ng add @scullyio/init
+```
+
+---
+
+### Angular 'generate' Commands Used
 
 Generate a new Angular component
 
