@@ -13,6 +13,7 @@ module.exports = {
   // https://stackoverflow.com/questions/53189200/whats-the-difference-between-plugins-and-extends-in-eslint
   extends: [
     'eslint:recommended',
+    'plugin:import/recommended',
     'airbnb-base', // https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base
     'plugin:prettier/recommended', // mods Prettier errors to throw ESLint errors (always last)
   ],
