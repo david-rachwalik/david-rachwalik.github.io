@@ -32,7 +32,8 @@ export class ProjectsComponent implements OnInit {
         flex: '100%',
         cls: this.widthFull,
         header: 'WEB-450 - Assignment #1 - nodebucket',
-        path: 'https://rachwalik-nodebucket.herokuapp.com',
+        // path: 'https://rachwalik-nodebucket.herokuapp.com',
+        path: 'https://webapp-nodebucket.azurewebsites.net',
         content:
           'Demo page of Angular <i>nodebucket</i>&nbsp; that provides a to-do tracker for logged-in users.',
       },
