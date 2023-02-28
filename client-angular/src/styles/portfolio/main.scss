@@ -17,9 +17,9 @@ app-portfolio-layout {
     max-width: 900px;
     margin: 0 auto;
 
-    h1 {
-      margin-top: 0.2em;
-    }
+    // h1 {
+    //   margin-top: 0.2em;
+    // }
 
     .icon-container {
       overflow: hidden; /* required to contain float */
@@ -51,6 +51,12 @@ app-portfolio-layout {
   .mat-mdc-card-content {
     font-size: 1rem;
     line-height: 1.5rem;
+    // p {
+    //   font-size: 0.875rem; /* 14px */
+    //   line-height: 1.25rem; /* 20px */
+    //   font-style: italic;
+    //   color: rgb(107 114 128);
+    // }
   }
 
   .app-header {
@@ -126,6 +132,7 @@ app-portfolio-layout {
     border: 1px solid black;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
+    margin-bottom: 4px;
   }
 
   /* -------- Scrollbar Area -------- */

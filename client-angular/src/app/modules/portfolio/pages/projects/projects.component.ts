@@ -23,17 +23,18 @@ export class ProjectsComponent implements OnInit {
       {
         flex: '100%',
         cls: this.widthFull,
-        header: "WEB-450 - Assignment #2 - Bob's Computer Repair Shop",
-        path: 'https://slytherin-bcrs-web450.herokuapp.com',
+        header: "WEB-450 - Assignment #2 - Bob's Computer Repair Shop *",
+        // path: 'https://slytherin-bcrs-web450.herokuapp.com',
+        path: 'https://bcrs.azurewebsites.net',
         content:
           'Demo page of Angular <i>BCRS</i>&nbsp; that tracks account role access, repair services, invoices, and data graphs.',
       },
       {
         flex: '100%',
         cls: this.widthFull,
-        header: 'WEB-450 - Assignment #1 - nodebucket',
+        header: 'WEB-450 - Assignment #1 - nodebucket *',
         // path: 'https://rachwalik-nodebucket.herokuapp.com',
-        path: 'https://webapp-nodebucket.azurewebsites.net',
+        path: 'https://nodebucket.azurewebsites.net',
         content:
           'Demo page of Angular <i>nodebucket</i>&nbsp; that provides a to-do tracker for logged-in users.',
       },
@@ -80,7 +81,7 @@ export class ProjectsComponent implements OnInit {
       {
         flex: '33.3%',
         cls: this.widthOneThird,
-        header: 'WEB-420 Capstone API',
+        header: 'WEB-420 Capstone API *',
         path: 'https://rachwalik-capstone.herokuapp.com',
         content: 'Demo web API for the WEB-420 capstone project.',
       },

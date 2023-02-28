@@ -1,0 +1,196 @@
+/* -------- Typography -------- */
+
+/* (fonts/typefaces, size, style, position/spacing, color) */
+/*
+  --- Fonts / Typefaces ---
+  - font-family
+  
+  --- Size ---
+  - font-size
+  - line-height
+
+  --- Style ---
+  - font-weight
+  - font-style
+  - text-decoration
+
+  --- Position / Spacing ---
+  - text-align
+
+  --- Color ---
+  - color
+  - background (rare, for rich text)
+*/
+
+/* https://ansrsource.com/elements-of-typography */
+/* https://careerfoundry.com/en/blog/ui-design/beginners-guide-to-typography */
+
+/* --- Targeting .mat-typography activates more overrides without requiring !important --- */
+
+body.mat-typography app-portfolio-layout *:not(mat-icon) {
+  font-family: 'Oswald', Verdana, Arial, sans-serif;
+}
+
+body.mat-typography app-portfolio-layout a {
+  text-decoration: none;
+  color: var(--anchor-color);
+}
+body.mat-typography app-portfolio-layout a:hover {
+  text-decoration: underline;
+  background-color: var(--anchor-hoverbackground-color);
+  color: var(--anchor-hover-color);
+}
+body.mat-typography app-portfolio-layout a.resume-download:hover {
+  text-decoration: none;
+}
+/* body.mat-typography app-portfolio-layout a:visited {
+  color: var(--anchor-visited-color);
+} */
+
+body.mat-typography app-portfolio-layout .app-header {
+  font-size: 2rem;
+  line-height: 3rem;
+  text-align: center;
+  color: var(--text-color);
+  background: none;
+  border: none;
+}
+
+/* -------- Site Navigation Panel -------- */
+
+body.mat-typography app-portfolio-layout .dmr-header {
+  background: #fff099;
+  background: -webkit-repeating-linear-gradient(
+    to bottom right,
+    #fff099 0%,
+    #fff099 40%,
+    #fefefa 50%,
+    #00ffff 60%,
+    #00ffff 100%
+  );
+  background: -moz-repeating-linear-gradient(
+    to bottom right,
+    #fff099 0%,
+    #fff099 40%,
+    #fefefa 50%,
+    #00ffff 60%,
+    #00ffff 100%
+  );
+  background: repeating-linear-gradient(
+    to bottom right,
+    #fff099 0%,
+    #fff099 40%,
+    #fefefa 50%,
+    #00ffff 60%,
+    #00ffff 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px darkcyan;
+  /* Additional styling beyond color */
+  font-size: 32px;
+  line-height: 48px;
+  /* text-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px; */
+}
+
+body.mat-typography app-portfolio-layout .dmr-main-bg {
+  text-align: center;
+}
+
+body.mat-typography app-portfolio-layout .profile-subheader a {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+body.mat-typography
+  app-portfolio-layout
+  .profile-subheader
+  a:not(:first-of-type) {
+  margin-left: 16px;
+}
+
+body.mat-typography app-portfolio-layout button {
+  font-size: 1.5rem;
+}
+
+body.mat-typography app-portfolio-layout footer {
+  @apply tw-text-xs tw-text-center tw-py-1;
+}
+
+/* -------- Card Styles -------- */
+
+body.mat-typography app-portfolio-layout .card-title {
+  font-size: 1.75rem;
+  line-height: 2.625rem;
+  font-weight: normal;
+  text-align: center;
+  color: var(--card-title-color);
+}
+
+/* -------- Experimental Area -------- */
+
+body.mat-typography app-portfolio-layout .font-preview p {
+  /* font-size: xx-large; */
+  font-size: 4rem;
+  font-style: italic;
+  /* https://www.cssportal.com/css-text-gradient-generator */
+}
+
+body.mat-typography app-portfolio-layout .breadcrumb {
+  position: absolute;
+  top: 4px;
+  left: 16px;
+
+  color: #747474;
+  font-size: 14px;
+  /* font-family: Cabin, Verdana, Arial, Helvetica, sans-serif; */
+  /* font-weight: bold; */
+}
+
+body.mat-typography app-portfolio-layout #cart-message {
+  /* from instructions page 5, step 6a */
+  float: right;
+  color: #df546a;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+body.mat-typography app-portfolio-layout cart-component {
+  color: var(--card-title-color);
+  text-align: center;
+  font-size: 1.75rem;
+}
+
+/* -------- Resume Area -------- */
+
+body.mat-typography app-portfolio-layout app-resume .resume-title {
+  color: #4f3674;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  font-family: Cabin, Verdana, Arial, Helvetica, sans-serif;
+  margin: 0 0 8px;
+}
+
+body.mat-typography app-portfolio-layout app-resume .resume-content {
+  margin-bottom: 16px;
+}
+body.mat-typography app-portfolio-layout app-resume .resume-content ul {
+  margin: 0;
+}
+
+body.mat-typography app-portfolio-layout app-resume .work-title {
+  color: #4f81bd;
+  font-style: italic;
+}
+
+body.mat-typography app-portfolio-layout app-resume .work-locations {
+  font-size: 0.85rem;
+  line-height: 1.275rem;
+  margin-bottom: 8px;
+}
+
+body.mat-typography app-portfolio-layout app-resume .work-employer {
+  color: #4f3674;
+  /* font-style: italic; */
+  font-weight: 500;
+}

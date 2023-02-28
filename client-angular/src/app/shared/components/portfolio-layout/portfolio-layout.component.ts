@@ -25,6 +25,8 @@ export class PortfolioLayoutComponent implements AfterViewInit {
         '#ccffff';
       this.elementRef.nativeElement.ownerDocument.body.style.backgroundImage =
         'linear-gradient(to bottom right, #ccffff, white)';
+      this.elementRef.nativeElement.ownerDocument.body.style.backgroundAttachment =
+        'fixed';
     } catch (e) {
       if (e instanceof Error /* CustomError */) {
         console.log(e.message);
