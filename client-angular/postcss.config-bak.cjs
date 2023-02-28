@@ -2,6 +2,7 @@ const postcssImport = require('postcss-import');
 const tailwindNesting = require('tailwindcss/nesting');
 const tailwind = require('tailwindcss');
 const postcssAdvancedVariables = require('postcss-advanced-variables');
+const postcssApply = require('postcss-apply');
 const postcssNested = require('postcss-nested');
 const postcssNestedAncestors = require('postcss-nested-ancestors');
 const autoprefixer = require('autoprefixer');
@@ -27,6 +28,7 @@ module.exports = (cfg) => {
       tailwind(),
       // require("postcss-advanced-variables")({ variables }),
       postcssAdvancedVariables(),
+      postcssApply(),
       // require('postcss-assets')({
       //   loadPaths: ['src/assets/'],
       // }), // https://github.com/borodean/postcss-assets

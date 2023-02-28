@@ -1,15 +1,21 @@
 {
-  "private": true,
   "homepage": "https://github.com/david-rachwalik/david-rachwalik.github.io",
+  "private": true,
   "scripts": {
     "ng": "ng",
-    "start-bak": "ng serve --hmr --open",
     "start": "ng serve --open",
-    "build": "ng build",
+    "start:hmr": "ng serve --hmr --open",
+    "build": "ng build --configuration production",
+    "build:dev": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "predeploy": "npm run build",
     "deploy": "ng deploy"
+  },
+  "engines": {
+    "node": "^14.15.0 || >=16.10.0",
+    "npm": "^6.11.0 || ^7.5.6 || >=8.0.0",
+    "yarn": ">= 1.13.0"
   },
   "dependencies": {
     "@angular/animations": "^15.1.2",
