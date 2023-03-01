@@ -4,7 +4,11 @@
 
 <div class="main-container">
     <br />
-    <router-outlet></router-outlet>
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center">
+        <div fxFlex.gt-sm="80%" fxFlex.gt-xs="95%" fxFlex>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
     <br /><br /><br />
 </div>
 
