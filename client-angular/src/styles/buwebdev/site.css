@@ -13,6 +13,10 @@
 
 /* -------- Layout Styles -------- */
 
+.mat-typography .mat-mdc-card {
+  @apply tw-bg-white;
+}
+
 app-base-layout .main-container,
 app-buwebdev-layout .main-container {
   max-width: 900px;
@@ -45,13 +49,14 @@ app-buwebdev-layout h1,
 app-buwebdev-layout h2,
 app-buwebdev-layout h3,
 app-buwebdev-layout h4 {
-  background-color: var(--heading-background-color);
   color: var(--heading-color);
+  background-color: var(--heading-background-color);
   border: 1px solid var(--heading-border-color);
   padding: 10px;
 }
 
-app-base-layout h1 {
+app-base-layout h1,
+app-buwebdev-layout h1 {
   background-color: var(--h1-background-color);
   border: 1px solid var(--h1-border-color);
 }
