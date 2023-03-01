@@ -8,7 +8,7 @@ import {
 @Component({
   selector: 'app-portfolio-layout',
   templateUrl: './portfolio-layout.component.html',
-  styleUrls: ['./portfolio-layout.component.scss'],
+  styleUrls: ['./portfolio-layout.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
 // export class PortfolioLayoutComponent implements OnInit {

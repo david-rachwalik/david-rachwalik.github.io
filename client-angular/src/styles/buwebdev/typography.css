@@ -1,0 +1,69 @@
+/* -------- Typography -------- */
+
+/* (fonts/typefaces, size, style, position/spacing, color) */
+/*
+  --- Fonts / Typefaces ---
+  - font-family
+  
+  --- Size ---
+  - font-size
+  - line-height
+
+  --- Style ---
+  - font-weight
+  - font-style
+  - text-decoration
+
+  --- Position / Spacing ---
+  - text-align
+
+  --- Color ---
+  - color
+  - background (rare, for rich text)
+*/
+
+/* https://ansrsource.com/elements-of-typography */
+/* https://careerfoundry.com/en/blog/ui-design/beginners-guide-to-typography */
+
+body.mat-typography app-base-layout *:not(mat-icon),
+body.mat-typography app-buwebdev-layout *:not(mat-icon) {
+  font-family: 'Oswald', Verdana, Arial, sans-serif;
+}
+
+body.mat-typography app-base-layout a,
+body.mat-typography app-buwebdev-layout a {
+  font-size: 1rem;
+  text-decoration: none;
+  color: var(--anchor-color);
+}
+body.mat-typography app-base-layout a:hover,
+body.mat-typography app-buwebdev-layout a:hover {
+  text-decoration: underline;
+  background-color: var(--anchor-hoverbackground-color);
+  color: var(--anchor-hover-color);
+}
+/* body.mat-typography app-base-layout a:visited,
+body.mat-typography app-buwebdev-layout a:visited {
+  color: var(--anchor-visited-color);
+} */
+
+body.mat-typography app-base-layout h1,
+body.mat-typography app-base-layout h3,
+body.mat-typography app-buwebdev-layout h1,
+body.mat-typography app-buwebdev-layout h3 {
+  font-family: 'Oswald', Verdana, Arial, sans-serif;
+  font-weight: bold;
+}
+
+body.mat-typography app-base-layout h1,
+body.mat-typography app-buwebdev-layout h1 {
+  font-size: 32px;
+  line-height: 48px;
+}
+
+body.mat-typography app-base-layout h3,
+body.mat-typography app-buwebdev-layout h3 {
+  margin-top: 16px;
+  font-size: 18.72px;
+  /* line-height: 48px; */
+}

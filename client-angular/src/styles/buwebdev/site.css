@@ -1,0 +1,335 @@
+/* -------- Theme Styles -------- */
+
+/*
+  Applying the theme styles
+*/
+
+[data-theme='light-theme'],
+[data-theme='dark-theme'] {
+  margin: 0;
+  color: var(--text-color);
+  background: var(--background-color);
+}
+
+/* -------- Layout Styles -------- */
+
+app-base-layout .main-container,
+app-buwebdev-layout .main-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+app-base-layout .main-container h1,
+app-buwebdev-layout .main-container h1 {
+  margin-top: 0.2em;
+}
+
+app-base-layout .main-container .icon-container,
+app-buwebdev-layout .main-container .icon-container {
+  overflow: hidden; /* required to contain float */
+  padding-top: 1em;
+}
+
+@media only screen and (max-width: 1100px) {
+  app-base-layout .main-container,
+  app-buwebdev-layout .main-container {
+    margin: 0 100px;
+  }
+}
+
+app-base-layout h1,
+app-base-layout h2,
+app-base-layout h3,
+app-base-layout h4,
+app-buwebdev-layout h1,
+app-buwebdev-layout h2,
+app-buwebdev-layout h3,
+app-buwebdev-layout h4 {
+  background-color: var(--heading-background-color);
+  color: var(--heading-color);
+  border: 1px solid var(--heading-border-color);
+  padding: 10px;
+}
+
+app-base-layout h1 {
+  background-color: var(--h1-background-color);
+  border: 1px solid var(--h1-border-color);
+}
+
+app-base-layout .btn-primary,
+app-buwebdev-layout .btn-primary {
+  background-color: var(--btn-background-color);
+  color: var(--btn-color);
+}
+
+app-base-layout .btn-primary:hover,
+app-buwebdev-layout .btn-primary:hover {
+  background-color: var(--btn-hover-background-color);
+  color: var(--btn-hover-color);
+}
+
+app-base-layout input,
+app-base-layout .drop-down-menu,
+app-buwebdev-layout input,
+app-buwebdev-layout .drop-down-menu {
+  border-color: var(--input-border-color);
+}
+
+app-base-layout .drop-down-menu,
+app-buwebdev-layout .drop-down-menu {
+  border-radius: 5px;
+  border: 2px solid var(--input-border-color);
+  padding: 5px;
+}
+
+/* added in week-4 */
+
+app-base-layout .table,
+app-buwebdev-layout .table {
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+app-base-layout .table th,
+app-buwebdev-layout .table th {
+  background-color: var(--table-header-background-color);
+  color: var(--table-header-color);
+}
+
+app-base-layout .table th,
+app-base-layout .table td,
+app-buwebdev-layout .table th,
+app-buwebdev-layout .table td {
+  border: 1px solid var(--table-border-color);
+  padding: 5px;
+}
+
+app-base-layout .table tr:hover,
+app-buwebdev-layout .table tr:hover {
+  background-color: var(--table-hover-background-color);
+  color: var(--tablehover-color);
+  cursor: pointer;
+}
+
+/* -------- Styles via Web 330 HTML, CSS, and JavaScript Requirements document -------- */
+
+app-base-layout .assign-container,
+app-buwebdev-layout .assign-container {
+  padding: 10px;
+}
+
+app-base-layout .assign-content,
+app-buwebdev-layout .assign-content {
+  width: 600px;
+  margin: 3% auto 0;
+}
+
+app-base-layout .assign-results-text,
+app-buwebdev-layout .assign-results-text {
+  text-align: center;
+  font-size: 28px;
+}
+
+app-base-layout .return-home,
+app-buwebdev-layout .return-home {
+  color: var(--anchor-color);
+  text-decoration: none;
+}
+app-base-layout .return-home:hover,
+app-buwebdev-layout .return-home:hover {
+  background-color: var(--anchor-hover-background-color);
+  color: var(--anchor-hover-color);
+}
+
+app-base-layout .form,
+app-buwebdev-layout .form {
+  display: inline-grid;
+  grid-template-columns: auto;
+}
+
+app-base-layout .form-field,
+app-buwebdev-layout .form-field {
+  padding: 20px;
+}
+
+app-base-layout .full-width,
+app-buwebdev-layout .full-width {
+  width: 100%;
+}
+
+/* -------- Styles via Assign_1 instructions -------- */
+
+app-base-layout .main-container,
+app-buwebdev-layout .main-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+app-base-layout .main-container h1,
+app-buwebdev-layout .main-container h1 {
+  margin-top: 0.2em;
+}
+
+app-base-layout .main-container .icon-container,
+app-buwebdev-layout .main-container .icon-container {
+  overflow: hidden; /* required to contain float */
+  padding-top: 1em;
+}
+
+@media only screen and (max-width: 1100px) {
+  app-base-layout .main-container,
+  app-buwebdev-layout .main-container {
+    margin: 0 100px;
+  }
+}
+
+app-base-layout #icon-mode:hover,
+app-buwebdev-layout #icon-mode:hover {
+  cursor: pointer;
+}
+
+app-base-layout #icon-text,
+app-buwebdev-layout #icon-text {
+  padding-left: 10px;
+}
+
+app-base-layout .pull-right,
+app-buwebdev-layout .pull-right {
+  float: right;
+}
+
+/* -------- Card Styles -------- */
+
+app-base-layout .card,
+app-buwebdev-layout .card {
+  padding: 5px 30px;
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  margin: 20px auto;
+  background-color: var(--card-background-color);
+}
+
+app-base-layout .card input[type='button'],
+app-buwebdev-layout .card input[type='button'] {
+  padding: 8px 90px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+app-base-layout .card input[type='text'],
+app-buwebdev-layout .card input[type='text'] {
+  border-radius: 5px;
+  border: 2px solid #cdd9ed;
+  padding: 5px;
+  margin: 15px;
+}
+
+/* -------- Styles for Assign_4 -------- */
+
+/* Content respects width, not pushed beyond by padding */
+app-base-layout html,
+app-buwebdev-layout html {
+  box-sizing: border-box;
+}
+app-base-layout *,
+app-base-layout *:before,
+app-base-layout *:after,
+app-buwebdev-layout *,
+app-buwebdev-layout *:before,
+app-buwebdev-layout *:after {
+  box-sizing: inherit;
+}
+
+/* https://www.w3schools.com/css/css3_flexbox_container.asp */
+app-base-layout .flex-container,
+app-buwebdev-layout .flex-container {
+  display: flex;
+  flex-direction: row;
+}
+app-base-layout .flex-container label,
+app-buwebdev-layout .flex-container label {
+  white-space: nowrap;
+  padding: 5px 0;
+  margin-right: 5px;
+}
+
+app-base-layout .card form,
+app-buwebdev-layout .card form {
+  width: 55%;
+}
+
+app-base-layout .btn-primary,
+app-base-layout .card input,
+app-base-layout .card select,
+app-buwebdev-layout .btn-primary,
+app-buwebdev-layout .card input,
+app-buwebdev-layout .card select {
+  width: 100%;
+  margin: 0;
+}
+
+/* -------- Styles for Assign_7 -------- */
+
+app-base-layout .book-details,
+app-buwebdev-layout .book-details {
+  list-style-type: none;
+}
+
+/* -------- Integrating Old Baseline Styles -------- */
+
+.mat-typography app-base-layout .icon-sun,
+.mat-typography app-base-layout .icon-moon,
+.mat-typography app-buwebdev-layout .icon-sun,
+.mat-typography app-buwebdev-layout .icon-moon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+.mat-typography app-base-layout .icon-sun,
+.mat-typography app-buwebdev-layout .icon-sun {
+  /* color: gold; */
+  color: #fbac13;
+}
+.mat-typography app-base-layout .icon-moon,
+.mat-typography app-buwebdev-layout .icon-moon {
+  /* color: cyan; */
+  /* color: #f4f1c9; */
+  color: #3686a0;
+}
+
+/* --- TODO: --- */
+/* .mat-typography app-base-layout .icon-sun .mat-icon,
+.mat-typography app-buwebdev-layout .icon-sun .mat-icon {
+  // height: 12px;
+  // width: 12px;
+  transform: scale(0.8);
+} */
+/* .mat-typography app-base-layout .icon-sun .icon-sm,
+.mat-typography app-buwebdev-layout .icon-sun .icon-sm {
+  transform: scale(0.6);
+} */
+
+.mat-typography app-base-layout .mat-mdc-slide-toggle,
+.mat-typography app-buwebdev-layout .mat-mdc-slide-toggle {
+  transform: scale(0.6);
+  /* height: 90px; */
+}
+
+/* .mat-typography app-base-layout .mat-slide-toggle-bar,
+.mat-typography app-buwebdev-layout .mat-slide-toggle-bar {
+  height: 8px;
+  width: 26px;
+} */
+
+/* .mat-typography app-base-layout .mat-slide-toggle-thumb,
+.mat-typography app-buwebdev-layout .mat-slide-toggle-thumb {
+  height: 14px;
+  width: 14px;
+} */
+
+/* .mat-typography app-base-layout .mat-slide-toggle-ripple,
+.mat-typography app-buwebdev-layout .mat-slide-toggle-ripple {
+  height: 24px;
+  width: 24px;
+} */
