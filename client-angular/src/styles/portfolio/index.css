@@ -43,8 +43,12 @@ app-portfolio-layout app-db-diagrams .mat-mdc-tab-body img.ng-star-inserted {
 
 /* --------------------------------------------------- */
 
+/* --- Material Tab Styles --- */
+
 app-portfolio-layout .mat-mdc-tab-header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.12); */
+  @apply tw-border-b tw-border-solid;
+  @apply tw-border-b-neutral-200;
 }
 
 app-portfolio-layout .mat-mdc-tab-labels {
@@ -52,13 +56,14 @@ app-portfolio-layout .mat-mdc-tab-labels {
 }
 
 app-portfolio-layout .mat-mdc-tab.mdc-tab {
-  /* @apply tw-h-10; */
-  @apply tw-h-8 tw-mt-2;
+  @apply tw-h-9; /* to match 36px line-height */
+  @apply tw-tracking-normal;
+  @apply tw-mt-2;
 }
 
 app-portfolio-layout
   .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs
   > .mat-mdc-tab-header
   .mat-mdc-tab {
-  flex-grow: initial;
+  flex-grow: initial; /* left-justified tabs */
 }

@@ -13,10 +13,6 @@
 
 /* -------- Layout Styles -------- */
 
-.mat-typography .mat-mdc-card {
-  @apply tw-bg-white;
-}
-
 app-base-layout .main-container,
 app-buwebdev-layout .main-container {
   max-width: 900px;

@@ -1,38 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* TailwindCSS works in Angular out of box, just install package and provide configuration */
-/* https://blog.angular.io/the-new-state-of-css-in-angular-bec011715ee6 */
-/* Angular automatically uses PostCSS, but it ignores the configuration */
-/* - this can be circumvented if willing to override the webpack config */
-
-/* https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/defaultConfig.stub.js */
-@import 'tailwindcss/base'; /* @tailwind base; */
-@import 'tailwindcss/components'; /* @tailwind components; */
-@import 'tailwindcss/utilities'; /* @tailwind utilities; */
+/* do not import 'base' here - these should come after all style themes */
 
 @import 'flex-layout';
 
-/* --- Default Styles for TailwindCSS --- */
-
-/* https://tailwindcss.com/docs/preflight */
-/* https://unpkg.com/tailwindcss@3.2.4/src/css/preflight.css */
-/* https://tailwindcss.com/docs/typography-plugin */
-
-/* https://tailwindcss.com/docs/adding-custom-styles#adding-base-styles */
-@layer base {
-  /* https://tailwindcss.com/docs/preflight#lists-are-unstyled */
-  ul,
-  ol {
-    /* @apply tw-list-disc tw-list-inside tw-pl-5; */
-    @apply tw-list-disc tw-pl-10;
-  }
-  ul ul {
-    @apply tw-list-circle;
-  }
-}
-
-/* --- test styles for TailwindCSS --- */
-.tw-blue-btn {
+/* --- test style to verify TailwindCSS install --- */
+button.tw-purple-btn {
   @apply tw-py-2 tw-px-3 tw-m-2 tw-rounded-md;
-  @apply tw-bg-blue-500 hover:tw-bg-blue-700 tw-text-white;
+  @apply tw-bg-purple-500 hover:tw-bg-purple-700 tw-text-white;
 }

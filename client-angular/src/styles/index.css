@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'tailwind';
+@import 'tailwind/base'; /* my global styles */
+/* https://material.angular.io/guide/theming */
+@import '@angular/material/prebuilt-themes/indigo-pink';
+
 @import 'ng-fixes';
 
+@import 'tailwind';
 @import 'buwebdev';
