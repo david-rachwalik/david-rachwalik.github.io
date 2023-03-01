@@ -5,10 +5,10 @@
     </mat-card-subtitle>
 
     <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid">
-        <p class="annotation">
+        <span class="annotation">
             * These example sites are running on inexpensive plans.&nbsp;
             Some may take a few minutes to "warm up" if they haven't been visited in a while.
-        </p>
+        </span>
         <portfolio-inner-card *ngFor="let card of projectCards" [fxFlex]="card.flex" [path]="card.path" [header]="card.header" [content]="card.content">
         </portfolio-inner-card>
     </mat-card-content>
