@@ -1,0 +1,131 @@
+body.mat-typography app-biosite-layout * {
+  font-size: 1rem;
+  line-height: 1.5em;
+}
+
+body.mat-typography app-biosite-layout *:not(footer) a {
+  color: var(--anchor-color);
+  text-decoration: none;
+}
+body.mat-typography app-biosite-layout *:not(footer) a:hover {
+  background-color: var(--anchor-hover-background-color);
+  color: var(--anchor-hover-color);
+}
+
+body.mat-typography app-biosite-layout .main-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+body.mat-typography app-biosite-layout header {
+  /* background-color: #3c275a; */
+  background-color: #205072;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  /* border-bottom: 3px solid #56C596; */
+  border-bottom: 3px solid #329d9c;
+}
+
+body.mat-typography app-biosite-layout p {
+  font-family: 'Quattrocento', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+body.mat-typography app-biosite-layout h1,
+body.mat-typography app-biosite-layout h2 {
+  font-family: 'Oswald', Verdana, Arial, sans-serif;
+}
+
+body.mat-typography app-biosite-layout h1 {
+  font-weight: 700;
+  text-transform: uppercase;
+  word-spacing: 0.5em;
+  margin: 0;
+  text-align: center;
+  font-size: 3.052em;
+}
+
+body.mat-typography app-biosite-layout h2 {
+  font-weight: 500;
+  font-size: 2.441em;
+  word-spacing: 0.2em;
+  text-align: left;
+  margin: 0;
+  @apply tw-mb-4;
+}
+
+body.mat-typography app-biosite-layout address {
+  font-family: 'Quattrocento', Georgia, 'Times New Roman', serif;
+  text-align: center;
+}
+
+body.mat-typography app-biosite-layout address a {
+  font-size: 1.25em;
+  font-weight: bold;
+  text-decoration: none;
+  color: #4f3674;
+}
+
+body.mat-typography app-biosite-layout address a:hover {
+  text-decoration: underline;
+  background-color: #d6a800;
+}
+
+body.mat-typography app-biosite-layout address a:visited {
+  color: #3b2957;
+}
+
+body.mat-typography app-biosite-layout .sentence {
+  font-style: italic;
+}
+
+body.mat-typography app-biosite-layout .intro {
+  text-indent: 2em;
+  margin-top: 0.5rem;
+}
+
+body.mat-typography app-biosite-layout figcaption {
+  font-size: 1.2em;
+  @apply tw-my-2;
+}
+
+/* -------- Footer Styles -------- */
+
+body.mat-typography app-biosite-layout footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #205072;
+  text-align: center;
+  border-top: 2px solid #56c596;
+  padding: 8px 0;
+}
+
+body.mat-typography app-biosite-layout footer,
+body.mat-typography app-biosite-layout footer p {
+  color: #fff;
+}
+
+body.mat-typography app-biosite-layout footer a {
+  text-decoration: none;
+  color: #fff;
+}
+body.mat-typography app-biosite-layout footer a:hover {
+  text-decoration: underline;
+}
+
+/* -------- Picture Styles -------- */
+body.mat-typography app-biosite-layout img.biosite-img {
+  border: 1px solid black;
+}
+
+body.mat-typography app-biosite-layout .portrait {
+  width: 300px;
+  height: 533px;
+  border: 1px solid black;
+  float: left;
+  margin-right: 20px;
+  /* margin-bottom: 10px; */
+}
