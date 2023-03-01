@@ -8,3 +8,8 @@
 
 @import 'tailwind';
 @import 'buwebdev';
+
+/* Lazy-Loaded Components */
+/* imported here (instead of layouts) for accurate style sources in browser debugger */
+@import 'buwebdev/bioSite';
+@import 'portfolio';
