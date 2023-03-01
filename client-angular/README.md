@@ -18,12 +18,6 @@ Generate a new Angular application ([tutorial](https://angular.io/tutorial/toh-p
 ng new <app-name>
 ```
 
-Install [Angular Flex-Layout](https://github.com/angular/flex-layout) ([wiki](https://github.com/angular/flex-layout/wiki), [API](https://github.com/angular/flex-layout/wiki/API-Documentation))
-
-```bash
-npm i @angular/cdk @angular/flex-layout
-```
-
 <!-- Install [PostCSS](https://postcss.org) ([plugins](https://www.postcss.parts))
 
 ```bash
@@ -37,10 +31,23 @@ npm i -D tailwindcss
 npx tailwindcss init
 ```
 
+<!-- Install lodash
+
+```bash
+npm i lodash
+npm i @types/lodash
+``` -->
+
 Install [Angular Material](https://material.angular.io) ("custom" theme, 'y' typography, 'y' animations) ([background](https://material.angular.io/guide/theming#application-background-color))
 
 ```bash
 ng add @angular/material
+```
+
+Install [Angular Flex-Layout](https://github.com/angular/flex-layout) ([wiki](https://github.com/angular/flex-layout/wiki), [API](https://github.com/angular/flex-layout/wiki/API-Documentation))
+
+```bash
+npm i @angular/cdk @angular/flex-layout
 ```
 
 Install [NGRX](https://ngrx.io) [Store](https://ngrx.io/guide/store) for state management
@@ -52,13 +59,6 @@ ng add @ngrx/effects --skip-confirmation
 ng add @ngrx/entity --skip-confirmation
 ng add @ngrx/data --skip-confirmation
 ```
-
-<!-- Install lodash
-
-```bash
-npm i lodash
-npm i @types/lodash
-``` -->
 
 ---
 
@@ -72,6 +72,12 @@ ng add angular-cli-ghpages
 
 #### Blog Options
 
+<!-- Install [Scully](https://scully.io) ([repo](https://github.com/scullyio/scully), [example](https://solocoding.dev))
+
+```bash
+ng add @scullyio/init
+``` -->
+
 Install [NGX-Markdown](https://github.com/jfcere/ngx-markdown) for Angular markdown components with scripts/styles
 
 - other refs: [makeuseof guide](https://www.makeuseof.com/angular-markdown-files-website), [blog guide](https://daviddalbusco.medium.com/add-a-blog-to-your-angular-website-using-markdown-files-31cdb0627bdd), [clean blog theme](https://startbootstrap.com/theme/clean-blog)
@@ -80,12 +86,6 @@ Install [NGX-Markdown](https://github.com/jfcere/ngx-markdown) for Angular markd
 npm i ngx-markdown marked prismjs
 npm i -D @types/marked
 ```
-
-<!-- Install [Scully](https://scully.io) ([repo](https://github.com/scullyio/scully), [example](https://solocoding.dev))
-
-```bash
-ng add @scullyio/init
-``` -->
 
 ---
 
