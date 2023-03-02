@@ -25,7 +25,7 @@
 /* https://ansrsource.com/elements-of-typography */
 /* https://careerfoundry.com/en/blog/ui-design/beginners-guide-to-typography */
 
-/* --- Targeting .mat-typography activates more overrides without requiring !important --- */
+/* --- Targeting .mat-typography overrides more without needing !important --- */
 
 body.mat-typography app-portfolio-layout *:not(mat-icon) {
   font-family: 'Oswald', Verdana, Arial, sans-serif;
@@ -37,7 +37,7 @@ body.mat-typography app-portfolio-layout a {
 }
 body.mat-typography app-portfolio-layout a:hover {
   text-decoration: underline;
-  background-color: var(--anchor-hoverbackground-color);
+  /* background-color: var(--anchor-hover-background-color); */
   color: var(--anchor-hover-color);
 }
 body.mat-typography app-portfolio-layout a.resume-download:hover {

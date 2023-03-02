@@ -39,7 +39,7 @@ body.mat-typography app-buwebdev-layout a {
 body.mat-typography app-base-layout a:hover,
 body.mat-typography app-buwebdev-layout a:hover {
   text-decoration: underline;
-  background-color: var(--anchor-hoverbackground-color);
+  /* background-color: var(--anchor-hover-background-color); */
   color: var(--anchor-hover-color);
 }
 /* body.mat-typography app-base-layout a:visited,
