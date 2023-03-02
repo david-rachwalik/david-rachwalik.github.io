@@ -12,35 +12,48 @@
   background-image: linear-gradient(to bottom right, #ccffff, white) !important;
 } */
 
-app-portfolio-layout .main-container {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-/* app-portfolio-layout .main-container h1 {
-  margin-top: 0.2em;
-} */
-
 app-portfolio-layout .main-container .icon-container {
   overflow: hidden; /* required to contain float */
   padding-top: 1em;
 }
 
-@media only screen and (max-width: 1100px) {
+/* -------- Two-Point Flex Container Styles -------- */
+
+app-portfolio-layout .main-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+/* 600px-760px width - the side margins grow 0px-80px */
+@media only screen and (min-width: 600px) {
   app-portfolio-layout .main-container {
-    margin: 0 100px;
+    margin: 0 calc((100vw - 600px) / 2);
   }
 }
+/* 760px-1060px width - the side margins remain at 80px as element grows 600px-900px */
+@media only screen and (min-width: 760px) {
+  app-portfolio-layout .main-container {
+    @apply tw-mx-20;
+  }
+}
+/* >1060px width - the side margins return to auto */
+@media only screen and (min-width: 1060px) {
+  app-portfolio-layout .main-container {
+    @apply tw-mx-auto;
+  }
+}
+/* Above is alternative to something like `<div fxFlex.gt-xs="calc(100% - 200px)" fxFlex>` */
+/* flex: 1 1 calc(100% - 200px); box-sizing: border-box; min-width: calc(100% - 200px); */
 
 /* -------- Card Styles -------- */
 
 app-portfolio-layout .mat-mdc-card-title {
-  margin: 0 0 5px;
+  @apply tw-pt-4;
 }
-
-app-portfolio-layout app-projects .card-title,
-app-portfolio-layout app-devops .card-title {
-  margin: 0 0 16px;
+app-portfolio-layout .mat-mdc-card-title {
+  @apply tw-pb-2;
+}
+app-portfolio-layout app-resume .mat-mdc-card-title {
+  padding-bottom: 0;
 }
 
 app-portfolio-layout .mat-mdc-card-subtitle {
@@ -50,25 +63,6 @@ app-portfolio-layout .mat-mdc-card-subtitle {
 app-portfolio-layout .mat-mdc-card-content {
   font-size: 1rem;
   line-height: 1.5rem;
-}
-
-/* 14px font */
-/* app-portfolio-layout .mat-mdc-card-content p {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-style: italic;
-  color: rgb(107 114 128);
-} */
-
-app-portfolio-layout .app-header {
-  padding: 0;
-  margin: 0 0 16px;
-}
-
-app-portfolio-layout main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 /* -------- Site Navigation Panel -------- */
