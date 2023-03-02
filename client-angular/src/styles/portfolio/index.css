@@ -12,10 +12,6 @@ body.mat-typography p {
   color: rgb(107 114 128);
 } */
 
-app-portfolio-layout .mat-mdc-card-title {
-  @apply tw-pt-3;
-}
-
 /* 14px, italic, dark grey */
 app-portfolio-layout .mat-mdc-card-content .annotation {
   @apply tw-text-sm tw-italic tw-text-gray-500;
@@ -58,7 +54,6 @@ app-portfolio-layout .mat-mdc-tab-labels {
 app-portfolio-layout .mat-mdc-tab.mdc-tab {
   @apply tw-h-9; /* to match 36px line-height */
   @apply tw-tracking-normal;
-  @apply tw-mt-2;
 }
 
 app-portfolio-layout
