@@ -1,0 +1,160 @@
+<!--
+    Title: rachwalik-in-n-out-books.html
+    Author: David Rachwalik
+    Date: 2021/11/27
+    Description: Exercise 6.2 for Bellevue University course WEB-231
+-->
+
+<h1 id="app-header">Welcome to In-N-Out-Books</h1>
+
+<!-- <div class="card">
+    <div class="card-title">My Favorites</div>
+    <form>
+        <label for="favoriteList">Choose a listing:</label>
+        <select id="favoriteList" class="drop-down-menu">
+            <option value="select">--Select--</option>
+            <option value="books">Top 3 Favorite Books</option>
+            <option value="authors">Top 3 Favorite Authors</option>
+        </select>
+        <br /><br />
+        <input id="btnDisplayListing" type="button" value="Display Listing">
+    </form>
+</div> -->
+
+<!-- <div id="favorite-books" class="card">
+    <div class="card-title">Top 3 Favorite Books</div>
+    <table>
+        <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Pages</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="txtLordOfTheRingsISBN"></td>
+                <td id="txtLordOfTheRingsTitle"></td>
+                <td id="txtLordOfTheRingsPages"></td>
+            </tr>
+            <tr>
+                <td id="txtIllustratedManISBN"></td>
+                <td id="txtIllustratedManTitle"></td>
+                <td id="txtIllustratedManPages"></td>
+            </tr>
+            <tr>
+                <td id="txtMartianISBN"></td>
+                <td id="txtMartianTitle"></td>
+                <td id="txtMartianPages"></td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->
+
+<!-- <div id="favorite-authors" class="card">
+    <div class="card-title">Top 3 Favorite Authors</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="txtJrrTolkienName"></td>
+                <td id="txtJrrTolkienGenre"></td>
+            </tr>
+            <tr>
+                <td id="txtRumikoTakahashiName"></td>
+                <td id="txtRumikoTakahashiGenre"></td>
+            </tr>
+            <tr>
+                <td id="txtHajimeIsayamaName"></td>
+                <td id="txtHajimeIsayamaGenre"></td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">My Favorites</mat-card-title>
+    <mat-card-content class="card-content">
+        <form>
+            <label for="favoriteList">Choose a listing: </label>
+            <!-- <input type="text" id="txtMyNumber"></input> -->
+            <select id="favoriteList" class="drop-down-menu">
+                <option value="select">--Select--</option>
+                <option value="books">Top 3 Favorite Books</option>
+                <option value="authors">Top 3 Favorite Authors</option>
+            </select>
+            <br /><br />
+            <button id="btnDisplayListing" (click)="favTable()" mat-raised-button color="accent">Display Listing</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<mat-card id="favorite-books" appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Top 3 Favorite Books</mat-card-title>
+    <mat-card-content class="card-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>ISBN</th>
+                    <th>Title</th>
+                    <th>Pages</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="txtLordOfTheRingsISBN"></td>
+                    <td id="txtLordOfTheRingsTitle"></td>
+                    <td id="txtLordOfTheRingsPages"></td>
+                </tr>
+                <tr>
+                    <td id="txtIllustratedManISBN"></td>
+                    <td id="txtIllustratedManTitle"></td>
+                    <td id="txtIllustratedManPages"></td>
+                </tr>
+                <tr>
+                    <td id="txtMartianISBN"></td>
+                    <td id="txtMartianTitle"></td>
+                    <td id="txtMartianPages"></td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+</mat-card>
+<!-- <br /> -->
+
+<mat-card id="favorite-authors" appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Top 3 Favorite Authors</mat-card-title>
+    <mat-card-content class="card-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Genre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="txtJrrTolkienName"></td>
+                    <td id="txtJrrTolkienGenre"></td>
+                </tr>
+                <tr>
+                    <td id="txtRumikoTakahashiName"></td>
+                    <td id="txtRumikoTakahashiGenre"></td>
+                </tr>
+                <tr>
+                    <td id="txtHajimeIsayamaName"></td>
+                    <td id="txtHajimeIsayamaGenre"></td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<a routerLink="/buwebdev/web-231" class="return-home">Return</a>

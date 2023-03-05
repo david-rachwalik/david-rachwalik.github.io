@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+html,
+body {
+  font-family: 'Oswald', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  margin: 0;
+}
+
+#container {
+  margin: 50px 100px 0;
+}
+
+.return-home {
+  color: #4f3674;
+  text-decoration: none;
+}
+.return-home:hover {
+  background-color: #d6a800;
+  color: #4f3674;
+}
+.return-home:visited {
+  color: #3c275a;
+}
+
+#app-header {
+  text-align: center;
+  font-weight: 400;
+}
+
+.card {
+  padding: 0 30px;
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  margin: 40px auto;
+}
+
+.card-title {
+  width: 100%;
+  color: #4f3674;
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 5px;
+}
+
+#txtFahrenheit {
+  border-radius: 5px;
+  border: 2px solid #cdd9ed;
+  padding: 5px;
+  margin: 15px;
+}
+#id {
+  background-color: #3c275a;
+  padding: 12px 90px;
+  color: white;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+#txtResult {
+  width: 100%;
+  text-align: center;
+  font-size: 1.75rem;
+  padding-bottom: 5px;
+}

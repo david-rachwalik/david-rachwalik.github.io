@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.employeeRecord {
+  border: 1px dotted red;
+}

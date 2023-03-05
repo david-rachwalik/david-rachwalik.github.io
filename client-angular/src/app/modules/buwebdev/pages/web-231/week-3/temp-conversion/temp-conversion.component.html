@@ -1,0 +1,46 @@
+<!--
+    Title: temp-conversion.html
+    Author: David Rachwalik
+    Date: 2021/11/06
+    Description: Exercise 3.2 for Bellevue University course WEB-231
+-->
+
+<h1 id="app-header">Welcome to the Temperature Conversion App!</h1>
+
+<!-- <div class="card">
+    <div class="card-title">Fahrenheit to Celsius Converter</div>
+    <form>
+        <label for="txtFahrenheit">Fahrenheit value:</label>
+        <input type="text" id="txtFahrenheit" />
+        <br /><br />
+        <input id="id" type="button" value="Convert Temperature">
+    </form>
+</div> -->
+
+<!-- <div class="card">
+    <div class="card-title">Conversion Results</div>
+    <div id="txtResult">0.00</div>
+</div> -->
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Fahrenheit to Celsius Converter</mat-card-title>
+    <mat-card-content class="card-content">
+        <form>
+            <label for="txtFahrenheit">Fahrenheit value:</label>
+            <input type="text" id="txtFahrenheit" />
+            <br /><br />
+            <button id="id" (click)="calcTemp()" mat-raised-button color="accent">Convert Temperature</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Conversion Results</mat-card-title>
+    <mat-card-content class="card-content">
+        <div id="txtResult">0.00</div>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<a routerLink="/buwebdev/web-231" class="return-home">Return</a>

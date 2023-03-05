@@ -1,0 +1,45 @@
+<!--
+    Title: rachwalik-card-game.html
+    Author: David Rachwalik
+    Date: 2021/12/17
+    Description: Exercise 9.2 for Bellevue University course WEB-231
+-->
+
+<h1 id="app-header">Welcome to the Card Game!</h1>
+
+<!-- <div class="card-dealer">
+    <div class="card-header">Card Dealer</div>
+    <form class="form-center">
+        <input id="btnDealCards" type="button" value="Deal Cards">
+    </form>
+</div> -->
+
+<!-- <div class="card">
+    <div class="card-header">Shuffled Cards</div>
+    <div id="player-card-container"></div>
+</div> -->
+
+<mat-card appearance="raised" class="card-dealer mat-elevation-z3">
+    <mat-card-title class="card-title card-header">Card Dealer</mat-card-title>
+    <mat-card-content class="card-content">
+        <p class="annotation">
+            This page mimicks a dealer shuffling a basic stack of 52 cards.&nbsp;
+            Each time they "Deal Cards" should result in another randomly shuffled deck
+            to be presented.
+        </p>
+        <form class="form-center">
+            <button id="btnDealCards" (click)="shuffleAndDealCards()" mat-raised-button color="accent">Deal Cards</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<!-- <br /> -->
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title card-header">Shuffled Cards</mat-card-title>
+    <mat-card-content class="card-content">
+        <div id="player-card-container"></div>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<a routerLink="/buwebdev/web-231" class="return-home">Return</a>

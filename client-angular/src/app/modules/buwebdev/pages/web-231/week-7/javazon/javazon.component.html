@@ -1,0 +1,316 @@
+<!--
+    Title: rachwalik-javazon.html
+    Author: David Rachwalik
+    Date: 2021/12/05
+    Description: Exercise 7.2 for Bellevue University course WEB-231
+-->
+
+<h1 id="app-header">Welcome to the Javazon App!</h1>
+
+<!-- <div class="card">
+    <div class="card-title">Javazon Selection Form</div>
+    <form>
+        <label for="listing">Choose a listing:</label>
+        <select id="listing" class="drop-down-menu">
+            <option value="select">--Select--</option>
+            <option value="products">Products</option>
+            <option value="services">Services</option>
+            <option value="employees">Employees</option>
+        </select>
+        <br /><br />
+        <input id="btnDisplayListing" type="button" value="Display Listing">
+    </form>
+</div> -->
+
+<!-- <div id="products" class="card">
+    <div class="card-title">Javazon Products</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="txtProduct1Id"></td>
+                <td id="txtProduct1Description"></td>
+                <td id="txtProduct1Price"></td>
+                <td id="txtProduct1Quantity"></td>
+                <td id="txtProduct1TotalValue"></td>
+            </tr>
+            <tr>
+                <td id="txtProduct2Id"></td>
+                <td id="txtProduct2Description"></td>
+                <td id="txtProduct2Price"></td>
+                <td id="txtProduct2Quantity"></td>
+                <td id="txtProduct2TotalValue"></td>
+            </tr>
+            <tr>
+                <td id="txtProduct3Id"></td>
+                <td id="txtProduct3Description"></td>
+                <td id="txtProduct3Price"></td>
+                <td id="txtProduct3Quantity"></td>
+                <td id="txtProduct3TotalValue"></td>
+            </tr>
+            <tr>
+                <td id="txtProduct4Id"></td>
+                <td id="txtProduct4Description"></td>
+                <td id="txtProduct4Price"></td>
+                <td id="txtProduct4Quantity"></td>
+                <td id="txtProduct4TotalValue"></td>
+            </tr>
+            <tr>
+                <td id="txtProduct5Id"></td>
+                <td id="txtProduct5Description"></td>
+                <td id="txtProduct5Price"></td>
+                <td id="txtProduct5Quantity"></td>
+                <td id="txtProduct5TotalValue"></td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->
+
+<!-- <div id="services" class="card">
+    <div class="card-title">Javazon Services</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Description</th>
+                <th>Hourly Rate</th>
+                <th>Minimum Billable Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="txtService1Id"></td>
+                <td id="txtService1Description"></td>
+                <td id="txtService1HourlyRate"></td>
+                <td id="txtService1Min"></td>
+            </tr>
+            <tr>
+                <td id="txtService2Id"></td>
+                <td id="txtService2Description"></td>
+                <td id="txtService2HourlyRate"></td>
+                <td id="txtService2Min"></td>
+            </tr>
+            <tr>
+                <td id="txtService3Id"></td>
+                <td id="txtService3Description"></td>
+                <td id="txtService3HourlyRate"></td>
+                <td id="txtService3Min"></td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->
+
+<!-- <div id="employees" class="card">
+    <div class="card-title">Javazon Employees</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="txtEmployee1Id"></td>
+                <td id="txtEmployee1FirstName"></td>
+                <td id="txtEmployee1LastName"></td>
+                <td id="txtEmployee1Salary"></td>
+            </tr>
+            <tr>
+                <td id="txtEmployee2Id"></td>
+                <td id="txtEmployee2FirstName"></td>
+                <td id="txtEmployee2LastName"></td>
+                <td id="txtEmployee2Salary"></td>
+            </tr>
+            <tr>
+                <td id="txtEmployee3Id"></td>
+                <td id="txtEmployee3FirstName"></td>
+                <td id="txtEmployee3LastName"></td>
+                <td id="txtEmployee3Salary"></td>
+            </tr>
+            <tr>
+                <td id="txtEmployee4Id"></td>
+                <td id="txtEmployee4FirstName"></td>
+                <td id="txtEmployee4LastName"></td>
+                <td id="txtEmployee4Salary"></td>
+            </tr>
+            <tr>
+                <td id="txtEmployee5Id"></td>
+                <td id="txtEmployee5FirstName"></td>
+                <td id="txtEmployee5LastName"></td>
+                <td id="txtEmployee5Salary"></td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Javazon Selection Form</mat-card-title>
+    <mat-card-content class="card-content">
+        <form>
+            <label for="listing">Choose a listing: </label>
+            <select id="listing" class="drop-down-menu">
+                <option value="select">--Select--</option>
+                <option value="products">Products</option>
+                <option value="services">Services</option>
+                <option value="employees">Employees</option>
+            </select>
+            <br /><br />
+            <button id="btnDisplayListing" (click)="toggleCard()" mat-raised-button color="accent">Display Listing</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<mat-card id="products" appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Javazon Products</mat-card-title>
+    <mat-card-content class="card-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="txtProduct1Id"></td>
+                    <td id="txtProduct1Description"></td>
+                    <td id="txtProduct1Price"></td>
+                    <td id="txtProduct1Quantity"></td>
+                    <td id="txtProduct1TotalValue"></td>
+                </tr>
+                <tr>
+                    <td id="txtProduct2Id"></td>
+                    <td id="txtProduct2Description"></td>
+                    <td id="txtProduct2Price"></td>
+                    <td id="txtProduct2Quantity"></td>
+                    <td id="txtProduct2TotalValue"></td>
+                </tr>
+                <tr>
+                    <td id="txtProduct3Id"></td>
+                    <td id="txtProduct3Description"></td>
+                    <td id="txtProduct3Price"></td>
+                    <td id="txtProduct3Quantity"></td>
+                    <td id="txtProduct3TotalValue"></td>
+                </tr>
+                <tr>
+                    <td id="txtProduct4Id"></td>
+                    <td id="txtProduct4Description"></td>
+                    <td id="txtProduct4Price"></td>
+                    <td id="txtProduct4Quantity"></td>
+                    <td id="txtProduct4TotalValue"></td>
+                </tr>
+                <tr>
+                    <td id="txtProduct5Id"></td>
+                    <td id="txtProduct5Description"></td>
+                    <td id="txtProduct5Price"></td>
+                    <td id="txtProduct5Quantity"></td>
+                    <td id="txtProduct5TotalValue"></td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+</mat-card>
+<!-- <br /> -->
+
+<mat-card id="services" appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Javazon Services</mat-card-title>
+    <mat-card-content class="card-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Service ID</th>
+                    <th>Description</th>
+                    <th>Hourly Rate</th>
+                    <th>Minimum Billable Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="txtService1Id"></td>
+                    <td id="txtService1Description"></td>
+                    <td id="txtService1HourlyRate"></td>
+                    <td id="txtService1Min"></td>
+                </tr>
+                <tr>
+                    <td id="txtService2Id"></td>
+                    <td id="txtService2Description"></td>
+                    <td id="txtService2HourlyRate"></td>
+                    <td id="txtService2Min"></td>
+                </tr>
+                <tr>
+                    <td id="txtService3Id"></td>
+                    <td id="txtService3Description"></td>
+                    <td id="txtService3HourlyRate"></td>
+                    <td id="txtService3Min"></td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+</mat-card>
+<!-- <br /> -->
+
+<mat-card id="employees" appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Javazon Employees</mat-card-title>
+    <mat-card-content class="card-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="txtEmployee1Id"></td>
+                    <td id="txtEmployee1FirstName"></td>
+                    <td id="txtEmployee1LastName"></td>
+                    <td id="txtEmployee1Salary"></td>
+                </tr>
+                <tr>
+                    <td id="txtEmployee2Id"></td>
+                    <td id="txtEmployee2FirstName"></td>
+                    <td id="txtEmployee2LastName"></td>
+                    <td id="txtEmployee2Salary"></td>
+                </tr>
+                <tr>
+                    <td id="txtEmployee3Id"></td>
+                    <td id="txtEmployee3FirstName"></td>
+                    <td id="txtEmployee3LastName"></td>
+                    <td id="txtEmployee3Salary"></td>
+                </tr>
+                <tr>
+                    <td id="txtEmployee4Id"></td>
+                    <td id="txtEmployee4FirstName"></td>
+                    <td id="txtEmployee4LastName"></td>
+                    <td id="txtEmployee4Salary"></td>
+                </tr>
+                <tr>
+                    <td id="txtEmployee5Id"></td>
+                    <td id="txtEmployee5FirstName"></td>
+                    <td id="txtEmployee5LastName"></td>
+                    <td id="txtEmployee5Salary"></td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<a routerLink="/buwebdev/web-231" class="return-home">Return</a>

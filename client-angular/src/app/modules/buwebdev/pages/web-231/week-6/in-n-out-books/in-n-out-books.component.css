@@ -1,0 +1,78 @@
+:host {
+  display: block;
+}
+
+html,
+body {
+  font-family: 'Oswald', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  margin: 0;
+}
+
+#container {
+  margin: 50px 100px 0;
+}
+
+#app-header {
+  text-align: center;
+  font-weight: 400;
+}
+
+.card {
+  padding: 0 30px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  margin: 40px auto;
+}
+
+.card-title {
+  width: 100%;
+  color: #4f3674;
+  text-align: center;
+  font-size: 1.75rem;
+  padding: 5px 0;
+}
+
+#btnDisplayListing {
+  background-color: #4f3674;
+  /* border: 1px solid #3C275A; */
+  border: 2px solid black;
+  border-radius: 5px;
+  color: white;
+  padding: 12px 90px;
+  margin-bottom: 20px;
+}
+#btnDisplayListing:active {
+  background-color: #d6a800;
+  color: #4f3674;
+}
+#txtResult {
+  width: 100%;
+  font-size: 1.75rem;
+  text-align: center;
+}
+#favorite-books,
+#favorite-authors {
+  padding-bottom: 1px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 30px;
+}
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 6px;
+}
+th {
+  text-align: left;
+  background-color: #4f3674;
+  color: white;
+  padding: 12px 6px;
+}
+tbody tr:hover {
+  background-color: #d6a800;
+  color: #4f3674;
+  cursor: pointer;
+}

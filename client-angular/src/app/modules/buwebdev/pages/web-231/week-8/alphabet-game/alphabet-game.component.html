@@ -1,0 +1,63 @@
+<!--
+    Title: rachwalik-alphabet-game.html
+    Author: David Rachwalik
+    Date: 2021/12/12
+    Description: Exercise 8.2 for Bellevue University course WEB-231
+-->
+
+<h1 id="app-header">Welcome to the Alphabet Game!</h1>
+
+<!-- <div class="card">
+    <div class="card-title">Alphabet Number Form</div>
+    <form>
+        <label for="txtPosition">Alphabet Letter Position:</label>
+        <input type="text" id="txtPosition"></input>
+        <br /><br />
+        <input id="btnFindLetter" type="button" value="Find Letter">
+    </form>
+</div> -->
+
+<!-- <div class="card">
+    <div class="card-title">Letters in the Alphabet</div>
+    <div id="txtAlphabet"></div>
+</div> -->
+
+<!-- <div class="card">
+    <div class="card-title">Results</div>
+    <div id="txtResult"></div>
+</div> -->
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Alphabet Number Form</mat-card-title>
+    <mat-card-content class="card-content">
+        <p class="annotation">
+            Input a number between 1 and 26.&nbsp; This should display a corresponding letter based on its position in the alphabet.&nbsp;
+            Entering any other characters may result in NaN (not a number).
+        </p>
+        <form>
+            <label for="txtPosition">Alphabet Letter Position:</label>
+            <input type="text" id="txtPosition" />
+            <br /><br />
+            <button id="btnFindLetter" (click)="toggleCard()" mat-raised-button color="accent">Find Letter</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Letters in the Alphabet</mat-card-title>
+    <mat-card-content class="card-content">
+        <div id="txtAlphabet"></div>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Results</mat-card-title>
+    <mat-card-content class="card-content">
+        <div id="txtResult"></div>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<a routerLink="/buwebdev/web-231" class="return-home">Return</a>

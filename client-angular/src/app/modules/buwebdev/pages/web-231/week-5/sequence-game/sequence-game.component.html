@@ -1,0 +1,56 @@
+<!--
+    Title: rachwalik-sequence-game.html
+    Author: David Rachwalik
+    Date: 2021/11/20
+    Description: Exercise 5.2 for Bellevue University course WEB-231
+-->
+
+<h1 id="app-header">Welcome to the sequence game!</h1>
+
+<!-- <div class="card">
+    <div class="card-title">Sequence Selection Form</div>
+    <form>
+        <label for="sequence">Choose a number sequence</label>
+        <select id="sequence" class="drop-down-menu">
+            <option value="select">--Select--</option>
+            <option value="fibonacci">Fibonacci Sequence</option>
+            <option value="even">Even Numbers</option>
+            <option value="odd">Odd Numbers</option>
+        </select>
+        <br /><br />
+        <input id="btnDisplaySequence" type="button" value="Display Sequence">
+    </form>
+</div> -->
+
+<!-- <div class="card">
+    <div class="card-title">Sequence Results</div>
+    <div id="txtResult"></div>
+</div> -->
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Sequence Selection Form</mat-card-title>
+    <mat-card-content class="card-content">
+        <form>
+            <label for="sequence">Choose a number sequence: </label>
+            <select id="sequence" class="drop-down-menu">
+                <option value="select">--Select--</option>
+                <option value="fibonacci">Fibonacci Sequence</option>
+                <option value="even">Even Numbers</option>
+                <option value="odd">Odd Numbers</option>
+            </select>
+            <br /><br />
+            <button id="btnDisplaySequence" (click)="calcNumberGame()" mat-raised-button color="accent">Display Sequence</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Sequence Results</mat-card-title>
+    <mat-card-content class="card-content">
+        <div id="txtResult">-</div>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<a routerLink="/buwebdev/web-231" class="return-home">Return</a>

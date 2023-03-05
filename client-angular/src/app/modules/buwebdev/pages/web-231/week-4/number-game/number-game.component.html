@@ -1,0 +1,46 @@
+<!--
+    Title: rachwalik-number-game.html
+    Author: David Rachwalik
+    Date: 2021/11/13
+    Description: Exercise 4.2 for Bellevue University course WEB-231
+-->
+
+<h1 id="app-header">Welcome to the numbers game!</h1>
+
+<!-- <div class="card">
+    <div class="card-title">Pick a number between 1 and 10</div>
+    <form>
+        <label for="txtMyNumber">Guess the number:</label>
+        <input type="text" id="txtMyNumber" />
+        <br /><br />
+        <input id="id" type="button" value="Submit">
+    </form>
+</div> -->
+
+<!-- <div class="card">
+    <div class="card-title">Results</div>
+    <div id="txtResult"></div>
+</div> -->
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Pick a number between 1 and 10</mat-card-title>
+    <mat-card-content class="card-content">
+        <form>
+            <label for="txtMyNumber">Guess the number:</label>
+            <input type="text" id="txtMyNumber" />
+            <br /><br />
+            <button id="id" (click)="calcNumberGame()" mat-raised-button color="accent">Submit</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<mat-card appearance="raised" class="mat-elevation-z3">
+    <mat-card-title class="card-title">Results</mat-card-title>
+    <mat-card-content class="card-content">
+        <div id="txtResult"></div>
+    </mat-card-content>
+</mat-card>
+<br />
+
+<a routerLink="/buwebdev/web-231" class="return-home">Return</a>

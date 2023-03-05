@@ -8,6 +8,15 @@ import { AboutComponent } from './pages/bioSite/about/about.component';
 import { HobbyComponent } from './pages/bioSite/hobby/hobby.component';
 import { BiositeHomeComponent } from './pages/bioSite/home/home.component';
 import { Web231HomeComponent } from './pages/web-231/home/home.component';
+import { Exercise2Component } from './pages/web-231/week-2/exercise2/exercise2.component';
+import { PayrollComponent } from './pages/web-231/week-2/payroll/payroll.component';
+import { TempConversionComponent } from './pages/web-231/week-3/temp-conversion/temp-conversion.component';
+import { NumberGameComponent } from './pages/web-231/week-4/number-game/number-game.component';
+import { SequenceGameComponent } from './pages/web-231/week-5/sequence-game/sequence-game.component';
+import { InNOutBooksComponent } from './pages/web-231/week-6/in-n-out-books/in-n-out-books.component';
+import { JavazonComponent } from './pages/web-231/week-7/javazon/javazon.component';
+import { AlphabetGameComponent } from './pages/web-231/week-8/alphabet-game/alphabet-game.component';
+import { CardGameComponent } from './pages/web-231/week-9/card-game/card-game.component';
 import { Web330HomeComponent } from './pages/web-330/home/home.component';
 import { PalindromeComponent } from './pages/web-330/week-2/palindrome/palindrome.component';
 import { RestaurantComponent } from './pages/web-330/week-3/restaurant/restaurant.component';
@@ -31,6 +40,15 @@ import { SourceControlSecurityComponent } from './pages/web-430/source-control-s
     HobbyComponent,
     // WEB-231
     Web231HomeComponent,
+    Exercise2Component,
+    PayrollComponent,
+    TempConversionComponent,
+    NumberGameComponent,
+    SequenceGameComponent,
+    InNOutBooksComponent,
+    JavazonComponent,
+    AlphabetGameComponent,
+    CardGameComponent,
     // WEB-330
     Web330HomeComponent,
     PalindromeComponent,
