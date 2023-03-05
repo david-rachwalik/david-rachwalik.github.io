@@ -50,15 +50,6 @@ export class BuwebdevLayoutComponent implements OnInit {
 
   applyTheme(theme: string): void {
     const details = this.getThemeDetails(theme);
-
-    // const iconModeEl = document.getElementById('icon-mode');
-    // const iconTextEl = document.getElementById('icon-text');
-    // document.body.classList.value = details.theme;
-    // if (iconModeEl && iconTextEl) {
-    //   iconModeEl.classList.value = `fa ${details.iconMode} pull-right`;
-    //   iconTextEl.innerHTML = details.iconText;
-    // }
-
     // Apply theme values to the display elements (https://www.w3schools.com/jsref/dom_obj_all.asp)
     document.body.setAttribute('data-theme', details.theme);
     this.slideChecked = details.theme === 'dark-theme';
