@@ -1,12 +1,3 @@
-/*
-============================================
-; Title:        portfolio.css
-; Author:       David Rachwalik
-; Date:         2022/06/19
-; Description:  Styles for personal portfolio site
-;===========================================
-*/
-
 /* body {
   background-color: #ccffff !important;
   background-image: linear-gradient(to bottom right, #ccffff, white) !important;
@@ -185,9 +176,7 @@ app-portfolio-layout .videoPresentation {
 /* -------- Resume -------- */
 
 app-portfolio-layout .resume-download {
-  position: absolute;
-  top: 8px;
-  right: 16px;
+  @apply tw-absolute tw-top-4 tw-right-4;
 }
 
 app-portfolio-layout .resume-download button {
