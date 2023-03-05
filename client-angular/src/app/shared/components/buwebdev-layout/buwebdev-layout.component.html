@@ -1,7 +1,11 @@
 <div class="main-container">
-    <div class="icon-container" (click)="toggleThemeMode()" fxLayout="row">
-        <div fxFlex></div>
-        <div fxLayoutAlign="right center">
+    <div class="icon-container" fxLayout="row">
+        <div fxFlex>
+            <a routerLink="/">
+                <mat-icon fontIcon="home" aria-label="Home icon" aria-hidden="false"></mat-icon>
+            </a>
+        </div>
+        <div (click)="toggleThemeMode()" class="tw-cursor-pointer" fxLayoutAlign="right center">
             <!-- https://material.angular.io/components/icon -->
             <mat-icon class="icon-sun" aria-label="Icon for light mode">light_mode</mat-icon>
             <!-- https://material.angular.io/components/slide-toggle -->
