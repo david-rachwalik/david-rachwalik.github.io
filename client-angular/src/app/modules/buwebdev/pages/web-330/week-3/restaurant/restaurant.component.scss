@@ -1,3 +1,28 @@
+/*
+    Title: rachwalik-restaurant.css
+    Author: David Rachwalik
+    Date: 2022/01/23
+    Description: Exercise 3.2 styles for WEB-330 site
+ */
+
 :host {
   display: block;
+}
+
+// .row {
+//   display: flex;
+//   flex-flow: row wrap;
+// }
+
+// .inner-card {
+//   display: flex;
+//   flex-wrap: wrap;
+//   flex: 0 0 auto;
+//   width: 37%;
+//   vertical-align: top;
+// }
+
+#btnOrder {
+  margin-top: 8px;
+  width: 100%;
 }

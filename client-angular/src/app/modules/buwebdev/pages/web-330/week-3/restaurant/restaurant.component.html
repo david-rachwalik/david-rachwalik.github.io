@@ -1,1 +1,172 @@
-<p>restaurant works!</p>
+<!--
+    Title: rachwalik-restaurant.html
+    Author: David Rachwalik
+    Date: 2022/01/23
+    Description: Restaurant App for WEB-330 site
+-->
+
+<h1 id="app-header">Welcome to the Restaurant App!</h1>
+
+<mat-card appearance="raised" class="card mat-elevation-z4">
+    <mat-card-title class="card-title">Restaurant Menu</mat-card-title>
+
+    <mat-card-content>
+        <div fxLayout="row wrap" fxLayoutGap="10px grid">
+            <div fxFlex="50%">
+                <mat-card appearance="raised" class="card mat-elevation-z1">
+                    <mat-card-title>Beverages</mat-card-title>
+
+                    <mat-card-content class="card-context" id="beverages">
+                        <mat-checkbox id="soda" name="soda" value="3.30">Soda ($3.30)</mat-checkbox>
+                        <mat-checkbox id="tea" name="tea" value="3.30">Sweet Tea ($3.30)</mat-checkbox>
+                        <mat-checkbox id="coffee" name="coffee" value="2.49">Iced Coffee ($2.49)</mat-checkbox>
+                        <mat-checkbox id="water" name="water" value="2.15">Bottled Water ($2.15)</mat-checkbox>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div fxFlex="50%">
+                <mat-card appearance="raised" class="card mat-elevation-z1">
+                    <mat-card-title>Appetizers</mat-card-title>
+
+                    <mat-card-content class="card-context" id="appetizers">
+                        <mat-checkbox id="nachos" name="nachos" value="6.60">Nachos ($6.60)</mat-checkbox>
+                        <mat-checkbox id="chips" name="chips" value="5.50">Chips and Salsa ($5.50)</mat-checkbox>
+                        <mat-checkbox id="pretzel" name="pretzel" value="8.80">Pretzel with Cheese ($8.80)</mat-checkbox>
+                        <mat-checkbox id="pickles" name="pickles" value="8.25">Fried Pickles ($8.25)</mat-checkbox>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div fxFlex="50%">
+                <mat-card appearance="raised" class="card mat-elevation-z1">
+                    <mat-card-title>Main Courses</mat-card-title>
+
+                    <mat-card-content class="card-context" id="main-courses">
+                        <mat-checkbox id="tacos" name="tacos" value="9.70">Street Tacos ($9.70)</mat-checkbox>
+                        <mat-checkbox id="wings" name="wings" value="12.80">Boneless Wings ($12.80)</mat-checkbox>
+                        <mat-checkbox id="burger" name="burger" value="12.65">Cheese Burger with Fries ($12.65)</mat-checkbox>
+                        <mat-checkbox id="wrap" name="wrap" value="9.65">Chicken Wrap with Salad ($9.65)</mat-checkbox>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div fxFlex="50%">
+                <mat-card appearance="raised" class="card mat-elevation-z1">
+                    <mat-card-title>Desserts</mat-card-title>
+
+                    <mat-card-content class="card-context" id="desserts">
+                        <mat-checkbox id="icecream" name="icecream" value="4.30">Ice Cream ($4.30)</mat-checkbox>
+                        <mat-checkbox id="chococake" name="chococake" value="5.40">Chocolate Cake ($5.40)</mat-checkbox>
+                        <mat-checkbox id="applepie" name="applepie" value="3.80">Apple Pie ($3.80)</mat-checkbox>
+                        <!-- <br /> -->
+                        <!-- <input id="btnOrder" class="btn-primary" type="button" value="Place Order" (click)="checkPhrase()" /> -->
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button id="btnOrder" class="btn-primary" color="primary" mat-raised-button (click)="checkPhrase()">Place Order</button>
+    </mat-card-actions>
+</mat-card>
+<!-- <br /> -->
+
+<mat-card appearance="raised" class="card mat-elevation-z1">
+    <mat-card-title class="card-title">Order Summary</mat-card-title>
+    <mat-card-content>
+        <div id="order-total" class="card-content assign-results-text">
+        </div>
+    </mat-card-content>
+</mat-card>
+<!-- <br /> -->
+
+<a routerLink="/buwebdev/web-330" class="return-home">Return</a>
+
+
+
+<!-- <div class="card">
+    <div class="card-title">Restaurant Menu</div>
+    <div class="card-context row">
+
+        <div class="card inner-card">
+            <div class="card-title">Beverages</div>
+            <div class="card-context" id="beverages">
+                <label for="soda">
+                    <input type="checkbox" id="soda" name="soda" data-value="3.30" /> Soda ($3.30)
+                </label><br />
+                <label for="tea">
+                    <input type="checkbox" id="tea" name="tea" data-value="3.30" /> Sweet Tea ($3.30)
+                </label><br />
+                <label for="coffee">
+                    <input type="checkbox" id="coffee" name="coffee" data-value="2.49" /> Iced Coffee ($2.49)
+                </label><br />
+                <label for="water">
+                    <input type="checkbox" id="water" name="water" data-value="2.15" /> Bottled Water ($2.15)
+                </label><br />
+            </div>
+        </div>
+
+        <div class="card inner-card">
+            <div class="card-title">Appetizers</div>
+            <div class="card-context" id="appetizers">
+                <label for="nachos">
+                    <input type="checkbox" id="nachos" name="nachos" data-value="6.60" /> Nachos ($6.60)
+                </label><br />
+                <label for="chips">
+                    <input type="checkbox" id="chips" name="chips" data-value="5.50" /> Chips and Salsa ($5.50)
+                </label><br />
+                <label for="pretzel">
+                    <input type="checkbox" id="pretzel" name="pretzel" data-value="8.80" /> Pretzel with Cheese ($8.80)
+                </label><br />
+                <label for="pickles">
+                    <input type="checkbox" id="pickles" name="pickles" data-value="8.25" /> Fried Pickles ($8.25)
+                </label><br />
+            </div>
+        </div>
+
+        <div class="card inner-card">
+            <div class="card-title">Main Courses</div>
+            <div class="card-context" id="main-courses">
+                <label for="tacos">
+                    <input type="checkbox" id="tacos" name="tacos" data-value="9.70" /> Street Tacos ($9.70)
+                </label><br />
+                <label for="wings">
+                    <input type="checkbox" id="wings" name="wings" data-value="12.80" /> Boneless Wings ($12.80)
+                </label><br />
+                <label for="burger">
+                    <input type="checkbox" id="burger" name="burger" data-value="12.65" /> Cheese Burger with Fries ($12.65)
+                </label><br />
+                <label for="wrap">
+                    <input type="checkbox" id="wrap" name="wrap" data-value="9.65" /> Chicken Wrap with Salad ($9.65)
+                </label><br />
+            </div>
+        </div>
+
+        <div class="card inner-card">
+            <div class="card-title">Desserts</div>
+            <div class="card-context" id="desserts">
+                <label for="icecream">
+                    <input type="checkbox" id="icecream" name="icecream" data-value="4.30" /> Ice Cream ($4.30)
+                </label><br />
+                <label for="chococake">
+                    <input type="checkbox" id="chococake" name="chococake" data-value="5.40" /> Chocolate Cake ($5.40)
+                </label><br />
+                <label for="applepie">
+                    <input type="checkbox" id="applepie" name="applepie" data-value="3.80" /> Apple Pie ($3.80)
+                </label><br />
+            </div>
+            <input id="btnOrder" class="btn-primary" type="button" value="Place Order" (click)="checkPhrase()" />
+        </div>
+    </div>
+</div>
+
+<a href="../index.html" class="return-home">Return</a>
+<br /><br />
+
+<div class="card">
+    <div class="card-title">Order Summary</div>
+    <div id="order-total" class="card-content assign-results-text"></div>
+</div> -->
