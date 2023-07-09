@@ -1,0 +1,33 @@
+/* -------- Box Model -------- */
+/*
+  The box model is a fundamental concept in CSS that defines the layout, spacing, and
+  sizing of elements on a webpage.  While "layout" and "spacing" are also used to refer
+  to the concept of the box model, the term "box model" is more commonly used in CSS
+  documentation and discussions.
+*/
+
+/*
+  --- Content Area (actual content of the element) ---
+  - width
+  - height
+  
+  --- Padding (space between the content and border) ---
+  - padding (*px/rem)
+
+  --- Border (line that surrounds padding and content) ---
+  - border
+
+  --- Margin (space between the border and other surrounding elements) ---
+  - margin
+
+  --- Other Size Definitions ---
+  - box-sizing
+  - overflow
+  
+  --- Background (color, gradient, image, etc.) ---
+  - background-color
+  - background-image
+  - background-repeat
+  - background-size
+  - background-position
+*/

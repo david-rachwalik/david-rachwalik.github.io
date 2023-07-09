@@ -19,15 +19,10 @@ app-buwebdev-layout .main-container {
   margin: 0 auto;
 }
 
-app-base-layout .main-container h1,
-app-buwebdev-layout .main-container h1 {
-  margin-top: 0.2em;
-}
-
 app-base-layout .main-container .icon-container,
 app-buwebdev-layout .main-container .icon-container {
   overflow: hidden; /* required to contain float */
-  padding-top: 1em;
+  @apply tw-pt-3 tw-pb-1;
 }
 
 @media only screen and (max-width: 1100px) {
@@ -35,6 +30,13 @@ app-buwebdev-layout .main-container .icon-container {
   app-buwebdev-layout .main-container {
     margin: 0 100px;
   }
+}
+
+app-base-layout ul,
+app-buwebdev-layout ul,
+app-base-layout .mat-divider,
+app-buwebdev-layout .mat-divider {
+  @apply tw-mb-4;
 }
 
 app-base-layout h1,
@@ -57,12 +59,23 @@ app-buwebdev-layout h1 {
   border: 1px solid var(--h1-border-color);
 }
 
+app-base-layout .main-container h3,
+app-base-layout .main-container h4,
+app-buwebdev-layout .main-container h3,
+app-buwebdev-layout .main-container h4 {
+  @apply tw-mb-1;
+}
+
+app-base-layout .main-container h4,
+app-buwebdev-layout .main-container h4 {
+  @apply tw-py-1;
+}
+
 app-base-layout .btn-primary,
 app-buwebdev-layout .btn-primary {
   background-color: var(--btn-background-color);
   color: var(--btn-color);
 }
-
 app-base-layout .btn-primary:hover,
 app-buwebdev-layout .btn-primary:hover {
   background-color: var(--btn-hover-background-color);
@@ -156,47 +169,6 @@ app-buwebdev-layout .form-field {
 app-base-layout .full-width,
 app-buwebdev-layout .full-width {
   width: 100%;
-}
-
-/* -------- Styles via Assign_1 instructions -------- */
-
-app-base-layout .main-container,
-app-buwebdev-layout .main-container {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-app-base-layout .main-container h1,
-app-buwebdev-layout .main-container h1 {
-  margin-top: 0.2em;
-}
-
-app-base-layout .main-container .icon-container,
-app-buwebdev-layout .main-container .icon-container {
-  overflow: hidden; /* required to contain float */
-  padding-top: 1em;
-}
-
-@media only screen and (max-width: 1100px) {
-  app-base-layout .main-container,
-  app-buwebdev-layout .main-container {
-    margin: 0 100px;
-  }
-}
-
-app-base-layout #icon-mode:hover,
-app-buwebdev-layout #icon-mode:hover {
-  cursor: pointer;
-}
-
-app-base-layout #icon-text,
-app-buwebdev-layout #icon-text {
-  padding-left: 10px;
-}
-
-app-base-layout .pull-right,
-app-buwebdev-layout .pull-right {
-  float: right;
 }
 
 /* -------- Card Styles -------- */

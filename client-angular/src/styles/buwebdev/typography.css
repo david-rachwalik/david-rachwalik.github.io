@@ -1,25 +1,31 @@
 /* -------- Typography -------- */
+/*
+  Art and technique of arranging type to make written language legible, readable, and
+  appealing when displayed. It includes the choice of typefaces, point sizes, line lengths,
+  line-spacing, letter-spacing, and adjusting the space between pairs of letters.
+  The background is not considered part of typography.
+*/
 
-/* (fonts/typefaces, size, style, position/spacing, color) */
 /*
   --- Fonts / Typefaces ---
-  - font-family
+  - font-family (sans, serif, mono)
   
   --- Size ---
-  - font-size
-  - line-height
+  - font-size (*px/rem)
+  - line-height (*px/rem)
 
   --- Style ---
-  - font-weight
-  - font-style
-  - text-decoration
+  - font-weight (100-900)
+  - font-style (italic, normal)
+  - text-decoration (underline, overline, line-through, etc.)
+  - text-transform (uppercase, lowercase, capitalize)
 
   --- Position / Spacing ---
-  - text-align
+  - letter-spacing (*em)
+  - text-align (left, center, right, justify)
 
   --- Color ---
-  - color
-  - background (rare, for rich text)
+  - color (rgb(*, *, *))
 */
 
 /* https://ansrsource.com/elements-of-typography */
@@ -63,7 +69,10 @@ body.mat-typography app-buwebdev-layout h1 {
 
 body.mat-typography app-base-layout h3,
 body.mat-typography app-buwebdev-layout h3 {
-  margin-top: 16px;
-  font-size: 18.72px;
-  /* line-height: 48px; */
+  @apply tw-text-lg;
+}
+
+body.mat-typography app-base-layout .annotation,
+body.mat-typography app-buwebdev-layout .annotation {
+  @apply tw-text-sm tw-italic tw-text-gray-500;
 }

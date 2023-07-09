@@ -6,8 +6,7 @@
  */
 
 [data-theme='light-theme'] {
-  /* --text-color: #000; */
-  --text-color: rgb(23, 23, 23);
+  --text-color: #171717; /* rgb(23, 23, 23) */
   --background-color: white;
   --anchor-color: #4f3674;
   --h1-background-color: #3c275a;
