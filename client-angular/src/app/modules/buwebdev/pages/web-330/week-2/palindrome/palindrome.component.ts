@@ -10,14 +10,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+interface MyFormGroup {
+  text?: string;
+  txtPhrase: string | null;
+}
+
 @Component({
   selector: 'app-palindrome',
   templateUrl: './rachwalik-palindrome.html',
-  styleUrls: ['./palindrome.component.scss'],
+  // styleUrls: ['./palindrome.component.scss'],
+  // <link rel="stylesheet" type="text/css" href="../styles/theme.css">
+  // <link rel="stylesheet" type="text/css" href="../styles/site.css">
+  styleUrls: ['../../styles/theme.css', '../../styles/site.css'],
 })
 export class PalindromeComponent implements OnInit {
-  form: FormGroup = this.fb.group({
-    txtPhrase: [null],
+  form: FormGroup = this.fb.group<MyFormGroup>({
+    txtPhrase: null,
   });
 
   constructor(private fb: FormBuilder) {}
@@ -49,14 +57,15 @@ export class PalindromeComponent implements OnInit {
 
   mockCheckPhrase() {
     console.log('mockCheckPhrase');
-    const textValue = this.form.controls['text'].value;
+    const textValue: string = this.form.controls['text'].value as string;
     console.log(`textValue: ${textValue}`);
   }
 
   // Palindrome web app click event
   checkPhrase() {
     // const txtInput = document.getElementById('txtPhrase');
-    const txtInput = this.form.controls['txtPhrase'].value || '';
+    const txtInput: string =
+      (this.form.controls['txtPhrase'].value as string) || '';
     console.log(`txtInput: ${txtInput}`);
 
     const assignResultsHeader = document.getElementById(
@@ -81,11 +90,11 @@ export class PalindromeComponent implements OnInit {
     const len = this.getLength(txtPhrase);
     const reversedPhrase = this.reverse(txtPhrase);
     const header = `
-    Date: ${today}<br />
-    Original Phrase: ${txtPhrase}<br />
-    Reversed Phrase: ${reversedPhrase}<br />
-    Phrase Length: ${len}
-  `;
+      Date: ${today}<br />
+      Original Phrase: ${txtPhrase}<br />
+      Reversed Phrase: ${reversedPhrase}<br />
+      Phrase Length: ${len}
+    `;
 
     // Print result message to client display
     if (assignResultsHeader) assignResultsHeader.innerHTML = header;
