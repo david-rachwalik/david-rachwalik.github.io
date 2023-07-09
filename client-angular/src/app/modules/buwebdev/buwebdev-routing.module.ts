@@ -19,6 +19,12 @@ import { AlphabetGameComponent } from './pages/web-231/week-8/alphabet-game/alph
 import { CardGameComponent } from './pages/web-231/week-9/card-game/card-game.component';
 import { Web330HomeComponent } from './pages/web-330/home/home.component';
 import { PalindromeComponent } from './pages/web-330/week-2/palindrome/palindrome.component';
+import { RestaurantComponent } from './pages/web-330/week-3/restaurant/restaurant.component';
+import { CalorieComponent } from './pages/web-330/week-4/calorie/calorie.component';
+import { BobsAutoRepairComponent } from './pages/web-330/week-5/bobs-auto-repair/bobs-auto-repair.component';
+import { FutureValueComponent } from './pages/web-330/week-6/future-value/future-value.component';
+import { Whatabook1Component } from './pages/web-330/week-7/whatabook1/whatabook1.component';
+import { Whatabook2Component } from './pages/web-330/week-8/whatabook2/whatabook2.component';
 import { CaProcessesComponent } from './pages/web-430/ca-processes/ca-processes.component';
 import { ChangeManagementComponent } from './pages/web-430/change-management/change-management.component';
 import { CiComponent } from './pages/web-430/ci/ci.component';
@@ -99,8 +105,32 @@ const routes: Routes = [
         component: Web330HomeComponent,
       },
       {
-        path: 'week-2/palindrome',
-        component: PalindromeComponent,
+        path: 'palindrome',
+        component: PalindromeComponent, // week 02
+      },
+      {
+        path: 'restaurant',
+        component: RestaurantComponent, // week 03
+      },
+      {
+        path: 'calorie',
+        component: CalorieComponent, // week 04
+      },
+      {
+        path: 'bobs-auto-repair',
+        component: BobsAutoRepairComponent, // week 05
+      },
+      {
+        path: 'future-value',
+        component: FutureValueComponent, // week 06
+      },
+      {
+        path: 'whatabook1',
+        component: Whatabook1Component, // week 07
+      },
+      {
+        path: 'whatabook2',
+        component: Whatabook2Component, // week 08
       },
     ],
   },
