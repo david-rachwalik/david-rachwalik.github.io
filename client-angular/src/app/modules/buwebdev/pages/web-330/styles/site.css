@@ -94,6 +94,10 @@
   margin-bottom: 5px;
 }
 
+.card .card {
+  margin: 0 auto;
+}
+
 .card input[type='button'] {
   padding: 8px 90px;
   border: 2px solid black;
