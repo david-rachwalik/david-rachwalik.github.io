@@ -1,1 +1,52 @@
-<p>calorie works!</p>
+<!--
+    Title: rachwalik-calorie.html
+    Author: David Rachwalik
+    Date: 2022/01/30
+    Description: Calorie App for WEB-330 site
+-->
+
+<h1 id="app-header">Welcome to the Calorie App!</h1>
+
+<mat-card appearance="raised" class="card mat-elevation-z4">
+    <mat-card-title class="card-title">Calorie Search Form</mat-card-title>
+
+    <form [formGroup]="form" (ngSubmit)="checkFoodItems()">
+        <mat-card-content>
+            <div fxLayout="column" fxLayoutGap="10px grid">
+                <label for="txtFoodItem">Phrase value:</label>
+                <input formControlName="txtFoodItem" id="txtFoodItem" type="text" placeholder="Role text..." (keydown.enter)="checkFoodItems()" matInput>
+            </div>
+            <br />
+            <span id="foodList"></span>
+            <br /><br />
+        </mat-card-content>
+
+        <mat-card-actions>
+            <!-- <input id="btnSearch" class="btn-primary" type="button" value="Search" /> -->
+            <button mat-raised-button type="submit" id="btnSearch" class="btn-primary" color="primary">Search</button>
+        </mat-card-actions>
+    </form>
+</mat-card>
+<!-- <br /> -->
+
+
+<!-- <div class="card">
+    <div class="card-title">Calorie Search Form</div>
+    <form>
+        <div class="flex-container">
+            <label for="txtFoodItem">Enter a food item:</label>
+            <input type="text" id="txtFoodItem" />
+        </div>
+        <span id="foodList"></span>
+        <br /><br />
+        <input id="btnSearch" class="btn-primary" type="button" value="Search" />
+    </form>
+</div> -->
+
+<a href="../index.html" class="return-home">Return</a>
+<br /><br />
+
+<div class="card">
+    <div class="card-title">Search Results</div>
+    <div id="searchResults" class="card-content"></div>
+</div>
