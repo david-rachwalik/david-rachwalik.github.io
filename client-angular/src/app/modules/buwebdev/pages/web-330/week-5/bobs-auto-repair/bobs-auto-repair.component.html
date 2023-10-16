@@ -1,1 +1,51 @@
-<p>bobs-auto-repair works!</p>
+<!--
+    Title: rachwalik-bobs-auto-repair.html
+    Author: David Rachwalik
+    Date: 2022/02/05
+    Description: Auto Repair App (with cart) for WEB-330 site
+-->
+
+<h1 id="app-header">Welcome to Bob's Automotive Repair Shop!</h1>
+
+<div class="card">
+    <div class="card-title">Product Listing</div>
+    <!-- <cart-component></cart-component> -->
+    <!-- https://fonts.google.com/icons | https://material.angular.io/components/icon -->
+    <mat-icon aria-label="Icon for shopping cart">shopping_cart</mat-icon>
+    <!-- <i id="cartIcon" class="fa fa-shopping-cart"></i> (<span id="cart-count">0</span>) -->
+    (<span id="cart-count">0</span>)
+    <br />
+
+    <form>
+        <div class="flex-container">
+            <label for="productList">Choose a product:</label>
+            <select id="productList" class="drop-down-menu">
+                <option value="select">--Select--</option>
+                <option value="19.99">Oil Change</option>
+                <option value="18.44">Filter Replacement</option>
+                <option value="9.99">Wiper Fluid Refill</option>
+            </select>
+        </div>
+        <!-- <i id="cart-message">To view your shopping cart, click on the cart icon</i> -->
+        <i id="cart-message">Add product services to the shopping cart</i>
+        <br /><br />
+        <!-- <input id="btnAddProduct" class="btn-primary" type="button" value="Add to Cart" /> -->
+        <input id="btnAddProduct" class="btn-primary" type="button" value="Add to Cart" (click)="addProduct()" />
+    </form>
+</div>
+
+<!-- <a href="../index.html" class="return-home">Return</a> -->
+<!-- <br /><br /> -->
+
+<div class="card">
+    <div class="card-title">Shopping Cart</div>
+    <!-- <div id="searchResults" class="card-content"></div> -->
+    <div id="shoppingCart" class="card-content">
+        <table>
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<a routerLink="/buwebdev/web-330" class="return-home">Return</a>
