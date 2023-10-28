@@ -34,7 +34,7 @@
 [data-theme='dark-theme'] {
   --text-color: #fafafa;
   --background-color: #303030;
-  --anchor-color: white;
+  --anchor-color: #d176e1;
   --h1-background-color: #9c27b0;
   --h1-border-color: #9c27b0;
   --heading-background-color: #424242;
@@ -47,12 +47,12 @@
   --btn-background-color: #d176e1;
   --btn-color: white;
   --btn-hover-background-color: #7d4787;
-  --btn-hover-color: white;
+  --btn-hover-color: #d176e1;
   --input-border-color: #303030;
   /* added in week-4 */
   --table-header-background-color: #d176e1;
   --table-header-color: #fff;
   --table-border-color: #303030;
   --table-hover-background-color: #7d4787;
-  --table-hover-color: #fff;
+  --table-hover-color: #d176e1;
 }
