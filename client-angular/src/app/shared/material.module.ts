@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -35,6 +36,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatSlideToggleModule,
     MatTreeModule,
     MatCheckboxModule,
+    MatTableModule,
   ],
   exports: [
     MatButtonModule,
@@ -53,6 +55,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatSlideToggleModule,
     MatTreeModule,
     MatCheckboxModule,
+    MatTableModule,
   ],
 })
 export class MaterialModule {}
