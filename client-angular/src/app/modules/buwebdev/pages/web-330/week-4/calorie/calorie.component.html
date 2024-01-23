@@ -7,6 +7,12 @@
 
 <h1 id="app-header">Welcome to the Calorie App!</h1>
 
+<p class="annotation">
+    Demo page that contains a table of calories based on which foods are input
+    <span class="annotation-item">To view the entire table list, input the phrase "all" and then click the "Search" button.&nbsp; To only see specific items,
+        input one or many of the example foods listed (comma separated).</span>
+</p>
+
 <mat-card appearance="raised" class="card mat-elevation-z4">
     <mat-card-title class="card-title">Calorie Search Form</mat-card-title>
 
@@ -29,6 +35,16 @@
 </mat-card>
 <!-- <br /> -->
 
+<mat-card appearance="raised" class="card mat-elevation-z1">
+    <mat-card-title class="card-title">Search Results</mat-card-title>
+    <mat-card-content>
+        <div id="searchResults" class="card-content"></div>
+    </mat-card-content>
+</mat-card>
+<!-- <br /> -->
+
+<a routerLink="/buwebdev/web-330" class="return-home">Return</a>
+
 
 <!-- <div class="card">
     <div class="card-title">Calorie Search Form</div>
@@ -46,9 +62,7 @@
 <!-- <a href="../index.html" class="return-home">Return</a> -->
 <!-- <br /><br /> -->
 
-<div class="card">
+<!-- <div class="card">
     <div class="card-title">Search Results</div>
     <div id="searchResults" class="card-content"></div>
-</div>
-
-<a routerLink="/buwebdev/web-330" class="return-home">Return</a>
+</div> -->

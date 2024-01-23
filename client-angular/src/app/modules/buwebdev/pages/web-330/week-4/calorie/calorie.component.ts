@@ -60,7 +60,10 @@ export class CalorieComponent implements OnInit {
     // if (!searchResultsEl || !txtFoodItemEl) return;
     if (!searchResultsEl) return;
     // const txtFoodItem = txtFoodItemEl.value;
-    const txtFoodItem = this.form.controls['txtFoodItem'].value as string;
+    let txtFoodItem = this.form.controls['txtFoodItem'].value as string;
+    if (txtFoodItem.toLocaleLowerCase() === 'all') {
+      txtFoodItem = 'Egg, Apple, Hamburger, Fries, Banana, Soda';
+    }
     // console.log('input provided: ', txtFoodItem);
     const foods = CalorieConverter.find(txtFoodItem);
     console.log('foods: ', foods);

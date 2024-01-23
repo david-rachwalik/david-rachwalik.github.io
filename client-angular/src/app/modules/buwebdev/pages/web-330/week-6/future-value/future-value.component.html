@@ -7,11 +7,16 @@
 
 <h1 id="app-header">Welcome to the Future Value App!</h1>
 
+<p class="annotation">
+    Demo page that calculates the future value of an investment or asset
+    <span class="annotation-item">Input the values for Monthly Payment, Interest Rate, and Number of Years before clicking the "Calculate" button</span>
+</p>
+
 <mat-card appearance="raised" class="card mat-elevation-z4">
     <mat-card-title class="card-title">Future Value Calculator</mat-card-title>
 
-    <form>
-        <mat-card-content>
+    <mat-card-content>
+        <form>
             <div class="container">
                 <div class="row">
                     <!-- Step 2a mentions col-12 -->
@@ -34,12 +39,17 @@
                 </div>
                 <br />
 
-                <div class="row">
+                <!-- <div class="row">
                     <input id="btnCalculate" class="col-7 btn-primary" type="button" value="Calculate" (click)="btnCalculator()" />
-                </div>
+                </div> -->
             </div>
-        </mat-card-content>
-    </form>
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <!-- <input id="btnCalculate" class="btn-primary" type="button" value="Calculate" (click)="btnCalculator()" /> -->
+        <button mat-raised-button type="submit" id="btnCalculate" class="btn-primary" color="primary" (click)="btnCalculator()">Calculate</button>
+    </mat-card-actions>
 </mat-card>
 
 <mat-card appearance="raised" class="card mat-elevation-z1">

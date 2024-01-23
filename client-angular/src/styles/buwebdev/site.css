@@ -306,3 +306,17 @@ app-buwebdev-layout .book-details {
   height: 24px;
   width: 24px;
 } */
+
+/* -------- Styles for Annotations -------- */
+
+.annotation-item {
+  @apply tw-block tw-relative;
+  margin-left: 20px; /* Adjust the margin as needed for your indentation */
+  padding-left: 10px; /* Adjust the padding as needed */
+  text-indent: -10px; /* Move the text back to align with the bullet */
+  @apply tw-text-xs tw-italic;
+}
+.annotation-item::before {
+  @apply tw-absolute tw-left-0;
+  content: '\2022'; /* Unicode character for a bullet point */
+}

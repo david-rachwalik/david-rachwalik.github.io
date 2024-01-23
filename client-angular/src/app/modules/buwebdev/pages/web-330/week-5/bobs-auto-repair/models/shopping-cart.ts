@@ -30,6 +30,15 @@ export class ShoppingCart {
     if (product) this.products.push(product);
   }
 
+  remove(productId: string) {
+    const indexToRemove = this.products.findIndex(
+      (product) => product.id === productId,
+    );
+    if (indexToRemove !== -1) {
+      this.products.splice(indexToRemove, 1);
+    }
+  }
+
   // *getProducts() {
   getProducts(): Product[] {
     // for (const product of this.products) {

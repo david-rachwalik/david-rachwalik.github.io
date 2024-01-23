@@ -69,7 +69,7 @@ export class BobsAutoRepairComponent implements OnInit {
     //   cartDisplayTable += `<tr><td>${item.id}</td><td>${item.name}</td><td>${item.price}</td></tr>`;
     // }
     Array.from(this.shoppingCart.getProducts()).forEach((item) => {
-      cartDisplayTable += `<tr><td>${item.id}</td><td>${item.name}</td><td>${item.price}</td></tr>`;
+      cartDisplayTable += `<tr><td>${item.id}</td><td>${item.name}</td><td>$${item.price}</td></tr>`;
     });
     cartDisplayTable += '</tbody></table>';
     // Send table data to client display
