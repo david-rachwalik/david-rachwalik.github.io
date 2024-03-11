@@ -18,15 +18,15 @@
     <!-- <form [formGroup]="form" (ngSubmit)="checkFoodItems()"> -->
     <form>
         <mat-card-content>
-            <div fxLayout="column" fxLayoutGap="10px grid">
-                <label for="productList">Choose a product:</label>
-                <select id="productList" class="drop-down-menu">
-                    <option value="select">--Select--</option>
-                    <option value="19.99">Oil Change</option>
-                    <option value="18.44">Filter Replacement</option>
-                    <option value="9.99">Wiper Fluid Refill</option>
-                </select>
-            </div>
+            <!-- <div fxLayout="column" fxLayoutGap="10px grid"> -->
+            <label for="productList">Choose a product:</label>
+            <select id="productList" class="drop-down-menu">
+                <option value="select">--Select--</option>
+                <option value="19.99">Oil Change</option>
+                <option value="18.44">Filter Replacement</option>
+                <option value="9.99">Wiper Fluid Refill</option>
+            </select>
+            <!-- </div> -->
             <br />
             <!-- <i id="cart-message">To view your shopping cart, click on the cart icon</i> -->
             <i id="cart-message">Add product services to the shopping cart</i>
@@ -34,8 +34,10 @@
         </mat-card-content>
 
         <mat-card-actions>
-            <!-- <input id="btnAddProduct" class="btn-primary" type="button" value="Add to Cart" (click)="addProduct()" /> -->
-            <button mat-raised-button type="button" id="btnAddProduct" (click)="addProduct()" class="btn-primary" color="primary">Add to Cart</button>
+            <div class="buwebdev-web330-action-container">
+                <!-- <input id="btnAddProduct" class="btn-primary" type="button" value="Add to Cart" (click)="addProduct()" /> -->
+                <button mat-raised-button type="button" id="btnAddProduct" (click)="addProduct()" class="btn-primary" color="primary">Add to Cart</button>
+            </div>
         </mat-card-actions>
     </form>
 </mat-card>

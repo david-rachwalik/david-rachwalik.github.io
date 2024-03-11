@@ -1,0 +1,153 @@
+/* -------- Flex Layout Styles -------- */
+/* Purpose of this section is to mimic the behaviors of Angular Flex-Layout directives into Flexbox CSS */
+
+/* https://github.com/angular/flex-layout/wiki/Responsive-API#mediaqueries-and-aliases (page sizes) */
+/* https://www.refactoringui.com (amazing interface design book by TailwindCSS creators) */
+/* https://blogs.halodoc.io/flex-layout-to-tailwind-migration */
+/* https://medium.com/@jemimaosoro/navigating-the-deprecation-of-angular-flex-layout-exploring-alternatives-and-whats-next-8b92f541c0aa */
+
+/* --- fxLayout --- */
+/* https://tailwindcss.com/docs/flex-direction */
+/* https://tailwindcss.com/docs/flex-wrap */
+
+.flex-layout {
+  /* fxLayout="row wrap" */
+  @apply tw-flex-row tw-flex-wrap;
+}
+
+/* --- fxLayoutAlign --- */
+/* https://tailwindcss.com/docs/align-content */
+/* https://tailwindcss.com/docs/align-items */
+/* https://tailwindcss.com/docs/justify-content */
+
+.flex-layout-align {
+  /* fxLayoutAlign="start start" */
+  @apply tw-content-start tw-items-start tw-justify-start;
+}
+
+/* --- fxLayoutGap --- */
+/* https://tailwindcss.com/docs/gap */
+/* https://www.youtube.com/watch?v=hs3piaN4b5I (Flexbox vs CSS Grid - Which is Better) */
+
+.flex-layout-gap-grid {
+  /* fxLayoutGap="16px grid" */
+  @apply tw-grid tw-gap-4;
+  @apply tw-grid-cols-3;
+}
+
+/* --- fxFlex --- */
+/* https://tailwindcss.com/docs/flex */
+/* https://tailwindcss.com/docs/box-sizing */
+/* https://tailwindcss.com/docs/flex-basis */
+/* https://tailwindcss.com/docs/max-width */
+
+.flex {
+  @apply tw-box-border tw-flex-1 tw-basis-full tw-max-w-[100%];
+}
+.flex-auto {
+  @apply tw-box-border tw-flex-auto;
+}
+
+@media only screen and (min-width: 600px) {
+  .flex-gt-xs-30 {
+    /* @apply tw-basis-1/4; */
+    @apply tw-basis-[30%] tw-max-w-[30%];
+  }
+  .flex-gt-xs-40 {
+    @apply tw-basis-[40%] tw-max-w-[40%];
+  }
+}
+
+/* -------- SITE LAYOUTS -------- */
+
+/* --- Base Layout --- */
+
+.theme-toggle-container {
+  @apply tw-cursor-pointer;
+  @apply tw-flex tw-items-center;
+  @apply tw-content-center tw-place-content-center;
+}
+
+.main-container .icon-container {
+  @apply tw-grid tw-grid-cols-[auto_max-content];
+}
+
+.roadmap-container,
+.roadmap-treenode-container {
+  @apply tw-flex-row;
+}
+.roadmap-container,
+.roadmap-treenode-container div {
+  @apply tw-box-border tw-flex-1 tw-basis-full tw-max-w-[100%];
+}
+@media only screen and (min-width: 600px) {
+  .roadmap-container {
+    @apply tw-mx-auto tw-basis-[95%] tw-max-w-[95%];
+  }
+}
+@media only screen and (min-width: 960px) {
+  .roadmap-container {
+    @apply tw-mx-auto tw-basis-[900px] tw-max-w-[900px];
+  }
+}
+
+/* --- Portfolio Home --- */
+
+/* .profile-subheader {
+  @apply tw-grid tw-gap-3;
+} */
+
+.not-found-container {
+  @apply tw-flex tw-flex-col;
+}
+
+.quick-links-container {
+  @apply tw-grid tw-gap-1;
+}
+@media only screen and (min-width: 600px) {
+  .quick-links-container {
+    @apply tw-grid-cols-[60%_auto];
+  }
+}
+
+.bucket-list-container {
+  @apply tw-grid tw-gap-3;
+}
+@media only screen and (min-width: 600px) {
+  .bucket-list-container {
+    @apply tw-grid-cols-[30%_auto_30%];
+  }
+}
+
+/* --- Bellevue University --- */
+
+.buwebdev-web330-restaurant-container {
+  @apply tw-grid tw-gap-3;
+}
+@media only screen and (min-width: 600px) {
+  .buwebdev-web330-restaurant-container {
+    @apply tw-grid-cols-2;
+  }
+}
+.buwebdev-web330-restaurant-container * {
+  @apply tw-w-full;
+}
+
+.buwebdev-web330-action-container {
+  @apply tw-w-full tw-p-2;
+}
+
+.buwebdev-web430-devops-container,
+.buwebdev-web430-projects-container {
+  @apply tw-grid tw-gap-4;
+}
+@media only screen and (min-width: 600px) {
+  .buwebdev-web430-devops-container,
+  .buwebdev-web430-projects-container {
+    @apply tw-grid-cols-3;
+  }
+}
+
+.resume-content .work-locations {
+  @apply tw-grid tw-grid-cols-[auto_auto_auto];
+}

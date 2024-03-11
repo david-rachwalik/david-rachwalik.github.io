@@ -16,65 +16,70 @@
     <mat-card-title class="card-title">Restaurant Menu</mat-card-title>
 
     <mat-card-content>
-        <div fxLayout="row wrap" fxLayoutGap="10px grid">
-            <div fxFlex="50%">
-                <mat-card appearance="raised" class="card mat-elevation-z1">
-                    <mat-card-title>Beverages</mat-card-title>
+        <div class="buwebdev-web330-restaurant-container">
+            <!-- <div fxLayout="row wrap" fxLayoutGap="10px grid"> -->
+            <!-- <div fxFlex="50%"> -->
+            <mat-card appearance="raised" class="card mat-elevation-z1">
+                <mat-card-title>Beverages</mat-card-title>
 
-                    <mat-card-content class="card-context" id="beverages">
-                        <mat-checkbox id="soda" name="soda" value="3.30">Soda ($3.30)</mat-checkbox><br />
-                        <mat-checkbox id="tea" name="tea" value="3.30">Sweet Tea ($3.30)</mat-checkbox><br />
-                        <mat-checkbox id="coffee" name="coffee" value="2.49">Iced Coffee ($2.49)</mat-checkbox><br />
-                        <mat-checkbox id="water" name="water" value="2.15">Bottled Water ($2.15)</mat-checkbox><br />
-                    </mat-card-content>
-                </mat-card>
-            </div>
+                <mat-card-content class="card-context" id="beverages">
+                    <mat-checkbox id="soda" name="soda" value="3.30">Soda ($3.30)</mat-checkbox><br />
+                    <mat-checkbox id="tea" name="tea" value="3.30">Sweet Tea ($3.30)</mat-checkbox><br />
+                    <mat-checkbox id="coffee" name="coffee" value="2.49">Iced Coffee ($2.49)</mat-checkbox><br />
+                    <mat-checkbox id="water" name="water" value="2.15">Bottled Water ($2.15)</mat-checkbox><br />
+                </mat-card-content>
+            </mat-card>
+            <!-- </div> -->
 
-            <div fxFlex="50%">
-                <mat-card appearance="raised" class="card mat-elevation-z1">
-                    <mat-card-title>Appetizers</mat-card-title>
+            <!-- <div fxFlex="50%"> -->
+            <mat-card appearance="raised" class="card mat-elevation-z1">
+                <mat-card-title>Appetizers</mat-card-title>
 
-                    <mat-card-content class="card-context" id="appetizers">
-                        <mat-checkbox id="nachos" name="nachos" value="6.60">Nachos ($6.60)</mat-checkbox><br />
-                        <mat-checkbox id="chips" name="chips" value="5.50">Chips and Salsa ($5.50)</mat-checkbox><br />
-                        <mat-checkbox id="pretzel" name="pretzel" value="8.80">Pretzel with Cheese ($8.80)</mat-checkbox><br />
-                        <mat-checkbox id="pickles" name="pickles" value="8.25">Fried Pickles ($8.25)</mat-checkbox><br />
-                    </mat-card-content>
-                </mat-card>
-            </div>
+                <mat-card-content class="card-context" id="appetizers">
+                    <mat-checkbox id="nachos" name="nachos" value="6.60">Nachos ($6.60)</mat-checkbox><br />
+                    <mat-checkbox id="chips" name="chips" value="5.50">Chips and Salsa ($5.50)</mat-checkbox><br />
+                    <mat-checkbox id="pretzel" name="pretzel" value="8.80">Pretzel with Cheese ($8.80)</mat-checkbox><br />
+                    <mat-checkbox id="pickles" name="pickles" value="8.25">Fried Pickles ($8.25)</mat-checkbox><br />
+                </mat-card-content>
+            </mat-card>
+            <!-- </div> -->
 
-            <div fxFlex="50%">
-                <mat-card appearance="raised" class="card mat-elevation-z1">
-                    <mat-card-title>Main Courses</mat-card-title>
+            <!-- <div fxFlex="50%"> -->
+            <mat-card appearance="raised" class="card mat-elevation-z1">
+                <mat-card-title>Main Courses</mat-card-title>
 
-                    <mat-card-content class="card-context" id="main-courses">
-                        <mat-checkbox id="tacos" name="tacos" value="9.70">Street Tacos ($9.70)</mat-checkbox><br />
-                        <mat-checkbox id="wings" name="wings" value="12.80">Boneless Wings ($12.80)</mat-checkbox><br />
-                        <mat-checkbox id="burger" name="burger" value="12.65">Cheese Burger with Fries ($12.65)</mat-checkbox><br />
-                        <mat-checkbox id="wrap" name="wrap" value="9.65">Chicken Wrap with Salad ($9.65)</mat-checkbox><br />
-                    </mat-card-content>
-                </mat-card>
-            </div>
+                <mat-card-content class="card-context" id="main-courses">
+                    <mat-checkbox id="tacos" name="tacos" value="9.70">Street Tacos ($9.70)</mat-checkbox><br />
+                    <mat-checkbox id="wings" name="wings" value="12.80">Boneless Wings ($12.80)</mat-checkbox><br />
+                    <mat-checkbox id="burger" name="burger" value="12.65">Cheese Burger with Fries ($12.65)</mat-checkbox><br />
+                    <mat-checkbox id="wrap" name="wrap" value="9.65">Chicken Wrap with Salad ($9.65)</mat-checkbox><br />
+                </mat-card-content>
+            </mat-card>
+            <!-- </div> -->
 
-            <div fxFlex="50%">
-                <mat-card appearance="raised" class="card mat-elevation-z1">
-                    <mat-card-title>Desserts</mat-card-title>
+            <!-- <div fxFlex="50%"> -->
+            <mat-card appearance="raised" class="card mat-elevation-z1">
+                <mat-card-title>Desserts</mat-card-title>
 
-                    <mat-card-content class="card-context" id="desserts">
-                        <mat-checkbox id="icecream" name="icecream" value="4.30">Ice Cream ($4.30)</mat-checkbox><br />
-                        <mat-checkbox id="chococake" name="chococake" value="5.40">Chocolate Cake ($5.40)</mat-checkbox><br />
-                        <mat-checkbox id="applepie" name="applepie" value="3.80">Apple Pie ($3.80)</mat-checkbox><br />
-                        <!-- <br /> -->
-                        <!-- <input id="btnOrder" class="btn-primary" type="button" value="Place Order" (click)="checkPhrase()" /> -->
-                    </mat-card-content>
-                </mat-card>
-            </div>
+                <mat-card-content class="card-context" id="desserts">
+                    <mat-checkbox id="icecream" name="icecream" value="4.30">Ice Cream ($4.30)</mat-checkbox><br />
+                    <mat-checkbox id="chococake" name="chococake" value="5.40">Chocolate Cake ($5.40)</mat-checkbox><br />
+                    <mat-checkbox id="applepie" name="applepie" value="3.80">Apple Pie ($3.80)</mat-checkbox><br />
+                    <!-- <br /> -->
+                    <!-- <input id="btnOrder" class="btn-primary" type="button" value="Place Order" (click)="checkPhrase()" /> -->
+                </mat-card-content>
+            </mat-card>
+            <!-- </div> -->
+
+            <!-- </div> -->
 
         </div>
     </mat-card-content>
 
     <mat-card-actions>
-        <button id="btnOrder" class="btn-primary" color="primary" mat-raised-button (click)="checkPhrase()">Place Order</button>
+        <div class="buwebdev-web330-action-container">
+            <button id="btnOrder" class="btn-primary" color="primary" mat-raised-button (click)="checkPhrase()">Place Order</button>
+        </div>
     </mat-card-actions>
 </mat-card>
 <!-- <br /> -->

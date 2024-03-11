@@ -18,18 +18,20 @@
 
     <form [formGroup]="form" (ngSubmit)="checkFoodItems()">
         <mat-card-content>
-            <div fxLayout="column" fxLayoutGap="10px grid">
-                <label for="txtFoodItem">Phrase value:</label>
-                <input formControlName="txtFoodItem" id="txtFoodItem" type="text" placeholder="Role text..." (keydown.enter)="checkFoodItems()" matInput>
-            </div>
+            <!-- <div fxLayout="column" fxLayoutGap="10px grid"> -->
+            <label for="txtFoodItem">Phrase value:</label>
+            <input formControlName="txtFoodItem" id="txtFoodItem" type="text" placeholder="Role text..." (keydown.enter)="checkFoodItems()" matInput>
+            <!-- </div> -->
             <br />
             <span id="foodList"></span>
             <br /><br />
         </mat-card-content>
 
         <mat-card-actions>
-            <!-- <input id="btnSearch" class="btn-primary" type="button" value="Search" /> -->
-            <button mat-raised-button type="submit" id="btnSearch" class="btn-primary" color="primary">Search</button>
+            <div class="buwebdev-web330-action-container">
+                <!-- <input id="btnSearch" class="btn-primary" type="button" value="Search" /> -->
+                <button mat-raised-button type="submit" id="btnSearch" class="btn-primary" color="primary">Search</button>
+            </div>
         </mat-card-actions>
     </form>
 </mat-card>

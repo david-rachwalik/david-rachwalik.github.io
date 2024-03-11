@@ -1,5 +1,8 @@
-<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center">
-    <mat-card appearance="raised" fxFlex.gt-sm="80%" fxFlex.gt-xs="95%" fxFlex>
+<br />
+<!-- <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center"> -->
+<!-- <mat-card appearance="raised" fxFlex.gt-sm="80%" fxFlex.gt-xs="95%" fxFlex> -->
+<div class="roadmap-container">
+    <mat-card appearance="raised">
         <mat-card-title>
             Welcome to the Roadmap
         </mat-card-title>
@@ -10,8 +13,10 @@
                 <!-- This is the tree node template for leaf nodes -->
                 <!-- There is inline padding applied to this node using styles.
                   This padding value depends on the mat-icon-button width. -->
-                <mat-tree-node fxLayout="row" *matTreeNodeDef="let node" matTreeNodeToggle>
-                    <span fxFlex>{{node.name}}</span>
+                <!-- <mat-tree-node fxLayout="row" *matTreeNodeDef="let node" matTreeNodeToggle> -->
+                <!-- <span fxFlex>{{node.name}}</span> -->
+                <mat-tree-node class="roadmap-treenode-container" *matTreeNodeDef="let node" matTreeNodeToggle>
+                    <div class="flex">{{node.name}}</div>
                     <!-- https://fonts.google.com/icons?selected=Material+Icons -->
                     <a *ngIf="node.link" href="{{node.link}}" target="_blank">
                         <!-- <mat-icon>task</mat-icon> -->

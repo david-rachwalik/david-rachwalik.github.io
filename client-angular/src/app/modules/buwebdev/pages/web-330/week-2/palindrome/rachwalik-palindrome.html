@@ -17,10 +17,10 @@
 
     <form [formGroup]="form" (ngSubmit)="checkPhrase()">
         <mat-card-content>
-            <div fxLayout="column" fxLayoutGap="10px grid">
-                <label for="txtPhrase">Phrase value:</label>
-                <input type="text" matInput formControlName="txtPhrase" placeholder="Role text..." (keydown.enter)="checkPhrase()">
-            </div>
+            <!-- <div fxLayout="column" fxLayoutGap="10px grid"> -->
+            <label for="txtPhrase">Phrase value:</label>
+            <input type="text" matInput formControlName="txtPhrase" placeholder="Role text..." (keydown.enter)="checkPhrase()">
+            <!-- </div> -->
         </mat-card-content>
 
         <mat-card-actions>
