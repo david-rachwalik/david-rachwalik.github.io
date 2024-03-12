@@ -44,12 +44,6 @@ Install [Angular Material](https://material.angular.io) ("custom" theme, 'y' typ
 ng add @angular/material
 ```
 
-Install [Angular Flex-Layout](https://github.com/angular/flex-layout) ([wiki](https://github.com/angular/flex-layout/wiki), [API](https://github.com/angular/flex-layout/wiki/API-Documentation))
-
-```bash
-npm i @angular/cdk @angular/flex-layout
-```
-
 Install [NGRX](https://ngrx.io) [Store](https://ngrx.io/guide/store) for state management
 
 ```bash

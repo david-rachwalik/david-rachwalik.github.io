@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
@@ -24,7 +23,6 @@ import { RoadmapComponent } from './pages/roadmap/roadmap.component';
     CommonModule,
     RouterModule,
     MaterialModule,
-    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -32,7 +30,6 @@ import { RoadmapComponent } from './pages/roadmap/roadmap.component';
   exports: [
     CommonModule,
     MaterialModule,
-    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
