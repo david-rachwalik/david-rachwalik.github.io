@@ -112,3 +112,10 @@ Globally install the latest Angular framework
 ```bash
 npm i -g @angular/cli@<release-version>
 ```
+
+Update Angular framework & Angular Materials
+
+```bash
+ng update @angular/core@<release-version> @angular/cli@<release-version>
+ng update @angular/material@<release-version>
+```
