@@ -102,3 +102,13 @@ Generate a new Angular module
 ```bash
 ng g m <module-name>
 ```
+
+---
+
+### Angular 'update' Commands Used
+
+Globally install the latest Angular framework
+
+```bash
+npm i -g @angular/cli@<release-version>
+```
