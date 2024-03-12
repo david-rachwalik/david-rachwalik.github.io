@@ -101,21 +101,27 @@ ng g m <module-name>
 
 ### Angular 'update' Commands Used
 
-Globally install the latest Angular framework
+Globally install the latest Angular framework ([version compatibility](https://angular.io/guide/versions))
 
 ```bash
 npm i -g @angular/cli@<release-version>
 ```
 
-Update Angular framework & Angular Materials
+[Update](https://update.angular.io) Angular framework & Angular Materials
 
 ```bash
 ng update @angular/core@<release-version> @angular/cli@<release-version>
 ng update @angular/material@<release-version>
 ```
 
-Migrate legacy Material components to MDC-based ones
+[Migrate](https://material.angular.io/guide/mdc-migration) legacy Material components to MDC-based ones
 
 ```bash
 ng generate @angular/material:mdc-migration
+```
+
+[Migrate](https://angular.io/guide/standalone-migration) existing Angular project to standalone
+
+```bash
+ng generate @angular/core:standalone
 ```
