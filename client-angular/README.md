@@ -119,3 +119,9 @@ Update Angular framework & Angular Materials
 ng update @angular/core@<release-version> @angular/cli@<release-version>
 ng update @angular/material@<release-version>
 ```
+
+Migrate legacy Material components to MDC-based ones
+
+```bash
+ng generate @angular/material:mdc-migration
+```
