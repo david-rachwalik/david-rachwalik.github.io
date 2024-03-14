@@ -114,6 +114,8 @@ ng update @angular/core@<release-version> @angular/cli@<release-version>
 ng update @angular/material@<release-version>
 ```
 
+### Angular Migration Commands (optional)
+
 [Migrate](https://material.angular.io/guide/mdc-migration) legacy Material components to MDC-based ones
 
 ```bash
@@ -124,4 +126,10 @@ ng generate @angular/material:mdc-migration
 
 ```bash
 ng generate @angular/core:standalone
+```
+
+[Migrate](https://blog.angular.io/introducing-angular-v17-4d7033312e4b) existing Angular project to use new [control flow](https://angular.io/guide/control_flow) (v17+)
+
+```bash
+ng generate @angular/core:control-flow
 ```
