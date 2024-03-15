@@ -259,3 +259,13 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+# --- Custom Omissions ---
+
+**/.azure/credentials
+*vault.yml
+wwwroot/
+dist/
+
+# Terraform
+.terraform.lock.*
