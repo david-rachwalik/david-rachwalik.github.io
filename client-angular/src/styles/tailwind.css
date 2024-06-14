@@ -1,8 +1,16 @@
-/* TailwindCSS works in Angular out of box, just install package and provide configuration */
+/* TailwindCSS in Angular
+  - install its package (tailwindcss)
+  - provide configuration (tailwind.config.js)
+  - initialize/import into CSS preprocessors
+*/
+
 /* https://blog.angular.io/the-new-state-of-css-in-angular-bec011715ee6 */
 /* Angular automatically uses PostCSS, but it ignores the configuration */
 /* - this can be circumvented if willing to override the webpack config */
 
+/* --- Initialize TailwindCSS --- */
+
+/* https://tailwindcss.com/docs/using-with-preprocessors */
 /* https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/defaultConfig.stub.js */
 @import 'tailwindcss/base'; /* @tailwind base; */
 @import 'tailwindcss/components'; /* @tailwind components; */
@@ -25,4 +33,11 @@
   ul ul {
     @apply tw-list-circle;
   }
+}
+
+/* --- Test Styles to Verify TailwindCSS Is Working --- */
+
+button.tw-purple-btn {
+  @apply tw-py-2 tw-px-3 tw-m-2 tw-rounded-md;
+  @apply tw-bg-purple-500 hover:tw-bg-purple-700 tw-text-white;
 }
