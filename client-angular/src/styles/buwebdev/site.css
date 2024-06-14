@@ -8,7 +8,8 @@
 [data-theme='dark-theme'] {
   margin: 0;
   color: var(--text-color);
-  background: var(--background-color);
+  /* background: var(--background-color); */
+  background-color: var(--background-color);
 }
 
 /* -------- Layout Styles -------- */
