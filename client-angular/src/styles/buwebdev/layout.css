@@ -1,0 +1,93 @@
+/* -------- SITE LAYOUTS -------- */
+
+/* --- Base Layout --- */
+
+.theme-toggle-container {
+  @apply tw-cursor-pointer;
+  @apply tw-flex tw-items-center;
+  @apply tw-content-center tw-place-content-center;
+}
+
+.main-container .icon-container {
+  @apply tw-grid tw-grid-cols-[auto_max-content];
+}
+
+.roadmap-container,
+.roadmap-treenode-container {
+  @apply tw-flex-row;
+}
+.roadmap-container,
+.roadmap-treenode-container div {
+  @apply tw-flex-1 tw-basis-full tw-max-w-full;
+}
+@media only screen and (min-width: 600px) {
+  .roadmap-container {
+    @apply tw-mx-auto tw-basis-[95%] tw-max-w-[95%];
+  }
+}
+@media only screen and (min-width: 960px) {
+  .roadmap-container {
+    @apply tw-mx-auto tw-basis-[900px] tw-max-w-[900px];
+  }
+}
+
+/* --- Portfolio Home --- */
+
+/* .profile-subheader {
+  @apply tw-grid tw-gap-3;
+} */
+
+.not-found-container {
+  @apply tw-flex tw-flex-col;
+}
+
+.quick-links-container {
+  @apply tw-grid tw-gap-1;
+}
+@media only screen and (min-width: 600px) {
+  .quick-links-container {
+    @apply tw-grid-cols-[60%_auto];
+  }
+}
+
+.bucket-list-container {
+  @apply tw-grid tw-gap-3;
+}
+@media only screen and (min-width: 600px) {
+  .bucket-list-container {
+    @apply tw-grid-cols-[30%_auto_30%];
+  }
+}
+
+/* --- Bellevue University --- */
+
+.buwebdev-web330-restaurant-container {
+  @apply tw-grid tw-gap-3;
+}
+@media only screen and (min-width: 600px) {
+  .buwebdev-web330-restaurant-container {
+    @apply tw-grid-cols-2;
+  }
+}
+.buwebdev-web330-restaurant-container * {
+  @apply tw-w-full;
+}
+
+.buwebdev-web330-action-container {
+  @apply tw-w-full tw-p-2;
+}
+
+.buwebdev-web430-devops-container,
+.buwebdev-web430-projects-container {
+  @apply tw-grid tw-gap-4;
+}
+@media only screen and (min-width: 600px) {
+  .buwebdev-web430-devops-container,
+  .buwebdev-web430-projects-container {
+    @apply tw-grid-cols-3;
+  }
+}
+
+.resume-content .work-locations {
+  @apply tw-grid tw-grid-cols-[auto_auto_auto];
+}

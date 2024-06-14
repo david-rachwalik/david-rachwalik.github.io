@@ -1,0 +1,62 @@
+/* -------- Flex Layout Styles -------- */
+/* Purpose of this section is to mimic the behaviors of Angular Flex-Layout directives into Flexbox CSS */
+
+/* https://github.com/angular/flex-layout/wiki/Responsive-API#mediaqueries-and-aliases (page sizes) */
+/* https://css-tricks.com/snippets/css/a-guide-to-flexbox */
+/* https://www.refactoringui.com (amazing interface design book by TailwindCSS creators) */
+/* https://blogs.halodoc.io/flex-layout-to-tailwind-migration */
+/* https://medium.com/@jemimaosoro/navigating-the-deprecation-of-angular-flex-layout-exploring-alternatives-and-whats-next-8b92f541c0aa */
+
+/* --- fxLayout --- */
+/* https://tailwindcss.com/docs/flex-direction */
+/* https://tailwindcss.com/docs/flex-wrap */
+
+.flex-layout {
+  /* fxLayout="row wrap" */
+  @apply tw-flex tw-flex-row tw-flex-wrap;
+}
+
+/* --- fxLayoutAlign --- */
+/* https://tailwindcss.com/docs/align-content */
+/* https://tailwindcss.com/docs/align-items */
+/* https://tailwindcss.com/docs/justify-content */
+
+.flex-layout-align {
+  /* fxLayoutAlign="start start" */
+  @apply tw-content-start tw-items-start tw-justify-start;
+}
+
+/* --- fxLayoutGap --- */
+/* https://tailwindcss.com/docs/gap */
+/* https://www.youtube.com/watch?v=hs3piaN4b5I (Flexbox vs CSS Grid - Which is Better) */
+
+.flex-layout-gap-grid {
+  /* fxLayoutGap="16px grid" */
+  @apply tw-grid tw-gap-4;
+  @apply tw-grid-cols-3;
+}
+
+/* --- fxFlex --- */
+/* https://tailwindcss.com/docs/flex */
+/* https://tailwindcss.com/docs/box-sizing */
+/* https://tailwindcss.com/docs/flex-basis */
+/* https://tailwindcss.com/docs/max-width */
+
+.flex {
+  @apply tw-flex-1; /* fxFlex */
+}
+.flex-auto {
+  @apply tw-flex-auto;
+}
+.flex-100 {
+  @apply tw-flex-1 tw-basis-full tw-max-w-full;
+}
+
+@media only screen and (min-width: 600px) {
+  .flex-gt-xs-30 {
+    @apply tw-basis-[30%] tw-max-w-[30%];
+  }
+  .flex-gt-xs-40 {
+    @apply tw-basis-[40%] tw-max-w-[40%];
+  }
+}
