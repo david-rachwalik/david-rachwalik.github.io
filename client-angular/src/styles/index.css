@@ -9,6 +9,7 @@
 /* --- Application Styles  --- */
 
 @import 'ng-fixes';
+@import 'global';
 @import 'buwebdev';
 
 /* --- Lazy-Loaded Styles  --- */

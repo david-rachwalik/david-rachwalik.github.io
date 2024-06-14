@@ -1,0 +1,14 @@
+/* -------- Site Baseline Styles -------- */
+
+/* https://dev.to/anewman15/what-does-box-sizing-border-box-do-what-are-its-advantages-1nbb */
+* {
+  @apply tw-box-border;
+}
+
+img {
+  @apply tw-max-w-full;
+}
+
+hr {
+  @apply tw-mb-4;
+}
