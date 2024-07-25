@@ -14,84 +14,66 @@
 
 /* -------- Layout Styles -------- */
 
-app-base-layout .main-container,
-app-buwebdev-layout .main-container {
+[data-style-config~='main'] {
   max-width: 900px;
   margin: 0 auto;
 }
 
-app-base-layout .main-container .icon-container,
-app-buwebdev-layout .main-container .icon-container {
+[data-style-config~='main'] .icon-container {
   overflow: hidden; /* required to contain float */
   @apply tw-pt-3 tw-pb-1;
 }
 
 @media only screen and (max-width: 1100px) {
-  app-base-layout .main-container,
-  app-buwebdev-layout .main-container {
+  [data-style-config~='main'] {
     margin: 0 100px;
   }
 }
 
-app-base-layout ul,
-app-buwebdev-layout ul,
-app-base-layout .mat-divider,
-app-buwebdev-layout .mat-divider {
+[data-style-config~='main'] ul,
+[data-style-config~='main'] .mat-divider {
   @apply tw-mb-4;
 }
 
-app-base-layout h1,
-app-base-layout h2,
-app-base-layout h3,
-app-base-layout h4,
-app-buwebdev-layout h1,
-app-buwebdev-layout h2,
-app-buwebdev-layout h3,
-app-buwebdev-layout h4 {
+[data-style-config~='main'] h1,
+[data-style-config~='main'] h2,
+[data-style-config~='main'] h3,
+[data-style-config~='main'] h4 {
   color: var(--heading-color);
   background-color: var(--heading-background-color);
   border: 1px solid var(--heading-border-color);
   padding: 10px;
 }
 
-app-base-layout h1,
-app-buwebdev-layout h1 {
+[data-style-config~='main'] h1 {
   background-color: var(--h1-background-color);
   border: 1px solid var(--h1-border-color);
 }
 
-app-base-layout .main-container h3,
-app-base-layout .main-container h4,
-app-buwebdev-layout .main-container h3,
-app-buwebdev-layout .main-container h4 {
+[data-style-config~='main'] h3,
+[data-style-config~='main'] h4 {
   @apply tw-mb-1;
 }
 
-app-base-layout .main-container h4,
-app-buwebdev-layout .main-container h4 {
+[data-style-config~='main'] h4 {
   @apply tw-py-1;
 }
 
-app-base-layout .btn-primary,
-app-buwebdev-layout .btn-primary {
+[data-style-config~='main'] .btn-primary {
   background-color: var(--btn-background-color);
   color: var(--btn-color);
 }
-app-base-layout .btn-primary:hover,
-app-buwebdev-layout .btn-primary:hover {
+[data-style-config~='main'] .btn-primary:hover {
   background-color: var(--btn-hover-background-color);
   color: var(--btn-hover-color);
 }
 
-app-base-layout input,
-app-base-layout .drop-down-menu,
-app-buwebdev-layout input,
-app-buwebdev-layout .drop-down-menu {
+[data-style-config~='main'] input,
+[data-style-config~='main'] .drop-down-menu {
   border-color: var(--input-border-color);
 }
 
-app-base-layout .drop-down-menu,
-app-buwebdev-layout .drop-down-menu {
+[data-style-config~='main'] .drop-down-menu {
   border-radius: 5px;
   border: 2px solid var(--input-border-color);
   padding: 5px;
@@ -99,28 +81,23 @@ app-buwebdev-layout .drop-down-menu {
 
 /* added in week-4 */
 
-app-base-layout .table,
-app-buwebdev-layout .table {
+[data-style-config~='main'] .table {
   border-collapse: collapse;
   margin-bottom: 20px;
 }
 
-app-base-layout .table th,
-app-buwebdev-layout .table th {
+[data-style-config~='main'] .table th {
   background-color: var(--table-header-background-color);
   color: var(--table-header-color);
 }
 
-app-base-layout .table th,
-app-base-layout .table td,
-app-buwebdev-layout .table th,
-app-buwebdev-layout .table td {
+[data-style-config~='main'] .table th,
+[data-style-config~='main'] .table td {
   border: 1px solid var(--table-border-color);
   padding: 5px;
 }
 
-app-base-layout .table tr:hover,
-app-buwebdev-layout .table tr:hover {
+[data-style-config~='main'] .table tr:hover {
   background-color: var(--table-hover-background-color);
   color: var(--tablehover-color);
   cursor: pointer;
@@ -128,54 +105,45 @@ app-buwebdev-layout .table tr:hover {
 
 /* -------- Styles via Web 330 HTML, CSS, and JavaScript Requirements document -------- */
 
-app-base-layout .assign-container,
-app-buwebdev-layout .assign-container {
+[data-style-config~='main'] .assign-container {
   padding: 10px;
 }
 
-app-base-layout .assign-content,
-app-buwebdev-layout .assign-content {
+[data-style-config~='main'] .assign-content {
   width: 600px;
   margin: 3% auto 0;
 }
 
-app-base-layout .assign-results-text,
-app-buwebdev-layout .assign-results-text {
+[data-style-config~='main'] .assign-results-text {
   text-align: center;
   font-size: 28px;
 }
 
-app-base-layout .return-home,
-app-buwebdev-layout .return-home {
+[data-style-config~='main'] .return-home {
   color: var(--anchor-color);
   text-decoration: none;
 }
-app-base-layout .return-home:hover,
-app-buwebdev-layout .return-home:hover {
+[data-style-config~='main'] .return-home:hover {
   background-color: var(--anchor-hover-background-color);
   color: var(--anchor-hover-color);
 }
 
-app-base-layout .form,
-app-buwebdev-layout .form {
+[data-style-config~='main'] .form {
   display: inline-grid;
   grid-template-columns: auto;
 }
 
-app-base-layout .form-field,
-app-buwebdev-layout .form-field {
+[data-style-config~='main'] .form-field {
   padding: 20px;
 }
 
-app-base-layout .full-width,
-app-buwebdev-layout .full-width {
+[data-style-config~='main'] .full-width {
   width: 100%;
 }
 
 /* -------- Card Styles -------- */
 
-app-base-layout .card,
-app-buwebdev-layout .card {
+[data-style-config~='main'] .card {
   padding: 5px 30px;
   /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -183,16 +151,14 @@ app-buwebdev-layout .card {
   background-color: var(--card-background-color);
 }
 
-app-base-layout .card input[type='button'],
-app-buwebdev-layout .card input[type='button'] {
+[data-style-config~='main'] .card input[type='button'] {
   padding: 8px 90px;
   border: 2px solid black;
   border-radius: 5px;
   margin-bottom: 20px;
 }
 
-app-base-layout .card input[type='text'],
-app-buwebdev-layout .card input[type='text'] {
+[data-style-config~='main'] .card input[type='text'] {
   border-radius: 5px;
   border: 2px solid #cdd9ed;
   padding: 5px;
@@ -202,108 +168,87 @@ app-buwebdev-layout .card input[type='text'] {
 /* -------- Styles for Assign_4 -------- */
 
 /* Content respects width, not pushed beyond by padding */
-app-base-layout html,
-app-buwebdev-layout html {
+[data-style-config~='main'] html {
   box-sizing: border-box;
 }
-app-base-layout *,
-app-base-layout *:before,
-app-base-layout *:after,
-app-buwebdev-layout *,
-app-buwebdev-layout *:before,
-app-buwebdev-layout *:after {
+[data-style-config~='main'] *,
+[data-style-config~='main'] *:before,
+[data-style-config~='main'] *:after {
   box-sizing: inherit;
 }
 
 /* https://www.w3schools.com/css/css3_flexbox_container.asp */
-app-base-layout .flex-container,
-app-buwebdev-layout .flex-container {
+[data-style-config~='main'] .flex-container {
   display: flex;
   flex-direction: row;
 }
-app-base-layout .flex-container label,
-app-buwebdev-layout .flex-container label {
+[data-style-config~='main'] .flex-container label {
   white-space: nowrap;
   padding: 5px 0;
   margin-right: 5px;
 }
 
-app-base-layout .card form,
-app-buwebdev-layout .card form {
+[data-style-config~='main'] .card form {
   width: 55%;
 }
 
-app-base-layout .btn-primary,
-app-base-layout .card input,
-app-base-layout .card select,
-app-buwebdev-layout .btn-primary,
-app-buwebdev-layout .card input,
-app-buwebdev-layout .card select {
+[data-style-config~='main'] .btn-primary,
+[data-style-config~='main'] .card input,
+[data-style-config~='main'] .card select {
   width: 100%;
   margin: 0;
 }
 
 /* -------- Styles for Assign_7 -------- */
 
-app-base-layout .book-details,
-app-buwebdev-layout .book-details {
+[data-style-config~='main'] .book-details {
   list-style-type: none;
 }
 
 /* -------- Integrating Old Baseline Styles -------- */
 
-.mat-typography app-base-layout .icon-sun,
-.mat-typography app-base-layout .icon-moon,
-.mat-typography app-buwebdev-layout .icon-sun,
-.mat-typography app-buwebdev-layout .icon-moon {
+.mat-typography [data-style-config~='main'] .icon-sun,
+.mat-typography [data-style-config~='main'] .icon-moon {
   font-size: 24px;
   width: 24px;
   height: 24px;
 }
-.mat-typography app-base-layout .icon-sun,
-.mat-typography app-buwebdev-layout .icon-sun {
+.mat-typography [data-style-config~='main'] .icon-sun {
   /* color: gold; */
   color: #fbac13;
 }
-.mat-typography app-base-layout .icon-moon,
-.mat-typography app-buwebdev-layout .icon-moon {
+.mat-typography [data-style-config~='main'] .icon-moon {
   /* color: cyan; */
   /* color: #f4f1c9; */
   color: #3686a0;
 }
 
 /* --- TODO: --- */
-/* .mat-typography app-base-layout .icon-sun .mat-icon,
-.mat-typography app-buwebdev-layout .icon-sun .mat-icon {
+/* .mat-typography [data-style-config~='main'] .icon-sun .mat-icon {
   // height: 12px;
   // width: 12px;
   transform: scale(0.8);
 } */
-/* .mat-typography app-base-layout .icon-sun .icon-sm,
-.mat-typography app-buwebdev-layout .icon-sun .icon-sm {
+/* .mat-typography [data-style-config~='main'] .icon-sun .icon-sm {
   transform: scale(0.6);
 } */
 
-.mat-typography app-base-layout .mat-mdc-slide-toggle,
-.mat-typography app-buwebdev-layout .mat-mdc-slide-toggle {
+.mat-typography [data-style-config~='main'] .mat-mdc-slide-toggle {
   transform: scale(0.6);
   /* height: 90px; */
 }
 
-/* .mat-typography app-base-layout .mat-slide-toggle-bar,
-.mat-typography app-buwebdev-layout .mat-slide-toggle-bar {
+/* .mat-typography [data-style-config~='main'] .mat-slide-toggle-bar {
   height: 8px;
   width: 26px;
 } */
 
-/* .mat-typography app-base-layout .mat-slide-toggle-thumb,
-.mat-typography app-buwebdev-layout .mat-slide-toggle-thumb {
+/* .mat-typography [data-style-config~='main'] .mat-slide-toggle-thumb {
   height: 14px;
   width: 14px;
 } */
 
-/* .mat-typography app-base-layout .mat-slide-toggle-ripple,
-.mat-typography app-buwebdev-layout .mat-slide-toggle-ripple {
+/* .mat-typography [data-style-config~='main'] .mat-slide-toggle-ripple {
   height: 24px;
   width: 24px;
 } */

@@ -31,48 +31,39 @@
 /* https://ansrsource.com/elements-of-typography */
 /* https://careerfoundry.com/en/blog/ui-design/beginners-guide-to-typography */
 
-body.mat-typography app-base-layout *:not(mat-icon),
-body.mat-typography app-buwebdev-layout *:not(mat-icon) {
+body.mat-typography [data-style-config~='main'] *:not(mat-icon) {
   font-family: 'Oswald', Verdana, Arial, sans-serif;
 }
 
-body.mat-typography app-base-layout a,
-body.mat-typography app-buwebdev-layout a {
+body.mat-typography [data-style-config~='main'] a {
   font-size: 1rem;
   text-decoration: none;
   color: var(--anchor-color);
 }
-body.mat-typography app-base-layout a:hover,
-body.mat-typography app-buwebdev-layout a:hover {
+body.mat-typography [data-style-config~='main'] a:hover {
   text-decoration: underline;
   /* background-color: var(--anchor-hover-background-color); */
   color: var(--anchor-hover-color);
 }
-/* body.mat-typography app-base-layout a:visited,
-body.mat-typography app-buwebdev-layout a:visited {
+/* body.mat-typography [data-style-config~='main'] a:visited {
   color: var(--anchor-visited-color);
 } */
 
-body.mat-typography app-base-layout h1,
-body.mat-typography app-base-layout h3,
-body.mat-typography app-buwebdev-layout h1,
-body.mat-typography app-buwebdev-layout h3 {
+body.mat-typography [data-style-config~='main'] h1,
+body.mat-typography [data-style-config~='main'] h3 {
   font-family: 'Oswald', Verdana, Arial, sans-serif;
   font-weight: bold;
 }
 
-body.mat-typography app-base-layout h1,
-body.mat-typography app-buwebdev-layout h1 {
+body.mat-typography [data-style-config~='main'] h1 {
   font-size: 32px;
   line-height: 48px;
 }
 
-body.mat-typography app-base-layout h3,
-body.mat-typography app-buwebdev-layout h3 {
+body.mat-typography [data-style-config~='main'] h3 {
   @apply tw-text-lg;
 }
 
-body.mat-typography app-base-layout .annotation,
-body.mat-typography app-buwebdev-layout .annotation {
+body.mat-typography [data-style-config~='main'] .annotation {
   @apply tw-text-sm tw-italic tw-text-gray-500;
 }
