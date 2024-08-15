@@ -9,8 +9,8 @@
     "build:dev": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "predeploy": "npm run build",
-    "deploy": "ng deploy"
+    "predeploy": "npm run build && node predeploy.js",
+    "deploy": "npx angular-cli-ghpages --dir=dist/client-angular"
   },
   "engines": {
     "node": "^18.19.0 || ^20.9.0",
@@ -37,14 +37,13 @@
     "@angular/cli": "^18.2.0",
     "@angular/compiler-cli": "^18.2.0",
     "@types/jasmine": "~4.3.1",
-    "angular-cli-ghpages": "^1.0.5",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.1",
     "karma-chrome-launcher": "~3.1.1",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-    "tailwindcss": "^3.2.4",
+    "tailwindcss": "^3.4.1",
     "typescript": "~5.5.4"
   }
 }
