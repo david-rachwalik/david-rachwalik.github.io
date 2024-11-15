@@ -1,0 +1,100 @@
+{
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "files.associations": {
+    "*.json": "jsonc",
+    "*.css": "postcss",
+    "*.ejs": "html"
+  },
+
+  // --- Activity Bar (File Explorer, Search, Source Control, etc.) ---
+  "workbench.editor.labelFormat": "short",
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.startupEditor": "none",
+
+  // -------- Code Editor --------
+  "window.density.editorTabHeight": "compact",
+  "editor.accessibilitySupport": "off",
+  "editor.minimap.enabled": true,
+  "editor.fontFamily": "Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": false,
+  "editor.linkedEditing": true,
+  "editor.wordWrapColumn": 160,
+
+  // --- Formatting ---
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  // :: Prettier Supported Language Targets ::
+  // [javascript, typescript, javascriptreact, typescriptreact]
+  // [html, css, scss, less, vue]
+  // [json, yaml, markdown]
+  // [graphql, handlebars, toml, ruby]
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.printWidth": 160,
+  "prettier.tabWidth": 2,
+  "prettier.ignorePath": ".prettierignore",
+
+  // --- Formatting (Web) ---
+  "[javascript, typescript, javascriptreact, typescriptreact]": {
+    "editor.formatOnSave": false
+  },
+  "eslint.debug": true,
+  "eslint.format.enable": true,
+  // "[html]": {
+  //   "editor.defaultFormatter": "vscode.html-language-features"
+  // },
+
+  // --- Formatting (Other) ---
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  },
+  "markdownlint.config": {
+    "MD007": { "indent": 2 },
+    "MD030": { "ul_single": 1, "ul_multi": 1 }
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "yaml.format.printWidth": 160,
+  "yaml.format.singleQuote": true,
+  "yaml.format.bracketSpacing": true,
+  "yaml.format.proseWrap": "preserve",
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[properties]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+
+  // -------- Terminal (CLI) --------
+  "terminal.explorerKind": "external",
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "terminal.integrated.defaultProfile.windows": "pwsh",
+
+  // -------- Code Repository (Git) --------
+  "git.enabled": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "git.openRepositoryInParentFolders": "always",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "merge-conflict.codeLens.enabled": false,
+
+  // -------- Code Language (Web) --------
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.referencesCodeLens.enabled": true,
+  "javascript.referencesCodeLens.showOnAllFunctions": true,
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "typescript.referencesCodeLens.showOnAllFunctions": true,
+
+  // -------- Other / Miscellaneous --------
+  "redhat.telemetry.enabled": false,
+  "emmet.includeLanguages": {
+    "ejs": "html"
+  },
+  "vsicons.dontShowNewVersionMessage": true
+}

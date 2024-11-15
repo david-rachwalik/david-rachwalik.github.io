@@ -1,7 +1,8 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+// https://code.visualstudio.com/docs/devcontainers/tips-and-tricks
 {
-  "name": "NodeJS | TypeScript",
+  "name": "NodeJS",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
   // "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
@@ -20,48 +21,51 @@
 
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "uname -a",
-  //   "postCreateCommand": "pip install pylint-quotes",
   "postCreateCommand": "npm i && cd client-angular && npm i",
 
   // Configure tool-specific properties.
-  // "customizations": {},
   "customizations": {
     "vscode": {
-      "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
-      },
       // Add the IDs of extensions to install when container is created
       "extensions": [
         "ms-vscode-remote.remote-containers",
+        "ms-azuretools.vscode-docker",
+        "esbenp.prettier-vscode", // formatter
+        // [Shell]
+        "foxundermoon.shell-format",
         // [JavaScript|TypeScript]
         "dbaeumer.vscode-eslint", // linter
-        "esbenp.prettier-vscode", // formatter
         "christian-kohler.path-intellisense", // autocompletes filenames
-        "steoates.autoimport", // TS/TSX
-        "mike-co.import-sorter",
+        "mike-co.import-sorter", // TS
+        "steoates.autoimport", // TS
         // [CSS]
-        "kamikillerto.vscode-colorize",
         "small-tech.comment-out-css",
+        "kamikillerto.vscode-colorize",
         "pucelle.vscode-css-navigation",
         "csstools.postcss",
         "bradlc.vscode-tailwindcss",
         // [Other Languages]
+        "DavidAnson.vscode-markdownlint",
         "redhat.vscode-yaml",
+        // "ms-dotnettools.csharp",
+        // "bowlerhatllc.vscode-as3mxml",
         "mikestead.dotenv",
+        "formulahendry.auto-close-tag", // HTML/XML
+        "formulahendry.auto-rename-tag", // HTML/XML
         "christian-kohler.npm-intellisense",
-        "42Crunch.vscode-openapi",
-        "theumletteam.umlet",
+        // "theumletteam.umlet",
+        // "42Crunch.vscode-openapi",
         "Angular.ng-template",
+        // "Vue.volar",
+        // "hashicorp.terraform",
         // [Other]
-        "vscode-icons-team.vscode-icons",
-        "lihui.vs-color-picker",
         "natqe.reload",
         "donjayamanne.githistory",
-        "wayou.vscode-todo-highlight",
-        "DavidAnson.vscode-markdownlint",
         "bierner.markdown-preview-github-styles",
-        "formulahendry.auto-close-tag", // HTML/XML
-        "formulahendry.auto-rename-tag" // HTML/XML
+        "vscode-icons-team.vscode-icons",
+        "wayou.vscode-todo-highlight",
+        "lihui.vs-color-picker"
+        // "mongodb.mongodb-vscode"
       ]
     }
   }
