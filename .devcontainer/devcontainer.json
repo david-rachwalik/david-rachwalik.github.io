@@ -2,26 +2,30 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 // https://code.visualstudio.com/docs/devcontainers/tips-and-tricks
 {
-  "name": "NodeJS",
+  "name": "Ubuntu NodeJS",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
   // "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
-
-  //   "mounts": [
-  //     "source=${localWorkspaceFolder}/python/modules/active,target=/home/codespace/.local/lib/python3.12/site-packages,type=bind,consistency=cached"
-  //   ],
-  // "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}", // This is usually the default
+  // "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 
   // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {},
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [],
   "forwardPorts": [4200],
 
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "uname -a",
   "postCreateCommand": "npm i && cd client-angular && npm i",
+
+  //   "mounts": [
+  //     "source=${localWorkspaceFolder}/python/modules/active,target=/home/codespace/.local/lib/python3.12/site-packages,type=bind,consistency=cached"
+  //   ],
+  // "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}", // This is usually the default
 
   // Configure tool-specific properties.
   "customizations": {
