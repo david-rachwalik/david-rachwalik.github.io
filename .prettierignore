@@ -1,30 +1,3 @@
-# Ignore all files by default
-*
-
-# Include files that are supported by Prettier
-!**/*.js
-!**/*.ts
-!**/*.jsx
-!**/*.tsx
-!**/*.html
-!**/*.css
-!**/*.scss
-!**/*.less
-!**/*.vue
-# !**/*.json
-# !**/*.jsonc
-# !**/*.json5
-# !**/*.yaml
-# !**/*.yml
-!**/*.md
-!**/*.graphql
-!**/*.handlebars
-!**/*.toml
-!**/*.lua
-!**/*.php
-!**/*.sql
-!**/*.ruby
-
 # Ignore build artifacts
 build/
 dist/
@@ -32,7 +5,7 @@ dist/
 # Ignore minified JavaScript files
 *.min.js
 
-# Ignore all JSON files except for the config
+# Ignore all JSON files except for config
 *.json
 !config/*.json
 
