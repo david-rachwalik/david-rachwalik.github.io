@@ -9,7 +9,6 @@ import { RouterModule } from '@angular/router';
 
 import { BaseLayoutComponent } from './components/base-layout/base-layout.component';
 import { BuwebdevLayoutComponent } from './components/buwebdev-layout/buwebdev-layout.component';
-import { MaterialModule } from './material.module';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { RoadmapComponent } from './pages/roadmap/roadmap.component';
@@ -17,7 +16,6 @@ import { RoadmapComponent } from './pages/roadmap/roadmap.component';
 @NgModule({
   exports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     // Components
@@ -28,7 +26,6 @@ import { RoadmapComponent } from './pages/roadmap/roadmap.component';
   imports: [
     CommonModule,
     RouterModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     // Components
