@@ -8,9 +8,8 @@ describe('PalindromeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PalindromeComponent ]
-    })
-    .compileComponents();
+      imports: [PalindromeComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PalindromeComponent);
     component = fixture.componentInstance;

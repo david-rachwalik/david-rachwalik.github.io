@@ -8,9 +8,8 @@ describe('BuwebdevLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BuwebdevLayoutComponent ]
-    })
-    .compileComponents();
+      imports: [BuwebdevLayoutComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BuwebdevLayoutComponent);
     component = fixture.componentInstance;

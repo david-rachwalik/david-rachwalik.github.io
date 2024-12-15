@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 import { Card } from './models/card.model';
 import { Dealer } from './models/dealer.model';
@@ -7,6 +11,15 @@ import { Dealer } from './models/dealer.model';
   selector: 'app-card-game',
   templateUrl: './card-game.component.html',
   styleUrls: ['./card-game.component.css'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    FormsModule,
+    MatButton,
+    RouterLink,
+  ],
 })
 export class CardGameComponent implements OnInit {
   ngOnInit(): void {

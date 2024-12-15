@@ -8,9 +8,8 @@ describe('ApiTestsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ApiTestsComponent ]
-    })
-    .compileComponents();
+      imports: [ApiTestsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ApiTestsComponent);
     component = fixture.componentInstance;

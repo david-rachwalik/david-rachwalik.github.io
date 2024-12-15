@@ -8,9 +8,8 @@ describe('DbDiagramsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DbDiagramsComponent ]
-    })
-    .compileComponents();
+      imports: [DbDiagramsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DbDiagramsComponent);
     component = fixture.componentInstance;

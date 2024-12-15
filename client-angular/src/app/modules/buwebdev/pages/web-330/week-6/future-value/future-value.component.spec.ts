@@ -8,9 +8,8 @@ describe('FutureValueComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FutureValueComponent ]
-    })
-    .compileComponents();
+      imports: [FutureValueComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FutureValueComponent);
     component = fixture.componentInstance;

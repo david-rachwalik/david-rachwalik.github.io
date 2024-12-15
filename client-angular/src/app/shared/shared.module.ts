@@ -15,13 +15,6 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { RoadmapComponent } from './pages/roadmap/roadmap.component';
 
 @NgModule({
-  declarations: [
-    NotFoundComponent,
-    BaseLayoutComponent,
-    HomeComponent,
-    BuwebdevLayoutComponent,
-    RoadmapComponent,
-  ],
   exports: [
     CommonModule,
     MaterialModule,
@@ -38,6 +31,12 @@ import { RoadmapComponent } from './pages/roadmap/roadmap.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    // Components
+    NotFoundComponent,
+    BaseLayoutComponent,
+    HomeComponent,
+    BuwebdevLayoutComponent,
+    RoadmapComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

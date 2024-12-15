@@ -1,6 +1,18 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { MatIconButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import {
+  MatNestedTreeNode,
+  MatTree,
+  MatTreeNestedDataSource,
+  MatTreeNode,
+  MatTreeNodeDef,
+  MatTreeNodeOutlet,
+  MatTreeNodeToggle,
+} from '@angular/material/tree';
 
 // Data with nested structure
 interface TaskNode {
@@ -58,6 +70,21 @@ const TASK_DATA: TaskNode[] = [
   selector: 'app-roadmap',
   templateUrl: './roadmap.component.html',
   styleUrls: ['./roadmap.component.scss'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    MatTree,
+    MatTreeNodeDef,
+    MatTreeNode,
+    MatTreeNodeToggle,
+    NgIf,
+    MatIcon,
+    MatNestedTreeNode,
+    MatIconButton,
+    MatTreeNodeOutlet,
+  ],
 })
 export class RoadmapComponent implements OnInit {
   treeControl = new NestedTreeControl<TaskNode>((node) => node.children);

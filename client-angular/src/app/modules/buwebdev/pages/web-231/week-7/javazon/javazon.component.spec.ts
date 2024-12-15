@@ -8,9 +8,8 @@ describe('JavazonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ JavazonComponent ]
-    })
-    .compileComponents();
+      imports: [JavazonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(JavazonComponent);
     component = fixture.componentInstance;

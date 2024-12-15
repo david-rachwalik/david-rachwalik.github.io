@@ -8,7 +8,7 @@ describe('PortfolioLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PortfolioLayoutComponent],
+      imports: [PortfolioLayoutComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PortfolioLayoutComponent);

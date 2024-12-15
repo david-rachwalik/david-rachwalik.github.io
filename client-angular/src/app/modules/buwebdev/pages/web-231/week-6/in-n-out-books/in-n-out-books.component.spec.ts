@@ -8,9 +8,8 @@ describe('InNOutBooksComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InNOutBooksComponent ]
-    })
-    .compileComponents();
+      imports: [InNOutBooksComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(InNOutBooksComponent);
     component = fixture.componentInstance;

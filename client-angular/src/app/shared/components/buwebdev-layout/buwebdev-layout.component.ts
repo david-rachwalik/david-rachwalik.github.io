@@ -1,4 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 interface ThemeDetails {
   theme: string;
@@ -11,6 +14,8 @@ interface ThemeDetails {
   templateUrl: './buwebdev-layout.component.html',
   styleUrls: ['./buwebdev-layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [RouterLink, MatIcon, MatSlideToggle, RouterOutlet],
 })
 export class BuwebdevLayoutComponent implements OnInit {
   slideChecked: boolean;

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 import { Employee } from './models/exployee.model';
 import { Product } from './models/product.model';
@@ -8,6 +12,15 @@ import { Service } from './models/service.model';
   selector: 'app-javazon',
   templateUrl: './javazon.component.html',
   styleUrls: ['./javazon.component.css'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    FormsModule,
+    MatButton,
+    RouterLink,
+  ],
 })
 export class JavazonComponent implements OnInit {
   ngOnInit(): void {

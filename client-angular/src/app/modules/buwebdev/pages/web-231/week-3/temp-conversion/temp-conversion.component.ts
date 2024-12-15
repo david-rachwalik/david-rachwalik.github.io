@@ -1,9 +1,22 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-temp-conversion',
   templateUrl: './temp-conversion.component.html',
   styleUrls: ['./temp-conversion.component.css'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    FormsModule,
+    MatButton,
+    RouterLink,
+  ],
 })
 export class TempConversionComponent {
   calcTemp(): void {

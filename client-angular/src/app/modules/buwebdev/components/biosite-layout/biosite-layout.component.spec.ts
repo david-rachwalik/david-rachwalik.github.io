@@ -8,9 +8,8 @@ describe('BiositeLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BiositeLayoutComponent ]
-    })
-    .compileComponents();
+      imports: [BiositeLayoutComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BiositeLayoutComponent);
     component = fixture.componentInstance;

@@ -1,9 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-alphabet-game',
   templateUrl: './alphabet-game.component.html',
   styleUrls: ['./alphabet-game.component.css'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    FormsModule,
+    MatButton,
+    RouterLink,
+  ],
 })
 export class AlphabetGameComponent implements OnInit {
   // -------- Define Variables --------

@@ -1,4 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 interface ThemeDetails {
   theme: string;
@@ -11,6 +14,8 @@ interface ThemeDetails {
   templateUrl: './base-layout.component.html',
   styleUrls: ['./base-layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [RouterLink, MatIcon, MatSlideToggle, RouterOutlet],
 })
 export class BaseLayoutComponent implements OnInit {
   slideChecked: boolean;

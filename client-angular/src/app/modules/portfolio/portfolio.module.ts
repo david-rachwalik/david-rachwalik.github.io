@@ -16,7 +16,9 @@ import { ProjectsComponent } from './pages/projects/projects.component';
 import { ResumeComponent } from './pages/resume/resume.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    SharedModule,
+    PortfolioRoutingModule,
     PortfolioLayoutComponent,
     HeaderComponent,
     SubheaderComponent,
@@ -30,6 +32,5 @@ import { ResumeComponent } from './pages/resume/resume.component';
     ApiTestsComponent,
     DevopsComponent,
   ],
-  imports: [SharedModule, PortfolioRoutingModule],
 })
 export class PortfolioModule {}

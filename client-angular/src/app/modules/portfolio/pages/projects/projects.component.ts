@@ -1,4 +1,13 @@
+import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import {
+  MatCard,
+  MatCardContent,
+  MatCardSubtitle,
+  MatCardTitle,
+} from '@angular/material/card';
+
+import { InnerCardComponent } from '../../../../shared/components/portfolio-layout/inner-card/inner-card.component';
 
 interface ProjectCard {
   // flex: string;
@@ -13,6 +22,15 @@ interface ProjectCard {
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+    NgFor,
+    InnerCardComponent,
+  ],
 })
 export class ProjectsComponent implements OnInit {
   projectCards: ProjectCard[];

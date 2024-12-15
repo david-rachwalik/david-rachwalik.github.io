@@ -8,9 +8,8 @@ describe('ChangeManagementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChangeManagementComponent ]
-    })
-    .compileComponents();
+      imports: [ChangeManagementComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ChangeManagementComponent);
     component = fixture.componentInstance;

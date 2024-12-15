@@ -7,7 +7,17 @@
 ;===========================================
 */
 
+import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardTitle,
+} from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 import { FinanceCalculator } from './models/finance-calculator';
 import { Validator } from './models/validator';
@@ -16,6 +26,17 @@ import { Validator } from './models/validator';
   selector: 'app-future-value',
   templateUrl: './future-value.component.html',
   styleUrls: ['./future-value.component.scss'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    FormsModule,
+    NgFor,
+    MatCardActions,
+    MatButton,
+    RouterLink,
+  ],
 })
 export class FutureValueComponent implements OnInit {
   // constructor() {}

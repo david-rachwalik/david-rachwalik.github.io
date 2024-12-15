@@ -1,9 +1,22 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-number-game',
   templateUrl: './number-game.component.html',
   styleUrls: ['./number-game.component.css'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    FormsModule,
+    MatButton,
+    RouterLink,
+  ],
 })
 export class NumberGameComponent {
   // Generate random number between 1 & 10

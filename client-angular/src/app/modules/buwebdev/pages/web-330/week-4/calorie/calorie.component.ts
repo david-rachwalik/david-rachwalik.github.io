@@ -8,7 +8,21 @@
 */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatInput } from '@angular/material/input';
+import { RouterLink } from '@angular/router';
 
 import { CalorieConverter } from './calorie-converter';
 
@@ -24,6 +38,18 @@ interface MyFormGroup {
     '../../styles/theme.css',
     '../../styles/site.css',
     './calorie.component.scss',
+  ],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    FormsModule,
+    ReactiveFormsModule,
+    MatCardContent,
+    MatInput,
+    MatCardActions,
+    MatButton,
+    RouterLink,
   ],
 })
 export class CalorieComponent implements OnInit {

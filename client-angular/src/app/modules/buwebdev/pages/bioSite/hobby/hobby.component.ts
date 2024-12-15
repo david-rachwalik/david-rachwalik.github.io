@@ -3,13 +3,11 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-hobby',
   templateUrl: './hobby.component.html',
-  styleUrls: ['./hobby.component.scss']
+  styleUrls: ['./hobby.component.scss'],
+  standalone: true,
 })
 export class HobbyComponent implements OnInit {
+  // constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

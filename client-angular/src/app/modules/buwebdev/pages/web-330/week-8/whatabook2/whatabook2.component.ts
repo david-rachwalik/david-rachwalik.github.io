@@ -10,7 +10,21 @@
 import { CdkTableDataSourceInput } from '@angular/cdk/table';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableDataSource,
+} from '@angular/material/table';
+import { RouterLink } from '@angular/router';
 import { catchError, lastValueFrom } from 'rxjs';
 
 // Properties defined in HTML Element must be strings
@@ -72,6 +86,23 @@ interface BookApiResponse {
   selector: 'app-whatabook2',
   templateUrl: './whatabook2.component.html',
   styleUrls: ['./whatabook2.component.scss'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    RouterLink,
+  ],
 })
 export class Whatabook2Component implements OnInit {
   displayedColumns: string[] = [

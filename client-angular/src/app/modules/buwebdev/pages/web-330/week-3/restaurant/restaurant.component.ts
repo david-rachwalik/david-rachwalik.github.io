@@ -8,6 +8,15 @@
 */
 
 import { Component, OnInit } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { RouterLink } from '@angular/router';
 
 import { Appetizer, Beverage, Bill, Dessert, MainCourse } from './models/index';
 
@@ -16,6 +25,16 @@ import { Appetizer, Beverage, Bill, Dessert, MainCourse } from './models/index';
   templateUrl: './restaurant.component.html',
   // styleUrls: ['./restaurant.component.scss'],
   styleUrls: ['../../styles/theme.css', '../../styles/site.css'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    MatCheckbox,
+    MatCardActions,
+    MatButton,
+    RouterLink,
+  ],
 })
 export class RestaurantComponent implements OnInit {
   ngOnInit(): void {}

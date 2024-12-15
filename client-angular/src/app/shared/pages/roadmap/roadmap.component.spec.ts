@@ -8,9 +8,8 @@ describe('RoadmapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoadmapComponent ]
-    })
-    .compileComponents();
+      imports: [RoadmapComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RoadmapComponent);
     component = fixture.componentInstance;

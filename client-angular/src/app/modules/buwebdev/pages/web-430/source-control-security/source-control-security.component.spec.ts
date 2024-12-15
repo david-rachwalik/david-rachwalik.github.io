@@ -8,9 +8,8 @@ describe('SourceControlSecurityComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SourceControlSecurityComponent ]
-    })
-    .compileComponents();
+      imports: [SourceControlSecurityComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SourceControlSecurityComponent);
     component = fixture.componentInstance;

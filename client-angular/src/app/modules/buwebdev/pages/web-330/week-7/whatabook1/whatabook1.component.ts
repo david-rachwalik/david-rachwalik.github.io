@@ -10,7 +10,21 @@
 import { CdkTableDataSourceInput } from '@angular/cdk/table';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableDataSource,
+} from '@angular/material/table';
+import { RouterLink } from '@angular/router';
 import { catchError, lastValueFrom, map } from 'rxjs';
 
 export interface BookElement {
@@ -27,6 +41,23 @@ export interface BookElement {
   selector: 'app-whatabook1',
   templateUrl: './whatabook1.component.html',
   styleUrls: ['./whatabook1.component.scss'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    RouterLink,
+  ],
 })
 export class Whatabook1Component implements OnInit {
   xmlData = '';

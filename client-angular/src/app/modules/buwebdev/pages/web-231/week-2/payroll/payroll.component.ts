@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-payroll',
   templateUrl: './payroll.component.html',
   styleUrls: ['./payroll.component.css'],
+  standalone: true,
+  imports: [RouterLink],
 })
 export class PayrollComponent implements OnInit {
   // variables

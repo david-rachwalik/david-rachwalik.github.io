@@ -32,7 +32,9 @@ import { ItVsBusinessComponent } from './pages/web-430/it-vs-business/it-vs-busi
 import { SourceControlSecurityComponent } from './pages/web-430/source-control-security/source-control-security.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    BuwebdevRoutingModule,
+    SharedModule,
     // bioSite
     BiositeLayoutComponent,
     BiositeHomeComponent,
@@ -65,6 +67,5 @@ import { SourceControlSecurityComponent } from './pages/web-430/source-control-s
     SourceControlSecurityComponent,
     ChangeManagementComponent,
   ],
-  imports: [BuwebdevRoutingModule, SharedModule],
 })
 export class BuwebdevModule {}

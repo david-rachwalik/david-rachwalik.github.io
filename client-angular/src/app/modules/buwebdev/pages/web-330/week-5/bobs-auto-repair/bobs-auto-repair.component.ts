@@ -8,6 +8,16 @@
 */
 
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 import { Product, ShoppingCart } from './models/index';
 
@@ -15,6 +25,17 @@ import { Product, ShoppingCart } from './models/index';
   selector: 'app-bobs-auto-repair',
   templateUrl: './bobs-auto-repair.component.html',
   styleUrls: ['./bobs-auto-repair.component.scss'],
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardTitle,
+    FormsModule,
+    MatCardContent,
+    MatCardActions,
+    MatButton,
+    MatIcon,
+    RouterLink,
+  ],
 })
 export class BobsAutoRepairComponent implements OnInit {
   shoppingCart: ShoppingCart;

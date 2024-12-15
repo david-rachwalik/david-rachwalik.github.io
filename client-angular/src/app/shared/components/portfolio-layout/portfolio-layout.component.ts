@@ -4,12 +4,18 @@ import {
   ElementRef,
   ViewEncapsulation,
 } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+import { SubheaderComponent } from './subheader/subheader.component';
 
 @Component({
   selector: 'app-portfolio-layout',
   templateUrl: './portfolio-layout.component.html',
   styleUrls: ['./portfolio-layout.component.css'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [HeaderComponent, SubheaderComponent, RouterOutlet, FooterComponent],
 })
 // export class PortfolioLayoutComponent implements OnInit {
 export class PortfolioLayoutComponent implements AfterViewInit {
