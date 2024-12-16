@@ -7,7 +7,7 @@ import {
   MatCardTitle,
 } from '@angular/material/card';
 
-import { InnerCardComponent } from '../../../../shared/components/portfolio-layout/inner-card/inner-card.component';
+import { InnerCardComponent } from '@shared/components/portfolio-layout/inner-card/inner-card.component';
 
 interface ProjectCard {
   // flex: string;
