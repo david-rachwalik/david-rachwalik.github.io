@@ -2,18 +2,18 @@
 
 /* --- Initial Global Styles --- */
 
-@import 'tailwind'; /* Load TailwindCSS (must occur before themes) */
+@import 'tailwind.css'; /* Load TailwindCSS (must occur before themes) */
 /* https://material.angular.io/guide/theming */
-@import '@angular/material/prebuilt-themes/indigo-pink';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 /* --- Application Styles  --- */
 
-@import 'ng-fixes';
-@import 'global';
-@import 'buwebdev';
+@import 'ng-fixes/index.css';
+@import 'global.css';
+@import 'buwebdev/index.css';
 
 /* --- Lazy-Loaded Styles  --- */
 /* imported here (instead of layouts) for accurate source tracking in browser debugger */
 
-@import 'buwebdev/bioSite';
-@import 'portfolio';
+@import 'buwebdev/bioSite.css';
+@import 'portfolio/index.css';

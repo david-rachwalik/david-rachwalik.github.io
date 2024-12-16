@@ -1,5 +1,5 @@
-@import 'typography';
-@import 'main';
+@import 'typography.css';
+@import 'main.css';
 
 body.mat-typography p {
   @apply tw-mb-3;

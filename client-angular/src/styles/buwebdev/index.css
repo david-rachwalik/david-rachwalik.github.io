@@ -1,4 +1,4 @@
-@import './theme';
-@import './typography';
-@import './layout';
-@import './site';
+@import 'theme.css';
+@import 'typography.css';
+@import 'layout.css';
+@import 'site.css';

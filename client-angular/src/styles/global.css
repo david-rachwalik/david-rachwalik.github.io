@@ -5,6 +5,15 @@
   @apply tw-box-border;
 }
 
+:host {
+  /* Display as block -- every component is encapsulated inside a "host" element (shadow DOM) */
+  /* Replaces angular.json line "schematics.@schematics/angular:component.displayBlock": true */
+  @apply tw-block;
+  /* Default "box-sizing" is "content-box" */
+  /* Using "border-box" will include the element's borders and padding in its height/width */
+  @apply tw-box-border;
+}
+
 img {
   @apply tw-max-w-full;
 }
