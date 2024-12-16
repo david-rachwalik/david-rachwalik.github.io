@@ -22,19 +22,19 @@ export const routes: Routes = [
   {
     path: 'buwebdev',
     loadChildren: () =>
-      import('@modules/buwebdev/buwebdev.module').then((m) => m.BuwebdevModule),
+      import('@modules/buwebdev/buwebdev.routes').then((m) => m.buwebdevRoutes),
   },
   {
     path: 'portfolio',
     loadChildren: () =>
-      import('@modules/portfolio/portfolio.module').then(
-        (m) => m.PortfolioModule,
+      import('@modules/portfolio/portfolio.routes').then(
+        (m) => m.portfolioRoutes,
       ),
   },
   {
     path: 'demo',
     loadChildren: () =>
-      import('@modules/demo/demo.module').then((m) => m.DemoModule),
+      import('@modules/demo/demo.routes').then((m) => m.demoRoutes),
   },
   {
     path: 'roadmap',

@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { BuwebdevLayoutComponent } from '@shared/components/buwebdev-layout/buwebdev-layout.component';
 import { PortfolioLayoutComponent } from '@shared/components/portfolio-layout/portfolio-layout.component';
@@ -31,7 +30,7 @@ import { CiComponent } from './pages/web-430/ci/ci.component';
 import { ItVsBusinessComponent } from './pages/web-430/it-vs-business/it-vs-business.component';
 import { SourceControlSecurityComponent } from './pages/web-430/source-control-security/source-control-security.component';
 
-const routes: Routes = [
+export const buwebdevRoutes: Routes = [
   {
     path: 'bioSite',
     component: BiositeLayoutComponent,
@@ -162,9 +161,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class BuwebdevRoutingModule {}
