@@ -2,8 +2,7 @@
   <mat-card-title>
     @if (isHref(path)) {
       <a [href]="path" target="_blank">{{ header }}</a>
-    }
-    @if (!isHref(path)) {
+    } @else {
       <a [routerLink]="path">{{ header }}</a>
     }
   </mat-card-title>
