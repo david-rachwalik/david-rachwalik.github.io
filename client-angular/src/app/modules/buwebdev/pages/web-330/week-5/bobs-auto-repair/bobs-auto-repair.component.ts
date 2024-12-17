@@ -24,7 +24,7 @@ import { Product, ShoppingCart } from './models/index';
 @Component({
   selector: 'app-bobs-auto-repair',
   templateUrl: './bobs-auto-repair.component.html',
-  styleUrls: ['./bobs-auto-repair.component.scss'],
+  styleUrls: ['./bobs-auto-repair.component.css'],
   standalone: true,
   imports: [
     MatCard,

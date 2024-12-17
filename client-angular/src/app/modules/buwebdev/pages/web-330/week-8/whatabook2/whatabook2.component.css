@@ -1,0 +1,21 @@
+#bookTable th {
+  background-color: var(--table-header-background-color);
+  color: var(--table-header-color);
+}
+#bookTable .mat-mdc-header-row {
+  height: 33px;
+}
+
+#bookTable .mat-mdc-row:hover {
+  background-color: var(--table-hover-background-color);
+  color: var(--tablehover-color);
+}
+
+#bookTable td {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+#bookTable td.mat-column-isbn {
+  color: var(--anchor-color) !important;
+  cursor: pointer !important;
+}

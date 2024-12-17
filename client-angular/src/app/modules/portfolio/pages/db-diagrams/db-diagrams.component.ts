@@ -10,7 +10,7 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-db-diagrams',
   templateUrl: './db-diagrams.component.html',
-  styleUrls: ['./db-diagrams.component.scss'],
+  styleUrls: ['./db-diagrams.component.css'],
   standalone: true,
   imports: [
     MatCard,

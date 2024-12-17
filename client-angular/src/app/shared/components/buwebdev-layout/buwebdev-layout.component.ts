@@ -12,7 +12,7 @@ interface ThemeDetails {
 @Component({
   selector: 'app-buwebdev-layout',
   templateUrl: './buwebdev-layout.component.html',
-  styleUrls: ['./buwebdev-layout.component.scss'],
+  styleUrls: ['./buwebdev-layout.component.css'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [RouterLink, MatIcon, MatSlideToggle, RouterOutlet],

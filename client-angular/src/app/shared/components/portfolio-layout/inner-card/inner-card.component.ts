@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'portfolio-inner-card',
   templateUrl: './inner-card.component.html',
-  styleUrls: ['./inner-card.component.scss'],
+  styleUrls: ['./inner-card.component.css'],
   standalone: true,
   imports: [MatCard, MatCardTitle, NgIf, RouterLink, MatCardContent],
 })

@@ -40,7 +40,7 @@ export interface BookElement {
 @Component({
   selector: 'app-whatabook1',
   templateUrl: './whatabook1.component.html',
-  styleUrls: ['./whatabook1.component.scss'],
+  styleUrls: ['./whatabook1.component.css'],
   standalone: true,
   imports: [
     MatCard,

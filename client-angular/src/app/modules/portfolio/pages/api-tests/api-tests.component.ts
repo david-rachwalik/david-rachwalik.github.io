@@ -10,7 +10,7 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-api-tests',
   templateUrl: './api-tests.component.html',
-  styleUrls: ['./api-tests.component.scss'],
+  styleUrls: ['./api-tests.component.css'],
   standalone: true,
   imports: [
     MatCard,

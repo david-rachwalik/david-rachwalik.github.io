@@ -1,0 +1,34 @@
+/*
+============================================
+; Title:        rachwalik-calorie.js
+; Author:       David Rachwalik
+; Date:         2022/02/05
+; Description:  Auto Repair App for WEB-330 site
+;===========================================
+*/
+
+#btnAddProduct {
+  border: 1px solid var(--heading-background-color);
+  border-radius: 0;
+}
+
+#cart-message {
+  /* from instructions page 5, step 6a */
+  float: right;
+  color: #df546a;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+i:hover {
+  cursor: pointer;
+}
+
+cart-component,
+.card-title {
+  display: block;
+  width: 100%;
+  color: var(--card-title-color);
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 5px;
+}

@@ -33,11 +33,11 @@ interface MyFormGroup {
 @Component({
   selector: 'app-calorie',
   templateUrl: './calorie.component.html',
-  // styleUrls: ['./calorie.component.scss'],
+  // styleUrls: ['./calorie.component.css'],
   styleUrls: [
     '../../styles/theme.css',
     '../../styles/site.css',
-    './calorie.component.scss',
+    './calorie.component.css',
   ],
   standalone: true,
   imports: [

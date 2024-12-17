@@ -85,7 +85,7 @@ interface BookApiResponse {
 @Component({
   selector: 'app-whatabook2',
   templateUrl: './whatabook2.component.html',
-  styleUrls: ['./whatabook2.component.scss'],
+  styleUrls: ['./whatabook2.component.css'],
   standalone: true,
   imports: [
     MatCard,

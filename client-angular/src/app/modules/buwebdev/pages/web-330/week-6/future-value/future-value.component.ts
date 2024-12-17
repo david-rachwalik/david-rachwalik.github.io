@@ -25,7 +25,7 @@ import { Validator } from './models/validator';
 @Component({
   selector: 'app-future-value',
   templateUrl: './future-value.component.html',
-  styleUrls: ['./future-value.component.scss'],
+  styleUrls: ['./future-value.component.css'],
   standalone: true,
   imports: [
     MatCard,

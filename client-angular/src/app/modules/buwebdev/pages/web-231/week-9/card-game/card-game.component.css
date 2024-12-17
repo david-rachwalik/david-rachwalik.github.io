@@ -1,7 +1,3 @@
-:host {
-  display: block;
-}
-
 /* <link href="../node_modules/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet"> */
 /* This works but will increase the size of this app's styles */
 /* @import url('https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css'); */

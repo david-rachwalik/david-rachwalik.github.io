@@ -9,7 +9,7 @@ import {
 @Component({
   selector: 'app-ci',
   templateUrl: './ci.component.html',
-  styleUrls: ['./ci.component.scss'],
+  styleUrls: ['./ci.component.css'],
   standalone: true,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })

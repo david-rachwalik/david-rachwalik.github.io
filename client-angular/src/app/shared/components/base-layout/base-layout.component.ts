@@ -12,7 +12,7 @@ interface ThemeDetails {
 @Component({
   selector: 'app-base-layout',
   templateUrl: './base-layout.component.html',
-  styleUrls: ['./base-layout.component.scss'],
+  styleUrls: ['./base-layout.component.css'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [RouterLink, MatIcon, MatSlideToggle, RouterOutlet],

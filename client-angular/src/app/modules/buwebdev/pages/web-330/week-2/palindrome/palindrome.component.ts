@@ -32,7 +32,7 @@ interface MyFormGroup {
 @Component({
   selector: 'app-palindrome',
   templateUrl: './rachwalik-palindrome.html',
-  // styleUrls: ['./palindrome.component.scss'],
+  // styleUrls: ['./palindrome.component.css'],
   // <link rel="stylesheet" type="text/css" href="../styles/theme.css">
   // <link rel="stylesheet" type="text/css" href="../styles/site.css">
   styleUrls: ['../../styles/theme.css', '../../styles/site.css'],

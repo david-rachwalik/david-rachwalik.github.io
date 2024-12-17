@@ -23,7 +23,7 @@ import { Appetizer, Beverage, Bill, Dessert, MainCourse } from './models/index';
 @Component({
   selector: 'app-restaurant',
   templateUrl: './restaurant.component.html',
-  // styleUrls: ['./restaurant.component.scss'],
+  // styleUrls: ['./restaurant.component.css'],
   styleUrls: ['../../styles/theme.css', '../../styles/site.css'],
   standalone: true,
   imports: [
