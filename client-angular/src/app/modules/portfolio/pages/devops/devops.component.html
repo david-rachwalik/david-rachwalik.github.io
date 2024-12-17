@@ -1,21 +1,26 @@
 <mat-card appearance="outlined" class="mat-elevation-z3">
-    <mat-card-title class="card-title">WEB-430 DevOps</mat-card-title>
-    <mat-card-subtitle>
-        <h6 class="breadcrumb">Portfolio / DevOps</h6>
-    </mat-card-subtitle>
+  <mat-card-title class="card-title">WEB-430 DevOps</mat-card-title>
+  <mat-card-subtitle>
+    <h6 class="breadcrumb">Portfolio / DevOps</h6>
+  </mat-card-subtitle>
 
-    <!-- <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid"> -->
-    <mat-card-content class="card-content">
-        <div class="buwebdev-web430-devops-container">
-            <!-- <portfolio-inner-card *ngFor="let card of projectCards" [fxFlex]="card.flex" [path]="card.path" [header]="card.header" [content]="card.content">
-            </portfolio-inner-card> -->
-            <portfolio-inner-card *ngFor="let card of projectCards" [path]="card.path" [header]="card.header" [content]="card.content">
-            </portfolio-inner-card>
-        </div>
-    </mat-card-content>
-
-    <!-- <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid">
-        <portfolio-inner-card *ngFor="let card of projectCards" [ngClass]="card.cls" [path]="card.path" [header]="card.header" [content]="card.content">
+  <!-- <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid"> -->
+  <mat-card-content class="card-content">
+    <div class="buwebdev-web430-devops-container">
+      <!-- <portfolio-inner-card *ngFor="let card of projectCards" [fxFlex]="card.flex" [path]="card.path" [header]="card.header" [content]="card.content">
+    </portfolio-inner-card> -->
+      @for (card of projectCards; track card) {
+        <portfolio-inner-card
+          [path]="card.path"
+          [header]="card.header"
+          [content]="card.content">
         </portfolio-inner-card>
-    </mat-card-content> -->
+      }
+    </div>
+  </mat-card-content>
+
+  <!-- <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid">
+<portfolio-inner-card *ngFor="let card of projectCards" [ngClass]="card.cls" [path]="card.path" [header]="card.header" [content]="card.content">
+</portfolio-inner-card>
+</mat-card-content> -->
 </mat-card>

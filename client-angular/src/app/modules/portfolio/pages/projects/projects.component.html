@@ -1,24 +1,33 @@
 <mat-card appearance="outlined" class="mat-elevation-z3">
-    <mat-card-title class="card-title">Bellevue University Projects</mat-card-title>
-    <mat-card-subtitle>
-        <h6 class="breadcrumb">Portfolio / Projects</h6>
-    </mat-card-subtitle>
+  <mat-card-title class="card-title"
+    >Bellevue University Projects</mat-card-title
+  >
+  <mat-card-subtitle>
+    <h6 class="breadcrumb">Portfolio / Projects</h6>
+  </mat-card-subtitle>
 
-    <!-- <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid"> -->
-    <mat-card-content class="card-content">
-        <div class="buwebdev-web430-projects-container">
-            <!-- <portfolio-inner-card *ngFor="let card of projectCards" [fxFlex]="card.flex" [path]="card.path" [header]="card.header" [content]="card.content">
-                    </portfolio-inner-card> -->
-            <portfolio-inner-card *ngFor="let card of projectCards" [style]="card.style" [path]="card.path" [header]="card.header" [content]="card.content">
-            </portfolio-inner-card>
-        </div>
-        <span class="annotation">
-            * these example sites are running on inexpensive plans and may take minutes to "warm up" if they haven't been visited in a while
-        </span>
-    </mat-card-content>
-
-    <!-- <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid">
-        <portfolio-inner-card *ngFor="let card of projectCards" [ngClass]="card.cls" [path]="card.path" [header]="card.header" [content]="card.content">
+  <!-- <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid"> -->
+  <mat-card-content class="card-content">
+    <div class="buwebdev-web430-projects-container">
+      <!-- <portfolio-inner-card *ngFor="let card of projectCards" [fxFlex]="card.flex" [path]="card.path" [header]="card.header" [content]="card.content">
+    </portfolio-inner-card> -->
+      @for (card of projectCards; track card) {
+        <portfolio-inner-card
+          [style]="card.style"
+          [path]="card.path"
+          [header]="card.header"
+          [content]="card.content">
         </portfolio-inner-card>
-    </mat-card-content> -->
+      }
+    </div>
+    <span class="annotation">
+      * these example sites are running on inexpensive plans and may take
+      minutes to "warm up" if they haven't been visited in a while
+    </span>
+  </mat-card-content>
+
+  <!-- <mat-card-content class="card-content" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="16px grid">
+<portfolio-inner-card *ngFor="let card of projectCards" [ngClass]="card.cls" [path]="card.path" [header]="card.header" [content]="card.content">
+</portfolio-inner-card>
+</mat-card-content> -->
 </mat-card>

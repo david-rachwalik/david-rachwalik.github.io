@@ -7,7 +7,6 @@
 ;===========================================
 */
 
-import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -28,14 +27,13 @@ import { Validator } from './models/validator';
   styleUrls: ['./future-value.component.css'],
   standalone: true,
   imports: [
+    RouterLink,
+    FormsModule,
+    MatButton,
     MatCard,
     MatCardTitle,
     MatCardContent,
-    FormsModule,
-    NgFor,
     MatCardActions,
-    MatButton,
-    RouterLink,
   ],
 })
 export class FutureValueComponent implements OnInit {

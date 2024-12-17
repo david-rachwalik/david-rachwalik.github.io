@@ -1,9 +1,13 @@
 <mat-card appearance="outlined" class="project-card mat-elevation-z1">
-    <mat-card-title>
-        <a *ngIf="isHref(path)" [href]="path" target="_blank">{{ header }}</a>
-        <a *ngIf="!isHref(path)" [routerLink]="path">{{ header }}</a>
-    </mat-card-title>
-    <mat-card-content [innerHTML]="content">
-        <!-- <ng-content></ng-content> -->
-    </mat-card-content>
+  <mat-card-title>
+    @if (isHref(path)) {
+      <a [href]="path" target="_blank">{{ header }}</a>
+    }
+    @if (!isHref(path)) {
+      <a [routerLink]="path">{{ header }}</a>
+    }
+  </mat-card-title>
+  <mat-card-content [innerHTML]="content">
+    <!-- <ng-content></ng-content> -->
+  </mat-card-content>
 </mat-card>

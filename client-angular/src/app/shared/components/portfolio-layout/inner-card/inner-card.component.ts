@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
@@ -8,7 +7,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './inner-card.component.html',
   styleUrls: ['./inner-card.component.css'],
   standalone: true,
-  imports: [MatCard, MatCardTitle, NgIf, RouterLink, MatCardContent],
+  imports: [RouterLink, MatCard, MatCardTitle, MatCardContent],
 })
 export class InnerCardComponent implements OnInit {
   @Input() flex = '';

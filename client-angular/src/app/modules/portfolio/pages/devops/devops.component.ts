@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   MatCard,
@@ -27,7 +26,6 @@ interface ProjectCard {
     MatCardTitle,
     MatCardSubtitle,
     MatCardContent,
-    NgFor,
     InnerCardComponent,
   ],
 })

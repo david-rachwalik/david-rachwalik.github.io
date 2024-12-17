@@ -1,5 +1,5 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { NgIf } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
@@ -29,12 +29,11 @@ import { TASK_DATA, TaskNode } from './roadmap.data';
     MatTreeNodeDef,
     MatTreeNode,
     MatTreeNodeToggle,
-    NgIf,
     MatIcon,
     MatNestedTreeNode,
     MatIconButton,
-    MatTreeNodeOutlet,
-  ],
+    MatTreeNodeOutlet
+],
 })
 export class RoadmapComponent implements OnInit {
   treeControl = new NestedTreeControl<TaskNode>((node) => node.children);
