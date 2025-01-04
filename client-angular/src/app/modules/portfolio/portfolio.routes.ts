@@ -5,7 +5,7 @@ import { AboutComponent } from './pages/about/about.component';
 import { ApiTestsComponent } from './pages/api-tests/api-tests.component';
 import { DbDiagramsComponent } from './pages/db-diagrams/db-diagrams.component';
 import { DevopsComponent } from './pages/devops/devops.component';
-import { HomeComponent } from './pages/home/home.component';
+import { PortfolioHomeComponent } from './pages/home/home.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { ResumeComponent } from './pages/resume/resume.component';
 
@@ -16,7 +16,7 @@ export const portfolioRoutes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent,
+        component: PortfolioHomeComponent,
       },
       {
         path: 'about',

@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 
-import { BuwebdevLayoutComponent } from '@shared/components/buwebdev-layout/buwebdev-layout.component';
+import { BuwebdevLayoutComponent } from '@modules/buwebdev/components/buwebdev-layout/buwebdev-layout.component';
 import { PortfolioLayoutComponent } from '@shared/components/portfolio-layout/portfolio-layout.component';
 import { BiositeLayoutComponent } from './components/biosite-layout/biosite-layout.component';
 import { AboutComponent } from './pages/bioSite/about/about.component';
 import { HobbyComponent } from './pages/bioSite/hobby/hobby.component';
 import { BiositeHomeComponent } from './pages/bioSite/home/home.component';
+import { BuwebdevHomeComponent } from './pages/home/home.component';
 import { Web231HomeComponent } from './pages/web-231/home/home.component';
 import { Exercise2Component } from './pages/web-231/week-2/exercise2/exercise2.component';
 import { PayrollComponent } from './pages/web-231/week-2/payroll/payroll.component';
@@ -31,6 +32,17 @@ import { ItVsBusinessComponent } from './pages/web-430/it-vs-business/it-vs-busi
 import { SourceControlSecurityComponent } from './pages/web-430/source-control-security/source-control-security.component';
 
 export const buwebdevRoutes: Routes = [
+  {
+    path: '',
+    // component: BaseLayoutComponent,
+    component: BuwebdevLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: BuwebdevHomeComponent,
+      },
+    ],
+  },
   {
     path: 'bioSite',
     component: BiositeLayoutComponent,

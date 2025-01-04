@@ -7,13 +7,13 @@ import {
 } from '@angular/material/card';
 
 @Component({
-  selector: 'app-home',
+  selector: 'portfolio-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   standalone: true,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })
-export class HomeComponent implements OnInit {
+export class PortfolioHomeComponent implements OnInit {
   // constructor() {}
 
   ngOnInit(): void {}
