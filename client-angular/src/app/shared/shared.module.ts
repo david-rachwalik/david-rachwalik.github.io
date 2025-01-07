@@ -5,9 +5,10 @@ import {
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideMarkdown } from 'ngx-markdown';
 
+import { BuwebdevLayoutComponent } from '../modules/buwebdev/components/buwebdev-layout/buwebdev-layout.component';
 import { BaseLayoutComponent } from './components/base-layout/base-layout.component';
-import { BuwebdevLayoutComponent } from './components/buwebdev-layout/buwebdev-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { RoadmapComponent } from './pages/roadmap/roadmap.component';
@@ -35,6 +36,6 @@ import { RoadmapComponent } from './pages/roadmap/roadmap.component';
     BuwebdevLayoutComponent,
     RoadmapComponent,
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [provideHttpClient(withInterceptorsFromDi()), provideMarkdown()],
 })
 export class SharedModule {}

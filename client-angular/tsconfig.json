@@ -4,8 +4,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@shared/*": ["src/app/shared/*"],
+      "@assets/*": ["src/assets/*"],
       "@core/*": ["src/app/core/*"],
+      "@shared/*": ["src/app/shared/*"],
       "@modules/*": ["src/app/modules/*"],
       "@erpge/*": ["src/app/modules/erpge/*"]
     },
@@ -25,7 +26,9 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"]
+    "lib": ["ES2022", "dom"],
+    "resolveJsonModule": true, /* for JSON import */
+    "esModuleInterop": true /* for JSON import */
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

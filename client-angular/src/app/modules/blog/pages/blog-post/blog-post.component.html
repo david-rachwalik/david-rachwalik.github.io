@@ -1,0 +1,35 @@
+@if (loading) {
+  <h1>Loading...</h1>
+  <p>Please wait while the article is being retrieved.</p>
+} @else {
+  @if (article$ | async; as article) {
+    @if (article.metadata.active) {
+      <h1>{{ article.metadata.title }}</h1>
+      <p><b>Author:</b>&nbsp; {{ article.metadata.author }}</p>
+      <p><b>Created:</b>&nbsp; {{ article.metadata.created }}</p>
+      <p><b>Modified:</b>&nbsp; {{ article.metadata.modified }}</p>
+
+      <p class="annotation">
+        <b>Tags:</b>&nbsp; {{ article.metadata.tags.join(', ') }}
+      </p>
+      <mat-divider></mat-divider><br />
+
+      <!-- Blog Post Content -->
+      <markdown [data]="article.content"></markdown>
+    } @else {
+      <h1>Inactive Article</h1>
+      <p>This article is currently inactive.</p>
+    }
+  } @else {
+    <h1>Article Not Found</h1>
+    <p>The requested blog article could not be found.</p>
+  }
+}
+
+<!-- <p><i>Route Name:</i>&nbsp; {{ name }}</p> -->
+
+<!-- Demo Section -->
+<!-- <h6>Blog Post Markdown Test</h6>
+<br />
+<textarea class="variable-textarea" [(ngModel)]="markdown"></textarea>
+<markdown class="variable-binding" [data]="markdown"></markdown> -->

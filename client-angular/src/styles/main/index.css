@@ -1,0 +1,99 @@
+@import 'typography.css';
+@import 'main.css';
+
+body.mat-typography p {
+  @apply tw-mb-3;
+}
+
+/* app-main-layout .mat-mdc-card-content p {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-style: italic;
+  color: rgb(107 114 128);
+} */
+
+/* 14px, italic, dark grey */
+app-main-layout .mat-mdc-card-content .annotation {
+  @apply tw-text-sm tw-italic tw-text-gray-500;
+}
+
+app-main-layout .resume-download .mat-mdc-raised-button {
+  @apply tw-h-8;
+  background-color: #31d2f2;
+}
+app-main-layout .resume-download .mat-mdc-raised-button > .mat-icon {
+  height: 1.5rem; /* 24px */
+  width: 1.5rem; /* 24px */
+  font-size: 1.25rem; /* 20px */
+  vertical-align: middle;
+  overflow: hidden;
+  margin: 0;
+  padding-top: 2px;
+}
+
+/* Database Diagrams (WEB-335) */
+app-main-layout app-db-diagrams .mat-mdc-tab-body img.ng-star-inserted {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --------------------------------------------------- */
+
+/* .mat-mdc-standard-chip {
+  --mdc-chip-label-text-size: 12px;
+  --mdc-chip-label-text-font: 'Open Sans';
+  --mdc-chip-container-height: 25px;
+  --mdc-chip-elevated-container-color: rgb(221, 163, 163);
+} */
+/* @media (max-width: 1500px) {
+  .mat-mdc-standard-chip {
+    --mdc-chip-label-text-size: 8px;
+  }
+} */
+
+.mat-mdc-standard-chip {
+  --mdc-chip-label-text-size: 12px;
+  --mdc-chip-container-height: 24px;
+}
+
+/* --- Material Tab Styles --- */
+
+app-main-layout .mat-mdc-tab-header {
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.12); */
+  @apply tw-border-b tw-border-solid;
+  @apply tw-border-b-neutral-200;
+}
+
+app-main-layout .mat-mdc-tab-labels {
+  @apply tw-text-sm;
+}
+
+app-main-layout .mat-mdc-tab.mdc-tab {
+  @apply tw-h-9; /* to match 36px line-height */
+  @apply tw-tracking-normal;
+}
+
+app-main-layout
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs
+  > .mat-mdc-tab-header
+  .mat-mdc-tab {
+  flex-grow: initial; /* left-justified tabs */
+}
+
+/* --- Blog Area --- */
+
+app-main-layout .blog-categories-container {
+  @apply tw-grid tw-grid-cols-[auto_max-content];
+}
+
+app-main-layout .blog-articles-container {
+  @apply tw-grid tw-gap-3;
+}
+@media only screen and (min-width: 600px) {
+  app-main-layout .blog-articles-container {
+    @apply tw-grid-cols-2;
+  }
+}
+app-main-layout .blog-articles-container * {
+  @apply tw-w-full;
+}

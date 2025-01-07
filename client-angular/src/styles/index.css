@@ -15,5 +15,6 @@
 /* --- Lazy-Loaded Styles  --- */
 /* imported here (instead of layouts) for accurate source tracking in browser debugger */
 
+@import 'main/index.css';
 @import 'buwebdev/bioSite.css';
 @import 'portfolio/index.css';

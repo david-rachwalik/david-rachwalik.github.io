@@ -1,0 +1,231 @@
+/* body {
+  background-color: #ccffff !important;
+  background-image: linear-gradient(to bottom right, #ccffff, white) !important;
+} */
+
+app-main-layout .main-container .icon-container {
+  overflow: hidden; /* required to contain float */
+  padding-top: 1em;
+}
+
+/* -------- Two-Point Flex Container Styles -------- */
+
+app-main-layout .main-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+/* 600px-760px width - the side margins grow 0px-80px */
+@media only screen and (min-width: 600px) {
+  app-main-layout .main-container {
+    margin: 0 calc((100vw - 600px) / 2);
+  }
+}
+/* 760px-1060px width - the side margins remain at 80px as element grows 600px-900px */
+@media only screen and (min-width: 760px) {
+  app-main-layout .main-container {
+    @apply tw-mx-20;
+  }
+}
+/* >1060px width - the side margins return to auto */
+@media only screen and (min-width: 1060px) {
+  app-main-layout .main-container {
+    @apply tw-mx-auto;
+  }
+}
+/* Above is alternative to something like `<div fxFlex.gt-xs="calc(100% - 200px)" fxFlex>` */
+/* flex: 1 1 calc(100% - 200px); box-sizing: border-box; min-width: calc(100% - 200px); */
+
+/* -------- Card Styles -------- */
+
+app-main-layout .mat-mdc-card-title {
+  @apply tw-pt-4;
+}
+app-main-layout .mat-mdc-card-title {
+  @apply tw-pb-2;
+}
+app-main-layout app-resume .mat-mdc-card-title {
+  padding-bottom: 0;
+}
+
+app-main-layout .mat-mdc-card-subtitle {
+  margin: 0;
+}
+
+app-main-layout .mat-mdc-card-content {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+/* -------- Site Navigation Panel -------- */
+
+app-main-layout .dmr-main-bg {
+  margin-bottom: 1px;
+  padding: 8px;
+  background-image: linear-gradient(white, #ffffcc);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+
+app-main-layout footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+  background: #22c1c3;
+  background: linear-gradient(
+    0deg,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(153, 255, 204, 1) 100%
+  );
+  border-top: 1px solid #dee2e6;
+  padding: 4px;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+/* -------------------------------------------------- */
+
+/* -------- Experimental Area -------- */
+
+app-main-layout #navMainZone iframe {
+  border: 0;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+app-main-layout .b-example-divider {
+  height: 3rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: solid rgba(0, 0, 0, 0.15);
+  border-width: 1px 0;
+  box-shadow:
+    inset 0 0.5em 1.5em rgb(0 0 0 / 10%),
+    inset 0 0.125em 0.5em rgb(0 0 0 / 15%);
+}
+
+app-main-layout #btnAddProduct {
+  border: 1px solid var(--heading-background-color);
+  border-radius: 0;
+}
+
+app-main-layout i:hover {
+  cursor: pointer;
+}
+
+app-main-layout cart-component {
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+app-main-layout .card-image {
+  max-width: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
+  margin-bottom: 4px;
+}
+
+/* -------- Scrollbar Area -------- */
+
+/* Scrollbar is HTML and falls outside the theme without JS */
+app-main-layout :root {
+  --scrollbar-thumb-color: #434343;
+  --scrollbar-thumb-shadow: hsl(0deg 0% 100% / 25%);
+  --scrollbar-track-color: #111;
+  --scrollbar-track-shadow: rgb(0 0 0 / 25%);
+}
+
+app-main-layout html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+/* app-main-layout html::-webkit-scrollbar-thumb {
+  background: #434343;
+  border-radius: 16px;
+  box-shadow: inset 2px 2px 2px hsl(0deg 0% 100% / 25%), inset -2px -2px 2px rgb(0 0 0 / 25%);
+} */
+/* app-main-layout html::-webkit-scrollbar-track {
+  background: linear-gradient(90deg, #434343, #434343 1px, #111 0, #111);
+} */
+app-main-layout html::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  /* border-radius: 10px; */
+  box-shadow:
+    inset 2px 2px 2px var(--scrollbar-thumb-shadow),
+    inset -2px -2px 2px var(--scrollbar-track-shadow);
+}
+app-main-layout html::-webkit-scrollbar-track {
+  background: linear-gradient(
+    90deg,
+    var(--scrollbar-thumb-color),
+    var(--scrollbar-thumb-color) 1px,
+    var(--scrollbar-track-color) 0,
+    var(--scrollbar-track-color)
+  );
+}
+
+/* -------- Scrollbar Area -------- */
+
+app-main-layout table.work-locations {
+  width: 100%;
+}
+
+app-main-layout .videoPresentation {
+  max-width: 100%;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+/* -------- Resume -------- */
+
+app-main-layout .resume-download {
+  @apply tw-absolute tw-top-4 tw-right-4;
+}
+
+app-main-layout .resume-download button {
+  min-width: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 14px;
+  line-height: 21px;
+  background-color: #0dcaf0;
+}
+app-main-layout .resume-download button:hover {
+  background-color: #31d2f2;
+}
+
+app-main-layout .resume-download button mat-icon {
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+}
+
+app-main-layout .resume-email {
+  font-weight: 300;
+  text-align: center;
+  font-style: italic;
+}
+
+app-main-layout .mat-divider {
+  margin: 16px 0;
+}
+
+/* -------- Database Diagrams -------- */
+
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+app-main-layout app-db-diagrams .mat-tab-label,
+app-main-layout app-api-tests .mat-tab-label {
+  min-width: 0;
+}
+
+app-main-layout app-db-diagrams .mat-mdc-tab-body,
+app-main-layout app-api-tests .mat-mdc-tab-body {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+app-main-layout app-db-diagrams .mat-mdc-tab-body img,
+app-main-layout app-api-tests .mat-mdc-tab-body img {
+  max-width: 100%;
+}

@@ -1,0 +1,63 @@
+<!-- <h1 id="app-header">Blog Articles</h1>
+
+<p class="annotation">
+  <i>Categories:</i>&nbsp;
+  <mat-chip-set aria-label="Tag selection">
+    @for (category of categories; track category) {
+      <mat-chip>{{ category }}</mat-chip>
+    }
+  </mat-chip-set>
+</p> -->
+
+<mat-card appearance="outlined" class="card mat-elevation-z4">
+  <mat-card-title class="card-title">Blog Articles</mat-card-title>
+
+  <mat-card-content>
+    <p class="blog-categories-container annotation">
+      <i>Categories:</i>&nbsp;
+      <mat-chip-set aria-label="Tag selection">
+        <!-- <mat-chip>Programming</mat-chip>
+          <mat-chip>Videogame</mat-chip>
+          <mat-chip>Superhero</mat-chip>
+          <mat-chip>Anime</mat-chip> -->
+        @for (category of categories; track category) {
+          <mat-chip>{{ category }}</mat-chip>
+        }
+      </mat-chip-set>
+    </p>
+
+    <h2 id="app-header">Recent</h2>
+
+    <div class="blog-articles-container">
+      @for (article of articles; track article.id) {
+        <mat-card appearance="outlined" class="card mat-elevation-z1">
+          <mat-card-title>
+            <a [routerLink]="['/blog', article.id]" class="return-home">{{
+              article.title
+            }}</a>
+          </mat-card-title>
+
+          <mat-card-content class="card-context">
+            @if (article.subtitle) {
+              <p>{{ article.subtitle }}</p>
+            }
+
+            <p>{{ article.created | date: 'shortDate' }}</p>
+            @if (article.tags && article.tags.length > 0) {
+              <!-- <p><i>Tags:</i>&nbsp; {{ article.tags.join(', ') }}</p> -->
+              <p>{{ article.tags[0] }}</p>
+            }
+            <!-- Display the first tag -->
+
+            @if (article.imagePath) {
+              <p>
+                Image:
+                <img [src]="article.imagePath" alt="{{ article.title }}" />
+              </p>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

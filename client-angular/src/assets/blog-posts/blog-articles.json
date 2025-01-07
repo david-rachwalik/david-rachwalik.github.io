@@ -1,0 +1,17 @@
+[
+  {
+    "id": "2024-11-dev-container-angular",
+    "category": "Dev Container",
+    "title": "Angular in a Dev Container",
+    "author": "David Rachwalik",
+    "created": "2024-11-24",
+    "modified": "2024-11-25",
+    "active": true,
+    "tags": [
+      "Dev Container",
+      "VS Code",
+      "Angular",
+      "Markdown"
+    ]
+  }
+]
