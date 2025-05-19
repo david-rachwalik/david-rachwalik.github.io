@@ -1,0 +1,27 @@
+.rpg-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 1rem;
+  background-color: #f9f5f2;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}
+
+.stats p {
+  margin: 0.5rem 0;
+}
+
+.buttons {
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.log {
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fff;
+  padding: 1rem;
+  border: 1px solid #999;
+}
