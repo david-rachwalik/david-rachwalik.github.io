@@ -28,6 +28,14 @@ Connect to container by ID or name
 
 ```bash
 docker exec -it --user vscode -w /workspaces/<project-name> <container-id> /bin/zsh
+docker exec -it --user vscode <container-id> /bin/zsh
+```
+
+Run Node application in dev container
+
+```bash
+cd /workspaces/david-rachwalik.github.io/client-angular
+npm run dev
 ```
 
 #### Angular 'generate' Commands Used
