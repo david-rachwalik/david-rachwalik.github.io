@@ -19,8 +19,8 @@ import { BlogService } from '@modules/blog/blog.service';
 export class BlogPostComponent implements OnInit {
   loading: boolean = true;
   name: string = '';
-  // article: BlogArticle | null = null;
-  article$: Observable<BlogArticle | null> = of(null);
+  // article: BlogArticle | undefined = undefined;
+  article$: Observable<BlogArticle | undefined> = of(undefined);
   markdown = `## Markdown __rulez__!
 ---
 

@@ -27,7 +27,7 @@ export class BlogService {
     return errorMessage;
   }
 
-  fetchArticle(name: string): Observable<BlogArticle | null> {
+  fetchArticle(name: string): Observable<BlogArticle | undefined> {
     // Find the matching article metadata
     const article = BLOG_ARTICLES.find(
       (a: BlogMetadata) => a.id === name,
@@ -35,7 +35,7 @@ export class BlogService {
 
     if (!article) {
       console.error(`No article found for id: ${name}`);
-      return of(null);
+      return of(undefined);
     }
 
     const { category } = article; // Use destructuring to extract article.category
@@ -63,7 +63,7 @@ export class BlogService {
           // });
           const errorMessage = this.parseErrorMessage(error);
           console.error(`Error fetching blog post: ${errorMessage}`);
-          return of(null); // Gracefully return null if not found
+          return of(undefined); // Gracefully return if not found
         }),
       );
   }
