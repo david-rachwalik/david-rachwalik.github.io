@@ -1,0 +1,72 @@
+<div class="play-container">
+  <!-- Sidebar: Player Stats & Status -->
+  <aside class="sidebar">
+    <div class="player-info">
+      <h2>{{ character.name }}</h2>
+      <div class="player-level">
+        Level {{ character.attributes['level'] || 1 }}
+      </div>
+      <div class="player-health">
+        <span>HP:</span>
+        <span class="stat-value">{{ character.attributes['hp'] || 0 }}</span>
+        <span class="divider">/</span>
+        <span class="stat-max">{{ character.attributes['maxHp'] || 0 }}</span>
+      </div>
+      <div class="player-stats">
+        <div *ngFor="let stat of mainStats">
+          <span class="stat-label">{{ stat.label }}:</span>
+          <span class="stat-value">{{
+            character.attributes[stat.key] || 0
+          }}</span>
+        </div>
+      </div>
+      <div class="player-status">
+        <span
+          *ngFor="let effect of getActiveEffects()"
+          class="status-effect"
+          [title]="effect.description">
+          {{ effect.label }}
+        </span>
+      </div>
+    </div>
+    <div class="player-inventory">
+      <h3>Inventory</h3>
+      <ul>
+        <li *ngFor="let item of inventory">
+          {{ item.name }} <span *ngIf="item.qty > 1">x{{ item.qty }}</span>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content: Current Moment & Actions -->
+  <main class="moment-main">
+    <section class="moment-header">
+      <h1>{{ moment.title || 'Adventure' }}</h1>
+      <div class="moment-location">
+        {{ character.location || 'Unknown Location' }}
+      </div>
+    </section>
+
+    <section class="moment-text">
+      <p>{{ moment.content }}</p>
+    </section>
+
+    <section class="moment-choices">
+      <button
+        *ngFor="let choice of getChoices()"
+        class="action-btn"
+        [disabled]="!choice.enabled"
+        (click)="chooseChoice(choice.id)">
+        {{ choice.label }}
+      </button>
+    </section>
+
+    <section class="moment-log">
+      <h4>Recent Events</h4>
+      <ul>
+        <li *ngFor="let entry of eventLog">{{ entry }}</li>
+      </ul>
+    </section>
+  </main>
+</div>

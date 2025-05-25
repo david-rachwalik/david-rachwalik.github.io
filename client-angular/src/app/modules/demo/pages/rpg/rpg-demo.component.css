@@ -1,27 +1,131 @@
-.rpg-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 1rem;
-  background-color: #f9f5f2;
-  border: 2px solid #ccc;
-  border-radius: 8px;
+/* .rpg-landing-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background:
+    linear-gradient(to top, #1a232a 0%, #2c3e50 100%),
+    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80')
+      center/cover no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
 
-.stats p {
-  margin: 0.5rem 0;
-}
-
-.buttons {
-  margin: 1rem 0;
+.rpg-landing-overlay {
+  background: rgba(24, 20, 32, 0.7);
+  min-height: 100vh;
+  width: 100vw;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
-.log {
-  max-height: 200px;
-  overflow-y: auto;
-  background: #fff;
-  padding: 1rem;
-  border: 1px solid #999;
+.rpg-landing-container {
+  background: rgba(44, 38, 58, 0.92);
+  border-radius: 18px;
+  box-shadow:
+    0 0 40px 10px #000a,
+    0 0 0 4px #e0b06055;
+  padding: 3rem 2.5rem 2.5rem 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  color: #f3e6d0;
+  position: relative;
+} */
+
+.rpg-landing-bg {
+  /* Remove position: fixed, top, left, z-index, width: 100vw, min-height: 100vh */
+  height: 100%;
+  width: 100%;
+  background:
+    linear-gradient(to top, #1a232a 0%, #2c3e50 100%),
+    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80')
+      center/cover no-repeat;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rpg-landing-overlay {
+  /* Remove min-height/width: 100vh/vw */
+  background: rgba(24, 20, 32, 0.7);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rpg-landing-container {
+  background: rgba(44, 38, 58, 0.92);
+  border-radius: 18px;
+  box-shadow:
+    0 0 40px 10px #000a,
+    0 0 0 4px #e0b06055;
+  padding: 3rem 2.5rem 2.5rem 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  color: #f3e6d0;
+  position: relative;
+  margin: 0 auto;
+}
+
+.rpg-title {
+  font-family: 'Cinzel Decorative', 'Georgia', serif;
+  font-size: 2.7rem;
+  color: #ffe7a0;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+  text-shadow:
+    0 2px 12px #e0b06088,
+    0 0 2px #000;
+}
+
+.rpg-desc {
+  font-size: 1.15rem;
+  color: #e0d6c3;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 6px #000a;
+}
+
+.rpg-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.rpg-btn {
+  background: linear-gradient(90deg, #e0b060 0%, #b97c3c 100%);
+  color: #2c1c0a;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 1.35rem;
+  font-weight: bold;
+  padding: 1.1rem 0;
+  border: none;
+  border-radius: 12px;
+  box-shadow:
+    0 4px 18px #0007,
+    0 0 0 2px #fff2 inset;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.1s,
+    box-shadow 0.2s;
+  width: 100%;
+  letter-spacing: 1px;
+}
+
+.rpg-btn:hover,
+.rpg-btn:focus {
+  background: linear-gradient(90deg, #ffe7a0 0%, #e0b060 100%);
+  color: #7a4a1a;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 8px 32px #e0b06044,
+    0 0 0 2px #ffe7a0 inset;
+  outline: none;
 }

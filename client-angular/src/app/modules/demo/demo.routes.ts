@@ -1,10 +1,16 @@
 import { Routes } from '@angular/router';
-import { RpgDemoComponent } from './pages/rpg/rpg-demo.component';
+
+import { RpgSimpleDemoComponent } from './pages/rpg-simple/rpg-simple-demo.component';
 
 export const demoRoutes: Routes = [
   { path: '', redirectTo: 'rpg', pathMatch: 'full' },
   {
+    path: 'rpg-simple',
+    component: RpgSimpleDemoComponent,
+  },
+  {
     path: 'rpg',
-    component: RpgDemoComponent,
+    loadChildren: () =>
+      import('./pages/rpg/rpg.routes').then((m) => m.rpgRoutes),
   },
 ];

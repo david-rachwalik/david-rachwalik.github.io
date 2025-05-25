@@ -1,0 +1,17 @@
+<!-- save-slots-page.component.html -->
+<div class="p-4">
+  <h2 class="text-xl font-bold mb-4">Save Slots</h2>
+  <div *ngFor="let slot of saveSlots" class="mb-4 p-2 border rounded">
+    <div class="font-semibold">{{ slot.label }} ({{ slot.id }})</div>
+    <div class="text-sm text-gray-500">
+      Last Played: {{ slot.savedAt | date: 'short' }} • Size:
+      {{ slot.sizeKB | number: '1.0-2' }} KB
+    </div>
+    <div class="mt-2 space-x-2">
+      <button (click)="load(slot.id)" class="btn btn-sm">Load</button>
+      <button (click)="delete(slot.id)" class="btn btn-sm btn-danger">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

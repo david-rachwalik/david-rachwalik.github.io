@@ -1,0 +1,154 @@
+.play-container {
+  display: flex;
+  min-height: 90vh;
+  background: #18141c;
+  color: #f3e6d0;
+  font-family: 'Georgia', serif;
+}
+
+.sidebar {
+  width: 320px;
+  background: #231b2e;
+  padding: 2rem 1.5rem;
+  border-right: 3px solid #3a2c4d;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.player-info h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  color: #e0b060;
+  letter-spacing: 1px;
+}
+
+.player-level {
+  font-size: 1.1rem;
+  color: #bfa76f;
+  margin-bottom: 1rem;
+}
+
+.player-health {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+.stat-value {
+  color: #e06060;
+}
+.stat-max {
+  color: #bfa76f;
+}
+.divider {
+  color: #888;
+}
+
+.player-stats {
+  margin-bottom: 1rem;
+}
+.stat-label {
+  color: #bfa76f;
+  margin-right: 0.5em;
+}
+
+.player-status {
+  margin-bottom: 1rem;
+}
+.status-effect {
+  display: inline-block;
+  background: #4a2e5c;
+  color: #e0b060;
+  border-radius: 4px;
+  padding: 0.2em 0.6em;
+  margin: 0 0.2em 0.2em 0;
+  font-size: 0.95em;
+}
+
+.player-inventory h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #bfa76f;
+}
+.player-inventory ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.player-inventory li {
+  margin-bottom: 0.3em;
+  color: #f3e6d0;
+}
+
+.moment-main {
+  flex: 1;
+  padding: 2.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.moment-header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  color: #e0b060;
+}
+.moment-location {
+  font-size: 1.1rem;
+  color: #bfa76f;
+  margin-bottom: 1rem;
+}
+
+.moment-text {
+  background: #221a28;
+  border-radius: 8px;
+  padding: 1.5rem;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  min-height: 120px;
+}
+
+.moment-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.action-btn {
+  background: #4a2e5c;
+  color: #f3e6d0;
+  border: 2px solid #bfa76f;
+  border-radius: 6px;
+  padding: 0.8em 2em;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.action-btn:hover:not(:disabled) {
+  background: #e0b060;
+  color: #231b2e;
+}
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.moment-log {
+  background: #221a28;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #bfa76f;
+}
+.moment-log h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+.moment-log ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.moment-log li {
+  margin-bottom: 0.2em;
+}
