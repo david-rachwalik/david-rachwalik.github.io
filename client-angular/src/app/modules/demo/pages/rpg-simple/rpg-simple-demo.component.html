@@ -1,0 +1,41 @@
+<mat-card class="rpg-container">
+  <h1>Text RPG Demo</h1>
+
+  <div class="stats">
+    <p><strong>Health:</strong>&nbsp; {{ health }}</p>
+    <p><strong>Target Dummy:</strong>&nbsp; {{ targetDummyHealth }} HP</p>
+    <p>
+      <strong>Inventory:</strong>&nbsp; {{ inventory.join(', ') || 'None' }}
+    </p>
+  </div>
+
+  <div class="buttons">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="attack()"
+      [disabled]="!isAlive">
+      Attack Dummy
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="takeDamage()"
+      [disabled]="!isAlive">
+      Take Damage
+    </button>
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="useItem('Health Potion')"
+      [disabled]="!inventory.includes('Health Potion') || !isAlive">
+      Use Health Potion
+    </button>
+    <button mat-button (click)="reset()">Reset</button>
+  </div>
+
+  <mat-card class="log">
+    <h2>Combat Log</h2>
+    <div *ngFor="let entry of log">{{ entry }}</div>
+  </mat-card>
+</mat-card>
