@@ -7,8 +7,8 @@ export interface MomentChoice {
 export interface Moment {
   id: string;
   title: string;
-  description: string;
+  description: string; // tooltips
   content: string;
-  tags: string[];
   choices: MomentChoice[];
+  tags: string[];
 }

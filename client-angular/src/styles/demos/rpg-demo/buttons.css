@@ -1,0 +1,122 @@
+app-rpg-demo-layout .w-100 {
+  width: 100%;
+}
+
+app-rpg-demo-layout .rpg-btn {
+  background: linear-gradient(90deg, var(--rpg-gold) 0%, #b97c3c 100%);
+  color: #2c1c0a;
+  /* padding: 1.1rem 0; */
+  /* padding: 0.6em 2em; */
+  padding: 0.75rem 2rem;
+  border: none;
+  /* border-radius: 12px; */
+  border-radius: 6px;
+  box-shadow:
+    0 4px 18px #0007,
+    0 0 0 2px #fff2 inset;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.1s,
+    box-shadow 0.2s,
+    color 0.2s;
+}
+.mat-typography app-rpg-demo-layout .rpg-btn {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 1.35rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+app-rpg-demo-layout .rpg-btn:hover,
+app-rpg-demo-layout .rpg-btn:focus {
+  background: linear-gradient(
+    90deg,
+    var(--rpg-gold-light) 0%,
+    var(--rpg-gold) 100%
+  );
+  color: #7a4a1a;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 8px 32px var(--rpg-gold) 44,
+    0 0 0 2px var(--rpg-gold-light) inset;
+  outline: none;
+}
+app-rpg-demo-layout .rpg-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+app-rpg-demo-layout .rpg-btn:hover:not(:disabled) {
+  background: linear-gradient(90deg, #ffe7a0 0%, #e0b060 100%);
+  color: #7a4a1a;
+}
+
+app-rpg-demo-layout .continue-btn {
+  background: #2ecc40;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+app-rpg-demo-layout .rpg-landing-bg {
+  /* Remove position: fixed, top, left, z-index, width: 100vw, min-height: 100vh */
+  height: 100%;
+  width: 100%;
+  background:
+    linear-gradient(to top, #1a232a 0%, #2c3e50 100%),
+    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80')
+      center/cover no-repeat;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+app-rpg-demo-layout .rpg-landing-overlay {
+  /* Remove min-height/width: 100vh/vw */
+  background: rgba(24, 20, 32, 0.7);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+app-rpg-demo-layout .rpg-landing-container {
+  background: rgba(44, 38, 58, 0.92);
+  border-radius: 18px;
+  box-shadow:
+    0 0 40px 10px #000a,
+    0 0 0 4px #e0b06055;
+  padding: 3rem 2.5rem 2.5rem 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  color: #f3e6d0;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* --- NEW GAME (app-new-game) --- */
+
+app-rpg-demo-layout button[mat-flat-button] {
+  background: linear-gradient(90deg, #e0b060 0%, #b97c3c 100%);
+  color: #2c1c0a;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-weight: bold;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px #0004;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+app-rpg-demo-layout button[mat-flat-button]:hover:not(:disabled) {
+  background: linear-gradient(90deg, #ffe7a0 0%, #e0b060 100%);
+  color: #7a4a1a;
+}
+app-rpg-demo-layout button[mat-button] {
+  color: #bfa76f;
+}

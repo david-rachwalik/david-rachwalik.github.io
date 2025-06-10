@@ -1,0 +1,11 @@
+:root {
+  --rpg-bg-gradient: linear-gradient(to top, #1a232a 0%, #2c3e50 100%);
+  --rpg-bg-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');
+  --rpg-bg-color: #181420;
+  --rpg-overlay: rgba(24, 20, 32, 0.7);
+  --rpg-container-bg: rgba(44, 38, 58, 0.92);
+  --rpg-gold: #e0b060;
+  --rpg-gold-light: #ffe7a0;
+  --rpg-text: #f3e6d0;
+  --rpg-accent: #bfa76f;
+}

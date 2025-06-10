@@ -1,9 +1,12 @@
 import { Component, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
 import { SaveSlot } from '../../models/save-slot';
 import { GameSaveService } from '../../services/game-save.service';
+import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component';
 
 interface SaveSlotDisplay {
   id: string;
@@ -20,27 +23,27 @@ interface SaveSlotDisplay {
   selector: 'app-rpg-data',
   imports: [CommonModule],
   templateUrl: './rpg-data.component.html',
-  styleUrls: ['./rpg-data.component.css'],
+  // styleUrls: ['./rpg-data.component.css'],
 })
 export class RpgDataComponent {
   private saveService = inject(GameSaveService);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   currentSave: SaveSlotDisplay | undefined = undefined;
   otherSaves: SaveSlotDisplay[] = [];
-  confirmDeleteId: string | undefined = undefined;
 
   ngOnInit() {
-    const allSaves = this.saveService.listSaves().map(this.mapSaveSlot);
+    const allSaves = this.saveService.listSaves().map(this.mapSlotDisplay);
     allSaves.sort((a, b) => a.label.localeCompare(b.label));
     this.currentSave =
-      allSaves.find((s) => s.id === this.saveService.getCurrentSaveId()) ??
+      allSaves.find((s) => s.id === this.saveService.currentSlotId) ??
       undefined;
     this.otherSaves = allSaves.filter((s) => s.id !== this.currentSave?.id);
   }
 
   // Use arrow function to bind `this`
-  mapSaveSlot = (slot: SaveSlot): SaveSlotDisplay => {
+  mapSlotDisplay = (slot: SaveSlot): SaveSlotDisplay => {
     const player = slot.state?.characters?.[0] ?? {};
     return {
       id: slot.id,
@@ -59,24 +62,44 @@ export class RpgDataComponent {
     await this.router.navigate(['/demo/rpg/play']);
   }
 
-  async loadSave(id: string) {
-    this.saveService.load(id);
-    await this.router.navigate(['/demo/rpg/play']);
+  async newGame() {
+    await this.router.navigate(['/demo/rpg/new-game']);
   }
 
-  confirmDelete(id: string) {
-    this.confirmDeleteId = id;
-    // show modal or use Angular Material Dialog
+  activateSave(id: string) {
+    this.saveService.setCurrentSlotId(id);
+    // Optionally, reload the saves to update the UI
+    this.ngOnInit();
+  }
+
+  async confirmDelete(id: string) {
+    console.log('[RpgData] Delete requested for slot:', id);
+
+    const save = this.otherSaves.find((s) => s.id === id) || this.currentSave;
+    if (!save) {
+      console.warn('[RpgData] Save not found for id:', id);
+      return;
+    }
+
+    console.log('[RpgData] Opening confirm dialog for:', save.label);
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      data: { label: save.label },
+    });
+
+    const result = (await firstValueFrom(dialogRef.afterClosed())) as boolean;
+    console.log('[RpgData] Dialog closed. User confirmed delete:', result);
+
+    if (result) {
+      this.deleteSave(id);
+    } else {
+      console.log('[RpgData] Delete cancelled by user.');
+    }
   }
 
   deleteSave(id: string) {
-    this.saveService.deleteSlot(id);
-    this.confirmDeleteId = undefined;
-    this.closeModal();
+    console.log('[RpgData] Deleting save slot:', id);
+    this.saveService.delete(id);
     this.ngOnInit(); // reload saves
-  }
-
-  closeModal() {
-    this.confirmDeleteId = undefined;
+    console.log('[RpgData] Save slot deleted and UI refreshed.');
   }
 }

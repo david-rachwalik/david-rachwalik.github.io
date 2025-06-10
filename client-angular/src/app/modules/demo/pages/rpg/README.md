@@ -1,5 +1,27 @@
 # RPG Demo
 
+## Full List of Features for the RPG Demo
+
+### Core Game Features
+
+- Character creation and management
+- Inventory management (add, remove, use items)
+- Attribute/stat management (view, edit, level up)
+- Game moments/scenes (narrative progression)
+- Choices and branching paths
+- Locations and movement
+- Effects/status management (buffs, debuffs)
+- Game saves (multiple slots, load/save/delete)
+- Preferences/settings (difficulty, pronouns, blocked tags, etc.)
+- Event log/history
+- Tagging system (for items, moments, locations, etc.)
+
+### Admin/Data Management Features
+
+- CRUD for all static data:&nbsp; Attributes, Items, Moments, Locations, Tags
+- Live editing of static data (in-memory, with future remote support)
+- Data import/export (optional, for advanced users)
+
 ## Components
 
 ### Separation of Concerns

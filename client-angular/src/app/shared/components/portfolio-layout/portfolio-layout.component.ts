@@ -24,8 +24,9 @@ import { SubheaderComponent } from './subheader/subheader.component';
 // export class PortfolioLayoutComponent implements OnInit {
 // export class PortfolioLayoutComponent implements AfterViewInit {
 export class PortfolioLayoutComponent implements OnInit, OnDestroy {
+  private readonly className = 'bg-portfolio-layout';
   // constructor(private elementRef: ElementRef) {}
-  constructor(private backgroundStyleService: BackgroundStyleService) {}
+  constructor(private bgService: BackgroundStyleService) {}
 
   // https://stackoverflow.com/questions/46670795/how-to-change-whole-page-background-color-in-angular
   // https://angular.io/guide/lifecycle-hooks#lifecycle-event-sequence
@@ -57,16 +58,24 @@ export class PortfolioLayoutComponent implements OnInit, OnDestroy {
   //   }
   // }
 
+  // ngOnInit(): void {
+  //   this.backgroundStyleService.storeOriginalStyles();
+  //   this.backgroundStyleService.setBackgroundStyles(
+  //     '#ccffff',
+  //     'linear-gradient(to bottom right, #ccffff, white)',
+  //     'fixed',
+  //   );
+  // }
+
+  // ngOnDestroy(): void {
+  //   this.backgroundStyleService.restoreOriginalStyles();
+  // }
+
   ngOnInit(): void {
-    this.backgroundStyleService.storeOriginalStyles();
-    this.backgroundStyleService.setBackgroundStyles(
-      '#ccffff',
-      'linear-gradient(to bottom right, #ccffff, white)',
-      'fixed',
-    );
+    this.bgService.addBodyClass(this.className);
   }
 
   ngOnDestroy(): void {
-    this.backgroundStyleService.restoreOriginalStyles();
+    this.bgService.removeBodyClass(this.className);
   }
 }

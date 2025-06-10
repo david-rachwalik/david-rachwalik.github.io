@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { Subscription } from 'rxjs';
+// import { Subscription } from 'rxjs';
 
 import { BackgroundStyleService } from '@shared/services/background-style.service';
 
@@ -15,39 +15,48 @@ import { BackgroundStyleService } from '@shared/services/background-style.servic
   imports: [RouterOutlet, RouterLink, MatIcon, MatSlideToggle],
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
-  private backgroundStyleSubscription!: Subscription;
+  private readonly className = 'bg-main-layout';
+  // private backgroundStyleSubscription!: Subscription;
   currentYear = 0;
 
-  constructor(private backgroundStyleService: BackgroundStyleService) {
+  constructor(private bgService: BackgroundStyleService) {
     this.currentYear = new Date().getFullYear();
   }
 
-  ngOnInit(): void {
-    this.backgroundStyleService.storeOriginalStyles();
-    this.backgroundStyleService.setBackgroundStyles(
-      '#ccffff',
-      'linear-gradient(to bottom right, #ccffff, white)',
-      'fixed',
-    );
-    // this.backgroundService.setBackgroundStyles(
-    //   '#800020',
-    //   'linear-gradient(to bottom right, #800020, #66001a)',
-    //   'fixed',
-    // );
+  // ngOnInit(): void {
+  //   this.backgroundStyleService.storeOriginalStyles();
+  //   this.backgroundStyleService.setBackgroundStyles(
+  //     '#ccffff',
+  //     'linear-gradient(to bottom right, #ccffff, white)',
+  //     'fixed',
+  //   );
+  //   // this.backgroundService.setBackgroundStyles(
+  //   //   '#800020',
+  //   //   'linear-gradient(to bottom right, #800020, #66001a)',
+  //   //   'fixed',
+  //   // );
 
-    // Subscribe to background style updates
-    this.backgroundStyleSubscription =
-      this.backgroundStyleService.backgroundStyle$.subscribe((styles) => {
-        console.log('Background styles updated:', styles);
-      });
+  //   // Subscribe to background style updates
+  //   this.backgroundStyleSubscription =
+  //     this.backgroundStyleService.backgroundStyle$.subscribe((styles) => {
+  //       console.log('Background styles updated:', styles);
+  //     });
+  // }
+
+  // ngOnDestroy(): void {
+  //   this.backgroundStyleService.restoreOriginalStyles();
+
+  //   // Unsubscribe to avoid memory leaks
+  //   if (this.backgroundStyleSubscription) {
+  //     this.backgroundStyleSubscription.unsubscribe();
+  //   }
+  // }
+
+  ngOnInit(): void {
+    this.bgService.addBodyClass(this.className);
   }
 
   ngOnDestroy(): void {
-    this.backgroundStyleService.restoreOriginalStyles();
-
-    // Unsubscribe to avoid memory leaks
-    if (this.backgroundStyleSubscription) {
-      this.backgroundStyleSubscription.unsubscribe();
-    }
+    this.bgService.removeBodyClass(this.className);
   }
 }

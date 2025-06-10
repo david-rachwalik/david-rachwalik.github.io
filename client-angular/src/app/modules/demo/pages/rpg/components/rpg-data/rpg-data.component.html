@@ -2,50 +2,55 @@
   <header class="rpg-data-header">
     <h2>Game Saves</h2>
     <button class="continue-btn" (click)="continueGame()">Continue</button>
+    <button class="rpg-btn" style="margin-left: 1rem" (click)="newGame()">
+      New Game
+    </button>
   </header>
 
-  <section class="current-save" *ngIf="currentSave">
-    <h3>Current Save</h3>
-    <div class="save-slot current">
-      <div>
-        <strong>{{ currentSave.label }}</strong>
-        <span>({{ currentSave.id }})</span>
+  @if (currentSave) {
+    <section class="current-save">
+      <h3>Active Game</h3>
+      <div class="save-slot current">
+        <div>
+          <strong>{{ currentSave.label }}</strong
+          >&nbsp;
+          <span>({{ currentSave.id }})</span>
+        </div>
+        <div>
+          Player:&nbsp; {{ currentSave.playerName }} | Level:
+          {{ currentSave.level }} | Location: {{ currentSave.location }}
+        </div>
+        <div>Size:&nbsp; {{ currentSave.size }} KB</div>
+        <div>
+          Last Played:&nbsp; {{ currentSave.lastPlayed | date: 'short' }}
+        </div>
       </div>
-      <div>
-        Player: {{ currentSave.playerName }} | Level: {{ currentSave.level }} |
-        Location: {{ currentSave.location }}
-      </div>
-      <div>Size: {{ currentSave.size }} KB</div>
-      <div>Last Played: {{ currentSave.lastPlayed | date: 'short' }}</div>
-    </div>
-  </section>
+    </section>
+  }
 
-  <section class="other-saves" *ngIf="otherSaves.length">
-    <h3>Other Saves</h3>
-    <div *ngFor="let save of otherSaves" class="save-slot">
-      <div>
-        <strong>{{ save.label }}</strong>
-        <span>({{ save.id }})</span>
-      </div>
-      <div>
-        Player: {{ save.playerName }} | Level: {{ save.level }} | Location:
-        {{ save.location }}
-      </div>
-      <div>Size: {{ save.size }} KB</div>
-      <div>Last Played: {{ save.lastPlayed | date: 'short' }}</div>
-      <div class="save-actions">
-        <button (click)="loadSave(save.id)">Load</button>
-        <button class="danger" (click)="confirmDelete(save.id)">Delete</button>
-      </div>
-    </div>
-  </section>
+  @if (otherSaves.length) {
+    <section class="other-saves">
+      <h3>Other Saves</h3>
+      @for (save of otherSaves; track save.id) {
+        <div class="save-slot">
+          <div>
+            <strong>{{ save.label }}</strong>
+            <span>({{ save.id }})</span>
+          </div>
+          <div>
+            Player:&nbsp; {{ save.playerName }} | Level: {{ save.level }} |
+            Location: {{ save.location }}
+          </div>
+          <div>Size:&nbsp; {{ save.size }} KB</div>
+          <div>Last Played:&nbsp; {{ save.lastPlayed | date: 'short' }}</div>
+          <div class="save-actions">
+            <button (click)="activateSave(save.id)">Activate</button>
+            <button class="danger" (click)="confirmDelete(save.id)">
+              Delete
+            </button>
+          </div>
+        </div>
+      }
+    </section>
+  }
 </div>
-
-<!-- Confirmation Modal -->
-<ng-template #confirmDeleteModal let-id="id">
-  <div class="modal-content">
-    <p>Are you sure you want to delete this save?</p>
-    <button (click)="deleteSave(id)">Yes, Delete</button>
-    <button (click)="closeModal()">Cancel</button>
-  </div>
-</ng-template>

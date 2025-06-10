@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 
-import { GameStateService } from '../../services/game-state.service';
+import { GameFacade } from '../../services/game-facade';
 
 @Component({
   standalone: true,
   selector: 'app-rpg-profile',
   imports: [CommonModule],
-  template: `
-    <h2>Character Profile</h2>
-    <div *ngIf="character">
-      <p>Name: {{ character.name }}</p>
-      <p>Health: {{ character.attributes['health'] }}</p>
-      <!-- Add more stats/inventory display here -->
-    </div>
-  `,
+  templateUrl: './rpg-profile.component.html',
+  styleUrls: ['./rpg-profile.component.css'],
 })
 export class RpgProfileComponent {
-  private state = inject(GameStateService);
-  character = this.state.current?.characters[0];
+  private game = inject(GameFacade);
+  character = this.game.currentCharacter;
+  attributeKeys = this.game.characters.listDisplayAttributeKeys(this.character);
+
+  // inventory = this.game.characters.inventory;
+  // inventory = this.game.currentCharacter?.inventory;
+  inventoryIds = this.character?.inventory ?? [];
+  inventory = this.game.items.getDisplayList(this.inventoryIds);
 }

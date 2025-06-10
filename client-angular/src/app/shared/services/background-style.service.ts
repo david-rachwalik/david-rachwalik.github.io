@@ -1,4 +1,5 @@
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -16,8 +17,19 @@ export class BackgroundStyleService {
   }>({});
   backgroundStyle$ = this.backgroundStyleSubject.asObservable();
 
-  constructor(rendererFactory: RendererFactory2) {
+  constructor(
+    rendererFactory: RendererFactory2,
+    @Inject(DOCUMENT) private document: Document,
+  ) {
     this.renderer = rendererFactory.createRenderer(null, null);
+  }
+
+  addBodyClass(className: string): void {
+    this.document.body.classList.add(className);
+  }
+
+  removeBodyClass(className: string): void {
+    this.document.body.classList.remove(className);
   }
 
   storeOriginalStyles(): void {

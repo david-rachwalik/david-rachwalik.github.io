@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Attribute, AttributeType } from '../../models/attribute';
+import {
+  Attribute,
+  AttributeType,
+  AttributeValueType,
+} from '../../models/attribute';
 import { GameDataService } from '../game-data.service';
 
 // :: Focused on business logic and orchestration, not storage details ::
@@ -26,7 +30,9 @@ export class AttributeFacade {
   addAttribute(
     name: string,
     type: AttributeType,
-    valueType: string,
+    description: string,
+    valueType: AttributeValueType,
+    defaultValue: string | number,
     min?: number,
     max?: number,
     tags: string[] = [],
@@ -35,7 +41,17 @@ export class AttributeFacade {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '');
-    const attr: Attribute = { id, name, type, valueType, min, max, tags };
+    const attr: Attribute = {
+      id,
+      name,
+      type,
+      description,
+      valueType,
+      defaultValue,
+      min,
+      max,
+      tags,
+    };
     this.dataService.addAttribute(attr);
     return attr;
   }

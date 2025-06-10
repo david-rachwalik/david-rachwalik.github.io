@@ -1,0 +1,6 @@
+.bg-main-layout,
+.bg-portfolio-layout {
+  background-color: #ccffff;
+  background-image: linear-gradient(to bottom right, #ccffff, white);
+  background-attachment: fixed;
+}

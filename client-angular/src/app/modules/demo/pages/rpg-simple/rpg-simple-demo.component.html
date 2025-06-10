@@ -1,6 +1,11 @@
 <mat-card class="rpg-container">
   <h1>Text RPG Demo</h1>
 
+  <div>
+    Demonstrates core mechanics like attacking, taking damage, using an item,
+    and showing a combat log
+  </div>
+
   <div class="stats">
     <p><strong>Health:</strong>&nbsp; {{ health }}</p>
     <p><strong>Target Dummy:</strong>&nbsp; {{ targetDummyHealth }} HP</p>
@@ -36,6 +41,8 @@
 
   <mat-card class="log">
     <h2>Combat Log</h2>
-    <div *ngFor="let entry of log">{{ entry }}</div>
+    @for (entry of log; track entry) {
+      <div>{{ entry }}</div>
+    }
   </mat-card>
 </mat-card>

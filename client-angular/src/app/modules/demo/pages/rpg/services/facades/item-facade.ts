@@ -22,4 +22,23 @@ export class ItemFacade {
   // getItemsByType(type: string): Item[] {
   //   return this.all.filter((item) => item.type === type);
   // }
+
+  // Get a display list of items from an array of IDs
+  getDisplayList(ids: string[]): Item[] {
+    return ids
+      .map((id) => this.getItem(id))
+      .filter((item): item is Item => !!item);
+  }
+
+  // Get a map of ID -> Item for fast lookup
+  getDisplayMap(ids: string[]): Record<string, Item> {
+    return ids.reduce(
+      (acc, id) => {
+        const item = this.getItem(id);
+        if (item) acc[id] = item;
+        return acc;
+      },
+      {} as Record<string, Item>,
+    );
+  }
 }

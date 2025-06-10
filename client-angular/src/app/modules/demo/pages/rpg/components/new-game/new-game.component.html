@@ -1,0 +1,22 @@
+<div class="rpg-new-game-bg">
+  <h1 class="rpg-new-game-title">✨ Start a New Adventure ✨</h1>
+  <div class="rpg-new-game-content">
+    <label class="rpg-label">
+      Save Slot Name
+      <input [(ngModel)]="label" required class="rpg-input" />
+    </label>
+    <label class="rpg-label">
+      Character Name
+      <input [(ngModel)]="characterName" required class="rpg-input" />
+    </label>
+  </div>
+  <div class="rpg-new-game-actions">
+    <button class="rpg-btn" (click)="cancel()">Cancel</button>
+    <button
+      class="rpg-btn"
+      [disabled]="!label.trim() || !characterName.trim()"
+      (click)="startGame()">
+      Begin Journey
+    </button>
+  </div>
+</div>

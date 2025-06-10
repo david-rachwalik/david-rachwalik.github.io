@@ -9,8 +9,13 @@
         challenges, and shape your own legend.
       </p>
       <div class="rpg-actions">
-        <button class="rpg-btn" (click)="newGame()">New Game</button>
-        <button class="rpg-btn" (click)="continueGame()">Continue</button>
+        @if (hasCurrentSave) {
+          <button class="rpg-btn" (click)="playGame()">Play!</button>
+        } @else {
+          <button class="rpg-btn" (click)="newGame()">New Game</button>
+        }
+        <!-- TODO: disable Data page if no profile -->
+        <button class="rpg-btn" (click)="dataSlots()">Data</button>
         <button class="rpg-btn" (click)="openSettings()">Settings</button>
       </div>
     </div>

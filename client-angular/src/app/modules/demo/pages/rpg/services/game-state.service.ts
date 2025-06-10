@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 import { GameState } from '../models/game-state';
 
@@ -7,29 +8,24 @@ import { GameState } from '../models/game-state';
 // - Updates attributes or logs actions
 // - (like the manual equivalent of an NgRx reducer + state)
 
+// Manages the current state of the game (player progress, inventory, choices, etc.),
+// which is dynamic and changes as the game is played
+
+// Useful to keep the "state container" logic (like a Redux store) isolated from
+// business logic and orchestration
+// Enables swapping out the state management layer (e.g. NgRx) without touching facade or UI code
+
 @Injectable({ providedIn: 'root' })
 export class GameStateService {
-  private readonly STORAGE_KEY = 'rpg-demo-game-state';
-  private state: GameState | undefined = undefined;
-
-  load(): GameState | undefined {
-    const raw = localStorage.getItem(this.STORAGE_KEY);
-    this.state = raw ? (JSON.parse(raw) as GameState) : undefined;
-    return this.state;
-  }
-
-  save(state: GameState): void {
-    this.state = state;
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(state));
-  }
+  private stateSubject = new BehaviorSubject<GameState | undefined>(undefined);
+  state$ = this.stateSubject.asObservable();
 
   get current(): GameState | undefined {
-    return this.state;
+    return this.stateSubject.value;
   }
 
-  // TODO: determine if this would ever be needed
-  reset(): void {
-    this.state = undefined;
-    localStorage.removeItem(this.STORAGE_KEY);
+  /** Set or replace the current game state */
+  set(state: GameState): void {
+    this.stateSubject.next(state);
   }
 }

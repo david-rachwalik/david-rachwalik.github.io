@@ -1,0 +1,27 @@
+.rpg-title,
+.profile-title {
+  font-family: 'Cinzel Decorative', 'Georgia', serif;
+  font-size: 2.7rem;
+  color: var(--rpg-gold-light);
+  letter-spacing: 2px;
+  text-shadow:
+    0 2px 12px var(--rpg-gold),
+    0 0 2px #000;
+}
+
+.rpg-desc {
+  font-size: 1.15rem;
+  color: #e0d6c3;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 6px #000a;
+}
+
+.profile-label {
+  color: var(--rpg-accent);
+  font-weight: bold;
+}
+
+.profile-value {
+  color: var(--rpg-gold-light);
+}

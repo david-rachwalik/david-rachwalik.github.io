@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { Observable } from 'rxjs';
 import { Character } from '../../models/character';
 import { Moment, MomentChoice } from '../../models/moment';
 import { GameFacade } from '../../services/game-facade';
+import { RpgActionService } from '../../services/rpg-action.service';
 
 interface ItemDisplay {
   id: string;
@@ -33,12 +36,13 @@ export class RpgPlayComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private game = inject(GameFacade);
+  private dialog = inject(MatDialog);
+  private actions = inject(RpgActionService);
 
   isNewGame = false;
-  character!: Character;
+  player?: Character;
   inventory: { name: string; qty: number }[] = [];
-  moment!: Moment;
-  eventLog: string[] = [];
+  moment?: Moment;
 
   // Define which stats to show in the sidebar
   mainStats: StatDef[] = [
@@ -50,33 +54,38 @@ export class RpgPlayComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      this.isNewGame = params['new'] === '1';
-      if (this.isNewGame) {
-        // Show new game scenario/choices
-      } else {
-        // Normal play flow
-      }
-    });
-    // Load the current character, moment, and inventory
-    this.character = this.game.characters.currentCharacter!;
-    // this.moment = this.game.state?.currentMoment!;
-    this.moment = this.game.currentMoment!;
-    this.inventory = this.getInventory();
-    this.eventLog = this.getEventLog();
+    this.loadCurrentGame();
   }
 
-  // async confirmNewGame(choices: MomentChoice[]) {
-  async confirmNewGame() {
-    // Create the new save here, then start the game
-    // this.saveService.save(...);
-    await this.router.navigate([], { queryParams: {} }); // Remove 'new' param
-    // Continue to first moment
+  private loadCurrentGame() {
+    this.game.loadGame();
+
+    this.player = this.game.currentCharacter;
+    this.moment = this.game.currentMoment;
+    this.inventory = this.getInventory();
+
+    console.log('[Play] Loaded player:', this.player);
+    console.log('[Play] Loaded moment:', this.moment);
+    console.log('[Play] Loaded inventory:', this.inventory);
+  }
+
+  get logEntries$(): Observable<string[]> {
+    return this.game.logEntries$;
+  }
+
+  // --- ACTIONS ---
+
+  getChoices(): MomentChoice[] {
+    return this.actions.getChoices();
+  }
+
+  chooseChoice(choiceId: string) {
+    this.actions.chooseChoice(choiceId);
   }
 
   getInventory(): ItemDisplay[] {
     // Example: aggregate inventory items by name and quantity
-    const items = this.character.inventory || [];
+    const items = this.player?.inventory || [];
     const itemMap = new Map<string, ItemDisplay>();
 
     items.forEach((id) => {
@@ -95,37 +104,12 @@ export class RpgPlayComponent implements OnInit {
 
   getActiveEffects(): Effect[] {
     // Example: convert effects record to array
-    if (!this.character.effects) return [];
-    return Object.entries(this.character.effects)
+    if (!this.player?.effects) return [];
+    return Object.entries(this.player.effects)
       .filter(([, value]) => value > 0)
       .map(([key, value]) => ({
         label: key,
         description: `Effect ${key} (${value})`, // Replace with real descriptions
       }));
-  }
-
-  getChoices(): MomentChoice[] {
-    // Example: get choices for the current moment
-    if (!this.moment?.choices) return [];
-    return this.moment.choices.map((opt) => ({
-      id: opt.id,
-      label: opt.label,
-      enabled: opt.enabled !== false, // enabled by default
-    }));
-  }
-
-  chooseChoice(choiceId: string) {
-    // Handle the chosen choice, update state, log, etc.
-    this.eventLog.unshift(`You chose: ${choiceId}`);
-    // Example: update moment, character, etc.
-    // this.game.handleChoice(choiceId);
-    // this.moment = this.game.state?.currentMoment!;
-    // this.character = this.game.characters.currentCharacter!;
-    // this.inventory = this.getInventory();
-  }
-
-  getEventLog(): string[] {
-    // Example: fetch from state or service
-    return this.game.state?.eventLog ?? [];
   }
 }

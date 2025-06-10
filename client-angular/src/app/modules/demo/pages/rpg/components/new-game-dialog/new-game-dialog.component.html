@@ -1,0 +1,23 @@
+<div class="rpg-dialog-bg">
+  <h1 mat-dialog-title class="rpg-dialog-title">✨ Start a New Adventure ✨</h1>
+  <div mat-dialog-content class="rpg-dialog-content">
+    <mat-form-field appearance="fill" class="rpg-form-field">
+      <mat-label>Save Slot Name</mat-label>
+      <input matInput [(ngModel)]="data.label" required />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="rpg-form-field">
+      <mat-label>Character Name</mat-label>
+      <input matInput [(ngModel)]="data.characterName" required />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="rpg-dialog-actions">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="!data.label || !data.characterName"
+      (click)="onStart()">
+      Begin Journey
+    </button>
+  </div>
+</div>
