@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { Character } from '../models/character';
 import { GameState } from '../models/game-state';
@@ -9,6 +9,7 @@ import { CharacterFacade } from './facades/character-facade';
 import { ItemFacade } from './facades/item-facade';
 import { LocationFacade } from './facades/location-facade';
 import { MomentFacade } from './facades/moment-facade';
+import { GameDataService } from './game-data.service';
 import { GameSaveService } from './game-save.service';
 import { GameStateService } from './game-state.service';
 import { RpgLogService } from './rpg-log.service';
@@ -24,6 +25,7 @@ export class GameFacade {
     private gameState: GameStateService,
     private saveService: GameSaveService,
     private logService: RpgLogService,
+    public data: GameDataService,
     public attributes: AttributeFacade,
     public locations: LocationFacade,
     public moments: MomentFacade,
@@ -41,6 +43,17 @@ export class GameFacade {
 
   get currentCharacter(): Character | undefined {
     return this.characters.currentCharacter;
+  }
+  get currentCharacter$(): Observable<Character | undefined> {
+    // return this.gameState.currentCharacter$;
+    const char = this.gameState.state$.pipe(
+      map((state) =>
+        state
+          ? state.characters.find((c) => c.id === state.currentCharacterId)
+          : undefined,
+      ),
+    );
+    return char;
   }
 
   get currentMomentId(): string | undefined {
@@ -117,6 +130,35 @@ export class GameFacade {
   loadGame(): void {
     this.saveService.load();
     console.log('[GameFacade] Loading current game slot complete');
+  }
+
+  testStatChange() {
+    const player = this.currentCharacter;
+    console.log('[GameFacade] testStatChange() - currentCharacter:', player);
+    if (!player) {
+      console.warn('[GameFacade] No current character found!');
+      return;
+    }
+
+    // STR: +1
+    const currentStr = Number(player.attributes['str'] ?? 0);
+    const newStr = currentStr + 1;
+    console.log(`[GameFacade] STR: ${currentStr} -> ${newStr}`);
+    this.characters.updateCharacterAttributeValue(player.id, 'str', newStr);
+
+    // HEALTH: +5, capped at max
+    const healthAttr = this.attributes.getById('health');
+    const currentHealth = Number(player.attributes['health'] ?? 0);
+    const maxHealth = Number(healthAttr?.max ?? 100);
+    const newHealth = Math.min(currentHealth + 5, maxHealth);
+    console.log(
+      `[GameFacade] HEALTH: ${currentHealth} -> ${newHealth} (max: ${maxHealth})`,
+    );
+    this.characters.updateCharacterAttributeValue(
+      player.id,
+      'health',
+      newHealth,
+    );
   }
 }
 

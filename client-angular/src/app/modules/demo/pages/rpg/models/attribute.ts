@@ -6,6 +6,7 @@ export interface Attribute {
   name: string;
   type: AttributeType;
   description: string;
+  value?: number;
   valueType: AttributeValueType;
   defaultValue: string | number;
   min?: number;

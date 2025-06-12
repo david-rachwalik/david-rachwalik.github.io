@@ -1,30 +1,41 @@
 <div class="play-container">
   <!-- Sidebar: Player Stats & Status -->
   <aside class="sidebar">
-    @if (player) {
+    @if (player$ | async; as player) {
       <div class="player-info">
         <h2>{{ player.name }}</h2>
         <div class="player-level">
           Level {{ player.attributes['level'] || 1 }}
         </div>
-        <div class="player-health">
-          <span>HP: &nbsp;</span>
-          <span class="stat-value">{{ player.attributes['hp'] || 0 }}</span>
-          <span class="divider">/</span>
-          <span class="stat-max">{{ player.attributes['maxHp'] || 0 }}</span>
-        </div>
+        <!-- HP (health) -->
+        @if (health$ | async; as health) {
+          <div class="player-health">
+            <span>HP: &nbsp;</span>
+            <span class="stat-value">{{ health.value }}</span>
+            @if (health.max !== undefined) {
+              <span class="divider">/</span>
+              <span class="stat-max">{{ health.max }}</span>
+            }
+          </div>
+        }
+        <!-- Other Stats -->
         <div class="player-stats">
-          @for (stat of mainStats; track stat.key) {
-            <div>
-              <span class="stat-label">{{ stat.label }}:</span>
-              <span class="stat-value">{{
-                player.attributes[stat.key] || 0
-              }}</span>
-            </div>
-          }
+          <h4>Stats</h4>
+          <ul>
+            @for (stat of stats$ | async; track stat.id) {
+              <li>
+                <span class="stat-label">{{ stat.name }}:</span>
+                <span class="stat-value">{{ stat.value }}</span>
+                @if (stat.max !== undefined) {
+                  <span class="divider">/</span>
+                  <span class="stat-max">{{ stat.max }}</span>
+                }
+              </li>
+            }
+          </ul>
         </div>
         <div class="player-status">
-          @for (effect of getActiveEffects(); track effect.label) {
+          @for (effect of activeEffects$ | async; track effect.label) {
             <span class="status-effect" [title]="effect.description">
               {{ effect.label }}
             </span>
@@ -35,7 +46,7 @@
     <div class="player-inventory">
       <h3>Inventory</h3>
       <ul>
-        @for (item of inventory; track item.name) {
+        @for (item of inventory$ | async; track item.name) {
           <li>
             {{ item.name }}
             @if (item.qty > 1) {
@@ -45,41 +56,47 @@
         }
       </ul>
     </div>
+    <!-- Test stat change button for demo -->
+    <button class="action-btn" (click)="testStatChange()">
+      Test +1 Strength, +5 HP
+    </button>
   </aside>
 
   <!-- Main Content: Current Moment & Actions -->
   <main class="moment-main">
-    @if (player && moment) {
-      <section class="moment-header">
-        <h1>{{ moment.title || 'Adventure' }}</h1>
-        <div class="moment-location">
-          {{ player.location || 'Unknown Location' }}
-        </div>
-      </section>
+    @if (moment) {
+      @if (player$ | async; as player) {
+        <section class="moment-header">
+          <h1>{{ moment.title || 'Adventure' }}</h1>
+          <div class="moment-location">
+            {{ player.location || 'Unknown Location' }}
+          </div>
+        </section>
 
-      <section class="moment-text">
-        <p>{{ moment.content }}</p>
-      </section>
+        <section class="moment-text">
+          <p>{{ moment.content }}</p>
+        </section>
 
-      <section class="moment-choices">
-        @for (choice of getChoices(); track choice.id) {
-          <button
-            class="action-btn"
-            [disabled]="!choice.enabled"
-            (click)="chooseChoice(choice.id)">
-            {{ choice.label }}
-          </button>
-        }
-      </section>
-
-      <section class="moment-log">
-        <h4>Recent Events</h4>
-        <ul>
-          @for (entry of logEntries$ | async; track $index) {
-            <li>{{ entry }}</li>
+        <section class="moment-choices">
+          @for (choice of getChoices(); track choice.id) {
+            <button
+              class="action-btn"
+              [disabled]="!choice.enabled"
+              (click)="chooseChoice(choice.id)">
+              {{ choice.label }}
+            </button>
           }
-        </ul>
-      </section>
+        </section>
+
+        <section class="moment-log">
+          <h4>Recent Events</h4>
+          <ul>
+            @for (entry of logEntries$ | async; track $index) {
+              <li>{{ entry }}</li>
+            }
+          </ul>
+        </section>
+      }
     }
   </main>
 </div>

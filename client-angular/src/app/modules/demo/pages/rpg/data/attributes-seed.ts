@@ -2,6 +2,26 @@ import { Attribute } from '../models/attribute';
 
 export const ATTRIBUTES_SEED: Attribute[] = [
   {
+    id: 'level',
+    name: 'Level',
+    type: 'stat',
+    description: 'Advance to higher ranks to gain access to more skills.',
+    valueType: 'number',
+    defaultValue: 1,
+    tags: [],
+  },
+  {
+    id: 'health',
+    name: 'Health',
+    type: 'stat',
+    description: 'Physical condition and overall state of being.',
+    valueType: 'number',
+    defaultValue: 100,
+    min: 1,
+    max: 100,
+    tags: [],
+  },
+  {
     id: 'str',
     name: 'Strength',
     type: 'stat',

@@ -88,10 +88,14 @@ export class CharacterFacade {
 
   // Update part of a character (immutable update)
   updateCharacter(id: string, changes: Partial<Character>): void {
-    if (!this.state) return;
+    if (!this.state) {
+      console.warn('[CharacterFacade] No game state!');
+      return;
+    }
     const updated = this.state.characters.map((c) =>
       c.id === id ? { ...c, ...changes } : c,
     );
+    console.log(`[CharacterFacade] updateCharacter(${id}) - changes:`, changes);
     this.gameSave.save({ ...this.state, characters: updated });
   }
 
@@ -100,7 +104,7 @@ export class CharacterFacade {
   listDisplayAttributeKeys(character?: Character): string[] {
     if (!character) return [];
     return Object.keys(character.attributes).filter(
-      (k) => !['level', 'hp', 'maxHp'].includes(k),
+      (k) => !['level', 'health'].includes(k),
     );
   }
 
@@ -110,8 +114,16 @@ export class CharacterFacade {
     value: string | number,
   ): void {
     const char = this.getCharacter(id);
-    if (!char) return;
+    console.log(
+      `[CharacterFacade] updateCharacterAttributeValue(${id}, ${attributeId}, ${value}) - found character:`,
+      char,
+    );
+    if (!char) {
+      console.warn(`[CharacterFacade] Character not found: ${id}`);
+      return;
+    }
     const attributes = { ...(char.attributes ?? {}), [attributeId]: value };
+    console.log('[CharacterFacade] New attributes:', attributes);
     this.updateCharacter(id, { attributes });
   }
 

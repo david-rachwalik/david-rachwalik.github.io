@@ -16,6 +16,25 @@ import { GameDataService } from '../game-data.service';
 export class AttributeFacade {
   constructor(private dataService: GameDataService) {}
 
+  get currentAttributes(): Record<string, Attribute> {
+    // Assuming getAllAttributes() returns Attribute[]
+    const attrs = this.dataService.getAllAttributes();
+    // Convert array to a dictionary for fast lookup
+    return attrs.reduce(
+      (acc, attr) => {
+        acc[attr.id] = attr;
+        return acc;
+      },
+      {} as Record<string, Attribute>,
+    );
+  }
+
+  getById(id: string): Attribute | undefined {
+    const attr = this.currentAttributes[id];
+    console.log(`[AttributeFacade] getById(${id}):`, attr);
+    return attr;
+  }
+
   // List all attributes, optionally filtered/sorted
   listAttributes(type?: AttributeType): Attribute[] {
     let attrs = this.dataService.getAllAttributes();

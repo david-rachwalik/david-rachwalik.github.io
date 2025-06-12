@@ -1,7 +1,9 @@
 export interface Effect {
   id: string;
+  // label: string;
   name: string;
+  description: string;
   duration: number; // in turns
   tags: string[];
-  applyEffect(characterId: string): void;
+  // applyEffect(characterId: string): void;
 }
