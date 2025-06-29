@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+import { Adventure } from '../models/adventure';
 import { Attribute } from '../models/attribute';
 import { Character } from '../models/character';
 import { Item } from '../models/item';
@@ -8,6 +9,7 @@ import { Location } from '../models/location';
 import { Moment } from '../models/moment';
 import { Tag } from '../models/tag';
 
+import { ADVENTURES_SEED } from '../data/adventures-seed';
 import { ATTRIBUTES_SEED } from '../data/attributes-seed';
 import { CHARACTERS_SEED } from '../data/characters-seed';
 import { ITEMS_SEED } from '../data/items-seed';
@@ -55,6 +57,35 @@ export function removeEntity<T extends { id: string }>(
 
 @Injectable({ providedIn: 'root' })
 export class GameDataService {
+  // #region 🔸 ADVENTURES 🔸
+  private adventuresSubject = new BehaviorSubject<Record<string, Adventure>>(
+    Object.fromEntries(
+      ADVENTURES_SEED.map((adventure) => [adventure.id, adventure]),
+    ),
+  );
+  adventures$ = this.adventuresSubject.asObservable();
+
+  getAdventure(id: string): Adventure | undefined {
+    return this.adventuresSubject.value[id];
+  }
+  getAllAdventures(): Adventure[] {
+    return Object.values(this.adventuresSubject.value);
+  }
+  addAdventure(adventure: Adventure): void {
+    this.adventuresSubject.next(
+      addEntity(this.adventuresSubject.value, adventure),
+    );
+  }
+  updateAdventure(id: string, changes: Partial<Adventure>): void {
+    this.adventuresSubject.next(
+      updateEntity(this.adventuresSubject.value, id, changes),
+    );
+  }
+  removeAdventure(id: string): void {
+    this.adventuresSubject.next(removeEntity(this.adventuresSubject.value, id));
+  }
+  // #endregion
+
   // #region 🔸 ATTRIBUTES 🔸
   private attributesSubject = new BehaviorSubject<Record<string, Attribute>>(
     Object.fromEntries(ATTRIBUTES_SEED.map((attr) => [attr.id, attr])),

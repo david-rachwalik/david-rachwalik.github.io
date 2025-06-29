@@ -13,3 +13,11 @@ export interface Attribute {
   max?: number;
   tags: string[]; // Tags that influence this attribute
 }
+
+export interface AttributeViewModel {
+  id: string;
+  name: string;
+  value: number;
+  max?: number;
+  description?: string;
+}

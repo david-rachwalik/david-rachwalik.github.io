@@ -7,3 +7,8 @@ export interface Effect {
   tags: string[];
   // applyEffect(characterId: string): void;
 }
+
+export interface EffectViewModel {
+  label: string;
+  description: string;
+}

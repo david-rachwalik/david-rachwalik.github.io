@@ -14,7 +14,7 @@ export class TagService {
     return this.tags;
   }
 
-  getById(id: string): Tag | undefined {
+  byId(id: string): Tag | undefined {
     return this.tags.find((tag) => tag.id === id);
   }
 }

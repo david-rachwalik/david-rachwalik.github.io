@@ -7,7 +7,7 @@
     </button>
   </header>
 
-  @if (currentSave) {
+  @if (currentSave$ | async; as currentSave) {
     <section class="current-save">
       <h3>Active Game</h3>
       <div class="save-slot current">
@@ -16,41 +16,47 @@
           >&nbsp;
           <span>({{ currentSave.id }})</span>
         </div>
-        <div>
-          Player:&nbsp; {{ currentSave.playerName }} | Level:
-          {{ currentSave.level }} | Location: {{ currentSave.location }}
-        </div>
-        <div>Size:&nbsp; {{ currentSave.size }} KB</div>
-        <div>
-          Last Played:&nbsp; {{ currentSave.lastPlayed | date: 'short' }}
-        </div>
+        <!-- <div>
+          Player:&nbsp; {{ currentSave.playerName || 'Unknown' }} | Level:
+          {{ currentSave.level || 1 }} | Location:
+          {{ currentSave.location || 'Unknown' }}
+        </div> -->
+        <div>Size:&nbsp; {{ currentSave.sizeKB | number: '1.0-0' }} KB</div>
+        <div>Last Played:&nbsp; {{ currentSave.savedAt | date: 'short' }}</div>
       </div>
     </section>
   }
 
-  @if (otherSaves.length) {
+  @if (otherSaves$ | async; as otherSaves) {
+    @if (otherSaves.length) {
+      <section class="other-saves">
+        <h3>Other Saves</h3>
+        @for (save of otherSaves; track save.id) {
+          <div class="save-slot">
+            <div>
+              <strong>{{ save.label }}</strong>
+              <span>({{ save.id }})</span>
+            </div>
+            <!-- <div>
+              Player:&nbsp; {{ save.playerName || 'Unknown' }} |
+               Level: {{ save.level || 1 }} |
+              Location: {{ save.location || 'Unknown' }}
+            </div> -->
+            <div>Size:&nbsp; {{ save.sizeKB | number: '1.0-0' }} KB</div>
+            <div>Last Played:&nbsp; {{ save.savedAt | date: 'short' }}</div>
+            <div class="save-actions">
+              <button (click)="activateSave(save.id)">Activate</button>
+              <button class="danger" (click)="confirmDelete(save.id)">
+                Delete
+              </button>
+            </div>
+          </div>
+        }
+      </section>
+    }
+  } @else {
     <section class="other-saves">
-      <h3>Other Saves</h3>
-      @for (save of otherSaves; track save.id) {
-        <div class="save-slot">
-          <div>
-            <strong>{{ save.label }}</strong>
-            <span>({{ save.id }})</span>
-          </div>
-          <div>
-            Player:&nbsp; {{ save.playerName }} | Level: {{ save.level }} |
-            Location: {{ save.location }}
-          </div>
-          <div>Size:&nbsp; {{ save.size }} KB</div>
-          <div>Last Played:&nbsp; {{ save.lastPlayed | date: 'short' }}</div>
-          <div class="save-actions">
-            <button (click)="activateSave(save.id)">Activate</button>
-            <button class="danger" (click)="confirmDelete(save.id)">
-              Delete
-            </button>
-          </div>
-        </div>
-      }
+      <p>No other saves found.</p>
     </section>
   }
 </div>

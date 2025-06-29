@@ -1,39 +1,37 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
 
-import { GameStateService } from './game-state.service';
+import { AdventureActions } from '../store/adventure/adventure.actions';
+import {
+  selectCurrentAdventure,
+  selectCurrentLogEntries,
+} from '../store/app.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class RpgLogService {
-  private readonly MAX_LOG_ENTRIES = 100;
+  constructor(private store: Store) {}
 
-  constructor(private gameState: GameStateService) {}
+  // Observable for log entries
+  entries$ = this.store.select(selectCurrentLogEntries);
 
-  /** Add a new log entry (appears at the top) */
-  add(message: string): void {
-    const state = this.gameState.current;
-    if (!state) return;
-    const eventLog = [message, ...(state.eventLog ?? [])].slice(
-      0,
-      this.MAX_LOG_ENTRIES,
+  // Add a new log entry (appears at the top)
+  async add(message: string): Promise<void> {
+    const adventure = await firstValueFrom(
+      this.store.select(selectCurrentAdventure),
     );
-    this.gameState.set({ ...state, eventLog });
+    if (!adventure) return;
+    this.store.dispatch(
+      AdventureActions.addLogEntry({ slotId: adventure.id, message }),
+    );
   }
 
-  /** Observable for log entries */
-  get entries$() {
-    return this.gameState.state$.pipe(map((state) => state?.eventLog ?? []));
-  }
-
-  /** Get current log as array */
-  get entries(): string[] {
-    return this.gameState.current?.eventLog ?? [];
-  }
-
-  /** Clear the log */
-  clear(): void {
-    const state = this.gameState.current;
-    if (!state) return;
-    this.gameState.set({ ...state, eventLog: [] });
+  // Clear the log
+  async clear(): Promise<void> {
+    const adventure = await firstValueFrom(
+      this.store.select(selectCurrentAdventure),
+    );
+    if (!adventure) return;
+    this.store.dispatch(AdventureActions.clearLog({ slotId: adventure.id }));
   }
 }

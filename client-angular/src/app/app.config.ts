@@ -19,6 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideAnimations(), // BrowserAnimationsModule
     provideMarkdown(),
-    ...NGRX_PROVIDERS,
+    ...NGRX_PROVIDERS, // Data Store
   ],
 };

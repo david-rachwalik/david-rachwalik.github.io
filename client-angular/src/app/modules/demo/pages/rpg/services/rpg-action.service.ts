@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 
 import { Character } from '../models/character';
 import { Item } from '../models/item';
@@ -10,40 +11,48 @@ export class RpgActionService {
   constructor(private game: GameFacade) {}
 
   // Get choices for the current moment
-  getChoices(): MomentChoice[] {
-    const moment = this.game.currentMoment;
-    if (!moment?.choices) return [];
-    return moment.choices.map((opt) => ({
-      id: opt.id,
-      label: opt.label,
-      enabled: opt.enabled !== false, // enabled by default
-    })) as MomentChoice[];
+  getChoices(): Observable<MomentChoice[]> {
+    return this.game.currentMoment$.pipe(
+      map(
+        (moment) =>
+          (moment?.choices?.map((opt) => ({
+            id: opt.id,
+            label: opt.label,
+            enabled: opt.enabled !== false, // enabled by default
+          })) as MomentChoice[]) ?? [],
+      ),
+    );
   }
 
-  chooseChoice(choiceId: string) {
-    this.game.log(`You chose:  ${choiceId}`);
+  async chooseChoice(choiceId: string): Promise<void> {
+    await this.game.log(`You chose:  ${choiceId}`);
     // Handle the chosen choice, update state, log, etc.
+    // TODO: Dispatch NgRx action or call facade method to update state for the chosen choice
   }
 
-  attack(target: Character, attacker: Character, damage: number = 5): string {
+  async attack(
+    target: Character,
+    attacker: Character,
+    damage: number = 5,
+  ): Promise<string> {
     // target.body.hp = Math.max(0, target.body.hp - damage);
     const hp = Number(target.attributes['health'] ?? 0);
     const newHp = Math.max(0, hp - damage);
-    this.game.characters.updateCharacterAttributeValue(
+    await this.game.utils.character.updateCharacterAttributeValue(
       target.id,
       'health',
       newHp,
     );
     const msg = `${attacker.name} attacks ${target.name} for ${damage} damage.`;
-    this.game.log(msg);
+    await this.game.log(msg);
     return msg;
   }
 
   // const item = this.game.items.getItem(itemId);
-  useItem(user: Character, item: Item): string {
+  async useItem(user: Character, item: Item): Promise<string> {
     // TODO: Modify user based on item.effect
     const msg = `${user.name} uses ${item.name}.`;
-    this.game.log(msg);
+    await this.game.log(msg);
     return msg;
   }
 }

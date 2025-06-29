@@ -28,11 +28,7 @@ export class NewGameComponent {
 
     // Create and save the new game (also sets the current slot)
     console.log('[NewGame] Calling game.newGame()...');
-    this.game.newGame(this.label, this.characterName);
-
-    // Inspect the new state / save slot
-    const { state } = this.game;
-    console.log('[NewGame] New game state:', state);
+    await this.game.newGame(this.label, this.characterName);
 
     // Navigate to Play page (no query params needed)
     await this.router.navigate(['/demo/rpg/play']);

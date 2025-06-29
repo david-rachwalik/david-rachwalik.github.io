@@ -26,13 +26,13 @@
 
 ### Separation of Concerns
 
-| Layer              | Does                                                                  |
-| ------------------ | --------------------------------------------------------------------- |
-| `GameDataService`  | Load static data (tags, locations, characters, etc.)                  |
-| `GameStateService` | Handles the raw state and only used by facades or other services      |
-| `GameFacade`       | Exposes high-level, UI-friendly properties and methods for game state |
-| `GameSaveService`  | Used to save/load game state with localStorage                        |
-| `ActionService`    | `attack`, `useItem`, `applyEffect`, `triggerMoment`, `gainXP`         |
+| Layer             | Does                                                                  |
+| ----------------- | --------------------------------------------------------------------- |
+| `GameDataService` | Load static data (tags, locations, characters, etc.)                  |
+| `AdventureFacade` | Handles the game state and only used by facades or other services     |
+| `GameFacade`      | Exposes high-level, UI-friendly properties and methods for game state |
+| `GameSaveService` | Used to save/load game state with localStorage                        |
+| `ActionService`   | `attack`, `useItem`, `applyEffect`, `triggerMoment`, `gainXP`         |
 
 ### Game Facade
 
@@ -47,20 +47,19 @@ Architecture uses normalized, ID-based references with a mix of mutable game sta
 
 #### Static vs Mutable Data
 
-| Type    | Source             | Example                                       |
-| ------- | ------------------ | --------------------------------------------- |
-| Static  | `GameDataService`  | Items, Locations, Moments                     |
-| Mutable | `GameStateService` | Characters, Inventory, History, Relationships |
+| Type    | Source            | Example                                       |
+| ------- | ----------------- | --------------------------------------------- |
+| Static  | `GameDataService` | Items, Locations, Moments                     |
+| Mutable | `AdventureFacade` | Characters, Inventory, History, Relationships |
 
 In the facade, you bridge both by:
 
-- Looking up dynamic IDs in `GameStateService`
+- Looking up dynamic IDs in `AdventureFacade` (formerly `GameStateService`)
 - Resolving them into full data via `GameDataService`
 
 #### Benefits of the Facade
 
 - _Centralizes logic:_&nbsp; no scattered `JSON.parse()` or raw updates in components
-- _Future-proof:_&nbsp; can later replace `GameStateService` with NgRx Store without changing component code
 - _Composable:_&nbsp; actions like `useItem`, `triggerMoment`, `attackTarget` can live here or delegate to an `ActionService`
 - _Easier Testing:_&nbsp; unit test logic without touching actual storage
 
@@ -78,12 +77,12 @@ Each save will include:
 
 A clean separation as the app grows: data storage, game logic, and user-facing commands
 
-| Responsibility | Service / Layer    | Examples                                             |
-| -------------- | ------------------ | ---------------------------------------------------- |
-| State storage  | `GameStateService` | Load/save to `localStorage`, restore state           |
-| Game logic     | `ActionService`    | `attack`, `useItem`, `applyEffect`, `triggerMoment`  |
-| State access   | `GameFacade`       | `getCharacterById`, `updateCharacter`, `getItemById` |
+| Responsibility | Service / Layer   | Examples                                                              |
+| -------------- | ----------------- | --------------------------------------------------------------------- |
+| State storage  | `GameSaveService` | Load/save to `localStorage`, restore state, used only by NgRx Effects |
+| Game logic     | `ActionService`   | `attack`, `useItem`, `applyEffect`, `triggerMoment`                   |
+| State access   | `GameFacade`      | `getCharacterById`, `updateCharacter`, `getItemById`                  |
 
-So those `applyEffect`, `useItem`, `initializeCharacter`, etc. belong in `ActionService`, which uses the `GameFacade` and `GameStateService` underneath.
+So those `applyEffect`, `useItem`, `initializeCharacter`, etc. belong in `ActionService`, which uses the `GameFacade` and `AdventureFacade` underneath.
 
 This way, **state is just state** — no logic.

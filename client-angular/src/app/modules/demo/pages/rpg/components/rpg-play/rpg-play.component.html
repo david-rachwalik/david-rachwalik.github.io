@@ -64,7 +64,7 @@
 
   <!-- Main Content: Current Moment & Actions -->
   <main class="moment-main">
-    @if (moment) {
+    @if (moment$ | async; as moment) {
       @if (player$ | async; as player) {
         <section class="moment-header">
           <h1>{{ moment.title || 'Adventure' }}</h1>
@@ -78,7 +78,9 @@
         </section>
 
         <section class="moment-choices">
-          @for (choice of getChoices(); track choice.id) {
+          <!-- @if (choices$ | async; as choices) {
+            @for (choice of choices; track choice.id) { -->
+          @for (choice of choices$ | async; track choice.id) {
             <button
               class="action-btn"
               [disabled]="!choice.enabled"

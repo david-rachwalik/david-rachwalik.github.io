@@ -1,5 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { map } from 'rxjs';
 
 import { GameFacade } from './services/game-facade';
 
@@ -8,14 +10,14 @@ import { GameFacade } from './services/game-facade';
   selector: 'app-rpg-demo',
   templateUrl: './rpg-demo.component.html',
   // styleUrls: ['./rpg-demo.component.css'],
+  imports: [CommonModule],
 })
 export class RpgDemoComponent {
   private router = inject(Router);
   private game = inject(GameFacade);
 
-  get hasCurrentSave(): boolean {
-    return !!this.game.currentSlotId;
-  }
+  // Observable for whether there is a current save slot
+  hasCurrentSave$ = this.game.currentSlotId$.pipe(map((id) => !!id));
 
   async newGame() {
     // // Pass a flag to the play page to trigger new game flow

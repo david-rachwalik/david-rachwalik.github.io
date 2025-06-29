@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { BackgroundStyleService } from '@shared/services/background-style.service';
+import { GameFacade } from '../../services/game-facade';
 
 @Component({
   selector: 'app-rpg-demo-layout',
@@ -14,7 +15,10 @@ import { BackgroundStyleService } from '@shared/services/background-style.servic
 export class RpgDemoLayoutComponent implements OnInit, OnDestroy {
   private readonly className = 'rpg-demo-bg';
 
-  constructor(private bgService: BackgroundStyleService) {}
+  constructor(
+    private bgService: BackgroundStyleService,
+    private game: GameFacade,
+  ) {}
 
   // ngOnInit(): void {
   //   console.log('RpgDemoLayoutComponent -- ngOnInit');
@@ -32,6 +36,7 @@ export class RpgDemoLayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.bgService.addBodyClass(this.className);
+    this.game.init(); // ready the RPG Demo app
   }
 
   ngOnDestroy(): void {

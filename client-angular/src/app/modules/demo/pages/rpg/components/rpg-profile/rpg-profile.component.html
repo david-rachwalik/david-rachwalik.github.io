@@ -2,7 +2,7 @@
   <div class="rpg-profile-overlay">
     <div class="rpg-profile-container">
       <h2 class="profile-title">Character Profile</h2>
-      <div *ngIf="character; else noCharacter">
+      @if (player$ | async; as character) {
         <div class="profile-section">
           <div class="profile-avatar">
             <img
@@ -20,13 +20,21 @@
                 character.attributes['level'] || 1
               }}</span>
             </div>
-            <div class="profile-row">
-              <span class="profile-label">Health:</span>
-              <span class="profile-value"
-                >{{ character.attributes['hp'] || 0 }} /
-                {{ character.attributes['maxHp'] || 0 }}</span
-              >
-            </div>
+            <!-- HP (health) -->
+            @if (health$ | async; as health) {
+              <div class="profile-row">
+                <span class="profile-label">Health: &nbsp;</span>
+                <!-- <span class="profile-value"
+                  >{{ health.value || 0 }} /
+                  {{ health.max || 0 }}</span
+                > -->
+                <span class="stat-value">{{ health.value }}</span>
+                @if (health.max !== undefined) {
+                  <span class="divider">/</span>
+                  <span class="stat-max">{{ health.max }}</span>
+                }
+              </div>
+            }
             <div class="profile-row">
               <span class="profile-label">Location:</span>
               <span class="profile-value">{{
@@ -38,30 +46,31 @@
         <div class="profile-section">
           <h3>Attributes</h3>
           <ul class="profile-attributes">
-            @for (key of attributeKeys; track key) {
-              <li>
-                <span class="profile-label">{{ key | titlecase }}:</span>
-                <span class="profile-value">{{
-                  character.attributes[key]
-                }}</span>
-              </li>
+            @if (attributeKeys$ | async; as attributeKeys) {
+              @for (pair of attributeKeys; track pair.id) {
+                <li>
+                  <span class="profile-label">{{ pair.id | titlecase }}:</span>
+                  <span class="profile-value">{{ pair.value }}</span>
+                </li>
+              }
             }
           </ul>
         </div>
         <div class="profile-section">
           <h3>Inventory</h3>
           <ul class="profile-inventory">
-            @for (item of inventory; track item) {
-              <li>{{ item.name }}: {{ item.description }}</li>
+            @if (inventory$ | async; as inventory) {
+              @for (item of inventory; track item.id) {
+                <li>{{ item.name }}: {{ item.description }}</li>
+              }
             }
           </ul>
         </div>
-      </div>
-      <ng-template #noCharacter>
+      } @else {
         <div class="profile-empty">
           <span>No character loaded.</span>
         </div>
-      </ng-template>
+      }
     </div>
   </div>
 </div>

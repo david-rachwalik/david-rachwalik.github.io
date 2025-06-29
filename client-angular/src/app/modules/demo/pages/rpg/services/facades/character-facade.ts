@@ -1,138 +1,138 @@
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { combineLatest, firstValueFrom, map, Observable, of } from 'rxjs';
 
+import { AttributeViewModel } from '../../models/attribute';
 import { Character } from '../../models/character';
-import { GameState } from '../../models/game-state';
-import { Item } from '../../models/item';
-import { toId } from '../../utils';
+import { EffectViewModel } from '../../models/effect';
+import { InventorySlot } from '../../models/item';
+import { selectCurrentCharacter } from '../../store/app.selectors';
+import { selectAttributeEntities } from '../../store/attribute/attribute.selectors';
+import { CharacterActions } from '../../store/character/character.actions';
+import {
+  selectAllCharacters,
+  selectCharacterEntities,
+} from '../../store/character/character.selectors';
+import { selectItemEntities } from '../../store/item/item.reducer';
+import { getIdValuePairs, IdValuePair, toId } from '../../utils';
 import { GameDataService } from '../game-data.service';
-import { GameSaveService } from '../game-save.service';
-import { GameStateService } from '../game-state.service';
 
 // :: Focused on business logic and orchestration, not storage details ::
 // Provides higher-level, feature-focused methods for the UI or other services
 // to interact with characters, orchestrating calls to `GameDataService` and
 // adding any business logic (like generating IDs, filtering, sorting, etc.)
 
-export interface InventorySlot {
-  item: Item;
-  qty: number;
-}
-
 @Injectable({ providedIn: 'root' })
 export class CharacterFacade {
   constructor(
-    private gameState: GameStateService,
-    private gameSave: GameSaveService,
+    private store: Store,
     private dataService: GameDataService,
   ) {}
 
-  // --- Observables ---
+  // --- NgRx Selectors ---
 
-  // Observable of all characters
-  characters$: Observable<Character[]> = this.gameState.state$.pipe(
-    map((state) => state?.characters ?? []),
+  // Dict for lookup
+  characterEntities$ = this.store.select(selectCharacterEntities);
+  // Array for UI
+  characters$ = this.store.select(selectAllCharacters);
+
+  // Player of current adventure
+  currentCharacter$ = this.store.select(selectCurrentCharacter);
+  player$ = this.currentCharacter$;
+
+  // Attributes as a dictionary
+  attributes$ = this.store.select(selectAttributeEntities);
+
+  // HP (current/max)
+  health$: Observable<{ value: number; max?: number } | null> = combineLatest([
+    this.player$,
+    this.attributes$,
+  ]).pipe(
+    map(([player, attrsDict]) => {
+      if (!player) return null;
+      const attrs = Object.values(attrsDict); // Convert to array
+      const healthAttr = attrs.find((a) => a?.id === 'health');
+      const value = Number(
+        player.attributes['health'] ?? healthAttr?.defaultValue ?? 0,
+      );
+      const max =
+        typeof healthAttr?.max === 'number' ? healthAttr.max : undefined;
+      return { value, max };
+    }),
   );
 
-  // Observable of the current character
-  currentCharacter$: Observable<Character | undefined> =
-    this.gameState.state$.pipe(
-      map((state) => {
-        if (!state) return undefined;
-        return state.characters.find((c) => c.id === state.currentCharacterId);
-      }),
+  // Sidebar stats (excluding health/level)
+  stats$: Observable<AttributeViewModel[]> = combineLatest([
+    this.player$,
+    this.attributes$,
+  ]).pipe(
+    map(([player, attrsDict]) => {
+      if (!player) return [];
+      const attrs = Object.values(attrsDict);
+      return attrs
+        .filter(
+          (attr) =>
+            attr?.type === 'stat' &&
+            attr.id !== 'health' &&
+            attr.id !== 'level',
+        )
+        .map(
+          (attr) =>
+            ({
+              id: attr?.id,
+              name: attr?.name,
+              value: Number(
+                player.attributes[attr?.id ?? 0] ?? attr?.defaultValue ?? 0,
+              ),
+              max: typeof attr?.max === 'number' ? attr.max : undefined,
+              description: attr?.description,
+            }) as AttributeViewModel,
+        );
+    }),
+  );
+
+  // Active effects
+  activeEffects$: Observable<EffectViewModel[]> = this.player$.pipe(
+    map((player) => {
+      if (!player?.effects) return [];
+      return Object.entries(player.effects)
+        .filter(([, value]) => value > 0)
+        .map(
+          ([key, value]) =>
+            ({
+              label: key,
+              description: `Effect ${key} (${value})`,
+            }) as EffectViewModel,
+        );
+    }),
+  );
+
+  // --- Methods ---
+
+  // Helper: lookup by ID
+  byId$(id$: Observable<string | undefined>) {
+    return combineLatest([this.characterEntities$, id$]).pipe(
+      map(([entities, id]) => (id ? entities[id] : undefined)),
     );
-
-  // // Observable of the current character (with full item data)
-  // currentCharacter$ = this.gameState.state$.pipe(
-  //   map((state) => {
-  //     if (!state) return undefined;
-  //     const char = state.characters.find(
-  //       (c) => c.id === state.currentCharacterId,
-  //     );
-  //     if (!char) return undefined;
-  //     return {
-  //       ...char,
-  //       inventory: char.inventory.map((itemId) =>
-  //         this.dataService.getItem(itemId),
-  //       ),
-  //     };
-  //   }),
-  // );
-
-  // --- Getters ---
-
-  // Get the full game state
-  get state(): GameState | undefined {
-    return this.gameState.current;
-  }
-
-  // Get the currently active character
-  get currentCharacter(): Character | undefined {
-    const id = this.state?.currentCharacterId;
-    return id ? this.getCharacter(id) : undefined;
-  }
-
-  // Get the currently active character
-  get player(): Character | undefined {
-    const id = this.state?.currentCharacterId;
-    return id ? this.getCharacter(id) : undefined;
-  }
-
-  // --- Character Utilities ---
-
-  // Get a character by ID
-  getCharacter(id: string): Character | undefined {
-    return this.state?.characters.find((c) => c.id === id);
   }
 
   // Update part of a character (immutable update)
-  updateCharacter(id: string, changes: Partial<Character>): void {
-    if (!this.state) {
-      console.warn('[CharacterFacade] No game state!');
-      return;
-    }
-    const updated = this.state.characters.map((c) =>
-      c.id === id ? { ...c, ...changes } : c,
-    );
-    console.log(`[CharacterFacade] updateCharacter(${id}) - changes:`, changes);
-    this.gameSave.save({ ...this.state, characters: updated });
-  }
-
-  // --- Attribute Logic ---
-
-  listDisplayAttributeKeys(character?: Character): string[] {
-    if (!character) return [];
-    return Object.keys(character.attributes).filter(
-      (k) => !['level', 'health'].includes(k),
-    );
-  }
-
-  updateCharacterAttributeValue(
+  async updateCharacter(
     id: string,
-    attributeId: string,
-    value: string | number,
-  ): void {
-    const char = this.getCharacter(id);
-    console.log(
-      `[CharacterFacade] updateCharacterAttributeValue(${id}, ${attributeId}, ${value}) - found character:`,
-      char,
-    );
+    changes: Partial<Character>,
+  ): Promise<void> {
+    const char = await firstValueFrom(this.byId$(of(id)));
     if (!char) {
       console.warn(`[CharacterFacade] Character not found: ${id}`);
       return;
     }
-    const attributes = { ...(char.attributes ?? {}), [attributeId]: value };
-    console.log('[CharacterFacade] New attributes:', attributes);
-    this.updateCharacter(id, { attributes });
+    const updated: Character = { ...char, ...changes };
+    this.store.dispatch(
+      CharacterActions.updateCharacter({ character: updated }),
+    );
   }
 
-  /**
-   * Creates a new Character from a template in CHARACTERS_SEED.
-   * @param templateId The id of the template character to clone.
-   * @param name The name for the new character.
-   * @returns Character
-   */
+  // Creates new Character from a CHARACTERS_SEED template
   createNewCharacterFromTemplate(templateId: string, name: string): Character {
     const template = this.dataService.getCharacter(templateId);
     if (!template) throw new Error('Template character not found');
@@ -145,47 +145,73 @@ export class CharacterFacade {
     } as Character;
   }
 
+  // --- Attribute Logic ---
+
+  listAttributeKeys$(
+    character$: Observable<Character | undefined>,
+    exclude: string[] = ['level', 'health'],
+  ): Observable<IdValuePair[]> {
+    return character$.pipe(
+      map((character) =>
+        character ? getIdValuePairs(character.attributes, exclude) : [],
+      ),
+    );
+  }
+
+  async updateCharacterAttributeValue(
+    id: string,
+    attributeId: string,
+    value: string | number,
+  ): Promise<void> {
+    const char = await firstValueFrom(this.byId$(of(id)));
+    if (!char) {
+      console.warn(`[CharacterFacade] Character not found: ${id}`);
+      return;
+    }
+    console.log(
+      `[CharacterFacade] updateCharacterAttributeValue(${id}, ${attributeId}, ${value}) - found character:`,
+      char,
+    );
+    // Build the new attributes object (Partial<Character>)
+    const attributes = { ...(char.attributes ?? {}), [attributeId]: value };
+    console.log('[CharacterFacade] New attributes:', attributes);
+    await this.updateCharacter(id, { attributes });
+  }
+
   // --- Inventory Logic ---
 
-  /** Utility: Get inventory slots for any character */
-  getInventorySlots(character: Character): InventorySlot[] {
-    const itemMap = new Map<string, InventorySlot>();
-    character.inventory.forEach((id) => {
-      const item = this.dataService.getItem(id);
-      if (!item) return;
-      if (!itemMap.has(id)) {
-        itemMap.set(id, { item, qty: 1 });
-      } else {
-        itemMap.get(id)!.qty += 1;
-      }
-    });
-    return Array.from(itemMap.values());
-  }
-
-  /** Observable: Inventory slots for the current character */
-  readonly inventorySlots$: Observable<InventorySlot[]> =
-    this.currentCharacter$.pipe(
-      map((char) => (char ? this.getInventorySlots(char) : [])),
+  // Fetch inventory slots for any character
+  getInventorySlots$(
+    character$: Observable<Character | undefined>,
+  ): Observable<InventorySlot[]> {
+    return combineLatest([
+      character$,
+      this.store.select(selectItemEntities),
+    ]).pipe(
+      map(([character, itemEntities]) => {
+        if (!character || !Array.isArray(character.inventory)) return [];
+        const itemMap = new Map<string, InventorySlot>();
+        character.inventory.forEach((id) => {
+          const item = itemEntities[id];
+          if (!item) return;
+          if (!itemMap.has(id)) {
+            itemMap.set(id, { item, qty: 1 });
+          } else {
+            itemMap.get(id)!.qty += 1;
+          }
+        });
+        return Array.from(itemMap.values());
+      }),
     );
-
-  /** Synchronous getter for current character's inventory slots */
-  get inventorySlots(): InventorySlot[] {
-    return this.currentCharacter
-      ? this.getInventorySlots(this.currentCharacter)
-      : [];
   }
 
-  addItemToInventory(itemId: string, character: Character): void {
-    const updatedInventory = [...(character.inventory ?? []), itemId];
-    this.updateCharacter(character.id, { inventory: updatedInventory });
-  }
-
-  get inventory(): Item[] {
-    const char = this.currentCharacter;
-    if (!char || !Array.isArray(char.inventory)) return [];
-    return char.inventory
-      .map((id: string) => this.dataService.getItem(id))
-      .filter((item): item is Item => Boolean(item))
-      .sort((a, b) => a.name.localeCompare(b.name));
+  async addItemToInventory(itemId: string, characterId: string): Promise<void> {
+    const char = await firstValueFrom(this.byId$(of(characterId)));
+    if (!char) {
+      console.warn(`[CharacterFacade] Character not found: ${characterId}`);
+      return;
+    }
+    const updatedInventory = [...(char.inventory ?? []), itemId];
+    await this.updateCharacter(characterId, { inventory: updatedInventory });
   }
 }

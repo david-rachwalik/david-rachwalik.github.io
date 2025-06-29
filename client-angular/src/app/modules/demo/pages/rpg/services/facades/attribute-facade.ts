@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
 
 import {
   Attribute,
   AttributeType,
   AttributeValueType,
 } from '../../models/attribute';
+import { attributeFeature } from '../../store/attribute/attribute.reducer';
 import { GameDataService } from '../game-data.service';
 
 // :: Focused on business logic and orchestration, not storage details ::
@@ -14,7 +17,32 @@ import { GameDataService } from '../game-data.service';
 
 @Injectable({ providedIn: 'root' })
 export class AttributeFacade {
-  constructor(private dataService: GameDataService) {}
+  constructor(
+    private dataService: GameDataService,
+    private store: Store,
+  ) {}
+
+  // --- NgRx Selectors ---
+
+  // Dict for lookup
+  attributeEntities$ = this.store.select(attributeFeature.selectEntities);
+  // Array for UI (filter out any `undefined`)
+  attributes$ = this.store
+    .select(attributeFeature.selectEntities)
+    // .pipe(map((entities) => Object.values(entities)));
+    .pipe(
+      map((entities) =>
+        Object.values(entities).filter((attr): attr is Attribute => !!attr),
+      ),
+    );
+
+  // Synchronous get by id
+  byId$(id: string) {
+    return this.attributeEntities$.pipe(map((entities) => entities[id]));
+  }
+
+  // ----------------------------------------------------------------
+  // ----------------------------------------------------------------
 
   get currentAttributes(): Record<string, Attribute> {
     // Assuming getAllAttributes() returns Attribute[]
@@ -29,9 +57,9 @@ export class AttributeFacade {
     );
   }
 
-  getById(id: string): Attribute | undefined {
+  byId(id: string): Attribute | undefined {
     const attr = this.currentAttributes[id];
-    console.log(`[AttributeFacade] getById(${id}):`, attr);
+    console.log(`[AttributeFacade] byId(${id}):`, attr);
     return attr;
   }
 

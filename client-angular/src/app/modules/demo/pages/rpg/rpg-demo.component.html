@@ -10,7 +10,7 @@
       </p>
       <br />
       <div class="rpg-actions">
-        @if (hasCurrentSave) {
+        @if (hasCurrentSave$ | async) {
           <button class="rpg-btn" (click)="playGame()">Play!</button>
         } @else {
           <button class="rpg-btn" (click)="newGame()">New Game</button>
