@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 
 import { AppActions } from './app.actions';
-import { appFeature } from './app.reducer';
+import { selectAppSeeded } from './app.selectors';
 // import { AttributeActions } from './attribute/attribute.actions';
 // import { CharacterActions } from './character/character.actions';
 // import { ItemActions } from './item/item.actions';
@@ -22,7 +22,7 @@ export class AppEffects {
   loadSeeds$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AppActions.loadSeeds),
-      withLatestFrom(this.store.select(appFeature.selectSeeded)),
+      withLatestFrom(this.store.select(selectAppSeeded)),
       // filter(([, seeded]) => !seeded), // Only seed if not already seeded
       filter(([, seeded]) => {
         console.log('[AppEffects] Checking seeded:', seeded);

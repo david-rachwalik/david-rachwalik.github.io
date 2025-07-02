@@ -1,51 +1,37 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
-import { CharacterState, adapter } from './character.reducer';
+import { selectCurrentCharacterId } from '../app.selectors';
+import { adapter, characterFeature } from './character.reducer';
 
-export const selectCharacterState =
-  createFeatureSelector<CharacterState>('character');
+export const { selectCharacterState } = characterFeature;
 
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors();
+export const {
+  selectAll: selectAllCharacters, // Array of all characters
+  selectEntities: selectCharacterEntities, // Dictionary of all characters
+  selectIds: selectCharacterIds, // Array of all character IDs
+  selectTotal: selectCharacterTotal, // Total number of characters
+} = adapter.getSelectors(selectCharacterState);
 
-// Array of all characters
-export const selectAllCharacters = createSelector(
-  selectCharacterState,
-  selectAll,
-);
+// --- Properties ---
 
-// Dictionary of all characters
-export const selectCharacterEntities = createSelector(
-  selectCharacterState,
-  selectEntities,
-);
+// Feature-generated are already root-state selectors
+export const {
+  selectLoading: selectCharacterLoading,
+  selectLoaded: selectCharacterLoaded,
+  selectError: selectCharacterError,
+} = characterFeature;
 
-// Array of all character IDs
-export const selectCharacterIds = createSelector(
-  selectCharacterState,
-  selectIds,
-);
+// --- Logical Selectors ---
 
-// Total number of characters
-export const selectCharacterTotal = createSelector(
-  selectCharacterState,
-  selectTotal,
-);
+// Selector to get a character by id
+export const selectCharacterById = (id: string | undefined) =>
+  createSelector(selectCharacterEntities, (entities) =>
+    id ? entities[id] : undefined,
+  );
 
-// Loading flag
-export const selectCharacterLoading = createSelector(
-  selectCharacterState,
-  (state) => state.loading,
-);
-
-// Loaded flag
-export const selectCharacterLoaded = createSelector(
-  selectCharacterState,
-  (state) => state.loaded,
-);
-
-// Error (if any)
-export const selectCharacterError = createSelector(
-  selectCharacterState,
-  (state) => state.error,
+export const selectCurrentCharacter = createSelector(
+  selectCurrentCharacterId,
+  // selectCharacterEntities,
+  // (characterId, entities) => (characterId ? entities[characterId] : undefined),
+  (characterId) => selectCharacterById(characterId),
 );

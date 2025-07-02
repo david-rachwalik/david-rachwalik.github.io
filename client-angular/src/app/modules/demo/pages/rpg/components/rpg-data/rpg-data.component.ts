@@ -7,7 +7,7 @@ import { combineLatest, firstValueFrom, map, Observable } from 'rxjs';
 
 import { AdventureIndex } from '../../models/adventure';
 import { GameFacade } from '../../services/game-facade';
-import { selectAllAdventureIndexes } from '../../store/adventure/adventure-index.reducer';
+import { selectAllAdventureIndexes } from '../../store/adventure/adventure-index.selectors';
 import { AppActions } from '../../store/app.actions';
 import { selectCurrentSlotId } from '../../store/app.selectors';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component';

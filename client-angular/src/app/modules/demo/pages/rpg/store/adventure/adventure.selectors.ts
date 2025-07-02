@@ -1,51 +1,29 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
-import { AdventureState, adapter } from './adventure.reducer';
+import { adapter, adventureFeature } from './adventure.reducer';
 
-export const selectAdventureState =
-  createFeatureSelector<AdventureState>('adventure');
+export const { selectAdventureState } = adventureFeature;
 
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors();
+export const {
+  selectAll: selectAllAdventures, // Array of all adventures
+  selectEntities: selectAdventureEntities, // Dictionary of all adventures
+  selectIds: selectAdventureIds, // Array of all adventure IDs
+  selectTotal: selectAdventureTotal, // Total number of adventures
+} = adapter.getSelectors(selectAdventureState);
 
-// Array of all adventures
-export const selectAllAdventures = createSelector(
-  selectAdventureState,
-  selectAll,
-);
+// --- Properties ---
 
-// Dictionary of all adventures
-export const selectAdventureEntities = createSelector(
-  selectAdventureState,
-  selectEntities,
-);
+// Feature-provided are already root-state selectors
+export const {
+  selectLoading: selectAdventureLoading,
+  selectLoaded: selectAdventureLoaded,
+  selectError: selectAdventureError,
+} = adventureFeature;
 
-// Array of all adventure IDs
-export const selectAdventureIds = createSelector(
-  selectAdventureState,
-  selectIds,
-);
+// --- Logical Selectors ---
 
-// Total number of adventures
-export const selectAdventureTotal = createSelector(
-  selectAdventureState,
-  selectTotal,
-);
-
-// Loading flag
-export const selectAdventureLoading = createSelector(
-  selectAdventureState,
-  (state) => state.loading,
-);
-
-// Loaded flag
-export const selectAdventureLoaded = createSelector(
-  selectAdventureState,
-  (state) => state.loaded,
-);
-
-// Error (if any)
-export const selectAdventureError = createSelector(
-  selectAdventureState,
-  (state) => state.error,
-);
+// Selector to get a adventure by id
+export const selectAdventureById = (id: string | undefined) =>
+  createSelector(selectAdventureEntities, (entities) =>
+    id ? entities[id] : undefined,
+  );

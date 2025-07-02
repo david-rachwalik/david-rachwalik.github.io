@@ -6,7 +6,7 @@ import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 import { GameSaveService } from '../services/game-save.service';
 import { AdventureActions } from './adventure/adventure.actions';
 import { AppActions } from './app.actions';
-import { appFeature } from './app.reducer';
+import { selectAppSeeded } from './app.selectors';
 
 export const initLoadSeeds$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) =>
@@ -16,7 +16,7 @@ export const initLoadSeeds$ = createEffect(
       tap(() =>
         console.log('[Effect] AppActions.init received (initLoadSeeds$)'),
       ),
-      withLatestFrom(store.select(appFeature.selectSeeded)),
+      withLatestFrom(store.select(selectAppSeeded)),
       filter(([, seeded]) => !seeded),
       // map(() => AppActions.loadSeedsRequested()),
       map(() => AppActions.loadSeeds()),

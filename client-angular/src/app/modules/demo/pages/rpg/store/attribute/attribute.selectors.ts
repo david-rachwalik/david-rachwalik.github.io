@@ -1,29 +1,29 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
-import { AttributeState, adapter } from './attribute.reducer';
+import { adapter, attributeFeature } from './attribute.reducer';
 
-export const selectAttributeState =
-  createFeatureSelector<AttributeState>('attribute');
+export const { selectAttributeState } = attributeFeature;
 
-const { selectAll, selectEntities } = adapter.getSelectors();
+export const {
+  selectAll: selectAllAttributes, // Array of all attributes
+  selectEntities: selectAttributeEntities, // Dictionary of all attributes
+  selectIds: selectAttributeIds, // Array of all attribute IDs
+  selectTotal: selectAttributeTotal, // Total number of attributes
+} = adapter.getSelectors(selectAttributeState);
 
-export const selectAllAttributes = createSelector(
-  selectAttributeState,
-  selectAll,
-);
-export const selectAttributeEntities = createSelector(
-  selectAttributeState,
-  selectEntities,
-);
-export const selectAttributeLoading = createSelector(
-  selectAttributeState,
-  (state) => state.loading,
-);
-export const selectAttributeLoaded = createSelector(
-  selectAttributeState,
-  (state) => state.loaded,
-);
-export const selectAttributeError = createSelector(
-  selectAttributeState,
-  (state) => state.error,
-);
+// --- Properties ---
+
+// Feature-provided are already root-state selectors
+export const {
+  selectLoading: selectAttributeLoading,
+  selectLoaded: selectAttributeLoaded,
+  selectError: selectAttributeError,
+} = attributeFeature;
+
+// --- Logical Selectors ---
+
+// Selector to get a attribute by id
+export const selectAttributeById = (id: string | undefined) =>
+  createSelector(selectAttributeEntities, (entities) =>
+    id ? entities[id] : undefined,
+  );
