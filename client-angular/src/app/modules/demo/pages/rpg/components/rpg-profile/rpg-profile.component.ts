@@ -14,7 +14,7 @@ export class RpgProfileComponent {
   private game = inject(GameFacade);
 
   player$ = this.game.player$;
-  health$ = this.game.utils.character.health$;
+  health$ = this.game.playerHealth$;
   attributeKeys$ = this.game.playerAttributes$;
-  inventory$ = this.game.inventory$;
+  inventory$ = this.game.playerInventory$;
 }

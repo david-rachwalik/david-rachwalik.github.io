@@ -38,11 +38,7 @@ export class RpgActionService {
     // target.body.hp = Math.max(0, target.body.hp - damage);
     const hp = Number(target.attributes['health'] ?? 0);
     const newHp = Math.max(0, hp - damage);
-    await this.game.utils.character.updateCharacterAttributeValue(
-      target.id,
-      'health',
-      newHp,
-    );
+    await this.game.updateCharacterAttributeValue(target.id, 'health', newHp);
     const msg = `${attacker.name} attacks ${target.name} for ${damage} damage.`;
     await this.game.log(msg);
     return msg;

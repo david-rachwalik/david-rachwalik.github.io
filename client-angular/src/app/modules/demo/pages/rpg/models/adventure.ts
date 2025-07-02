@@ -24,13 +24,13 @@ export interface Adventure {
   eventLog: string[]; // choices made / actions taken
   history: string[]; // Moment log
   // --- Template Data ---
-  tags: Tag[];
-  characters: Character[];
-  relationships: Relationship[];
-  reputationMap?: Record<string, number>;
-  moments: Moment[];
-  locations: Location[];
-  items: Item[];
+  tags: Record<string, Tag>;
+  characters: Record<string, Character>;
+  relationships: Record<string, Relationship>;
+  moments: Record<string, Moment>;
+  locations: Record<string, Location>;
+  reputationMap: Record<string, number>;
+  items: Record<string, Item>;
 }
 
 // Contains the game slot metadata

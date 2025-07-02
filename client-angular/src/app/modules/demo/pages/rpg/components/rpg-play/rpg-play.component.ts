@@ -38,15 +38,15 @@ export class RpgPlayComponent implements OnInit {
   // --- Observables ---
 
   // attributes$ = this.game.data.attributes$;
-  attributes$ = this.game.utils.attribute.attributes$;
+  attributes$ = this.game.attributes$;
 
   currentSlotId$ = this.game.currentSlotId$;
 
   player$ = this.game.player$;
-  stats$ = this.game.utils.character.stats$;
-  health$ = this.game.utils.character.health$;
-  activeEffects$ = this.game.utils.character.activeEffects$;
-  inventory$ = this.game.inventory$;
+  stats$ = this.game.playerStats$;
+  health$ = this.game.playerHealth$;
+  activeEffects$ = this.game.playerActiveEffects$;
+  inventory$ = this.game.playerInventory$;
 
   // moment$ = this.game.currentMoment$;
   moment$ = this.game.moment$;
