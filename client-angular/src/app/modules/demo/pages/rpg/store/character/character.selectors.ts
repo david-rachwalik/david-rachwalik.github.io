@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectCurrentCharacterId } from '../app.selectors';
 import { adapter, characterFeature } from './character.reducer';
 
 export const { selectCharacterState } = characterFeature;
@@ -21,17 +20,9 @@ export const {
   selectError: selectCharacterError,
 } = characterFeature;
 
-// --- Logical Selectors ---
+// --- Selector Factories (do NOT use in other selectors) ---
 
-// Selector to get a character by id
 export const selectCharacterById = (id: string | undefined) =>
   createSelector(selectCharacterEntities, (entities) =>
     id ? entities[id] : undefined,
   );
-
-export const selectCurrentCharacter = createSelector(
-  selectCurrentCharacterId,
-  // selectCharacterEntities,
-  // (characterId, entities) => (characterId ? entities[characterId] : undefined),
-  (characterId) => selectCharacterById(characterId),
-);

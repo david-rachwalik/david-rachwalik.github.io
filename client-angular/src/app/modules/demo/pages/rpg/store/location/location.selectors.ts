@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectCurrentLocationId } from '../app.selectors';
 import { adapter, locationFeature } from './location.reducer';
 
 export const { selectLocationState } = locationFeature;
@@ -21,15 +20,9 @@ export const {
   selectError: selectLocationError,
 } = locationFeature;
 
-// --- Logical Selectors ---
+// --- Selector Factories (do NOT use in other selectors) ---
 
-// Selector to get a location by id
 export const selectLocationById = (id: string | undefined) =>
   createSelector(selectLocationEntities, (entities) =>
     id ? entities[id] : undefined,
   );
-
-export const selectCurrentLocation = createSelector(
-  selectCurrentLocationId,
-  (locationId) => selectLocationById(locationId),
-);

@@ -20,9 +20,8 @@ export const {
   selectError: selectAdventureError,
 } = adventureFeature;
 
-// --- Logical Selectors ---
+// --- Selector Factories (do NOT use in other selectors) ---
 
-// Selector to get a adventure by id
 export const selectAdventureById = (id: string | undefined) =>
   createSelector(selectAdventureEntities, (entities) =>
     id ? entities[id] : undefined,

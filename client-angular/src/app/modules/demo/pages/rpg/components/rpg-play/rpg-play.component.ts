@@ -49,7 +49,7 @@ export class RpgPlayComponent implements OnInit {
   inventory$ = this.game.playerInventory$;
 
   // moment$ = this.game.currentMoment$;
-  moment$ = this.game.moment$;
+  moment$ = this.game.currentMoment$;
   choices$ = this.actions.getChoices();
 
   // --- Methods ---

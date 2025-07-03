@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectCurrentMomentId } from '../app.selectors';
 import { adapter, momentFeature } from './moment.reducer';
 
 export const { selectMomentState } = momentFeature;
@@ -21,15 +20,9 @@ export const {
   selectError: selectMomentError,
 } = momentFeature;
 
-// --- Logical Selectors ---
+// --- Selector Factories (do NOT use in other selectors) ---
 
-// Selector to get a moment by id
 export const selectMomentById = (id: string | undefined) =>
   createSelector(selectMomentEntities, (entities) =>
     id ? entities[id] : undefined,
   );
-
-export const selectCurrentMoment = createSelector(
-  selectCurrentMomentId,
-  (momentId) => selectMomentById(momentId),
-);

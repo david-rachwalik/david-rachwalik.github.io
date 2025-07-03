@@ -14,6 +14,7 @@ import { AppActions } from '../store/app.actions';
 import {
   selectCurrentAdventure,
   selectCurrentCharacter,
+  selectCurrentLocation,
   selectCurrentMoment,
   selectCurrentSlotId,
 } from '../store/app.selectors';
@@ -33,10 +34,8 @@ import {
 } from '../store/item/item.selectors';
 import {
   selectAllLocations,
-  selectCurrentLocation,
   selectLocationEntities,
 } from '../store/location/location.selectors';
-import { momentFeature } from '../store/moment/moment.reducer';
 import {
   selectAllMoments,
   selectMomentEntities,
@@ -370,84 +369,23 @@ export class GameFacade {
     );
     await this.updateCharacterAttributeValue(player.id, 'health', newHealth);
   }
-
-  // --------------------------------------------------------------
-  // --------------------------------------------------------------
-
-  moment$ = combineLatest([
-    this.store.select(selectCurrentAdventure),
-    this.store.select(momentFeature.selectEntities),
-  ]).pipe(
-    map(([adventure, momentEntities]) => {
-      if (!adventure) return undefined;
-      return momentEntities[adventure.currentMomentId];
-    }),
-  );
   // #endregion
 
-  // #region 🔸 Methods - Save/Load 🔸
+  // #region 🔸 Save/Load Methods 🔸
 
   // App initialization: ensure the game state is prepared & ready
   init() {
     console.log('[GameFacade] Dispatching seed and load actions');
     this.store.dispatch(AppActions.init());
-
     // // Load currentSlotId from client storage
-    // this.store.dispatch(AppActions.loadCurrentSlotId());
     // // Seed static data (attributes, items, etc.)
-    // this.store.dispatch(AppActions.loadSeeds());
     // // Load AdventureIndexes from client storage
-    // this.store.dispatch(AdventureIndexActions.loadAdventureIndexes());
-
-    // this.store.dispatch(AttributeActions.loadAttributes());
-    // this.store.dispatch(TagActions.loadTags());
-    // this.store.dispatch(CharacterActions.loadCharacters());
-    // this.store.dispatch(LocationActions.loadLocations());
-    // this.store.dispatch(MomentActions.loadMoments());
-    // this.store.dispatch(ItemActions.loadItems());
   }
 
   async play() {
-    // this.currentSlotId$.subscribe((slotId) => {
-    //   if (slotId) {
-    //     this.store.dispatch(AppActions.play({ slotId }));
-    //   }
-    // });
-
     const slotId = await firstValueFrom(this.currentSlotId$);
     if (!slotId) return;
     this.store.dispatch(AppActions.play({ slotId }));
-  }
-
-  // --------------------------------------------------------------
-  // --------------------------------------------------------------
-
-  private async buildAdventureIndex(
-    adventure: Adventure,
-    label?: string,
-  ): Promise<AdventureIndex> {
-    // Try to get the previous AdventureIndex from the store
-    const allIndexes = await firstValueFrom(this.allSaves$);
-    const prev = allIndexes.find((idx) => idx.id === adventure.id);
-
-    // If found, update only the fields that should change
-    if (prev) {
-      return {
-        ...prev,
-        // label: label ?? prev.label,
-        savedAt: new Date().toISOString(),
-        sizeKB: this.sizeInKB(adventure),
-      };
-    }
-
-    // If not found, create a new index (first save)
-    return {
-      id: adventure.id,
-      label: label || '',
-      savedAt: new Date().toISOString(),
-      sizeKB: this.sizeInKB(adventure),
-      storageType: 'local',
-    };
   }
 
   // Creates a new game state from a character template, saves & activates it
@@ -493,33 +431,9 @@ export class GameFacade {
     };
     // const index = await this.buildAdventureIndex(adventure, label);
 
-    // await this.saveGame(adventure, label);
-
-    // Save Adventure and Index, set as current
-    // this.store.dispatch(AdventureActions.saveAdventure({ adventure }));
-    // this.store.dispatch(
-    //   AdventureIndexActions.addAdventureIndex({ slot: index }),
-    // );
-
-    // // Only dispatch `addAdventure`; effect will handle AdventureIndex
-    // this.store.dispatch(AdventureActions.addAdventure({ adventure }));
-    // this.store.dispatch(AppActions.setCurrentSlotId({ slotId }));
-
     this.addAdventure(adventure);
     this.setCurrentSlotId(slotId);
   }
-
-  // // Save game slot to client storage
-  // async saveGame(adventure: Adventure) {
-  //   console.log('[GameFacade] Saving game slot:', adventure.id);
-  //   const index = await this.buildAdventureIndex(adventure);
-
-  //   // Save Adventure and AdventureIndex
-  //   this.store.dispatch(AdventureActions.saveAdventure({ adventure }));
-  //   this.store.dispatch(
-  //     AdventureIndexActions.updateAdventureIndex({ slot: index }),
-  //   );
-  // }
 
   // Save game slot to client storage
   saveGame(id: string, changes: Partial<Adventure>) {
@@ -569,21 +483,3 @@ export class GameFacade {
   }
   // #endregion
 }
-
-// :: Usage Example (in component) ::
-
-// constructor(private game: GameFacade) {}
-
-// ngOnInit() {
-//   // ...
-//   this.moment = this.game.currentMoment!;
-//   this.eventLog = this.game.eventLog;
-// }
-
-// addSword() {
-//   this.game.characters.addItemToInventory('sword');
-// }
-
-// takeDamage() {
-//   this.game.attributes.damageCharacter('char-1', 5);
-// }

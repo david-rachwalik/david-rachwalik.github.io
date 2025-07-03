@@ -2,6 +2,8 @@ import { createSelector } from '@ngrx/store';
 
 import { selectAdventureEntities } from './adventure/adventure.selectors';
 import { appFeature } from './app.reducer';
+import { selectLocationEntities } from './location/location.selectors';
+import { selectMomentEntities } from './moment/moment.selectors';
 
 export const { selectAppState } = appFeature;
 
@@ -19,7 +21,7 @@ export const selectCurrentAdventureId = selectCurrentSlotId;
 export const selectCurrentAdventure = createSelector(
   selectAdventureEntities,
   selectCurrentAdventureId,
-  (entities, slotId) => (slotId ? entities[slotId] : undefined),
+  (entities, adventureId) => (adventureId ? entities[adventureId] : undefined),
 );
 
 // Current Character ID
@@ -27,12 +29,17 @@ export const selectCurrentCharacterId = createSelector(
   selectCurrentAdventure,
   (adventure) => adventure?.currentCharacterId,
 );
-// Current Character entity
+// export const selectCurrentCharacter = createSelector(
+//   selectCurrentCharacterId,
+//   selectCharacterEntities,
+//   (characterId, entities) => (characterId ? entities[characterId] : undefined),
+// );
 export const selectCurrentCharacter = createSelector(
   selectCurrentAdventure,
   (adventure) =>
-    // adventure?.characters?.find((c) => c.id === adventure.currentCharacterId),
-    adventure?.characters[adventure.currentCharacterId],
+    adventure && adventure.currentCharacterId
+      ? adventure.characters?.[adventure.currentCharacterId]
+      : undefined,
 );
 
 // Current Location ID
@@ -40,16 +47,22 @@ export const selectCurrentLocationId = createSelector(
   selectCurrentAdventure,
   (adventure) => adventure?.currentLocationId,
 );
+export const selectCurrentLocation = createSelector(
+  selectCurrentLocationId,
+  selectLocationEntities,
+  (locationId, entities) => (locationId ? entities[locationId] : undefined),
+);
 
 // Current Moment ID
 export const selectCurrentMomentId = createSelector(
   selectCurrentAdventure,
   (adventure) => adventure?.currentMomentId,
 );
-// Current Moment entity
 export const selectCurrentMoment = createSelector(
-  selectCurrentAdventure,
-  (adventure) => adventure?.moments[adventure.currentMomentId],
+  selectCurrentMomentId,
+  selectMomentEntities,
+  (momentId, momentEntities) =>
+    momentId ? momentEntities[momentId] : undefined,
 );
 
 // Current Log Entries
