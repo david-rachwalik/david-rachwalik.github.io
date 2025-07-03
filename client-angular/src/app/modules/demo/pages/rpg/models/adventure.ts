@@ -1,7 +1,6 @@
 import { Character } from './character';
 import { Item } from './item';
 import { Moment } from './moment';
-import { Relationship } from './relationship';
 import { Tag } from './tag';
 
 export interface AdventurePreferences {
@@ -26,7 +25,6 @@ export interface Adventure {
   // --- Template Data ---
   tags: Record<string, Tag>;
   characters: Record<string, Character>;
-  relationships: Record<string, Relationship>;
   moments: Record<string, Moment>;
   locations: Record<string, Location>;
   reputationMap: Record<string, number>;

@@ -423,7 +423,6 @@ export class GameFacade {
       history: [],
       tags: {}, // or arrayToEntityMap(tagsArray)
       characters: { [player.id]: player }, // or arrayToEntityMap([player])
-      relationships: {},
       moments: {}, // or arrayToEntityMap(momentsArray)
       locations: {},
       reputationMap: {},

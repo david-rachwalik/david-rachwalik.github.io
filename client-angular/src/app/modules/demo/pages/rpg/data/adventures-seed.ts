@@ -18,7 +18,6 @@ export const ADVENTURES_SEED: Adventure[] = [
     history: [],
     tags: {},
     characters: {},
-    relationships: {},
     moments: {},
     locations: {},
     reputationMap: {},
