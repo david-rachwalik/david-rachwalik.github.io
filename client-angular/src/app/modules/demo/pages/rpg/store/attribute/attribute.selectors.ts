@@ -15,6 +15,7 @@ export const {
 
 // Feature-provided are already root-state selectors
 export const {
+  selectSeeded: selectAttributeSeeded,
   selectLoading: selectAttributeLoading,
   selectLoaded: selectAttributeLoaded,
   selectError: selectAttributeError,

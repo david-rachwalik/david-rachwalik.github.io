@@ -5,19 +5,19 @@ import { Moment } from '../../models/moment';
 import { MomentActions } from './moment.actions';
 
 export interface MomentState extends EntityState<Moment> {
-  loaded: boolean;
-  loading: boolean;
-  error: string | null;
-  currentSlotId: string | null;
+  seeded: boolean; // for initial load
+  loading: boolean; // for any async operation
+  loaded: boolean; // for initial load
+  error: string | null; // for any async operation
 }
 
 export const adapter = createEntityAdapter<Moment>();
 
 export const initialState: MomentState = adapter.getInitialState({
-  loaded: false,
+  seeded: false,
   loading: false,
+  loaded: false,
   error: null,
-  currentSlotId: null,
 });
 
 // auto-generates selectors and reducer registration
@@ -25,33 +25,80 @@ export const momentFeature = createFeature({
   name: 'moment',
   reducer: createReducer(
     initialState,
-    on(MomentActions.loadMoments, (state) => ({
+    // Seed load
+    on(MomentActions.seedAllMomentsSuccess, (state, { moments }) =>
+      adapter.setAll(moments, { ...state, seeded: true }),
+    ),
+    // Create
+    on(MomentActions.addMoment, (state) => ({
       ...state,
       loading: true,
+      error: null,
     })),
-    on(MomentActions.loadMomentsSuccess, (state, { moments }) =>
-      adapter.setAll(moments, { ...state, loading: false, loaded: true }),
+    on(MomentActions.addMomentSuccess, (state, { moment }) =>
+      // `addOne` will only add the entity if it does not already exist (by id)
+      adapter.addOne(moment, { ...state, loading: false }),
     ),
-    on(MomentActions.loadMomentsSeedSuccess, (state, { moments }) =>
-      adapter.setAll(moments, {
-        ...state,
-        loading: false,
-        loaded: true,
-      }),
-    ),
-    on(MomentActions.loadMomentsFailure, (state, { error }) => ({
+    on(MomentActions.addMomentFailure, (state, { error }) => ({
       ...state,
       loading: false,
       error,
     })),
-    on(MomentActions.addMomentSuccess, (state, { moment }) =>
-      adapter.addOne(moment, state),
+    // Read All
+    on(MomentActions.loadAllMoments, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(MomentActions.loadAllMomentsSuccess, (state, { moments }) =>
+      adapter.upsertMany(moments, { ...state, loading: false, loaded: true }),
     ),
-    on(MomentActions.updateMomentSuccess, (state, { moment }) =>
-      adapter.upsertOne(moment, state),
+    on(MomentActions.loadAllMomentsFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Read
+    on(MomentActions.loadMoment, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(MomentActions.loadMomentSuccess, (state, { moment }) =>
+      adapter.upsertOne(moment, { ...state, loading: false }),
     ),
-    on(MomentActions.deleteMomentSuccess, (state, { id }) =>
-      adapter.removeOne(id, state),
+    on(MomentActions.loadMomentFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Update
+    on(MomentActions.saveMoment, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(MomentActions.saveMomentSuccess, (state, { moment }) =>
+      adapter.upsertOne(moment, { ...state, loading: false }),
     ),
+    on(MomentActions.saveMomentFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Delete
+    on(MomentActions.removeMoment, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(MomentActions.removeMomentSuccess, (state, { id }) =>
+      adapter.removeOne(id, { ...state, loading: false }),
+    ),
+    on(MomentActions.removeMomentFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
   ),
 });

@@ -25,3 +25,22 @@
 .profile-value {
   color: var(--rpg-gold-light);
 }
+
+app-rpg-demo-layout .save-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5em;
+  gap: 1em;
+}
+app-rpg-demo-layout .save-action-left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+app-rpg-demo-layout .save-action-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5em;
+}

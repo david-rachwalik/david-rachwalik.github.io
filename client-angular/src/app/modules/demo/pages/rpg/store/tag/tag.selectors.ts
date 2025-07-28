@@ -15,6 +15,7 @@ export const {
 
 // Feature-provided are already root-state selectors
 export const {
+  selectSeeded: selectTagSeeded,
   selectLoading: selectTagLoading,
   selectLoaded: selectTagLoaded,
   selectError: selectTagError,

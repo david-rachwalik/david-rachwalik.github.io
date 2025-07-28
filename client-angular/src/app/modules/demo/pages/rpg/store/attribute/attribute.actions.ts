@@ -5,22 +5,32 @@ import { Attribute } from '../../models/attribute';
 export const AttributeActions = createActionGroup({
   source: 'Attribute',
   events: {
-    'Load Attributes': emptyProps(),
-    'Load Attributes Success': props<{ attributes: Attribute[] }>(),
-    'Load Attributes Failure': props<{ error: string }>(),
+    'Seed All Attributes': emptyProps(),
+    'Seed All Attributes Success': props<{ attributes: Attribute[] }>(),
+    'Seed All Attributes Failure': props<{ error: string }>(),
 
-    'Load Attributes Seed': emptyProps(),
-    'Load Attributes Seed Success': props<{ attributes: Attribute[] }>(),
-    // 'Load Attributes API': emptyProps(),
-    // 'Load Attributes API Success': props<{ attributes: Attribute[] }>(),
-
+    // Create
     'Add Attribute': props<{ attribute: Attribute }>(),
     'Add Attribute Success': props<{ attribute: Attribute }>(),
+    'Add Attribute Failure': props<{ error: string }>(),
 
-    'Update Attribute': props<{ attribute: Attribute }>(),
-    'Update Attribute Success': props<{ attribute: Attribute }>(),
+    // Read
+    'Load All Attributes': emptyProps(),
+    'Load All Attributes Success': props<{ attributes: Attribute[] }>(),
+    'Load All Attributes Failure': props<{ error: string }>(),
 
-    'Delete Attribute': props<{ id: string }>(),
-    'Delete Attribute Success': props<{ id: string }>(),
+    'Load Attribute': props<{ id: string }>(),
+    'Load Attribute Success': props<{ attribute: Attribute }>(),
+    'Load Attribute Failure': props<{ error: string }>(),
+
+    // Update
+    'Save Attribute': props<{ attribute: Attribute }>(),
+    'Save Attribute Success': props<{ attribute: Attribute }>(),
+    'Save Attribute Failure': props<{ error: string }>(),
+
+    // Delete
+    'Remove Attribute': props<{ id: string }>(),
+    'Remove Attribute Success': props<{ id: string }>(),
+    'Remove Attribute Failure': props<{ error: string }>(),
   },
 });

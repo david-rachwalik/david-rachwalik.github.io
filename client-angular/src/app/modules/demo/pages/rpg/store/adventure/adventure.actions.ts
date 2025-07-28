@@ -5,30 +5,30 @@ import { Adventure } from '../../models/adventure';
 export const AdventureActions = createActionGroup({
   source: 'Adventure',
   events: {
-    'Load Adventures Seed': emptyProps(),
-    'Load Adventures Seed Success': props<{ adventures: Adventure[] }>(),
+    'Seed All Adventures': emptyProps(),
+    'Seed All Adventures Success': props<{ adventures: Adventure[] }>(),
+    'Seed All Adventures Failure': props<{ error: string }>(),
 
-    // // List all available Adventures (now handled by AdventureIndex[])
-    // 'Load Adventures': emptyProps(),
-    // 'Load Adventures Success': props<{ adventures: Adventure[] }>(),
-    // 'Load Adventures Failure': props<{ error: string }>(),
-
-    // Create adventure state (uses rollback)
+    // Create (uses rollback)
     'Add Adventure': props<{ adventure: Adventure }>(),
     'Add Adventure Success': props<{ adventure: Adventure }>(),
     'Add Adventure Failure': props<{ error: string }>(),
 
-    // Load adventure state for a slot
+    // Read
+    'Load All Adventures': emptyProps(),
+    'Load All Adventures Success': props<{ adventures: Adventure[] }>(),
+    'Load All Adventures Failure': props<{ error: string }>(),
+
     'Load Adventure': props<{ id: string }>(),
     'Load Adventure Success': props<{ adventure: Adventure }>(),
     'Load Adventure Failure': props<{ error: string }>(),
 
-    // Update adventure with partial changes
+    // Update (with partial changes)
     'Save Adventure': props<{ id: string; changes: Partial<Adventure> }>(),
     'Save Adventure Success': props<{ adventure: Adventure }>(),
     'Save Adventure Failure': props<{ error: string }>(),
 
-    // Delete adventure state
+    // Delete
     'Remove Adventure': props<{ id: string }>(),
     'Remove Adventure Success': props<{ id: string }>(),
     'Remove Adventure Failure': props<{ error: string }>(),

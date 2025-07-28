@@ -10,24 +10,24 @@ import { GameFacade } from '../../services/game-facade';
 import { selectAllAdventureIndexes } from '../../store/adventure/adventure-index.selectors';
 import { AppActions } from '../../store/app.actions';
 import { selectCurrentSlotId } from '../../store/app.selectors';
+import { IconBtnComponent } from '../icon-button/icon-button.component';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component';
-
-// interface SaveSlotDisplay {
-//   id: string;
-//   label: string;
-//   playerName: string;
-//   level: number;
-//   location?: string;
-//   size: number;
-//   lastPlayed: Date;
-// }
 
 @Component({
   standalone: true,
   selector: 'app-rpg-data',
-  imports: [CommonModule],
+  imports: [CommonModule, IconBtnComponent],
   templateUrl: './rpg-data.component.html',
   // styleUrls: ['./rpg-data.component.css'],
+  styles: `
+    .save-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5em;
+      gap: 1em;
+    }
+  `,
 })
 export class RpgDataComponent implements OnInit {
   private router = inject(Router);
@@ -37,29 +37,9 @@ export class RpgDataComponent implements OnInit {
 
   currentSlotId$ = this.store.select(selectCurrentSlotId);
 
-  // allSaves$: Observable<AdventureIndex[]> = new Observable((subscriber) => {
-  //   subscriber.next(this.saveService.listSaves());
-  //   subscriber.complete();
-  // });
-  // allSaves$ = this.store
-  //   .select(selectAllAdventureIndexes)
-  //   .subscribe((slots) => subscriber.next(slots));
   allSaves$ = this.store.select(selectAllAdventureIndexes);
   // adventureEntities$ = this.store.select(selectAdventureEntities);
 
-  // currentSave$: Observable<SaveSlotDisplay | undefined> = combineLatest([
-  //   this.allSaves$,
-  //   this.currentSlotId$,
-  //   this.adventureEntities$,
-  // ]).pipe(
-  //   map(([allSaves, currentSlotId, adventures]) => {
-  //     const slot = allSaves.find((s) => s.id === currentSlotId);
-  //     const adventure = slot ? adventures[slot.id] : undefined;
-  //     return slot && adventure
-  //       ? this.mapSlotDisplay(slot, adventure)
-  //       : undefined;
-  //   }),
-  // );
   currentSave$: Observable<AdventureIndex | undefined> = combineLatest([
     this.allSaves$,
     this.currentSlotId$,
@@ -69,30 +49,16 @@ export class RpgDataComponent implements OnInit {
     ),
   );
 
-  // otherSaves$: Observable<SaveSlotDisplay[]> = combineLatest([
-  //   this.allSaves$,
-  //   this.currentSlotId$,
-  //   this.adventureEntities$,
-  // ]).pipe(
-  //   map(([allSaves, currentSlotId, adventures]) =>
-  //     allSaves
-  //       .filter((s) => s.id !== currentSlotId)
-  //       .map((slot) => {
-  //         const adventure = adventures[slot.id];
-  //         return adventure ? this.mapSlotDisplay(slot, adventure) : undefined;
-  //       })
-  //       .filter((v): v is SaveSlotDisplay => !!v)
-  //       .sort((a, b) => a.label.localeCompare(b.label)),
-  //   ),
-  // );
   otherSaves$: Observable<AdventureIndex[]> = combineLatest([
     this.allSaves$,
     this.currentSlotId$,
   ]).pipe(
-    map(([allSaves, currentSlotId]) =>
-      allSaves
-        .filter((s) => s.id !== currentSlotId)
-        .sort((a, b) => a.label.localeCompare(b.label)),
+    map(
+      ([allSaves, currentSlotId]) =>
+        allSaves
+          .filter((s) => s.id !== currentSlotId)
+          // .sort((a, b) => a.label.localeCompare(b.label)),
+          .sort((a, b) => b.savedAt.localeCompare(a.savedAt)), // Sort by most recent
     ),
   );
 
@@ -106,23 +72,6 @@ export class RpgDataComponent implements OnInit {
     // console.log('[RpgData] Loaded currentSlotId:', val);
   }
 
-  // // Uses arrow function to bind `this`
-  // mapSlotDisplay = (
-  //   index: AdventureIndex,
-  //   adventure: Adventure,
-  // ): SaveSlotDisplay => {
-  //   const player = adventure.characters?.[0] ?? {};
-  //   return {
-  //     id: index.id,
-  //     label: index.label || 'Unnamed Save',
-  //     playerName: player.name || 'Unknown',
-  //     level: Number(player.attributes?.['level']) || 1,
-  //     location: player.location,
-  //     size: Math.round(index.sizeKB || JSON.stringify(adventure).length / 1024),
-  //     lastPlayed: new Date(index.savedAt),
-  //   };
-  // };
-
   async continueGame() {
     await this.router.navigate(['/demo/rpg/play']);
   }
@@ -132,8 +81,39 @@ export class RpgDataComponent implements OnInit {
   }
 
   activateSave(slotId: string) {
-    // this.saveService.saveCurrentSlotId(id);
     this.store.dispatch(AppActions.setCurrentSlotId({ slotId }));
+  }
+
+  onUploadFile(event: Event) {
+    console.log('[Upload] File input changed');
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      console.log('[Upload] File selected:', file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        console.log('[Upload] FileReader loaded:', e);
+        try {
+          const text = e.target?.result as string;
+          console.log('[Upload] File contents:', text.slice(0, 200)); // log first 200 chars
+          // Dispatch NgRx action or call service
+          this.store.dispatch(AppActions.uploadSave({ file }));
+          console.log('[Upload] Dispatched uploadSave action');
+        } catch (err) {
+          console.error('[Upload] Error reading file:', err);
+        }
+      };
+      reader.onerror = (e) => {
+        console.error('[Upload] FileReader error:', e);
+      };
+      reader.readAsText(file);
+    } else {
+      console.warn('[Upload] No file selected');
+    }
+  }
+
+  downloadSave(slotId: string) {
+    this.store.dispatch(AppActions.downloadSave({ slotId }));
   }
 
   async confirmDelete(id: string) {
@@ -161,8 +141,6 @@ export class RpgDataComponent implements OnInit {
 
   async deleteSave(id: string) {
     console.log('[RpgData] Deleting save slot:', id);
-    // this.saveService.delete(id);
     await this.game.deleteGame(id);
-    // Optionally, trigger reload or dispatch action if needed
   }
 }

@@ -5,20 +5,32 @@ import { Tag } from '../../models/tag';
 export const TagActions = createActionGroup({
   source: 'Tag',
   events: {
-    'Load Tags': emptyProps(),
-    'Load Tags Success': props<{ tags: Tag[] }>(),
-    'Load Tags Failure': props<{ error: string }>(),
+    'Seed All Tags': emptyProps(),
+    'Seed All Tags Success': props<{ tags: Tag[] }>(),
+    'Seed All Tags Failure': props<{ error: string }>(),
 
-    'Load Tags Seed': emptyProps(),
-    'Load Tags Seed Success': props<{ tags: Tag[] }>(),
-
+    // Create
     'Add Tag': props<{ tag: Tag }>(),
     'Add Tag Success': props<{ tag: Tag }>(),
+    'Add Tag Failure': props<{ error: string }>(),
 
-    'Update Tag': props<{ tag: Tag }>(),
-    'Update Tag Success': props<{ tag: Tag }>(),
+    // Read
+    'Load All Tags': emptyProps(),
+    'Load All Tags Success': props<{ tags: Tag[] }>(),
+    'Load All Tags Failure': props<{ error: string }>(),
 
-    'Delete Tag': props<{ id: string }>(),
-    'Delete Tag Success': props<{ id: string }>(),
+    'Load Tag': props<{ id: string }>(),
+    'Load Tag Success': props<{ tag: Tag }>(),
+    'Load Tag Failure': props<{ error: string }>(),
+
+    // Update
+    'Save Tag': props<{ tag: Tag }>(),
+    'Save Tag Success': props<{ tag: Tag }>(),
+    'Save Tag Failure': props<{ error: string }>(),
+
+    // Delete
+    'Remove Tag': props<{ id: string }>(),
+    'Remove Tag Success': props<{ id: string }>(),
+    'Remove Tag Failure': props<{ error: string }>(),
   },
 });

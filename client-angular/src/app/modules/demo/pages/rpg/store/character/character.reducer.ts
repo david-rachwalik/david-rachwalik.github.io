@@ -5,16 +5,18 @@ import { Character } from '../../models/character';
 import { CharacterActions } from './character.actions';
 
 export interface CharacterState extends EntityState<Character> {
-  loaded: boolean;
-  loading: boolean;
-  error: string | null;
+  seeded: boolean; // for initial load
+  loading: boolean; // for any async operation
+  loaded: boolean; // for initial load
+  error: string | null; // for any async operation
 }
 
 export const adapter = createEntityAdapter<Character>();
 
 export const initialState: CharacterState = adapter.getInitialState({
-  loaded: false,
+  seeded: false,
   loading: false,
+  loaded: false,
   error: null,
 });
 
@@ -23,33 +25,119 @@ export const characterFeature = createFeature({
   name: 'character',
   reducer: createReducer(
     initialState,
-    on(CharacterActions.loadCharacters, (state) => ({
+    // Seed load
+    on(CharacterActions.seedAllCharactersSuccess, (state, { characters }) =>
+      adapter.setAll(characters, { ...state, seeded: true }),
+    ),
+    // Create
+    on(CharacterActions.addCharacter, (state) => ({
       ...state,
       loading: true,
+      error: null,
     })),
-    on(CharacterActions.loadCharactersSuccess, (state, { characters }) =>
-      adapter.setAll(characters, { ...state, loading: false, loaded: true }),
+    on(CharacterActions.addCharacterSuccess, (state, { character }) =>
+      // `addOne` will only add the entity if it does not already exist (by id)
+      adapter.addOne(character, { ...state, loading: false }),
     ),
-    on(CharacterActions.loadCharactersSeedSuccess, (state, { characters }) =>
-      adapter.setAll(characters, {
+    on(CharacterActions.addCharacterFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Read All
+    on(CharacterActions.loadAllCharacters, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(CharacterActions.loadAllCharactersSuccess, (state, { characters }) =>
+      // adapter.setAll(characters, { ...state, loading: false, loaded: true }),
+      // add or update entities but not remove existing ones
+      adapter.upsertMany(characters, {
         ...state,
         loading: false,
         loaded: true,
       }),
     ),
-    on(CharacterActions.loadCharactersFailure, (state, { error }) => ({
+    on(CharacterActions.loadAllCharactersFailure, (state, { error }) => ({
       ...state,
       loading: false,
       error,
     })),
-    on(CharacterActions.addCharacterSuccess, (state, { character }) =>
-      adapter.addOne(character, state),
+    // Read
+    on(CharacterActions.loadCharacter, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(CharacterActions.loadCharacterSuccess, (state, { character }) =>
+      adapter.upsertOne(character, { ...state, loading: false }),
     ),
-    on(CharacterActions.updateCharacterSuccess, (state, { character }) =>
-      adapter.upsertOne(character, state),
+    on(CharacterActions.loadCharacterFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Update (optimistic, lets UI immediately reflect changes)
+    on(CharacterActions.saveCharacter, (state, { id, changes }) =>
+      adapter.updateOne(
+        { id, changes },
+        { ...state, loading: true, error: null },
+      ),
     ),
-    on(CharacterActions.deleteCharacterSuccess, (state, { id }) =>
-      adapter.removeOne(id, state),
+    // Update with actual saved data (full)
+    on(CharacterActions.saveCharacterSuccess, (state, { character }) =>
+      adapter.upsertOne(character, { ...state, loading: false }),
     ),
+    on(CharacterActions.saveCharacterFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Update All
+    on(CharacterActions.saveAllCharacters, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(CharacterActions.saveAllCharactersSuccess, (state, { characters }) =>
+      adapter.upsertMany(characters, { ...state, loading: false }),
+    ),
+    on(CharacterActions.saveAllCharactersFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Delete
+    on(CharacterActions.removeCharacter, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(CharacterActions.removeCharacterSuccess, (state, { id }) =>
+      adapter.removeOne(id, { ...state, loading: false }),
+    ),
+    on(CharacterActions.removeCharacterFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Delete All
+    on(CharacterActions.removeAllCharacters, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(CharacterActions.removeAllCharactersSuccess, (state) =>
+      adapter.removeAll({
+        ...state,
+        loading: false,
+      }),
+    ),
+    on(CharacterActions.removeAllCharactersFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
   ),
 });

@@ -13,8 +13,8 @@ import { GameFacade } from '../../services/game-facade';
 export class RpgProfileComponent {
   private game = inject(GameFacade);
 
-  player$ = this.game.player$;
-  health$ = this.game.playerHealth$;
-  attributeKeys$ = this.game.playerAttributes$;
-  inventory$ = this.game.playerInventory$;
+  player$ = this.game.utils.character.player$;
+  health$ = this.game.utils.character.playerHealth$;
+  attributeKeys$ = this.game.utils.character.playerAttributes$;
+  inventory$ = this.game.utils.character.playerInventory$;
 }

@@ -20,7 +20,7 @@ import { attributeFeature } from './attribute.reducer';
 //    (dispatched by previous effect) and then dispatches `AttributeActions.loadAttributesApi()`
 
 // --- What I Went With ---
-// 1. App dispatches `AppActions.loadSeeds` (e.g. from layout component)
+// 1. App dispatches `AppActions.loadAllSeeds` (e.g. from layout component)
 // 2. `loadSeeds$` effect checks if the state is seeded
 //   - if not seeded, it dispatches each feature's respective seed
 //     (e.g. `AttributeActions.loadAttributesSeed`...)

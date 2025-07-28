@@ -5,20 +5,32 @@ import { Item } from '../../models/item';
 export const ItemActions = createActionGroup({
   source: 'Item',
   events: {
-    'Load Items': emptyProps(),
-    'Load Items Success': props<{ items: Item[] }>(),
-    'Load Items Failure': props<{ error: string }>(),
+    'Seed All Items': emptyProps(),
+    'Seed All Items Success': props<{ items: Item[] }>(),
+    'Seed All Items Failure': props<{ error: string }>(),
 
-    'Load Items Seed': emptyProps(),
-    'Load Items Seed Success': props<{ items: Item[] }>(),
-
+    // Create
     'Add Item': props<{ item: Item }>(),
     'Add Item Success': props<{ item: Item }>(),
+    'Add Item Failure': props<{ error: string }>(),
 
-    'Update Item': props<{ item: Item }>(),
-    'Update Item Success': props<{ item: Item }>(),
+    // Read
+    'Load All Items': emptyProps(),
+    'Load All Items Success': props<{ items: Item[] }>(),
+    'Load All Items Failure': props<{ error: string }>(),
 
-    'Delete Item': props<{ id: string }>(),
-    'Delete Item Success': props<{ id: string }>(),
+    'Load Item': props<{ id: string }>(),
+    'Load Item Success': props<{ item: Item }>(),
+    'Load Item Failure': props<{ error: string }>(),
+
+    // Update
+    'Save Item': props<{ item: Item }>(),
+    'Save Item Success': props<{ item: Item }>(),
+    'Save Item Failure': props<{ error: string }>(),
+
+    // Delete
+    'Remove Item': props<{ id: string }>(),
+    'Remove Item Success': props<{ id: string }>(),
+    'Remove Item Failure': props<{ error: string }>(),
   },
 });

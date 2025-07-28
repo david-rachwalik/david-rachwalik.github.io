@@ -2,6 +2,20 @@
   <header class="rpg-data-header">
     <h2>Game Saves</h2>
     <button class="continue-btn" (click)="continueGame()">Continue</button>
+    <label class="icon-btn upload-btn" title="Upload Save">
+      <input
+        #fileInput
+        type="file"
+        accept=".json"
+        (change)="onUploadFile($event)"
+        hidden />
+      <app-icon-btn
+        icon="upload_file"
+        title="Upload Save"
+        (onClick)="fileInput.click()"
+        >Upload</app-icon-btn
+      >
+    </label>
     <button class="rpg-btn" style="margin-left: 1rem" (click)="newGame()">
       New Game
     </button>
@@ -9,7 +23,7 @@
 
   @if (currentSave$ | async; as currentSave) {
     <section class="current-save">
-      <h3>Active Game</h3>
+      <h3>Active Game Slot</h3>
       <div class="save-slot current">
         <div>
           <strong>{{ currentSave.label }}</strong
@@ -23,6 +37,18 @@
         </div> -->
         <div>Size:&nbsp; {{ currentSave.sizeKB | number: '1.0-0' }} KB</div>
         <div>Last Played:&nbsp; {{ currentSave.savedAt | date: 'short' }}</div>
+        <div class="save-actions">
+          <div class="save-action-right">
+            <app-icon-btn
+              icon="download"
+              title="Download this save"
+              (onClick)="downloadSave(currentSave.id)"></app-icon-btn>
+            <app-icon-btn
+              icon="delete"
+              title="Delete this save"
+              (onClick)="confirmDelete(currentSave.id)"></app-icon-btn>
+          </div>
+        </div>
       </div>
     </section>
   }
@@ -30,7 +56,7 @@
   @if (otherSaves$ | async; as otherSaves) {
     @if (otherSaves.length) {
       <section class="other-saves">
-        <h3>Other Saves</h3>
+        <h3>Other Save Slots</h3>
         @for (save of otherSaves; track save.id) {
           <div class="save-slot">
             <div>
@@ -45,10 +71,24 @@
             <div>Size:&nbsp; {{ save.sizeKB | number: '1.0-0' }} KB</div>
             <div>Last Played:&nbsp; {{ save.savedAt | date: 'short' }}</div>
             <div class="save-actions">
-              <button (click)="activateSave(save.id)">Activate</button>
-              <button class="danger" (click)="confirmDelete(save.id)">
-                Delete
-              </button>
+              <div class="save-action-left">
+                <app-icon-btn
+                  icon="play_arrow"
+                  title="Activate this save"
+                  (onClick)="activateSave(save.id)"
+                  >Activate</app-icon-btn
+                >
+              </div>
+              <div class="save-action-right">
+                <app-icon-btn
+                  icon="download"
+                  title="Download this save"
+                  (onClick)="downloadSave(save.id)"></app-icon-btn>
+                <app-icon-btn
+                  icon="delete"
+                  title="Delete this save"
+                  (onClick)="confirmDelete(save.id)"></app-icon-btn>
+              </div>
             </div>
           </div>
         }

@@ -54,7 +54,7 @@ export class AttributeListComponent {
 
 ### Key Points
 
-- **GameState:**&nbsp; a first-class NgRx feature, just like Attributes, Characters, etc. (prefer flattened data over nested wherever able)
+- **Adventure:**&nbsp; save slots of the game state (prefer flattened data over nested wherever able)
 - **Effects:**&nbsp; handle loading/saving from `localStorage`
 - **Facades:**&nbsp; ties together all features, NgRx or otherwise - expose observables/selectors for components
 - **Components:**&nbsp; use the facade’s observables for all state-driven UI
@@ -63,7 +63,7 @@ export class AttributeListComponent {
 
 | Layer        | Old Approach              | NgRx v18 Approach              |
 | ------------ | ------------------------- | ------------------------------ |
-| GameState    | Service/BehaviorSubject   | NgRx feature slice + selectors |
+| Adventure    | Service/BehaviorSubject   | NgRx feature slice + selectors |
 | Load/Save    | Service methods           | NgRx effects (`localStorage`)  |
 | Access in UI | Facade/service properties | Facade with store selectors    |
 | Update in UI | Facade/service methods    | Facade dispatches actions      |

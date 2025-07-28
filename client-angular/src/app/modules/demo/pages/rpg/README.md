@@ -69,7 +69,7 @@ The game will use `localStorage` (at first) to hold multiple named save states, 
 
 Each save will include:
 
-- Serialized `GameState`
+- Serialized `Adventure` (game state)
 - Optional metadata: name, timestamp, size (computed)
 - Autosave can be stored separately under: `rpg-autosave`
 

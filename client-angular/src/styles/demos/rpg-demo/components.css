@@ -29,7 +29,7 @@ app-rpg-demo-layout .save-slot.current {
   border: 2px solid #2ecc40;
 }
 
-app-rpg-demo-layout .save-actions {
+/* app-rpg-demo-layout .save-actions {
   margin-top: 0.5rem;
 }
 app-rpg-demo-layout .save-actions button {
@@ -38,7 +38,7 @@ app-rpg-demo-layout .save-actions button {
 app-rpg-demo-layout .save-actions .danger {
   background: #e74c3c;
   color: #fff;
-}
+} */
 
 app-rpg-demo-layout .rpg-title {
   font-family: 'Cinzel Decorative', 'Georgia', serif;

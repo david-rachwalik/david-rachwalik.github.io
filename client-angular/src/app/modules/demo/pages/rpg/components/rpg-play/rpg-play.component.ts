@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 // import { MatDialog } from '@angular/material/dialog';
 // import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
 import { GameFacade } from '../../services/game-facade';
 import { RpgActionService } from '../../services/rpg-action.service';
@@ -37,18 +36,16 @@ export class RpgPlayComponent implements OnInit {
 
   // --- Observables ---
 
-  // attributes$ = this.game.data.attributes$;
   attributes$ = this.game.attributes$;
 
   currentSlotId$ = this.game.currentSlotId$;
 
-  player$ = this.game.player$;
-  stats$ = this.game.playerStats$;
-  health$ = this.game.playerHealth$;
-  activeEffects$ = this.game.playerActiveEffects$;
-  inventory$ = this.game.playerInventory$;
+  player$ = this.game.utils.character.player$;
+  stats$ = this.game.utils.character.playerStats$;
+  health$ = this.game.utils.character.playerHealth$;
+  activeEffects$ = this.game.utils.character.playerActiveEffects$;
+  inventory$ = this.game.utils.character.playerInventory$;
 
-  // moment$ = this.game.currentMoment$;
   moment$ = this.game.currentMoment$;
   choices$ = this.actions.getChoices();
 
@@ -74,12 +71,12 @@ export class RpgPlayComponent implements OnInit {
     this.stats$.subscribe((val) => console.log('[Play] stats$', val));
     this.inventory$.subscribe((val) => console.log('[Play] inventory$', val));
     this.moment$.subscribe((val) => console.log('[Play] moment$', val));
-    this.logEntries$.subscribe((val) => console.log('[Play] logEntries$', val));
+    // this.logEntries$.subscribe((val) => console.log('[Play] logEntries$', val));
   }
 
-  get logEntries$(): Observable<string[]> {
-    return this.game.logEntries$;
-  }
+  // get logEntries$(): Observable<string[]> {
+  //   return this.game.logEntries$;
+  // }
 
   async testStatChange() {
     console.log('[Play] testStatChange() called');

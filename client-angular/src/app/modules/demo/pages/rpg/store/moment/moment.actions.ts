@@ -5,20 +5,32 @@ import { Moment } from '../../models/moment';
 export const MomentActions = createActionGroup({
   source: 'Moment',
   events: {
-    'Load Moments': emptyProps(),
-    'Load Moments Success': props<{ moments: Moment[] }>(),
-    'Load Moments Failure': props<{ error: string }>(),
+    'Seed All Moments': emptyProps(),
+    'Seed All Moments Success': props<{ moments: Moment[] }>(),
+    'Seed All Moments Failure': props<{ error: string }>(),
 
-    'Load Moments Seed': emptyProps(),
-    'Load Moments Seed Success': props<{ moments: Moment[] }>(),
-
+    // Create
     'Add Moment': props<{ moment: Moment }>(),
     'Add Moment Success': props<{ moment: Moment }>(),
+    'Add Moment Failure': props<{ error: string }>(),
 
-    'Update Moment': props<{ moment: Moment }>(),
-    'Update Moment Success': props<{ moment: Moment }>(),
+    // Read
+    'Load All Moments': emptyProps(),
+    'Load All Moments Success': props<{ moments: Moment[] }>(),
+    'Load All Moments Failure': props<{ error: string }>(),
 
-    'Delete Moment': props<{ id: string }>(),
-    'Delete Moment Success': props<{ id: string }>(),
+    'Load Moment': props<{ id: string }>(),
+    'Load Moment Success': props<{ moment: Moment }>(),
+    'Load Moment Failure': props<{ error: string }>(),
+
+    // Update
+    'Save Moment': props<{ moment: Moment }>(),
+    'Save Moment Success': props<{ moment: Moment }>(),
+    'Save Moment Failure': props<{ error: string }>(),
+
+    // Delete
+    'Remove Moment': props<{ id: string }>(),
+    'Remove Moment Success': props<{ id: string }>(),
+    'Remove Moment Failure': props<{ error: string }>(),
   },
 });

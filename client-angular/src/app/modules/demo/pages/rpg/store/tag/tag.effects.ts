@@ -7,15 +7,15 @@ import { AppActions } from '../app.actions';
 import { TagActions } from './tag.actions';
 
 // Seed loader
-export const loadTagsSeed$ = createEffect(
+export const seedAllTags$ = createEffect(
   (actions$ = inject(Actions), data = inject(GameDataService)) =>
     actions$.pipe(
       // ofType(TagActions.loadTagsSeed),
-      ofType(AppActions.loadSeeds),
+      ofType(AppActions.loadAllSeeds),
       map(() => {
         const tags = data.getAllTags();
         console.log('loadTagsSeed found tags: ', tags);
-        return TagActions.loadTagsSeedSuccess({ tags });
+        return TagActions.seedAllTagsSuccess({ tags });
       }),
     ),
   { functional: true },
@@ -25,11 +25,11 @@ export const loadTagsSeed$ = createEffect(
 export const loadTags$ = createEffect(
   (actions$ = inject(Actions)) =>
     actions$.pipe(
-      ofType(TagActions.loadTags),
+      ofType(TagActions.loadAllTags),
       // Replace with real API call later
       // Will just use `loadTagsSuccess`, not `loadTagsAPISuccess`
       map(() =>
-        TagActions.loadTagsFailure({
+        TagActions.loadAllTagsFailure({
           error: 'API not implemented',
         }),
       ),

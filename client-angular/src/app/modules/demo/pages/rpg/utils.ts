@@ -1,3 +1,5 @@
+import { AttributeValue } from './models/attribute';
+
 export function toId(label: string): string {
   return label
     .toLowerCase()
@@ -9,12 +11,12 @@ export function toId(label: string): string {
 
 export interface IdValuePair {
   id: string;
-  value: string | number;
+  value: AttributeValue;
 }
 
 // Convert to `{ id: value }` pair, excluding any IDs provided
 export function getIdValuePairs(
-  record: Record<string, string | number> | undefined,
+  record: Record<string, AttributeValue> | undefined,
   exclude: string[] = [],
 ): IdValuePair[] {
   if (!record) return [];

@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { BackgroundStyleService } from '@shared/services/background-style.service';
 import { GameFacade } from '../../services/game-facade';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-rpg-demo-layout',
@@ -17,6 +18,7 @@ export class RpgDemoLayoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private bgService: BackgroundStyleService,
+    private userService: UserService,
     private game: GameFacade,
   ) {}
 
@@ -36,6 +38,7 @@ export class RpgDemoLayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.bgService.addBodyClass(this.className);
+    this.userService.init();
     this.game.init(); // ready the RPG Demo app
   }
 

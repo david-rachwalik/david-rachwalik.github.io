@@ -13,6 +13,7 @@ import { GameFacade } from '../../services/game-facade';
   // styleUrls: ['./new-game.component.css'],
 })
 export class NewGameComponent {
+  inputLimit = 24;
   label = '';
   characterName = '';
 
@@ -28,7 +29,10 @@ export class NewGameComponent {
 
     // Create and save the new game (also sets the current slot)
     console.log('[NewGame] Calling game.newGame()...');
-    await this.game.newGame(this.label, this.characterName);
+    await this.game.utils.adventure.createNewGame(
+      this.label,
+      this.characterName,
+    );
 
     // Navigate to Play page (no query params needed)
     await this.router.navigate(['/demo/rpg/play']);

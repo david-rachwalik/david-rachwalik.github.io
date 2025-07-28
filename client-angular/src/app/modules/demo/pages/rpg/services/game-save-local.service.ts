@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { Adventure, AdventureIndex } from '../models/adventure';
-import { toId } from '../utils';
+// import { AdventureFacade } from './facades/adventure-facade';
 
 // Handles persistence:
 // - Saves to and loads from `localStorage`
 // - Slot-based saving
 
 @Injectable({ providedIn: 'root' })
-export class GameSaveService {
+export class GameSaveLocalService {
+  // constructor(private adventureFacade: AdventureFacade) {}
+
   private readonly CURRENT_SLOT_KEY = 'rpg-demo-current-slot';
   private readonly INDEX_PREFIX = 'rpg-demo-slot';
   private readonly ADVENTURE_PREFIX = 'rpg-demo-adventure';
@@ -87,35 +89,5 @@ export class GameSaveService {
   // Remove game slot from client storage
   deleteAdventure(id: string): void {
     localStorage.removeItem(`${this.ADVENTURE_PREFIX}:${id}`);
-  }
-
-  // --- Utility ---
-
-  // Formats user-chosen label into slot ID
-  toSlotId(label: string) {
-    if (!label) return '';
-    const id = toId(label);
-    return `${this.INDEX_PREFIX}:${id}`;
-  }
-
-  // Calculate slot size in KB
-  sizeInKB(slot: Adventure) {
-    const json = JSON.stringify(slot);
-    return new Blob([json]).size / 1024;
-  }
-
-  // Helper to build AdventureIndex from Adventure
-  buildAdventureIndexFromAdventure(adventure: Adventure): AdventureIndex {
-    const player = adventure.characters?.[0] ?? {};
-    return {
-      id: adventure.id,
-      label: adventure.label ?? 'Unnamed Save',
-      savedAt: new Date().toISOString(),
-      sizeKB: this.sizeInKB(adventure),
-      storageType: 'local',
-      playerName: player.name || 'Unknown',
-      level: Number(player.attributes?.['level']) || 1,
-      location: player.location,
-    };
   }
 }

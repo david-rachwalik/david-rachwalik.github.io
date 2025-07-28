@@ -5,18 +5,18 @@ import { Attribute } from '../../models/attribute';
 import { AttributeActions } from './attribute.actions';
 
 export interface AttributeState extends EntityState<Attribute> {
-  loaded: boolean;
+  seeded: boolean; // is static data seed loaded
   loading: boolean;
-  // seeded: boolean; // is static data seed loaded
+  loaded: boolean;
   error: string | null;
 }
 
 export const adapter = createEntityAdapter<Attribute>();
 
 export const initialState: AttributeState = adapter.getInitialState({
-  loaded: false,
+  seeded: false,
   loading: false,
-  // seeded: false,
+  loaded: false,
   error: null,
 });
 
@@ -25,34 +25,84 @@ export const attributeFeature = createFeature({
   name: 'attribute',
   reducer: createReducer(
     initialState,
-    on(AttributeActions.loadAttributes, (state) => ({
+    // Seed load
+    on(AttributeActions.seedAllAttributesSuccess, (state, { attributes }) =>
+      adapter.setAll(attributes, { ...state, seeded: true }),
+    ),
+    // Create
+    on(AttributeActions.addAttribute, (state) => ({
       ...state,
       loading: true,
+      error: null,
     })),
-    on(AttributeActions.loadAttributesSuccess, (state, { attributes }) =>
-      adapter.setAll(attributes, { ...state, loading: false, loaded: true }),
+    on(AttributeActions.addAttributeSuccess, (state, { attribute }) =>
+      // `addOne` will only add the entity if it does not already exist (by id)
+      adapter.addOne(attribute, { ...state, loading: false }),
     ),
-    on(AttributeActions.loadAttributesSeedSuccess, (state, { attributes }) =>
-      adapter.setAll(attributes, {
-        ...state,
-        loading: false,
-        loaded: true,
-        // seeded: true,
-      }),
-    ),
-    on(AttributeActions.loadAttributesFailure, (state, { error }) => ({
+    on(AttributeActions.addAttributeFailure, (state, { error }) => ({
       ...state,
       loading: false,
       error,
     })),
-    on(AttributeActions.addAttributeSuccess, (state, { attribute }) =>
-      adapter.addOne(attribute, state),
+    // Read All
+    on(AttributeActions.loadAllAttributes, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(AttributeActions.loadAllAttributesSuccess, (state, { attributes }) =>
+      adapter.upsertMany(attributes, {
+        ...state,
+        loading: false,
+        loaded: true,
+      }),
     ),
-    on(AttributeActions.updateAttributeSuccess, (state, { attribute }) =>
-      adapter.upsertOne(attribute, state),
+    on(AttributeActions.loadAllAttributesFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Read
+    on(AttributeActions.loadAttribute, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(AttributeActions.loadAttributeSuccess, (state, { attribute }) =>
+      adapter.upsertOne(attribute, { ...state, loading: false }),
     ),
-    on(AttributeActions.deleteAttributeSuccess, (state, { id }) =>
-      adapter.removeOne(id, state),
+    on(AttributeActions.loadAttributeFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Update
+    on(AttributeActions.saveAttribute, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(AttributeActions.saveAttributeSuccess, (state, { attribute }) =>
+      adapter.upsertOne(attribute, { ...state, loading: false }),
     ),
+    on(AttributeActions.saveAttributeFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+    // Delete
+    on(AttributeActions.removeAttribute, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(AttributeActions.removeAttributeSuccess, (state, { id }) =>
+      adapter.removeOne(id, { ...state, loading: false }),
+    ),
+    on(AttributeActions.removeAttributeFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
   ),
 });

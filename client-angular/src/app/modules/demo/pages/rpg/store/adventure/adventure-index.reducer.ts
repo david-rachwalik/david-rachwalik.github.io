@@ -5,16 +5,16 @@ import { AdventureIndex } from '../../models/adventure';
 import { AdventureIndexActions } from './adventure-index.actions';
 
 export interface AdventureIndexState extends EntityState<AdventureIndex> {
-  loaded: boolean;
   loading: boolean;
+  loaded: boolean;
   error: string | null;
 }
 
 export const adapter = createEntityAdapter<AdventureIndex>();
 
 export const initialState: AdventureIndexState = adapter.getInitialState({
-  loaded: false,
   loading: false,
+  loaded: false,
   error: null,
 });
 
@@ -23,14 +23,14 @@ export const adventureIndexFeature = createFeature({
   name: 'adventureIndex',
   reducer: createReducer(
     initialState,
-
-    // Create adventure index
+    // Create
     on(AdventureIndexActions.addAdventureIndex, (state) => ({
       ...state,
       loading: true,
       error: null,
     })),
     on(AdventureIndexActions.addAdventureIndexSuccess, (state, { index }) =>
+      // `addOne` will only add the entity if it does not already exist (by id)
       adapter.addOne(index, { ...state, loading: false }),
     ),
     on(AdventureIndexActions.addAdventureIndexFailure, (state, { error }) => ({
@@ -38,33 +38,31 @@ export const adventureIndexFeature = createFeature({
       loading: false,
       error,
     })),
-
-    // Load all indexes
-    on(AdventureIndexActions.loadAdventureIndexes, (state) => ({
+    // Read All
+    on(AdventureIndexActions.loadAllAdventureIndexes, (state) => ({
       ...state,
       loading: true,
       error: null,
     })),
-    on(AdventureIndexActions.loadAdventureIndexesSuccess, (state, { slots }) =>
-      adapter.setAll(slots, { ...state, loading: false, loaded: true }),
+    on(
+      AdventureIndexActions.loadAllAdventureIndexesSuccess,
+      (state, { slots }) =>
+        adapter.upsertMany(slots, { ...state, loading: false, loaded: true }),
     ),
     on(
-      AdventureIndexActions.loadAdventureIndexesFailure,
+      AdventureIndexActions.loadAllAdventureIndexesFailure,
       (state, { error }) => ({
         ...state,
         loading: false,
         error,
       }),
     ),
-
-    // Optimistic update of adventure index (lets UI immediately reflect changes)
-    on(AdventureIndexActions.saveAdventureIndex, (state, { id, changes }) =>
-      adapter.updateOne(
-        { id, changes },
-        { ...state, loading: true, error: null },
-      ),
-    ),
-    // Update adventure index with actual saved data
+    // Update
+    on(AdventureIndexActions.saveAdventureIndex, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
     on(AdventureIndexActions.saveAdventureIndexSuccess, (state, { index }) =>
       adapter.upsertOne(index, { ...state, loading: false }),
     ),
@@ -73,8 +71,7 @@ export const adventureIndexFeature = createFeature({
       loading: false,
       error,
     })),
-
-    // Delete adventure index
+    // Delete
     on(AdventureIndexActions.removeAdventureIndex, (state) => ({
       ...state,
       loading: true,
@@ -85,6 +82,26 @@ export const adventureIndexFeature = createFeature({
     ),
     on(
       AdventureIndexActions.removeAdventureIndexFailure,
+      (state, { error }) => ({
+        ...state,
+        loading: false,
+        error,
+      }),
+    ),
+    // Delete All
+    on(AdventureIndexActions.removeAllAdventureIndexes, (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(AdventureIndexActions.removeAllAdventureIndexesSuccess, (state) =>
+      adapter.removeAll({
+        ...state,
+        loading: false,
+      }),
+    ),
+    on(
+      AdventureIndexActions.removeAllAdventureIndexesFailure,
       (state, { error }) => ({
         ...state,
         loading: false,

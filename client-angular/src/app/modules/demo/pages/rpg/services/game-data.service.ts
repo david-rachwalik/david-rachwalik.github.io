@@ -7,22 +7,25 @@ import { Character } from '../models/character';
 import { Item } from '../models/item';
 import { Location } from '../models/location';
 import { Moment } from '../models/moment';
+import { Skill } from '../models/skill';
 import { Tag } from '../models/tag';
 
 import { ADVENTURES_SEED } from '../data/adventures-seed';
 import { ATTRIBUTES_SEED } from '../data/attributes-seed';
 import { CHARACTERS_SEED } from '../data/characters-seed';
+import { EFFECTS_SEED } from '../data/effects-seed';
 import { ITEMS_SEED } from '../data/items-seed';
 import { LOCATIONS_SEED } from '../data/locations-seed';
 import { MOMENTS_SEED } from '../data/moments-seed';
+import { SKILLS_SEED } from '../data/skills-seed';
 import { TAGS_SEED } from '../data/tags-seed';
+import { Effect } from '../models/effect';
 
-// :: Responsible for where game assets are stored (API, local storage, etc.) ::
+// :: Responsible for template game assets ::
 // and for their low-level data storage/retrieval (CRUD)
-// (think of it as your in-memory "database" or API layer)
 
 // Manages static/reference data (the "catalog" of items, moments, locations, etc.),
-// which is usually not directly mutated by gameplay
+// that are usually not directly mutated by gameplay
 
 // #region 🔸 GAME ASSETS 🔸
 export function updateEntity<T extends { id: string }>(
@@ -86,6 +89,29 @@ export class GameDataService {
   }
   // #endregion
 
+  // #region 🔸 TAGS 🔸
+  private tagsSubject = new BehaviorSubject<Record<string, Tag>>(
+    Object.fromEntries(TAGS_SEED.map((tag) => [tag.id, tag])),
+  );
+  tags$ = this.tagsSubject.asObservable();
+
+  getTag(id: string): Tag | undefined {
+    return this.tagsSubject.value[id];
+  }
+  getAllTags(): Tag[] {
+    return Object.values(this.tagsSubject.value);
+  }
+  addTag(tag: Tag): void {
+    this.tagsSubject.next(addEntity(this.tagsSubject.value, tag));
+  }
+  updateTag(id: string, changes: Partial<Tag>): void {
+    this.tagsSubject.next(updateEntity(this.tagsSubject.value, id, changes));
+  }
+  removeTag(id: string): void {
+    this.tagsSubject.next(removeEntity(this.tagsSubject.value, id));
+  }
+  // #endregion
+
   // #region 🔸 ATTRIBUTES 🔸
   private attributesSubject = new BehaviorSubject<Record<string, Attribute>>(
     Object.fromEntries(ATTRIBUTES_SEED.map((attr) => [attr.id, attr])),
@@ -128,26 +154,82 @@ export class GameDataService {
   }
   // #endregion
 
-  // #region 🔸 TAGS 🔸
-  private tagsSubject = new BehaviorSubject<Record<string, Tag>>(
-    Object.fromEntries(TAGS_SEED.map((tag) => [tag.id, tag])),
+  // #region 🔸 EFFECTS 🔸
+  private effectsSubject = new BehaviorSubject<Record<string, Effect>>(
+    Object.fromEntries(EFFECTS_SEED.map((effect) => [effect.id, effect])),
   );
-  tags$ = this.tagsSubject.asObservable();
+  effects$ = this.effectsSubject.asObservable();
 
-  getTag(id: string): Tag | undefined {
-    return this.tagsSubject.value[id];
+  getEffect(id: string): Effect | undefined {
+    return this.effectsSubject.value[id];
   }
-  getAllTags(): Tag[] {
-    return Object.values(this.tagsSubject.value);
+  getAllEffects(): Effect[] {
+    return Object.values(this.effectsSubject.value);
   }
-  addTag(tag: Tag): void {
-    this.tagsSubject.next(addEntity(this.tagsSubject.value, tag));
+  addEffect(effect: Effect): void {
+    this.effectsSubject.next(addEntity(this.effectsSubject.value, effect));
   }
-  updateTag(id: string, changes: Partial<Tag>): void {
-    this.tagsSubject.next(updateEntity(this.tagsSubject.value, id, changes));
+  updateEffect(id: string, changes: Partial<Effect>): void {
+    this.effectsSubject.next(
+      updateEntity(this.effectsSubject.value, id, changes),
+    );
   }
-  removeTag(id: string): void {
-    this.tagsSubject.next(removeEntity(this.tagsSubject.value, id));
+  removeEffect(id: string): void {
+    this.effectsSubject.next(removeEntity(this.effectsSubject.value, id));
+  }
+  // #endregion
+
+  // #region 🔸 CHARACTERS 🔸
+  private charactersSubject = new BehaviorSubject<Record<string, Character>>(
+    Object.fromEntries(CHARACTERS_SEED.map((char) => [char.id, char])),
+  );
+  characters$ = this.charactersSubject.asObservable();
+
+  getCharacter(id: string): Character | undefined {
+    return this.charactersSubject.value[id];
+  }
+  getAllCharacters(): Character[] {
+    return Object.values(this.charactersSubject.value);
+  }
+  addCharacter(character: Character): void {
+    this.charactersSubject.next(
+      addEntity(this.charactersSubject.value, character),
+    );
+  }
+  updateCharacter(id: string, changes: Partial<Character>): void {
+    this.charactersSubject.next(
+      updateEntity(this.charactersSubject.value, id, changes),
+    );
+  }
+  removeCharacter(id: string): void {
+    this.charactersSubject.next(removeEntity(this.charactersSubject.value, id));
+  }
+  // #endregion
+
+  // #region 🔸 LOCATIONS 🔸
+  private locationsSubject = new BehaviorSubject<Record<string, Location>>(
+    Object.fromEntries(LOCATIONS_SEED.map((loc) => [loc.id, loc])),
+  );
+  locations$ = this.locationsSubject.asObservable();
+
+  getLocation(id: string): Location | undefined {
+    return this.locationsSubject.value[id];
+  }
+  getAllLocations(): Location[] {
+    return Object.values(this.locationsSubject.value);
+  }
+  addLocation(location: Location): void {
+    this.locationsSubject.next(
+      addEntity(this.locationsSubject.value, location),
+    );
+  }
+  updateLocation(id: string, changes: Partial<Location>): void {
+    this.locationsSubject.next(
+      updateEntity(this.locationsSubject.value, id, changes),
+    );
+  }
+  removeLocation(id: string): void {
+    this.locationsSubject.next(removeEntity(this.locationsSubject.value, id));
   }
   // #endregion
 
@@ -200,57 +282,28 @@ export class GameDataService {
   }
   // #endregion
 
-  // #region 🔸 LOCATIONS 🔸
-  private locationsSubject = new BehaviorSubject<Record<string, Location>>(
-    Object.fromEntries(LOCATIONS_SEED.map((loc) => [loc.id, loc])),
+  // #region 🔸 SKILLS 🔸
+  private skillsSubject = new BehaviorSubject<Record<string, Skill>>(
+    Object.fromEntries(SKILLS_SEED.map((skill) => [skill.id, skill])),
   );
-  locations$ = this.locationsSubject.asObservable();
+  skills$ = this.skillsSubject.asObservable();
 
-  getLocation(id: string): Location | undefined {
-    return this.locationsSubject.value[id];
+  getSkill(id: string): Skill | undefined {
+    return this.skillsSubject.value[id];
   }
-  getAllLocations(): Location[] {
-    return Object.values(this.locationsSubject.value);
+  getAllSkills(): Skill[] {
+    return Object.values(this.skillsSubject.value);
   }
-  addLocation(location: Location): void {
-    this.locationsSubject.next(
-      addEntity(this.locationsSubject.value, location),
+  addSkill(skill: Skill): void {
+    this.skillsSubject.next(addEntity(this.skillsSubject.value, skill));
+  }
+  updateSkill(id: string, changes: Partial<Skill>): void {
+    this.skillsSubject.next(
+      updateEntity(this.skillsSubject.value, id, changes),
     );
   }
-  updateLocation(id: string, changes: Partial<Location>): void {
-    this.locationsSubject.next(
-      updateEntity(this.locationsSubject.value, id, changes),
-    );
-  }
-  removeLocation(id: string): void {
-    this.locationsSubject.next(removeEntity(this.locationsSubject.value, id));
-  }
-  // #endregion
-
-  // #region 🔸 CHARACTERS 🔸
-  private charactersSubject = new BehaviorSubject<Record<string, Character>>(
-    Object.fromEntries(CHARACTERS_SEED.map((char) => [char.id, char])),
-  );
-  characters$ = this.charactersSubject.asObservable();
-
-  getCharacter(id: string): Character | undefined {
-    return this.charactersSubject.value[id];
-  }
-  getAllCharacters(): Character[] {
-    return Object.values(this.charactersSubject.value);
-  }
-  addCharacter(character: Character): void {
-    this.charactersSubject.next(
-      addEntity(this.charactersSubject.value, character),
-    );
-  }
-  updateCharacter(id: string, changes: Partial<Character>): void {
-    this.charactersSubject.next(
-      updateEntity(this.charactersSubject.value, id, changes),
-    );
-  }
-  removeCharacter(id: string): void {
-    this.charactersSubject.next(removeEntity(this.charactersSubject.value, id));
+  removeSkill(id: string): void {
+    this.skillsSubject.next(removeEntity(this.skillsSubject.value, id));
   }
   // #endregion
 }

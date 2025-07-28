@@ -1,9 +1,20 @@
 import { Character } from '../models/character';
+import { toId } from '../utils';
+import {
+  buildAdventureEntityTemplateId,
+  DEFAULT_ACCOUNT_ID,
+  DEFAULT_ADVENTURE_ID,
+  DEFAULT_DIMENSION_ID,
+  DEFAULT_PLANE_ID,
+} from '../utils-composite-id';
 
-export const CHARACTERS_SEED: Character[] = [
+// #region 🔸 DATA SEED RAW 🔸
+
+// export const CHARACTERS_SEED: Character[] = [
+const CHARACTERS_SEED_RAW: CharacterSeedInput[] = [
   // --- Player Template ---
   {
-    id: 'player-default',
+    // id: 'player-default',
     name: 'Adventurer',
     description: 'A brave soul ready to embark on a new journey.',
     tags: ['player', 'hero'],
@@ -33,7 +44,7 @@ export const CHARACTERS_SEED: Character[] = [
 
   // --- Example NPC ---
   {
-    id: 'npc-innkeeper',
+    // id: 'npc-innkeeper',
     name: 'Mira the Innkeeper',
     description: 'A friendly innkeeper who welcomes travelers.',
     tags: ['npc', 'innkeeper', 'friendly'],
@@ -62,7 +73,7 @@ export const CHARACTERS_SEED: Character[] = [
 
   // --- Example Enemy ---
   {
-    id: 'enemy-goblin',
+    // id: 'enemy-goblin',
     name: 'Goblin',
     description: 'A sneaky goblin lurking in the shadows.',
     tags: ['enemy', 'goblin'],
@@ -92,7 +103,7 @@ export const CHARACTERS_SEED: Character[] = [
 
   // --- Example Companion ---
   {
-    id: 'companion-fox',
+    // id: 'companion-fox',
     name: 'Fenn the Fox',
     description: 'A clever fox who follows you loyally.',
     tags: ['companion', 'animal'],
@@ -119,3 +130,58 @@ export const CHARACTERS_SEED: Character[] = [
     },
   },
 ];
+// #endregion
+
+// #region 🔸 UTILITY TO FINALIZE SEED 🔸
+
+type CharacterTemplateOmittedKeys =
+  | 'id'
+  | 'entityId' // characterId
+  | 'dimensionId'
+  | 'planeId'
+  | 'adventureId'
+  | 'accountId';
+
+type CharacterSeedInput = Omit<Character, CharacterTemplateOmittedKeys>;
+
+function createTemplateCharacter(
+  seed: CharacterSeedInput,
+): Character | undefined {
+  const entityId = toId(seed.name);
+  // const userService = inject(UserService, { optional: true });
+  // const accountId = userService?.accountId || 'guest';
+  const accountId = DEFAULT_ACCOUNT_ID;
+  // const id = buildCompositeAdventureEntityId(
+  //   entityId,
+  //   DIMENSION_RPGDEMO_ID,
+  //   PLANE_PRIME_ID,
+  //   ADVENTURE_TEMPLATE_ID,
+  //   accountId,
+  // );
+  const id = buildAdventureEntityTemplateId(entityId);
+  if (!id) return undefined;
+  return {
+    ...seed,
+    id,
+    entityId,
+    adventureId: DEFAULT_ADVENTURE_ID,
+    dimensionId: DEFAULT_DIMENSION_ID,
+    planeId: DEFAULT_PLANE_ID,
+    accountId,
+  };
+}
+
+// Map to final Character[]
+export const CHARACTERS_SEED: Character[] = CHARACTERS_SEED_RAW.map(
+  createTemplateCharacter,
+).filter((char): char is Character => char !== undefined);
+
+// Validate for duplicate IDs
+const ids = new Set<string>();
+CHARACTERS_SEED.forEach((char) => {
+  if (ids.has(char.id)) {
+    throw new Error(`Duplicate character id: ${char.id}`);
+  }
+  ids.add(char.id);
+});
+// #endregion

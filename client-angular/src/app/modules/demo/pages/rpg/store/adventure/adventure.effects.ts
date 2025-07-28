@@ -1,167 +1,110 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-// import { Store } from '@ngrx/store';
-import { catchError, filter, map, mergeMap, of, tap } from 'rxjs';
+import { map, mergeMap } from 'rxjs';
 
-import { Adventure } from '../../models/adventure';
 import { GameDataService } from '../../services/game-data.service';
-import { GameSaveService } from '../../services/game-save.service';
+import { GameSaveDexieService } from '../../services/game-save-dexie.service';
+import { GameSaveLocalService } from '../../services/game-save-local.service';
 import { AppActions } from '../app.actions';
-import { AdventureIndexActions } from './adventure-index.actions';
 import { AdventureActions } from './adventure.actions';
-// import { adventureFeature } from './adventure.reducer';
 
 // const STORAGE_KEY = 'rpg-demo-game-states';
 
 // Seed loader
-export const loadAdventuresSeed$ = createEffect(
+export const seedAllAdventures$ = createEffect(
   (actions$ = inject(Actions), data = inject(GameDataService)) =>
     actions$.pipe(
-      // ofType(AdventureActions.loadAdventuresSeed),
-      ofType(AppActions.loadSeeds),
+      ofType(AppActions.loadAllSeeds),
       map(() => {
-        const adventures = data.getAllAdventures();
-        return AdventureActions.loadAdventuresSeedSuccess({ adventures });
+        try {
+          const adventures = data.getAllAdventures();
+          return AdventureActions.seedAllAdventuresSuccess({ adventures });
+        } catch (error) {
+          return AdventureActions.seedAllAdventuresFailure({
+            error: String(error),
+          });
+        }
       }),
     ),
   { functional: true },
 );
 
-// --- Local Storage ---
+// #region 🔸 LocalStorage Effects (synchronous) 🔸
 
-// export const addAdventureLocal$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveService)) =>
-//     actions$.pipe(
-//       ofType(AdventureActions.addAdventure),
-//       tap(({ adventure }) => saveService.saveAdventure(adventure)),
-//       map(({ adventure }) =>
-//         AdventureActions.addAdventureSuccess({ adventure }),
-//       ),
-//       catchError((error) =>
-//         of(AdventureActions.addAdventureFailure({ error: String(error) })),
-//       ),
-//     ),
-//   { functional: true },
-// );
-
-// --- CREATE ADVENTURE (with AdventureIndex, rollback on index failure) ---
 export const addAdventureLocal$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveService)) =>
+  (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
     actions$.pipe(
       ofType(AdventureActions.addAdventure),
-      mergeMap(({ adventure }) => {
+      map(({ adventure }) => {
         try {
           saveService.saveAdventure(adventure);
-          // Build AdventureIndex from Adventure (helper should exist)
-          const index = saveService.buildAdventureIndexFromAdventure(adventure);
-          try {
-            saveService.saveAdventureIndex(index);
-            return of(
-              AdventureActions.addAdventureSuccess({ adventure }),
-              AdventureIndexActions.addAdventureIndex({ index }),
-            );
-          } catch (indexError) {
-            // Rollback: remove Adventure if AdventureIndex fails
-            saveService.deleteAdventure(adventure.id);
-            return of(
-              AdventureActions.addAdventureFailure({
-                error: String(indexError),
-              }),
-            );
-          }
+          return AdventureActions.addAdventureSuccess({ adventure });
         } catch (error) {
-          return of(
-            AdventureActions.addAdventureFailure({ error: String(error) }),
-          );
+          return AdventureActions.addAdventureFailure({ error: String(error) });
         }
       }),
     ),
   { functional: true },
 );
 
-// --- READ ADVENTURE ---
 export const loadAdventureLocal$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveService)) =>
+  (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
     actions$.pipe(
-      // ofType(AdventureActions.loadAdventureLocal),
       ofType(AdventureActions.loadAdventure),
-      tap(({ id }) => console.log('[Effect] Loading Adventure:', id)),
-      map(({ id }) => saveService.loadAdventure(id)),
-      filter((adventure): adventure is Adventure => !!adventure),
-      tap((adventure) => console.log('[Effect] Loaded Adventure:', adventure)),
-      map((adventure) => AdventureActions.loadAdventureSuccess({ adventure })),
-      catchError((error) =>
-        of(AdventureActions.loadAdventureFailure({ error: String(error) })),
-      ),
+      map(({ id }) => {
+        try {
+          const adventure = saveService.loadAdventure(id);
+          if (!adventure) throw new Error(`Adventure not found: ${id}`);
+          return AdventureActions.loadAdventureSuccess({ adventure });
+        } catch (error) {
+          return AdventureActions.loadAdventureFailure({
+            error: String(error),
+          });
+        }
+      }),
     ),
   { functional: true },
 );
-// * Add similar effects for file/db loads as needed
 
-// export const saveAdventureLocal$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveService)) =>
-//     actions$.pipe(
-//       // ofType(AdventureActions.saveAdventureLocal),
-//       ofType(AdventureActions.saveAdventure),
-//       tap(({ adventure }) => saveService.saveAdventure(adventure)),
-//       map(({ adventure }) =>
-//         AdventureActions.saveAdventureSuccess({ adventure }),
-//       ),
-//       catchError((error) =>
-//         of(AdventureActions.saveAdventureFailure({ error: String(error) })),
-//       ),
-//     ),
-//   { functional: true },
-// );
-
-// --- UPDATE ADVENTURE (partial update, also updates AdventureIndex) ---
 export const saveAdventureLocal$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveService)) =>
+  (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
     actions$.pipe(
       ofType(AdventureActions.saveAdventure),
-      mergeMap(({ id, changes }) => {
+      map(({ id, changes }) => {
         try {
-          // Load, apply changes, and save
           const current = saveService.loadAdventure(id);
-          if (!current) throw new Error('Adventure not found');
+          if (!current) throw new Error(`Adventure not found: ${id}`);
           const updated = { ...current, ...changes };
           saveService.saveAdventure(updated);
-
-          // Update AdventureIndex metadata as well
-          const index = saveService.buildAdventureIndexFromAdventure(updated);
-          saveService.saveAdventureIndex(index);
-
-          return of(
-            AdventureActions.saveAdventureSuccess({ adventure: updated }),
-            AdventureIndexActions.saveAdventureIndex({
-              id: index.id,
-              changes: index,
-            }),
-          );
+          return AdventureActions.saveAdventureSuccess({ adventure: updated });
         } catch (error) {
-          return of(
-            AdventureActions.saveAdventureFailure({ error: String(error) }),
-          );
+          return AdventureActions.saveAdventureFailure({
+            error: String(error),
+          });
         }
       }),
     ),
   { functional: true },
 );
 
-// --- DELETE ADVENTURE ---
 export const removeAdventureLocal$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveService)) =>
+  (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
     actions$.pipe(
-      // ofType(AdventureActions.deleteAdventureLocal),
       ofType(AdventureActions.removeAdventure),
-      tap(({ id }) => saveService.deleteAdventure(id)),
-      map(({ id }) => AdventureActions.removeAdventureSuccess({ id })),
-      catchError((error) =>
-        of(AdventureActions.removeAdventureFailure({ error: String(error) })),
-      ),
+      map(({ id }) => {
+        try {
+          saveService.deleteAdventure(id);
+          return AdventureActions.removeAdventureSuccess({ id });
+        } catch (error) {
+          return AdventureActions.removeAdventureFailure({
+            error: String(error),
+          });
+        }
+      }),
     ),
   { functional: true },
 );
+// #endregion
 
 // // --- Web API ---
 
@@ -185,10 +128,10 @@ export const removeAdventureLocal$ = createEffect(
 //     actions$.pipe(
 //       ofType(
 //         AdventureActions.addAdventureSuccess,
-//         AdventureActions.updateAdventureSuccess,
-//         AdventureActions.deleteAdventureSuccess,
+//         AdventureActions.saveAdventureSuccess,
+//         AdventureActions.removeAdventureSuccess,
 //       ),
-//       withLatestFrom(store.select(adventureFeature.selectEntities)),
+//       withLatestFrom(store.select(selectAdventureEntities)),
 //       // tap((action, state) => {
 //       tap(([, adventures]) => {
 //         localStorage.setItem(STORAGE_KEY, JSON.stringify(adventures));
@@ -196,3 +139,98 @@ export const removeAdventureLocal$ = createEffect(
 //     ),
 //   { functional: true, dispatch: false },
 // );
+
+// #region 🔸 Dexie Effects (IndexedDb, asynchronous) 🔸
+
+export const addAdventureDexie$ = createEffect(
+  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(AdventureActions.addAdventure),
+      mergeMap(async ({ adventure }) => {
+        try {
+          await saveService.saveAdventure(adventure);
+          return AdventureActions.addAdventureSuccess({ adventure });
+        } catch (error) {
+          return AdventureActions.addAdventureFailure({ error: String(error) });
+        }
+      }),
+    ),
+  { functional: true },
+);
+
+export const loadAllAdventuresDexie$ = createEffect(
+  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(AdventureActions.loadAllAdventures),
+      mergeMap(async () => {
+        try {
+          const adventures = await saveService.loadAllAdventures();
+          return AdventureActions.loadAllAdventuresSuccess({ adventures });
+        } catch (error) {
+          return AdventureActions.loadAllAdventuresFailure({
+            error: String(error),
+          });
+        }
+      }),
+    ),
+  { functional: true },
+);
+
+export const loadAdventureDexie$ = createEffect(
+  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(AdventureActions.loadAdventure),
+      mergeMap(async ({ id }) => {
+        try {
+          const adventure = await saveService.loadAdventure(id);
+          if (!adventure) throw new Error(`Adventure not found: ${id}`);
+          return AdventureActions.loadAdventureSuccess({ adventure });
+        } catch (error) {
+          return AdventureActions.loadAdventureFailure({
+            error: String(error),
+          });
+        }
+      }),
+    ),
+  { functional: true },
+);
+
+export const saveAdventureDexie$ = createEffect(
+  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(AdventureActions.saveAdventure),
+      mergeMap(async ({ id, changes }) => {
+        try {
+          const current = await saveService.loadAdventure(id);
+          if (!current) throw new Error(`Adventure not found: ${id}`);
+          const updated = { ...current, ...changes };
+          await saveService.saveAdventure(updated);
+          return AdventureActions.saveAdventureSuccess({ adventure: updated });
+        } catch (error) {
+          return AdventureActions.saveAdventureFailure({
+            error: String(error),
+          });
+        }
+      }),
+    ),
+  { functional: true },
+);
+
+export const removeAdventureDexie$ = createEffect(
+  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(AdventureActions.removeAdventure),
+      mergeMap(async ({ id }) => {
+        try {
+          await saveService.deleteAdventure(id);
+          return AdventureActions.removeAdventureSuccess({ id });
+        } catch (error) {
+          return AdventureActions.removeAdventureFailure({
+            error: String(error),
+          });
+        }
+      }),
+    ),
+  { functional: true },
+);
+// #endregion

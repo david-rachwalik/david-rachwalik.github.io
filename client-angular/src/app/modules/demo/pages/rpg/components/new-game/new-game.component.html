@@ -3,12 +3,24 @@
   <div class="rpg-new-game-content">
     <label class="rpg-label">
       Save Slot Name
-      <input [(ngModel)]="label" required class="rpg-input" />
+      <input
+        [(ngModel)]="label"
+        required
+        class="rpg-input"
+        [maxlength]="inputLimit"
+        (keydown.enter)="startGame()" />
+      <!-- <small>{{ label.length }}/{{ inputLimit }}</small> -->
     </label>
     <label class="rpg-label">
       Character Name
-      <input [(ngModel)]="characterName" required class="rpg-input" />
+      <input
+        [(ngModel)]="characterName"
+        required
+        class="rpg-input"
+        [maxlength]="inputLimit"
+        (keydown.enter)="startGame()" />
     </label>
+    <!-- <small>{{ characterName.length }}/{{ inputLimit }}</small> -->
   </div>
   <div class="rpg-new-game-actions">
     <button class="rpg-btn" (click)="cancel()">Cancel</button>

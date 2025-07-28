@@ -1,0 +1,8 @@
+<button
+  class="icon-btn"
+  type="button"
+  [attr.aria-label]="title"
+  (click)="onClick.emit()">
+  <mat-icon fontIcon="{{ icon }}" aria-hidden="true"></mat-icon
+  ><ng-content></ng-content>
+</button>

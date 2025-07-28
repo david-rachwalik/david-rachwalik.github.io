@@ -80,24 +80,24 @@
         <section class="moment-choices">
           <!-- @if (choices$ | async; as choices) {
             @for (choice of choices; track choice.id) { -->
-          @for (choice of choices$ | async; track choice.id) {
+          @for (choice of choices$ | async; track choice.label) {
             <button
               class="action-btn"
               [disabled]="!choice.enabled"
-              (click)="chooseChoice(choice.id)">
+              (click)="chooseChoice(choice.label)">
               {{ choice.label }}
             </button>
           }
         </section>
 
-        <section class="moment-log">
+        <!-- <section class="moment-log">
           <h4>Recent Events</h4>
           <ul>
             @for (entry of logEntries$ | async; track $index) {
               <li>{{ entry }}</li>
             }
           </ul>
-        </section>
+        </section> -->
       }
     }
   </main>
