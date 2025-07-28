@@ -25,10 +25,12 @@ module.exports = {
   rules: {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     'no-console': 'off',
+    'no-restricted-syntax': 'off', // to use `for...of`
+    'no-await-in-loop': 'off',
+    'no-underscore-dangle': 'warn',
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'class-methods-use-this': 'warn',
-    'no-underscore-dangle': 'warn',
   },
   // https://stackoverflow.com/questions/58510287/parseroptions-project-has-been-set-for-typescript-eslint-parser
   // https://eslint.org/docs/user-guide/configuring/configuration-files#how-do-overrides-work
@@ -56,6 +58,8 @@ module.exports = {
         // "@typescript-eslint/no-explicit-any": "off"
         '@typescript-eslint/lines-between-class-members': 'off',
         '@typescript-eslint/no-empty-interface': 'off',
+        // '@typescript-eslint/indent': 'warn',
+        '@typescript-eslint/indent': ['warn', 2],
       },
     },
   ],
