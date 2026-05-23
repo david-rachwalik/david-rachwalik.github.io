@@ -27,6 +27,7 @@ module.exports = {
     'no-console': 'off',
     'no-restricted-syntax': 'off', // to use `for...of`
     'no-await-in-loop': 'off',
+    'no-continue': 'off',
     'no-underscore-dangle': 'warn',
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
@@ -58,8 +59,8 @@ module.exports = {
         // "@typescript-eslint/no-explicit-any": "off"
         '@typescript-eslint/lines-between-class-members': 'off',
         '@typescript-eslint/no-empty-interface': 'off',
-        // '@typescript-eslint/indent': 'warn',
-        '@typescript-eslint/indent': ['warn', 2],
+        // '@typescript-eslint/indent': ['warn', 2],
+        '@typescript-eslint/indent': 'off',
       },
     },
   ],
