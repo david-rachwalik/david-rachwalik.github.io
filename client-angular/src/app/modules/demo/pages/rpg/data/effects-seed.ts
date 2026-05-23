@@ -1,6 +1,10 @@
 import { Effect, EffectInstance } from '../models/effect';
 import { toId } from '../utils';
-import { DEFAULT_DIMENSION_ID } from '../utils-composite-id';
+import {
+  buildDimensionEntityCompositeId,
+  DEFAULT_DIMENSION_ID,
+  DEFAULT_PLANE_ID,
+} from '../utils-composite-id';
 
 // #region 🔸 DATA SEED RAW 🔸
 
@@ -510,11 +514,35 @@ const EFFECTS_SEED_RAW: EffectSeedInput[] = [
 
 // #region 🔸 UTILITY TO FINALIZE SEED 🔸
 
-type EffectSeedInput = Omit<Effect, 'id' | 'dimensionId'>;
+type EffectTemplateOmittedKeys =
+  | 'id'
+  | 'entityId' // effectId
+  | 'dimensionId'
+  | 'planeId'
+  | 'current';
 
-function createTemplateEffect(seed: EffectSeedInput): Effect {
-  const nameId = toId(seed.name);
-  return { ...seed, id: nameId, dimensionId: DEFAULT_DIMENSION_ID };
+type EffectSeedInput = Omit<Effect, EffectTemplateOmittedKeys>;
+
+// function createTemplateEffect(seed: EffectSeedInput): Effect {
+//   const nameId = toId(seed.name);
+//   return { ...seed, id: nameId, dimensionId: DEFAULT_DIMENSION_ID };
+// }
+
+function createTemplateEffect(seed: EffectSeedInput): Effect | undefined {
+  const entityId = toId(seed.name);
+  const id = buildDimensionEntityCompositeId(
+    entityId,
+    DEFAULT_DIMENSION_ID,
+    DEFAULT_PLANE_ID,
+  );
+  if (!id) return undefined;
+  return {
+    ...seed,
+    id,
+    entityId,
+    dimensionId: DEFAULT_DIMENSION_ID,
+    planeId: DEFAULT_PLANE_ID,
+  };
 }
 
 // Map to final Effect[]
@@ -539,29 +567,18 @@ EFFECTS_SEED.forEach((e) => {
 });
 // #endregion
 
+export function getEffectInstanceFromCatalog(id: string): Effect | undefined {
+  if (!id) return undefined;
+  return EFFECTS_CATALOG[id] ?? undefined;
+}
+
 // Merges an EffectInstance with its Effect catalog definition
 export function mergeEffectInstanceWithCatalog(
   instance: EffectInstance,
 ): Effect | undefined {
-  const base = EFFECTS_CATALOG[instance.effectId];
+  if (!instance.id) return undefined;
+  const base = EFFECTS_CATALOG[instance.id];
   if (!base) return undefined;
-  return { ...base, ...instance.params };
+  return { ...base, ...instance };
 }
-
-// // Example usage in a skill or item
-// const punchSkill = {
-//   id: 'punch',
-//   name: 'Punch',
-//   effects: [
-//     { type: 'damage', params: { value: 5, element: 'physical' } },
-//   ],
-// };
-
-// const fireballSkill = {
-//   id: 'fireball',
-//   name: 'Fireball',
-//   effects: [
-//     { type: 'damage', params: { value: 12, element: 'fire', aoe: true } },
-//     { type: 'burn', params: { duration: 2 } },
-//   ],
-// };
+// TODO: replace with characterFacade.resolveAndMergeEffect

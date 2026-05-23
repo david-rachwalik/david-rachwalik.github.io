@@ -1,4 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { GameSaveBatchPayload } from '../services/game-save-dexie.service';
 
 // import { AdventureIndex } from '../models/adventure';
 
@@ -38,5 +39,11 @@ export const AppActions = createActionGroup({
     'Upload Save': props<{ file: File }>(),
     'Upload Save Success': props<{ file: File }>(),
     'Upload Save Failure': props<{ error: string }>(),
+
+    // --- Global Operations ---
+    'Save Game Batch': emptyProps(),
+    // 'Save Game Batch Success': emptyProps(),
+    'Save Game Batch Success': props<{ payload: GameSaveBatchPayload }>(), // <-- Change to props
+    'Save Game Batch Failure': props<{ error: string }>(),
   },
 });

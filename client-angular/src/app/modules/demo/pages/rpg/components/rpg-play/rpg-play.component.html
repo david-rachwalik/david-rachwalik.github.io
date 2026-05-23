@@ -4,9 +4,10 @@
     @if (player$ | async; as player) {
       <div class="player-info">
         <h2>{{ player.name }}</h2>
-        <div class="player-level">
-          Level {{ player.attributes['level'] || 1 }}
-        </div>
+        <!-- Level -->
+        @if (level$ | async; as level) {
+          <div class="player-level">Level: &nbsp;{{ level.value }}</div>
+        }
         <!-- HP (health) -->
         @if (health$ | async; as health) {
           <div class="player-health">
@@ -22,9 +23,11 @@
         <div class="player-stats">
           <h4>Stats</h4>
           <ul>
-            @for (stat of stats$ | async; track stat.id) {
+            @for (stat of statsArray$ | async; track stat.id) {
               <li>
-                <span class="stat-label">{{ stat.name }}:</span>
+                <span class="stat-label" matTooltip="{{ stat.id }}"
+                  >{{ stat.name }}:</span
+                >
                 <span class="stat-value">{{ stat.value }}</span>
                 @if (stat.max !== undefined) {
                   <span class="divider">/</span>
@@ -34,13 +37,13 @@
             }
           </ul>
         </div>
-        <div class="player-status">
+        <!-- <div class="player-status">
           @for (effect of activeEffects$ | async; track effect.label) {
             <span class="status-effect" [title]="effect.description">
               {{ effect.label }}
             </span>
           }
-        </div>
+        </div> -->
       </div>
     }
     <div class="player-inventory">
@@ -56,14 +59,57 @@
         }
       </ul>
     </div>
+
+    <hr />
+
+    @if (player$ | async; as player) {
+      <!-- <p class="player-print">{{ player }}</p> -->
+      <div class="player-debug">
+        <div class="player-debug__header">
+          <span>Player Debug</span>
+          <button
+            type="button"
+            class="mini-btn"
+            (click)="showPlayerDebug = !showPlayerDebug">
+            {{ showPlayerDebug ? 'Hide' : 'Show' }}
+          </button>
+          <button
+            type="button"
+            class="mini-btn"
+            (click)="copyPlayerJson(player)">
+            Copy
+          </button>
+        </div>
+        @if (showPlayerDebug) {
+          <pre class="player-json">{{ player | json }}</pre>
+        }
+      </div>
+    }
+
     <!-- Test stat change button for demo -->
     <button class="action-btn" (click)="testStatChange()">
-      Test +1 Strength, +5 HP
+      Test: +1 Strength, +5 HP
+    </button>
+
+    <button
+      class="action-btn"
+      style="margin-bottom: 1rem"
+      (click)="rollNextMoment()">
+      🎲 Roll Next Moment
     </button>
   </aside>
 
   <!-- Main Content: Current Moment & Actions -->
   <main class="moment-main">
+    @if (enemyCharacters$ | async; as enemies) {
+      <section class="enemy-bar">
+        @for (enemy of enemies; track enemy?.id) {
+          <app-rpg-character-panel [characterId]="enemy.id">
+          </app-rpg-character-panel>
+        }
+      </section>
+    }
+
     @if (moment$ | async; as moment) {
       @if (player$ | async; as player) {
         <section class="moment-header">
@@ -71,16 +117,25 @@
           <div class="moment-location">
             {{ player.location || 'Unknown Location' }}
           </div>
+          <button class="action-btn" (click)="toggleMomentDetails()">
+            {{ showMomentDetails ? 'Hide' : 'Show' }} Debug Details
+          </button>
         </section>
+
+        @if (showMomentDetails) {
+          <section class="moment-details">
+            <h4>Moment Details</h4>
+            <pre>{{ moment | json }}</pre>
+          </section>
+        }
 
         <section class="moment-text">
           <p>{{ moment.content }}</p>
         </section>
 
         <section class="moment-choices">
-          <!-- @if (choices$ | async; as choices) {
-            @for (choice of choices; track choice.id) { -->
-          @for (choice of choices$ | async; track choice.label) {
+          @for (choice of getChoices() | async; track choice.label) {
+            <!-- @for (choice of choices$ | async; track choice.label) { -->
             <button
               class="action-btn"
               [disabled]="!choice.enabled"

@@ -4,7 +4,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { Adventure } from '../../models/adventure';
 import { AdventureActions } from './adventure.actions';
 
-// const MAX_LOG_ENTRIES = 100;
+const MAX_LOG_ENTRIES = 200;
 
 export interface AdventureState extends EntityState<Adventure> {
   seeded: boolean; // for initial load
@@ -109,33 +109,30 @@ export const adventureFeature = createFeature({
       error,
     })),
 
-    // // Logging
-    // on(AdventureActions.addLogEntry, (state, { slotId, message }) => {
-    //   const adventure = state.entities[slotId];
-    //   if (!adventure) return state;
-    //   const eventLog = [message, ...(adventure.eventLog ?? [])].slice(
-    //     0,
-    //     MAX_LOG_ENTRIES,
-    //   );
-    //   return {
-    //     ...state,
-    //     entities: {
-    //       ...state.entities,
-    //       [slotId]: { ...adventure, eventLog },
-    //     },
-    //   };
-    // }),
-    // on(AdventureActions.clearLog, (state, { slotId }) => {
-    //   const adventure = state.entities[slotId];
-    //   if (!adventure) return state;
-    //   return {
-    //     ...state,
-    //     entities: {
-    //       ...state.entities,
-    //       [slotId]: { ...adventure, eventLog: [] },
-    //     },
-    //   };
-    // }),
+    // Logging
+    on(AdventureActions.addLogEntry, (state, { slotId, message }) => {
+      const adventure = state.entities[slotId];
+      if (!adventure) return state;
+      const log = [message, ...adventure.log].slice(0, MAX_LOG_ENTRIES);
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [slotId]: { ...adventure, log },
+        },
+      };
+    }),
+    on(AdventureActions.clearLog, (state, { slotId }) => {
+      const adventure = state.entities[slotId];
+      if (!adventure) return state;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [slotId]: { ...adventure, log: [] },
+        },
+      };
+    }),
 
     // // Clear all in-memory adventures
     // on(AdventureActions.clearAdventure, (state) =>

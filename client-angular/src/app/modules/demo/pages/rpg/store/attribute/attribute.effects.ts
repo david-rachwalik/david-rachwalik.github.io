@@ -15,7 +15,7 @@ export const seedAllAttributes$ = createEffect(
       map(() => {
         try {
           const attributes = data.getAllAttributes();
-          console.log('loadAttributesSeed found attributes: ', attributes);
+          // console.log('seedAllAttributes$ found attributes: ', attributes);
           return AttributeActions.seedAllAttributesSuccess({ attributes });
         } catch (error) {
           return AttributeActions.seedAllAttributesFailure({

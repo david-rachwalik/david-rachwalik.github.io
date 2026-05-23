@@ -14,7 +14,7 @@ export const seedAllItems$ = createEffect(
       map(() => {
         try {
           const items = data.getAllItems();
-          console.log('loadItemsSeed found items: ', items);
+          // console.log('seedAllItems$ found items: ', items);
           return ItemActions.seedAllItemsSuccess({ items });
         } catch (error) {
           return ItemActions.seedAllItemsFailure({ error: String(error) });

@@ -24,6 +24,7 @@ export const ADVENTURES_SEED: Adventure[] = [
     currentCharacterId: '',
     currentLocationId: '',
     currentMomentId: '',
+    log: [],
     // // --- Metadata ---
     // eventLog: [],
     // history: [],

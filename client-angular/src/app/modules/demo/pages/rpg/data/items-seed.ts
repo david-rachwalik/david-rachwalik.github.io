@@ -2,7 +2,6 @@ import { Item } from '../models/item';
 import { toId } from '../utils';
 import {
   buildDimensionEntityCompositeId,
-  DEFAULT_ADVENTURE_ID,
   DEFAULT_DIMENSION_ID,
   DEFAULT_PLANE_ID,
 } from '../utils-composite-id';
@@ -13,13 +12,12 @@ const ITEMS_SEED_RAW: ItemSeedInput[] = [
   {
     name: 'Healing Potion',
     description: 'Restores 20 HP when used.',
+    attributes: [],
     effects: [
       {
-        effectId: 'restore',
-        params: {
-          path: 'attributes.health',
-          value: 20,
-        },
+        entityId: 'restore',
+        path: 'attributes.health',
+        value: 20,
       },
     ],
     tags: ['consumable', 'potion'],
@@ -27,17 +25,21 @@ const ITEMS_SEED_RAW: ItemSeedInput[] = [
   {
     name: 'Iron Sword',
     description: 'A basic sword for melee combat.',
-    attributes: {
-      damage: 5,
-      durability: 40,
-    },
+    attributes: [
+      {
+        entityId: 'damage',
+        value: 5,
+      },
+      {
+        entityId: 'durability',
+        value: 40,
+      },
+    ],
     effects: [
       {
-        effectId: 'damage',
-        params: {
-          path: 'attributes.health',
-          value: 20,
-        },
+        entityId: 'damage',
+        path: 'attributes.health',
+        value: 20,
       },
     ],
     tags: ['weapon', 'physical'],
@@ -46,29 +48,32 @@ const ITEMS_SEED_RAW: ItemSeedInput[] = [
     name: 'Magic Staff',
     description: 'A staff that enhances intelligence.',
     tags: ['weapon', 'magic'],
-    attributes: {
-      int: 2,
-      durability: 30,
-    },
+    attributes: [
+      {
+        entityId: 'int',
+        value: 2,
+      },
+      {
+        entityId: 'durability',
+        value: 30,
+      },
+    ],
     effects: [
       {
-        effectId: 'enhance',
-        params: {
-          path: 'attributes.intelligence',
-          value: 2,
-        },
+        entityId: 'enhance',
+        path: 'attributes.intelligence',
+        value: 2,
       },
     ],
   },
   {
     name: 'Antidote',
     description: 'Cures poison when used.',
+    attributes: [],
     effects: [
       {
-        effectId: 'cure',
-        params: {
-          path: 'afflictions.poisoned',
-        },
+        entityId: 'cure',
+        path: 'afflictions.poisoned',
       },
     ],
     tags: ['consumable', 'potion'],
@@ -76,12 +81,11 @@ const ITEMS_SEED_RAW: ItemSeedInput[] = [
   {
     name: 'Wolf Summoning Scroll',
     description: 'Summons a wolf to fight for you.',
+    attributes: [],
     effects: [
       {
-        effectId: 'summon',
-        params: {
-          path: 'wolf', // creatureId
-        },
+        entityId: 'summon',
+        path: 'wolf', // creatureId
       },
     ],
     tags: ['consumable', 'scroll', 'summon'],
@@ -112,7 +116,7 @@ function createTemplateItem(seed: ItemSeedInput): Item | undefined {
     id,
     entityId,
     dimensionId: DEFAULT_DIMENSION_ID,
-    planeId: DEFAULT_ADVENTURE_ID,
+    planeId: DEFAULT_PLANE_ID,
   };
 }
 

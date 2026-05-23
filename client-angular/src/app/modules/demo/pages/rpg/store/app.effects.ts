@@ -1,20 +1,31 @@
 import { inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
+import { AdventureIndex } from '../models/adventure';
 import { GameBackupService } from '../services/game-backup.service';
+import { GameSaveDexieService } from '../services/game-save-dexie.service';
 import { GameSaveLocalService } from '../services/game-save-local.service';
 import { UserService } from '../services/user.service';
 import { toId } from '../utils';
+import { selectAllAdventureEvents } from './adventure/adventure-event.selectors';
 import { AdventureActions } from './adventure/adventure.actions';
 import { selectAdventureSeeded } from './adventure/adventure.selectors';
 import { AppActions } from './app.actions';
-import { selectAppSeeded } from './app.selectors';
+import {
+  selectAppSeeded,
+  selectCurrentAdventure,
+  selectCurrentAdventureId,
+} from './app.selectors';
 import { AttributeActions } from './attribute/attribute.actions';
 import { selectAttributeSeeded } from './attribute/attribute.selectors';
 import { CharacterActions } from './character/character.actions';
-import { selectCharacterSeeded } from './character/character.selectors';
+import {
+  selectAllCharacters,
+  selectCharacterSeeded,
+} from './character/character.selectors';
 import { EffectActions } from './effect/effect.actions';
 import { selectEffectSeeded } from './effect/effect.selectors';
 import { ItemActions } from './item/item.actions';
@@ -38,6 +49,7 @@ export const initLoadAllSeeds$ = createEffect(
       tap(() =>
         console.log('[Effect] AppActions.init received (initLoadSeeds$)'),
       ),
+      // withLatestFrom+filter to prevent seeding more than once
       withLatestFrom(store.select(selectAppSeeded)),
       filter(([, seeded]) => !seeded),
       map(() => AppActions.loadAllSeeds()),
@@ -123,11 +135,7 @@ export const initLoadCurrentSlotId$ = createEffect(
   (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
     actions$.pipe(
       ofType(AppActions.init),
-      // tap(() =>
-      //   console.log(
-      //     '[Effect] AppActions.init received (initLoadCurrentSlotId$)',
-      //   ),
-      // ),
+      // tap(() => console.log('[Effect] AppActions.init received')),
       map(() => saveService.loadCurrentSlotId()),
       tap((slotId) => console.log('[Effect] Loaded slotId:', slotId)),
       filter((slotId): slotId is string => !!slotId),
@@ -228,5 +236,73 @@ export const setCurrentSlotIdOnAdventureAdd$ = createEffect(
       }),
     ),
   { functional: true },
+);
+// #endregion
+
+// #region 🔸 Global Batch Save Effects 🔸
+
+export const saveGameBatch$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    store = inject(Store),
+    saveService = inject(GameSaveDexieService),
+  ) =>
+    actions$.pipe(
+      ofType(AppActions.saveGameBatch),
+      // Pull only the slices relevant to the Adventure
+      withLatestFrom(
+        store.select(selectCurrentAdventureId),
+        store.select(selectCurrentAdventure),
+        store.select(selectAllCharacters),
+        store.select(selectAllAdventureEvents),
+      ),
+      mergeMap(async ([, adventureId, adventure, chars, events]) => {
+        try {
+          if (!adventureId || !adventure)
+            throw new Error('No current adventure to save.');
+
+          // Generate the Index snapshot based on the current adventure state
+          const adventureIndex: AdventureIndex = {
+            id: adventure.id,
+            label: adventure.label,
+            savedAt: new Date().toISOString(),
+            sizeKB: 0,
+            storageType: 'local',
+          };
+
+          await saveService.saveBatch({
+            adventure,
+            adventureIndex,
+            adventureEvents: events.filter(
+              (e) => e.adventureId === adventureId,
+            ),
+            characters: chars.filter((c) => c.adventureId === adventureId),
+          });
+
+          return AppActions.saveGameBatchSuccess({
+            payload: { adventure, adventureIndex, characters: chars },
+          });
+        } catch (error) {
+          console.error('[Batch Save Error]', error);
+          return AppActions.saveGameBatchFailure({ error: String(error) });
+        }
+      }),
+    ),
+  { functional: true },
+);
+
+export const saveGameSuccessUI$ = createEffect(
+  (actions$ = inject(Actions), snackBar = inject(MatSnackBar)) =>
+    actions$.pipe(
+      ofType(AppActions.saveGameBatchSuccess),
+      tap(() => {
+        snackBar.open('Game saved successfully!', 'Dismiss', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      }),
+    ),
+  { functional: true, dispatch: false },
 );
 // #endregion

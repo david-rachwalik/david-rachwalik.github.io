@@ -14,7 +14,7 @@ export const seedAllTags$ = createEffect(
       ofType(AppActions.loadAllSeeds),
       map(() => {
         const tags = data.getAllTags();
-        console.log('loadTagsSeed found tags: ', tags);
+        // console.log('seedAllTags$ found tags: ', tags);
         return TagActions.seedAllTagsSuccess({ tags });
       }),
     ),

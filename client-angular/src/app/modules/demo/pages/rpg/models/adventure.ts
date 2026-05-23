@@ -1,7 +1,4 @@
 import { GameAdventureEntity } from '../utils-composite-id';
-import { Character } from './character';
-import { Item } from './item';
-import { Moment } from './moment';
 
 export interface AdventurePreferences {
   enableNSFW: boolean;
@@ -23,6 +20,7 @@ export interface Adventure {
   currentCharacterId: string;
   currentLocationId: string;
   currentMomentId: string;
+  log: string[]; // Most recent entries first
   // Optionally, for fast queries:
   completedMomentIds?: string[];
   visitedLocationIds?: string[];
@@ -60,13 +58,14 @@ type FeatureEventAction =
   | 'complete'
   | 'fail'
   | 'transform';
+export type AdventureEventPayload = Record<string, unknown>;
 
 // Used for persistent history, analytics, and replaying major events
 export interface AdventureEvent extends GameAdventureEntity {
   timestamp: string; // ISO
   type: FeatureEventType;
   action: FeatureEventAction;
-  payload: Record<string, unknown>;
+  payload: AdventureEventPayload;
 }
 
 // const exampleEvent: AdventureEvent = {
@@ -96,6 +95,12 @@ export interface AdventureEvent extends GameAdventureEntity {
 // not logged persistently unless it's a milestone (e.g., "defeated by monster",
 // "critical hit", "first time using skill")
 
+// Used for ephemeral combat log
+export interface AdventureLog extends GameAdventureEntity {
+  timestamp: string; // ISO
+  entries: string[];
+}
+
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
@@ -110,11 +115,11 @@ export interface AdventureViewModel {
   currentMomentId: string;
   eventLog: string[]; // choices made / actions taken
   history: string[]; // Moment log
-  // --- Template Data ---
-  // tags: Record<string, Tag>;
-  characters: Record<string, Character>;
-  locations: Record<string, Location>;
-  moments: Record<string, Moment>;
-  items: Record<string, Item>;
-  // reputationMap: Record<string, number>;
+  // // --- Template Data ---
+  // // tags: Record<string, Tag>;
+  // characters: Record<string, Character>;
+  // locations: Record<string, Location>;
+  // moments: Record<string, Moment>;
+  // items: Record<string, Item>;
+  // // reputationMap: Record<string, number>;
 }

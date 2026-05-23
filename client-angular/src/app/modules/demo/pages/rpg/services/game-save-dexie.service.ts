@@ -2,9 +2,20 @@ import { Injectable } from '@angular/core';
 
 import { Adventure, AdventureEvent, AdventureIndex } from '../models/adventure';
 import { Character } from '../models/character';
+import { Item } from '../models/item';
+import { Location } from '../models/location';
+import { Moment } from '../models/moment';
+import { Skill } from '../models/skill';
 import { idb } from '../store/indexeddb-dexie';
 
 // Controls CRUD interactions for IndexedDB
+
+export interface GameSaveBatchPayload {
+  adventure?: Adventure;
+  adventureIndex?: AdventureIndex; // Always good to save the metadata alongside it
+  adventureEvents?: AdventureEvent[];
+  characters?: Character[];
+}
 
 @Injectable({ providedIn: 'root' })
 export class GameSaveDexieService {
@@ -73,61 +84,61 @@ export class GameSaveDexieService {
     await idb.characters.where('adventureId').equals(adventureId).delete();
   }
 
-  // // Location CRUD
-  // async saveLocation(location: Location): Promise<void> {
-  //   await idb.locations.put(location);
-  // }
-  // async loadAllLocations(): Promise<Location[]> {
-  //   return idb.locations.toArray();
-  // }
-  // async loadLocation(id: string): Promise<Location | undefined> {
-  //   return idb.locations.get(id);
-  // }
-  // async deleteLocation(id: string): Promise<void> {
-  //   await idb.locations.delete(id);
-  // }
+  // Location CRUD
+  async saveLocation(location: Location): Promise<void> {
+    await idb.locations.put(location);
+  }
+  async loadAllLocations(): Promise<Location[]> {
+    return idb.locations.toArray();
+  }
+  async loadLocation(id: string): Promise<Location | undefined> {
+    return idb.locations.get(id);
+  }
+  async deleteLocation(id: string): Promise<void> {
+    await idb.locations.delete(id);
+  }
 
-  // // Moment CRUD
-  // async saveMoment(moment: Moment): Promise<void> {
-  //   await idb.moments.put(moment);
-  // }
-  // async loadAllMoments(): Promise<Moment[]> {
-  //   return idb.moments.toArray();
-  // }
-  // async loadMoment(id: string): Promise<Moment | undefined> {
-  //   return idb.moments.get(id);
-  // }
-  // async deleteMoment(id: string): Promise<void> {
-  //   await idb.moments.delete(id);
-  // }
+  // Moment CRUD
+  async saveMoment(moment: Moment): Promise<void> {
+    await idb.moments.put(moment);
+  }
+  async loadAllMoments(): Promise<Moment[]> {
+    return idb.moments.toArray();
+  }
+  async loadMoment(id: string): Promise<Moment | undefined> {
+    return idb.moments.get(id);
+  }
+  async deleteMoment(id: string): Promise<void> {
+    await idb.moments.delete(id);
+  }
 
-  // // Item CRUD
-  // async saveItem(item: Item): Promise<void> {
-  //   await idb.items.put(item);
-  // }
-  // async loadAllItems(): Promise<Item[]> {
-  //   return idb.items.toArray();
-  // }
-  // async loadItem(id: string): Promise<Item | undefined> {
-  //   return idb.items.get(id);
-  // }
-  // async deleteItem(id: string): Promise<void> {
-  //   await idb.items.delete(id);
-  // }
+  // Item CRUD
+  async saveItem(item: Item): Promise<void> {
+    await idb.items.put(item);
+  }
+  async loadAllItems(): Promise<Item[]> {
+    return idb.items.toArray();
+  }
+  async loadItem(id: string): Promise<Item | undefined> {
+    return idb.items.get(id);
+  }
+  async deleteItem(id: string): Promise<void> {
+    await idb.items.delete(id);
+  }
 
-  // // Skill CRUD
-  // async saveSkill(skill: Skill): Promise<void> {
-  //   await idb.skills.put(skill);
-  // }
-  // async loadAllSkills(): Promise<Skill[]> {
-  //   return idb.skills.toArray();
-  // }
-  // async loadSkill(id: string): Promise<Skill | undefined> {
-  //   return idb.skills.get(id);
-  // }
-  // async deleteSkill(id: string): Promise<void> {
-  //   await idb.skills.delete(id);
-  // }
+  // Skill CRUD
+  async saveSkill(skill: Skill): Promise<void> {
+    await idb.skills.put(skill);
+  }
+  async loadAllSkills(): Promise<Skill[]> {
+    return idb.skills.toArray();
+  }
+  async loadSkill(id: string): Promise<Skill | undefined> {
+    return idb.skills.get(id);
+  }
+  async deleteSkill(id: string): Promise<void> {
+    await idb.skills.delete(id);
+  }
 
   // // EventLog CRUD
   // async saveEventLog(event: GameEvent): Promise<void> {
@@ -142,4 +153,32 @@ export class GameSaveDexieService {
   // async deleteEventLog(id: string): Promise<void> {
   //   await idb.eventLogs.delete(id);
   // }
-}
+
+  // -- Dynamic Batch Transaction for Active Playthroughs --
+  async saveBatch(payload: GameSaveBatchPayload): Promise<void> {
+    if (Object.keys(payload).length === 0) return;
+
+    // Only lock the tables that belong to the mutable save state
+    const tables = [
+      idb.adventures,
+      idb.adventureIndexes,
+      idb.adventureEvents,
+      idb.characters,
+    ];
+
+    await idb.transaction('rw', tables, async () => {
+      if (payload.adventure) {
+        await idb.adventures.put(payload.adventure);
+      }
+      if (payload.adventureIndex) {
+        await idb.adventureIndexes.put(payload.adventureIndex);
+      }
+      if (payload.adventureEvents?.length) {
+        await idb.adventureEvents.bulkPut(payload.adventureEvents);
+      }
+      if (payload.characters?.length) {
+        await idb.characters.bulkPut(payload.characters);
+      }
+    });
+  }
+} // End of GameSaveDexieService

@@ -1,0 +1,56 @@
+.info-page {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.info-page__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.info-page__select {
+  min-width: 180px;
+  flex: 1 1 200px;
+}
+
+.info-page__table {
+  overflow-x: auto;
+}
+
+table,
+.mat-mdc-table {
+  width: 100%;
+}
+
+.cell-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.cell-name .primary {
+  font-weight: 600;
+}
+
+.cell-name .secondary {
+  font-size: 0.68rem;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.info-page__empty,
+.info-page__loading {
+  margin: 2rem 0;
+  text-align: center;
+  color: var(--rpg-text-muted, #777);
+}
+
+/* Multiline tooltip support */
+.multiline-tooltip {
+  white-space: pre-line;
+  font-size: 12px;
+}

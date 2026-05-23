@@ -72,6 +72,7 @@ export function buildDimensionEntityTemplateId(entityId?: string) {
 export function buildAdventureEntityTemplateId(
   entityId?: string,
   adventureId: string = DEFAULT_ADVENTURE_ID,
+  accountId: string = DEFAULT_ACCOUNT_ID,
 ) {
   if (!entityId) return undefined;
   return buildAdventureEntityCompositeId(
@@ -79,6 +80,6 @@ export function buildAdventureEntityTemplateId(
     DEFAULT_DIMENSION_ID,
     DEFAULT_PLANE_ID,
     adventureId,
-    DEFAULT_ACCOUNT_ID,
+    accountId,
   );
 }

@@ -2,6 +2,8 @@
 // of actions taken and choices made.  Used for live gameplay, calculations,
 // and temporary state changes
 
+import { RuntimeMeta } from '../utils';
+import { GameDimensionEntity } from '../utils-composite-id';
 import { AttributeValue } from './attribute';
 
 // Data-driven: effects are mostly defined in a catalog and applied dynamically
@@ -11,7 +13,10 @@ import { AttributeValue } from './attribute';
 
 // Boon: A beneficial gift or advantage
 // Curse: A negative pronouncement or state of misfortune
+// TODO: might phase out entirely for effect seed/catalog
 export type EffectType =
+  | 'status'
+  // ---
   | 'damage'
   | 'heal'
   | 'charm'
@@ -64,12 +69,7 @@ export interface Condition {
 //     };
 
 // Used for live gameplay, calculations, and temporary state changes
-export interface Effect {
-  id: string;
-  // label: string;
-  dimensionId: string;
-  type: EffectType;
-
+export interface Effect extends GameDimensionEntity {
   // Semantic info for UI or log narration
   name: string; // "heal" (aka `action`)
   gerund?: string; // "healing" (aka `process`)
@@ -77,10 +77,21 @@ export interface Effect {
   // type: EffectType;
   description: string;
 
+  elements?: EffectElement[]; // e.g. fire, shadow, psychic
+  tags?: string[]; // extra metadata or categorization
+  type: EffectType;
+
   // What the effect does and to what
   kind: 'attribute' | 'tag' | 'character' | 'bodyPart' | 'state' | 'custom';
   path: string; // path to value being affected (e.g., "stats.hp", "body.legs.count")
-  operation: 'add' | 'subtract' | 'multiply' | 'set' | 'remove' | 'toggle';
+  operation:
+    | 'add'
+    | 'subtract'
+    | 'multiply'
+    | 'set'
+    | 'remove'
+    | 'clear'
+    | 'toggle';
 
   defaultValue: AttributeValue;
   value?: AttributeValue;
@@ -89,11 +100,8 @@ export interface Effect {
 
   // General effect behavior
   self?: boolean;
-  // (default range/magnitude is 5)
-  duration?: number; // in turns (default is 1)
+  duration?: number; // in turns (default is 0)
   cooldown?: number; // how often it can be applied
-  elements?: EffectElement[]; // e.g. fire, shadow, psychic
-  tags?: string[]; // extra metadata or categorization
   conditions?: Condition[]; // optional logic (e.g., only apply if target has tag)
 }
 
@@ -102,26 +110,5 @@ export interface EffectViewModel {
   description: string;
 }
 
-export type EffectSourceType = 'character' | 'skill' | 'item' | 'location';
-
-export interface EffectInstance {
-  effectId: string;
-  params: Partial<Effect>; // e.g. { value: 10, elements: ['fire'], duration: 3 }
-  // Optionally, can add a 'script' property for custom JS or engine code
-  // --- Provenance & runtime tracking ---
-  sourceType?: EffectSourceType;
-  sourceId?: string; // id of skill, item, location..
-  appliedById?: string; // character/entity who applied it
-  appliedAt?: string; // timestamp (or optionally turn number)
-  duration?: number; // how many turns left (if temporary)
-}
-
-// const effectInstance: EffectInstance = {
-//   effectId: 'enhance',
-//   params: { value: 2, duration: 3 },
-//   sourceType: 'skill',
-//   sourceId: 'roar',
-//   appliedById: playerId,
-//   appliedAt: timestamp,
-//   duration: 3,
-// };
+// Optional overrides & runtime metadata
+export type EffectInstance = Partial<Effect> & RuntimeMeta;

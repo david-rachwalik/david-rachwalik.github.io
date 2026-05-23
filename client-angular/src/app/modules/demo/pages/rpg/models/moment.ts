@@ -1,10 +1,6 @@
 import { GameDimensionEntity } from '../utils-composite-id';
 import { EffectInstance } from './effect';
-
-export interface SkillUse {
-  skillId: string;
-  target: string;
-}
+import { SkillInstance } from './skill';
 
 export interface MomentChoice {
   // id: string;
@@ -17,8 +13,8 @@ export interface MomentChoice {
   enabled?: boolean;
   /** Optional requirements for this choice to be enabled/shown */
   requirements?: Requirement[]; // see below
-  effects?: EffectInstance[]; // Each is an Effect + per-use params
-  skills?: SkillUse[];
+  effects?: EffectInstance[];
+  skills?: SkillInstance[];
   /** Optional value for scripting or branching (e.g. "north", "acceptQuest") */
   value?: string;
   /** Optional: Next moment to jump to after this choice */
@@ -39,26 +35,39 @@ export interface Requirement {
 
 export interface Moment extends GameDimensionEntity {
   title: string;
-  description: string; // tooltips
+  prerequisites?: string[]; // flags, story IDs, etc.
+  description: string; // tooltip
   content: string;
-  characters?: string[];
   choices: MomentChoice[];
+  locationId: string;
+  characters: string[]; // player is always assumed
   tags: string[];
-  authorId?: string;
-  authors?: string[];
-}
+  isCombat?: boolean;
+  effects?: {
+    onEnter?: EffectInstance[];
+    onExit?: EffectInstance[];
+    onComplete?: EffectInstance[];
+  };
+  rewards?: {
+    items?: string[];
+    exp?: number;
+    gold?: number;
+  };
+  winCondition?: {
+    type: 'combat' | 'custom';
+    // e.g. { type: 'combat', allEnemiesDefeated: true }
+    // or custom script/logic
+  };
+  timeAdvance?: number; // minutes/hours to advance on completion
 
-// Example Usage
-// {
-//   "action": "Open the Chest",
-//   "tooltip": "Requires a key",
-//   "requirements": [
-//     { "type": "item", "key": "key", "operator": "gte", "value": 1, "message": "You need a key!" }
-//   ],
-//   "effects": [
-//     { "type": "addItem", "params": { "itemId": "gold", "amount": 100 } },
-//     { "type": "setFlag", "params": { "flag": "openedChest", "value": true } }
-//   ],
-//   "nextMomentId": "after-chest",
-//   "tags": ["loot", "exploration"]
-// }
+  // --- Content Curation ---
+  authorId?: string;
+  moderators?: string[];
+  // active: boolean;
+
+  // --- Selection Logic ---
+  weightBase?: number; // Optional: base weight for selection
+  repeatable?: boolean; // Optional: can be seen multiple times
+  seenCount?: number;
+  rarity?: number; // Optional: for rare events (higher = rarer)
+}

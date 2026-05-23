@@ -14,7 +14,7 @@ export const seedAllSkills$ = createEffect(
       map(() => {
         try {
           const skills = data.getAllSkills();
-          console.log('loadSkillsSeed found skills: ', skills);
+          // console.log('seedAllSkills$ found skills: ', skills);
           return SkillActions.seedAllSkillsSuccess({ skills });
         } catch (error) {
           return SkillActions.seedAllSkillsFailure({ error: String(error) });

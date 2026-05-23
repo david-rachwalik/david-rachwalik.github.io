@@ -13,26 +13,31 @@ const LOCATIONS_SEED_RAW: LocationSeedInput[] = [
     name: 'Village Square',
     description: 'A peaceful central hub with friendly townsfolk.',
     tags: ['safe-zone', 'town'],
+    effects: [],
   },
   {
     name: 'Peaceful Village',
     description: 'A quiet town at the edge of the forest.',
     tags: ['safe-zone', 'town'],
+    effects: [],
   },
   {
     name: 'Practice Zone',
     description: 'Time to cut loose on some target dummies!',
     tags: ['safe-zone', 'combat'], // cannot die
+    effects: [],
   },
   {
     name: 'Dark Cave',
     description: 'You sense danger within.',
     tags: ['dungeon'],
+    effects: [],
   },
   {
     name: 'Goblin Ambush!',
     description: 'Several goblins have sprung out, blades drawn.',
     tags: ['combat'],
+    effects: [],
   },
 ];
 // #endregion

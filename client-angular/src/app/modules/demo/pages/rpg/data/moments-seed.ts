@@ -1,6 +1,7 @@
 import { Moment } from '../models/moment';
 import { toId } from '../utils';
 import {
+  buildAdventureEntityTemplateId,
   buildDimensionEntityCompositeId,
   DEFAULT_DIMENSION_ID,
   DEFAULT_PLANE_ID,
@@ -10,24 +11,21 @@ import {
 
 const MOMENTS_SEED_RAW: MomentSeedInput[] = [
   {
-    title: 'Your First Steps',
-    description: 'You take your first steps into the unknown.',
-    content: 'You wake up in a strange place...',
-    choices: [{ label: 'Go North' }, { label: 'Stay Put' }],
-    tags: ['intro'],
-  },
-  {
     title: 'Training Room',
     description: 'Practice your skills on the Target Dummy.',
     content: 'You stand before a sturdy target dummy.',
-    characters: ['player', 'target-dummy'],
+    locationId: 'practice-zone',
+    // characters: ['player', 'target-dummy'],
+    // characters: ['target-dummy:rpg-demo:prime:template:system'],
+    characters: [String(buildAdventureEntityTemplateId('target-dummy'))],
     choices: [
       {
         label: 'Punch the Dummy',
         skills: [
           {
-            skillId: 'punch',
-            target: 'target-dummy',
+            entityId: 'punch',
+            targetId: 'target-dummy',
+            // targetId: buildAdventureEntityTemplateId('target-dummy'),
           },
         ],
       },
@@ -35,25 +33,74 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
         label: 'Heal Yourself',
         skills: [
           {
-            skillId: 'heal',
-            target: 'player',
+            entityId: 'heal',
+            targetId: 'player',
           },
         ],
       },
     ],
     tags: ['training'],
+    winCondition: { type: 'custom' },
+    effects: {
+      onEnter: [
+        {
+          entityId: 'restore',
+          path: 'attributes.health',
+          value: 10,
+        },
+      ],
+      onComplete: [
+        {
+          entityId: 'restore',
+          path: 'attributes.stamina',
+          value: 5,
+        },
+      ],
+    },
+    rewards: {
+      exp: 10,
+      items: ['healing-potion'],
+    },
+    timeAdvance: 10,
+  },
+  {
+    // title: 'Your First Steps',
+    title: 'Start',
+    description: 'You take your first steps into the unknown.',
+    content: 'You wake up in a strange place...',
+    locationId: 'village-square',
+    characters: ['player'],
+    choices: [
+      { label: 'Go North', nextMomentId: 'training-room' },
+      { label: 'Stay Put' },
+    ],
+    tags: ['intro'],
+    effects: {
+      onEnter: [
+        {
+          entityId: 'restore',
+          path: 'attributes.health',
+          value: 5,
+        },
+      ],
+    },
+    timeAdvance: 5,
   },
   {
     title: 'First Battle',
     description: 'A wild slime appears!',
     content: 'A slime oozes toward you, ready to attack.',
+    locationId: 'dark-cave',
+    characters: ['player', 'slime'],
     choices: [
       {
         label: 'Attack the slime',
         effects: [
           {
-            effectId: 'damage',
-            params: { path: 'attributes.health', value: 5 },
+            entityId: 'damage',
+            path: 'attributes.health',
+            value: 5,
+            targetId: 'slime',
           },
         ],
         nextMomentId: 'slime-defeated',
@@ -62,72 +109,118 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
         label: 'Try to run away',
         effects: [
           {
-            effectId: 'suppress',
-            params: { path: 'attributes.stamina', value: 3, duration: 1 },
+            entityId: 'suppress',
+            path: 'attributes.stamina',
+            value: 3,
+            duration: 1,
           },
         ],
         nextMomentId: 'escape',
       },
     ],
     tags: ['combat'],
+    winCondition: { type: 'combat' },
+    effects: {
+      onEnter: [{ entityId: 'buff', path: 'attributes.end', value: 2 }],
+      onComplete: [
+        {
+          entityId: 'restore',
+          path: 'attributes.health',
+          value: 5,
+        },
+      ],
+    },
+    rewards: {
+      exp: 20,
+      items: ['slime-gel'],
+    },
+    timeAdvance: 15,
   },
   {
     title: 'Slime Defeated',
     description: 'Victory!',
     content: 'You defeat the slime and find a healing potion.',
+    locationId: 'dark-cave',
+    characters: ['player'],
     choices: [
       {
         label: 'Take the potion',
         effects: [
           {
-            effectId: 'restore',
-            params: { path: 'attributes.health', value: 10 },
+            entityId: 'restore',
+            path: 'attributes.health',
+            value: 10,
           },
         ],
         nextMomentId: 'continue-journey',
       },
     ],
     tags: ['reward'],
+    rewards: {
+      items: ['healing-potion'],
+      exp: 5,
+    },
+    timeAdvance: 5,
   },
   {
     title: 'Escape',
     description: 'You manage to escape.',
     content: 'You run away from the slime, but you feel a bit exhausted.',
+    locationId: 'dark-cave',
+    characters: ['player'],
     choices: [
       {
         label: 'Rest for a moment',
         effects: [
           {
-            effectId: 'restore',
-            params: { path: 'attributes.stamina', value: 2 },
+            entityId: 'restore',
+            path: 'attributes.stamina',
+            value: 2,
           },
         ],
         nextMomentId: 'continue-journey',
       },
     ],
     tags: ['escape'],
+    effects: {
+      onComplete: [
+        {
+          entityId: 'restore',
+          path: 'attributes.stamina',
+          value: 2,
+        },
+      ],
+    },
+    timeAdvance: 10,
   },
   {
     title: 'Continue Journey',
     description: 'The adventure continues.',
     content: 'You press onward, ready for whatever comes next.',
+    locationId: 'forest',
+    characters: ['player'],
     choices: [
       { label: 'Explore the forest' },
       { label: 'Head to the village' },
     ],
     tags: ['exploration'],
+    timeAdvance: 20,
   },
   {
     title: 'Mysterious Stranger',
     description: 'A stranger offers you a gift.',
     content: 'A hooded figure approaches and hands you a shimmering potion.',
+    locationId: 'village-square',
+    characters: ['player', 'stranger'],
     choices: [
       {
         label: 'Drink the potion',
         effects: [
           {
-            effectId: 'enhance',
-            params: { path: 'attributes.intelligence', value: 3, duration: 3 },
+            entityId: 'enhance',
+            path: 'attributes.intelligence',
+            value: 3,
+            duration: 3,
           },
         ],
         nextMomentId: 'feel-smarter',
@@ -138,11 +231,17 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
       },
     ],
     tags: ['event', 'npc'],
+    rewards: {
+      items: ['mystery-potion'],
+    },
+    timeAdvance: 5,
   },
   {
     title: 'Feel Smarter',
     description: 'Your mind feels sharper.',
     content: 'You feel a surge of insight and clarity.',
+    locationId: 'village-square',
+    characters: ['player'],
     choices: [
       {
         label: 'Continue your journey',
@@ -150,6 +249,16 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
       },
     ],
     tags: ['buff'],
+    effects: {
+      onEnter: [
+        {
+          entityId: 'enhance',
+          path: 'attributes.intelligence',
+          value: 3,
+        },
+      ],
+    },
+    timeAdvance: 5,
   },
 ];
 // #endregion

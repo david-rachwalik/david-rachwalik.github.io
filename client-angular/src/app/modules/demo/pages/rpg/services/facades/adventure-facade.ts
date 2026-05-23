@@ -3,7 +3,13 @@ import { Store } from '@ngrx/store';
 // import { map, of, switchMap } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
 
-import { Adventure, AdventureIndex } from '../../models/adventure';
+import {
+  Adventure,
+  AdventureEvent,
+  AdventureEventPayload,
+  AdventureIndex,
+} from '../../models/adventure';
+import { AdventureEventActions } from '../../store/adventure/adventure-event.actions';
 import {
   selectAdventureIndexEntities,
   selectAllAdventureIndexes,
@@ -14,33 +20,47 @@ import {
   selectAdventureEntities,
   selectAllAdventures,
 } from '../../store/adventure/adventure.selectors';
-import { selectCurrentAdventure } from '../../store/app.selectors';
+import {
+  selectAccountId,
+  selectCurrentAdventure,
+  selectCurrentAdventureEvents,
+  selectCurrentAdventureLog,
+  selectCurrentSlotId,
+} from '../../store/app.selectors';
 import { toId } from '../../utils';
 import {
+  buildAdventureEntityCompositeId,
+  buildDimensionEntityCompositeId,
   DEFAULT_DIMENSION_ID,
   DEFAULT_PLANE_ID,
 } from '../../utils-composite-id';
-import { UserService } from '../user.service';
 import { CharacterFacade } from './character-facade';
 
 // :: Focused on business logic and orchestration, not storage details ::
+
+type AdventureEventOmittedKeys = 'id' | 'timestamp' | 'accountId';
+type AdventureEventInput = Omit<AdventureEvent, AdventureEventOmittedKeys>;
 
 @Injectable({ providedIn: 'root' })
 export class AdventureFacade {
   constructor(
     private store: Store,
     private characterFacade: CharacterFacade,
-    private userService: UserService,
   ) {}
 
   // #region 🔸 NgRx Selectors 🔸
 
   all$ = this.store.select(selectAllAdventures);
   entities$ = this.store.select(selectAdventureEntities);
+  currentSlotId$ = this.store.select(selectCurrentSlotId);
   current$ = this.store.select(selectCurrentAdventure);
 
   allIndexes$ = this.store.select(selectAllAdventureIndexes);
   indexEntities$ = this.store.select(selectAdventureIndexEntities);
+
+  accountId$ = this.store.select(selectAccountId);
+  log$ = this.store.select(selectCurrentAdventureLog);
+  events$ = this.store.select(selectCurrentAdventureEvents);
 
   player$ = this.characterFacade.player$;
   // #endregion
@@ -63,6 +83,20 @@ export class AdventureFacade {
   }
   // #endregion
 
+  async compositeId(momentId: string): Promise<string | undefined> {
+    const adventure = await firstValueFrom(this.current$);
+    if (!adventure) {
+      console.warn('[GameFacade] No current adventure found!');
+      return undefined;
+    }
+    // Build fully qualified moment ID
+    return buildDimensionEntityCompositeId(
+      momentId,
+      adventure.currentDimensionId,
+      adventure.currentPlaneId,
+    );
+  }
+
   // Calculate true byte size of string as it would be stored
   sizeInKB(slot: Adventure) {
     const json = JSON.stringify(slot);
@@ -75,7 +109,9 @@ export class AdventureFacade {
       characterName,
     });
 
-    const { accountId } = this.userService;
+    // const { accountId } = this.userService;
+    const accountId = await firstValueFrom(this.accountId$);
+    if (!accountId) return;
     console.log('accountId:', accountId);
 
     const slotId = toId(label);
@@ -113,7 +149,9 @@ export class AdventureFacade {
       currentPlaneId: DEFAULT_PLANE_ID,
       currentCharacterId: player.id,
       currentLocationId: 'start',
-      currentMomentId: 'start',
+      // currentMomentId: 'start',
+      currentMomentId: 'training-room',
+      log: [],
       // eventLog: ['A new adventure begins!'],
       // history: [],
       // tags: {}, // or arrayToEntityMap(tagsArray)
@@ -172,4 +210,96 @@ export class AdventureFacade {
       throw error;
     }
   }
+
+  // Set the current adventure location
+  async setLocation(locationId: string) {
+    const adventureId = await firstValueFrom(this.currentSlotId$);
+    if (!adventureId) return;
+    this.save(adventureId, { currentLocationId: locationId });
+  }
+
+  // Set the current adventure moment
+  async setMoment(momentId: string) {
+    const adventureId = await firstValueFrom(this.currentSlotId$);
+    if (!adventureId) return;
+    this.save(adventureId, { currentMomentId: momentId });
+  }
+
+  // // Advance the game clock by N units
+  // async advanceGameClock(minutes: number) {
+  //   const adventureId = await firstValueFrom(this.currentSlotId$);
+  //   if (!adventureId) return;
+  //   // Implement your game clock logic here (e.g., update adventure.time)
+  //   // Example:
+  //   // await this.save(adventureId, { time: newTime });
+  // }
+
+  // #region 🔸 Adventure Logs 🔸
+
+  // Add a new log entry (appears at the top)
+  async addLogEntry(message: string): Promise<void> {
+    const adventure = await firstValueFrom(
+      this.store.select(selectCurrentAdventure),
+    );
+    if (!adventure) return;
+    this.store.dispatch(
+      AdventureActions.addLogEntry({ slotId: adventure.id, message }),
+    );
+  }
+
+  // Clear the log
+  async clearLog(): Promise<void> {
+    const adventure = await firstValueFrom(
+      this.store.select(selectCurrentAdventure),
+    );
+    if (!adventure) return;
+    this.store.dispatch(AdventureActions.clearLog({ slotId: adventure.id }));
+  }
+  // #endregion
+
+  // #region 🔸 Adventure Events 🔸
+
+  // Log a significant event (e.g., moment choice, moment complete)
+  async addEvent(event: AdventureEventInput) {
+    const accountId = await firstValueFrom(this.accountId$);
+    if (!accountId) return;
+    console.log('accountId:', accountId);
+    const timestamp = new Date().toISOString();
+    const id = buildAdventureEntityCompositeId(
+      timestamp,
+      event.dimensionId,
+      event.planeId,
+      event.adventureId,
+      accountId,
+    );
+    if (!id) return;
+    const adventureEvent: AdventureEvent = {
+      ...event,
+      id,
+      accountId,
+      timestamp,
+    };
+    this.store.dispatch(
+      AdventureEventActions.addAdventureEvent({ event: adventureEvent }),
+    );
+  }
+
+  // Example: Log moment completion
+  async addMomentCompleteEvent(
+    momentId: string,
+    payload: AdventureEventPayload = {},
+  ) {
+    const adventure = await firstValueFrom(this.current$);
+    if (!adventure) return;
+    await this.addEvent({
+      type: 'moment',
+      action: 'complete',
+      entityId: momentId,
+      payload, // should include choice made
+      dimensionId: adventure.currentDimensionId,
+      planeId: adventure.currentPlaneId,
+      adventureId: adventure.id,
+    });
+  }
+  // #endregion
 }

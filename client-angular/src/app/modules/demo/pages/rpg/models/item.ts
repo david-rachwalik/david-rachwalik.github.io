@@ -1,15 +1,13 @@
 import { GameDimensionEntity } from '../utils-composite-id';
-import { AttributeValue } from './attribute';
+import { AttributeInstance } from './attribute';
 import { EffectInstance } from './effect';
 
 export interface Item extends GameDimensionEntity {
   name: string;
   description: string;
   tags: string[];
-  attributes?: Record<string, AttributeValue>;
-  // effects: { attribute: string; delta: number }[];
-  // effects: Record<string, number>;
-  effects: EffectInstance[]; // Each is an Effect + per-use params
+  attributes: AttributeInstance[];
+  effects: EffectInstance[];
 }
 
 export interface InventorySlot {

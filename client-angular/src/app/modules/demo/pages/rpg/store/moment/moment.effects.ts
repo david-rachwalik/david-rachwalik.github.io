@@ -16,7 +16,7 @@ export const seedAllMoments$ = createEffect(
       map(() => {
         try {
           const moments = data.getAllMoments();
-          console.log('loadMomentsSeed found moments: ', moments);
+          // console.log('seedAllMoments$ found moments: ', moments);
           return MomentActions.seedAllMomentsSuccess({ moments });
         } catch (error) {
           return MomentActions.seedAllMomentsFailure({ error: String(error) });

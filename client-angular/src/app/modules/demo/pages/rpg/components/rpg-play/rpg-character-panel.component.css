@@ -1,0 +1,55 @@
+/* Character Panel Styles */
+
+.character-panel {
+  background: var(--rpg-panel-bg, #181c22);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 2px 8px rgba(20, 30, 40, 0.08);
+  border: 1px solid var(--rpg-border, #2d2f35);
+  font-family: var(--rpg-font, 'Segoe UI', 'Roboto', 'Arial', sans-serif);
+}
+
+.character-panel .name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--rpg-primary, #4fc3f7);
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.character-panel .level-pill {
+  display: inline-block;
+  background: var(--rpg-accent, #263b4a);
+  color: var(--rpg-primary, #4fc3f7);
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 0.15em 0.75em;
+  margin-left: 0.25em;
+  box-shadow: 0 1px 3px rgba(40, 60, 80, 0.08);
+  border: 1px solid var(--rpg-border, #2d2f35);
+  vertical-align: middle;
+}
+
+.character-panel .stats {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 2.5rem;
+  font-size: 1rem;
+  color: var(--rpg-secondary, #b0c4d8);
+}
+
+.character-panel .stat-label {
+  font-size: 0.85em;
+  font-weight: 500;
+  color: var(--rpg-label, #7fa7c7);
+  margin-right: 0.3em;
+}
+
+.character-panel .stat-value {
+  font-weight: 600;
+  color: var(--rpg-secondary, #b0c4d8);
+}

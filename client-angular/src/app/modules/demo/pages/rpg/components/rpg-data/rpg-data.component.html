@@ -24,18 +24,17 @@
   @if (currentSave$ | async; as currentSave) {
     <section class="current-save">
       <h3>Active Game Slot</h3>
-      <div class="save-slot current">
+      <div class="save-slot current" [title]="currentSave.id">
         <div>
-          <strong>{{ currentSave.label }}</strong
-          >&nbsp;
-          <span>({{ currentSave.id }})</span>
+          <strong>{{ currentSave.label }}</strong>
+          <!-- <span>({{ currentSave.id }})</span> -->
         </div>
         <!-- <div>
           Player:&nbsp; {{ currentSave.playerName || 'Unknown' }} | Level:
           {{ currentSave.level || 1 }} | Location:
           {{ currentSave.location || 'Unknown' }}
         </div> -->
-        <div>Size:&nbsp; {{ currentSave.sizeKB | number: '1.0-0' }} KB</div>
+        <!-- <div>Size:&nbsp; {{ currentSave.sizeKB | number: '1.0-0' }} KB</div> -->
         <div>Last Played:&nbsp; {{ currentSave.savedAt | date: 'short' }}</div>
         <div class="save-actions">
           <div class="save-action-right">
@@ -58,17 +57,17 @@
       <section class="other-saves">
         <h3>Other Save Slots</h3>
         @for (save of otherSaves; track save.id) {
-          <div class="save-slot">
+          <div class="save-slot" [title]="save.id">
             <div>
               <strong>{{ save.label }}</strong>
-              <span>({{ save.id }})</span>
+              <!-- <span>({{ save.id }})</span> -->
             </div>
             <!-- <div>
               Player:&nbsp; {{ save.playerName || 'Unknown' }} |
                Level: {{ save.level || 1 }} |
               Location: {{ save.location || 'Unknown' }}
             </div> -->
-            <div>Size:&nbsp; {{ save.sizeKB | number: '1.0-0' }} KB</div>
+            <!-- <div>Size:&nbsp; {{ save.sizeKB | number: '1.0-0' }} KB</div> -->
             <div>Last Played:&nbsp; {{ save.savedAt | date: 'short' }}</div>
             <div class="save-actions">
               <div class="save-action-left">

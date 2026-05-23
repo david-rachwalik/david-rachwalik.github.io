@@ -44,9 +44,13 @@ export class RpgDataComponent implements OnInit {
     this.allSaves$,
     this.currentSlotId$,
   ]).pipe(
-    map(([allSaves, currentSlotId]) =>
-      allSaves.find((s) => s.id === currentSlotId),
-    ),
+    // map(([allSaves, currentSlotId]) =>
+    //   allSaves.find((s) => s.id === currentSlotId),
+    // ),
+    map(([allSaves, currentSlotId]) => {
+      const save = allSaves.find((s) => s.id === currentSlotId);
+      return save ? { ...save, sizeKB: Math.ceil(save.sizeKB) } : undefined;
+    }),
   );
 
   otherSaves$: Observable<AdventureIndex[]> = combineLatest([
@@ -57,6 +61,7 @@ export class RpgDataComponent implements OnInit {
       ([allSaves, currentSlotId]) =>
         allSaves
           .filter((s) => s.id !== currentSlotId)
+          .map((s) => ({ ...s, sizeKB: Math.ceil(s.sizeKB) }))
           // .sort((a, b) => a.label.localeCompare(b.label)),
           .sort((a, b) => b.savedAt.localeCompare(a.savedAt)), // Sort by most recent
     ),

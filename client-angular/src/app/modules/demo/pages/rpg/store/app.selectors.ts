@@ -1,5 +1,8 @@
 import { createSelector } from '@ngrx/store';
 
+import { Character } from '../models/character';
+import { buildAdventureEntityTemplateId } from '../utils-composite-id';
+import { selectAllAdventureEvents } from './adventure/adventure-event.selectors';
 import { selectAdventureEntities } from './adventure/adventure.selectors';
 import { appFeature } from './app.reducer';
 import { selectCharacterEntities } from './character/character.selectors';
@@ -12,14 +15,6 @@ export const { selectAppState } = appFeature;
 
 // Feature-provided are already root-state selectors
 export const {
-  // selectAdventuresSeeded,
-  // selectTagsSeeded,
-  // selectAttributesSeeded,
-  // selectCharactersSeeded,
-  // selectLocationsSeeded,
-  // selectMomentsSeeded,
-  // selectItemsSeeded,
-  // selectSkillsSeeded,
   selectSeeded: selectAppSeeded,
   selectError: selectAppError,
   selectAccountId,
@@ -35,6 +30,17 @@ export const selectCurrentAdventure = createSelector(
   selectAdventureEntities,
   selectCurrentAdventureId,
   (entities, adventureId) => (adventureId ? entities[adventureId] : undefined),
+);
+
+export const selectCurrentAdventureLog = createSelector(
+  selectCurrentAdventure,
+  (adventure) => adventure?.log ?? [],
+);
+
+export const selectCurrentAdventureEvents = createSelector(
+  selectAllAdventureEvents,
+  selectCurrentAdventureId,
+  (events, adventureId) => events.filter((e) => e.adventureId === adventureId),
 );
 
 export const selectCurrentDimensionId = createSelector(
@@ -127,10 +133,36 @@ export const selectCurrentMoment = createSelector(
     momentId ? momentEntities[momentId] : undefined,
 );
 
-// TODO: DELETE `selectCurrentLogEntries` once `AdventureEvent` is implemented
-// // Current Log Entries
-// export const selectCurrentLogEntries = createSelector(
-//   selectCurrentAdventure,
-//   (adventure) => adventure?.eventLog ?? [],
-// );
-export const selectCurrentLogEntries = selectCurrentMoment;
+export const selectCurrentMomentChoices = createSelector(
+  selectCurrentMoment,
+  (moment) => moment?.choices ?? [],
+);
+
+// Translates the Moment's static seed IDs into the Active Adventure IDs for the UI
+export const selectActiveMomentCharacters = createSelector(
+  selectCurrentMoment,
+  selectCurrentAdventureId,
+  selectAccountId,
+  selectCharacterEntities,
+  (moment, adventureId, accountId, entities) => {
+    if (!moment || !moment.characters) return [];
+    const safeAccountId = accountId || 'guest';
+    const safeAdventureId = adventureId || 'template';
+
+    return moment.characters
+      .map((charRef) => {
+        // Safe base extraction (turns "target-dummy:template:system" into "target-dummy")
+        const baseId = charRef.split(':')[0];
+
+        // Rebuild specifically targeting the running save slot!
+        const activeId = buildAdventureEntityTemplateId(
+          baseId,
+          safeAdventureId,
+          safeAccountId,
+        );
+
+        return activeId ? entities[activeId] : undefined;
+      })
+      .filter((c): c is Character => !!c); // Only return fully spawned characters
+  },
+);

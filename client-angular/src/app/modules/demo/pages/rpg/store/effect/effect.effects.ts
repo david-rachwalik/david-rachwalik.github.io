@@ -14,7 +14,7 @@ export const seedAllEffects$ = createEffect(
       map(() => {
         try {
           const effects = data.getAllEffects();
-          console.log('loadEffectsSeed found effects: ', effects);
+          // console.log('seedAllEffects$ found effects: ', effects);
           return EffectActions.seedAllEffectsSuccess({ effects });
         } catch (error) {
           return EffectActions.seedAllEffectsFailure({ error: String(error) });

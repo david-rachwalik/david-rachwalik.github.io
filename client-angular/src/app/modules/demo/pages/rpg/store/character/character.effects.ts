@@ -18,7 +18,7 @@ export const seedAllCharacters$ = createEffect(
       map(() => {
         try {
           const characters = data.getAllCharacters();
-          console.log('loadCharactersSeed found characters: ', characters);
+          // console.log('seedAllCharacters$ found characters: ', characters);
           return CharacterActions.seedAllCharactersSuccess({ characters });
         } catch (error) {
           return CharacterActions.seedAllCharactersFailure({

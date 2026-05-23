@@ -15,7 +15,7 @@ export const seedAllLocations$ = createEffect(
       map(() => {
         try {
           const locations = data.getAllLocations();
-          console.log('loadLocationsSeed found locations: ', locations);
+          // console.log('seedAllLocations$ found locations: ', locations);
           return LocationActions.seedAllLocationsSuccess({ locations });
         } catch (error) {
           return LocationActions.seedAllLocationsFailure({

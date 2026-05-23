@@ -8,6 +8,5 @@ export interface Location extends GameDimensionEntity {
   name: string;
   description: string;
   tags: string[];
-  effects?: EffectInstance[]; // Each is an Effect + per-use params
-  plane?: string; // alternate planes of existence
+  effects: EffectInstance[];
 }

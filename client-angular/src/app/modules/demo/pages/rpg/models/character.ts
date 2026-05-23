@@ -1,5 +1,6 @@
 import { GameAdventureEntity } from '../utils-composite-id';
-import { AttributeValue } from './attribute';
+import { AttributeInstance } from './attribute';
+import { EffectInstance } from './effect';
 
 export interface CharacterBody {
   parts: string[];
@@ -29,20 +30,26 @@ export interface CharacterMind {
 }
 
 export interface Character extends GameAdventureEntity {
-  // Composite key: .id is the primary key [adventureId+dimensionId+characterId]
   name: string;
   description: string;
   tags: string[];
-  attributes: Record<string, AttributeValue>;
-  effects: Record<string, number>;
+  attributes: Record<string, AttributeInstance>;
+  effects: Record<string, EffectInstance>;
   // ---
   body?: CharacterBody;
   mind?: CharacterMind;
   // ---
+  location?: string;
   inventory: string[];
   skills: string[];
-  location?: string;
   // personaId: string; // class/build
   // habits: string[];
   // reputations: string[];
+}
+
+export interface EnemyViewModel extends Character {
+  currentHealth: number;
+  maxHealth: number;
+  healthPercent: number;
+  isLowHealth: boolean;
 }

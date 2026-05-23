@@ -1,3 +1,4 @@
+import { EffectInstance } from '../models/effect';
 import { Skill } from '../models/skill';
 import { toId } from '../utils';
 import {
@@ -14,11 +15,9 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'A basic physical attack.',
     effects: [
       {
-        effectId: 'damage',
-        params: {
-          path: 'attributes.health',
-          value: 5,
-        },
+        entityId: 'damage',
+        path: 'attributes.health',
+        value: 5,
       },
     ],
     cost: 0,
@@ -29,11 +28,9 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'Restores health to a target.',
     effects: [
       {
-        effectId: 'restore',
-        params: {
-          path: 'attributes.health',
-          value: 10,
-        },
+        entityId: 'restore',
+        path: 'attributes.health',
+        value: 10,
       },
     ],
     cost: 5,
@@ -44,12 +41,10 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'Restores health to target each turn.',
     effects: [
       {
-        effectId: 'restore',
-        params: {
-          path: 'attributes.health',
-          value: 10,
-          duration: 3,
-        },
+        entityId: 'restore',
+        path: 'attributes.health',
+        value: 10,
+        duration: 3,
       },
     ],
     cost: 5,
@@ -60,21 +55,18 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'A fiery explosion that damages all enemies in an area.',
     effects: [
       {
-        effectId: 'damage',
-        params: {
-          path: 'attributes.health',
-          value: 20,
-          elements: ['fire'],
-        },
-      },
+        entityId: 'damage',
+        path: 'attributes.health',
+        value: 20,
+        elements: ['fire'],
+      } as EffectInstance,
       {
-        effectId: 'damage',
-        params: {
-          value: 3,
-          elements: ['fire'],
-          duration: 5,
-        },
-      },
+        entityId: 'damage',
+        path: 'attributes.health',
+        value: 3,
+        elements: ['fire'],
+        duration: 5,
+      } as EffectInstance,
     ],
     cost: 20,
     range: 30,
@@ -86,12 +78,10 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'Temporarily increases Strength.',
     effects: [
       {
-        effectId: 'enhance',
-        params: {
-          path: 'attributes.strength',
-          value: 5,
-          duration: 3,
-        },
+        entityId: 'enhance',
+        path: 'attributes.strength',
+        value: 5,
+        duration: 3,
       },
     ],
     cost: 6,
@@ -102,12 +92,10 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'Temporarily lowers Agility.',
     effects: [
       {
-        effectId: 'suppress',
-        params: {
-          path: 'attributes.agility',
-          value: 5,
-          duration: 3,
-        },
+        entityId: 'suppress',
+        path: 'attributes.agility',
+        value: 5,
+        duration: 3,
       },
     ],
     cost: 6,
@@ -118,11 +106,9 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'Restore lost Endurance.',
     effects: [
       {
-        effectId: 'restore',
-        params: {
-          path: 'attributes.endurance',
-          value: 8,
-        },
+        entityId: 'restore',
+        path: 'attributes.endurance',
+        value: 8,
       },
     ],
     cost: 5,
@@ -133,12 +119,10 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'Temporarily increases Intelligence.',
     effects: [
       {
-        effectId: 'enhance',
-        params: {
-          path: 'attributes.intelligence',
-          value: 5,
-          duration: 3,
-        },
+        entityId: 'enhance',
+        path: 'attributes.intelligence',
+        value: 5,
+        duration: 3,
       },
     ],
     cost: 6,
@@ -149,12 +133,10 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'Temporarily lowers Strength.',
     effects: [
       {
-        effectId: 'suppress',
-        params: {
-          path: 'attributes.strength',
-          value: 5,
-          duration: 3,
-        },
+        entityId: 'suppress',
+        path: 'attributes.strength',
+        value: 5,
+        duration: 3,
       },
     ],
     cost: 6,
@@ -165,11 +147,9 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: 'Absorbs incoming damage.',
     effects: [
       {
-        effectId: 'shield',
-        params: {
-          value: 5,
-          duration: 8,
-        },
+        entityId: 'shield',
+        value: 5,
+        duration: 8,
       },
     ],
     cost: 2,
@@ -180,19 +160,15 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     description: "Saps the target's health to revitalize you.",
     effects: [
       {
-        effectId: 'damage',
-        params: {
-          path: 'attributes.health',
-          value: 3,
-          elements: ['energy'],
-        },
+        entityId: 'damage',
+        path: 'attributes.health',
+        value: 3,
+        elements: ['energy'],
       },
       {
-        effectId: 'restore',
-        params: {
-          path: 'attributes.health',
-          value: 3,
-        },
+        entityId: 'restore',
+        path: 'attributes.health',
+        value: 3,
       },
     ],
     cost: 6,
@@ -205,11 +181,9 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     tags: ['attack', 'physical'],
     effects: [
       {
-        effectId: 'damage',
-        params: {
-          path: 'attributes.health',
-          value: 10,
-        },
+        entityId: 'damage',
+        path: 'attributes.health',
+        value: 10,
       },
     ],
     cost: 5,
@@ -221,21 +195,17 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     tags: ['absorb', 'magic'],
     effects: [
       {
-        effectId: 'suppress',
-        params: {
-          path: 'attributes.str',
-          value: 5,
-          duration: 3,
-        },
+        entityId: 'suppress',
+        path: 'attributes.str',
+        value: 5,
+        duration: 3,
       },
       {
-        effectId: 'enhance',
-        params: {
-          path: 'attributes.str',
-          value: 5,
-          duration: 3,
-          self: true,
-        },
+        entityId: 'enhance',
+        path: 'attributes.str',
+        value: 5,
+        duration: 3,
+        self: true,
       },
     ],
     cost: 8,
@@ -247,12 +217,10 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     tags: ['buff'],
     effects: [
       {
-        effectId: 'enhance',
-        params: {
-          path: 'attributes.end',
-          value: 5,
-          duration: 3,
-        },
+        entityId: 'enhance',
+        path: 'attributes.end',
+        value: 5,
+        duration: 3,
       },
     ],
     cost: 6,
@@ -264,10 +232,8 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     tags: ['heal', 'cure'],
     effects: [
       {
-        effectId: 'cure',
-        params: {
-          path: 'status.poisoned',
-        },
+        entityId: 'cure',
+        path: 'status.poisoned',
       },
     ],
     cost: 4,
@@ -279,10 +245,8 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
     tags: ['summon'],
     effects: [
       {
-        effectId: 'summon',
-        params: {
-          path: 'wolf', // creatureId
-        },
+        entityId: 'summon',
+        path: 'wolf', // creatureId
       },
     ],
     cost: 12,
