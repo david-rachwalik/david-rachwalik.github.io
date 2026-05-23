@@ -1,13 +1,16 @@
 {
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
+  "explorer.fileNesting.enabled": true,
   "files.associations": {
+    "hosts": "ini",
     "*.json": "jsonc",
     "*.css": "postcss",
     "*.ejs": "html"
   },
 
   // --- Activity Bar (File Explorer, Search, Source Control, etc.) ---
+  "workbench.colorTheme": "Dark Modern",
   "workbench.editor.labelFormat": "short",
   "workbench.iconTheme": "vscode-icons",
   "workbench.startupEditor": "none",
@@ -48,9 +51,9 @@
   // },
 
   // --- Formatting (Other) ---
-  "[dockerfile]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
-  },
+  // "[dockerfile]": {
+  //   "editor.defaultFormatter": "ms-azuretools.vscode-containers"
+  // },
   "markdownlint.config": {
     "MD007": { "indent": 2 },
     "MD030": { "ul_single": 1, "ul_multi": 1 }
@@ -84,17 +87,44 @@
   "merge-conflict.codeLens.enabled": false,
 
   // -------- Code Language (Web) --------
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "javascript.referencesCodeLens.enabled": true,
-  "javascript.referencesCodeLens.showOnAllFunctions": true,
-  "typescript.implementationsCodeLens.enabled": true,
-  "typescript.referencesCodeLens.enabled": true,
-  "typescript.referencesCodeLens.showOnAllFunctions": true,
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+  "js/ts.referencesCodeLens.enabled": true,
+  "js/ts.referencesCodeLens.showOnAllFunctions": true,
+  "js/ts.implementationsCodeLens.enabled": true,
 
   // -------- Other / Miscellaneous --------
   "redhat.telemetry.enabled": false,
   "emmet.includeLanguages": {
     "ejs": "html"
   },
-  "vsicons.dontShowNewVersionMessage": true
+  "vsicons.dontShowNewVersionMessage": true,
+
+
+  // =========================================================================
+  // GitHub Copilot (VS Code AI)
+  // Goal: Keep AI limited to manual Copilot Chat usage only.
+  // Disable agents, auto-actions, terminal execution, and intrusive editing.
+  // =========================================================================
+
+  // -------- Agents / Automation --------
+  // Disable autonomous agent workflows
+  "chat.agent.enabled": false,
+  // Disable automatic AI fix actions
+  "github.copilot.chat.agent.autoFix": false,
+
+  // -------- Terminal Safety --------
+  // Ignore built-in auto-approved commands
+  "chat.tools.terminal.ignoreDefaultAutoApproveRules": true,
+  // Require approval for ALL commands
+  "chat.tools.terminal.autoApprove": {
+    "/.*/": false
+  },
+
+  // -------- Editor AI Behavior --------
+  // Disable predictive edit suggestions
+  "github.copilot.nextEditSuggestions.enabled": false,
+  // Disable AI quick fixes/refactors
+  "github.copilot.editor.enableCodeActions": false,
+  // Disable automatic rename suggestions
+  "github.copilot.renameSuggestions.triggerAutomatically": false
 }

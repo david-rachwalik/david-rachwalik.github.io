@@ -2,6 +2,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "ignoreDeprecations": "5.0", // TODO: remove when migrating from v18
+    "rootDir": "./",
     "baseUrl": "./",
     "paths": {
       "@assets/*": ["src/assets/*"],

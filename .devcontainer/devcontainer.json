@@ -44,7 +44,7 @@
       // Add the IDs of extensions to install when container is created
       "extensions": [
         "ms-vscode-remote.remote-containers",
-        "ms-azuretools.vscode-docker",
+        "ms-azuretools.vscode-containers", // Docker
         "esbenp.prettier-vscode", // formatter
         // [Shell]
         "foxundermoon.shell-format",
