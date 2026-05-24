@@ -1,4 +1,4 @@
-import { GameAdventureEntity } from '../utils-composite-id';
+import { GameAdventureEntity } from './base/game-entity';
 
 export interface AdventurePreferences {
   enableNSFW: boolean;

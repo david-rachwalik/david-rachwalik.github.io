@@ -17,20 +17,6 @@ export const DEFAULT_ACCOUNT_ID = 'system';
 // Adventure:  Continuity, Saga, Chronicle, Campaign, Journey, Legacy, Odyssey
 // Dimension:  Universe, Realm, World, Plane, Domain, Verse, Continuum, Shard
 
-// Mostly just exists to easily find certain game assets
-export interface GameDimensionEntity {
-  id: string;
-  entityId: string;
-  dimensionId: string; // game world/content universe
-  planeId: string;
-  authorId?: string;
-}
-// Applied to dynamic/mutable assets
-export interface GameAdventureEntity extends GameDimensionEntity {
-  adventureId: string; // game save
-  accountId: string;
-}
-
 // entityId:dimensionId:planeId
 export function buildDimensionEntityCompositeId(
   entityId?: string,

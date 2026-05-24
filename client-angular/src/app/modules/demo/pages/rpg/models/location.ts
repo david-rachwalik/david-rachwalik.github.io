@@ -1,4 +1,4 @@
-import { GameDimensionEntity } from '../utils-composite-id';
+import { GameDimensionEntity } from './base/game-entity';
 import { EffectInstance } from './effect';
 
 // http://www.marvunapp.com/ohotmu/appendixes/omnapp.htm

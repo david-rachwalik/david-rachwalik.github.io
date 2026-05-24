@@ -1,5 +1,5 @@
-import { GameAdventureEntity } from '../utils-composite-id';
 import { AttributeInstance } from './attribute';
+import { GameAdventureEntity } from './base/game-entity';
 import { EffectInstance } from './effect';
 
 export interface CharacterBody {

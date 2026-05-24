@@ -2,9 +2,9 @@
 // of actions taken and choices made.  Used for live gameplay, calculations,
 // and temporary state changes
 
-import { RuntimeMeta } from '../utils';
-import { GameDimensionEntity } from '../utils-composite-id';
 import { AttributeValue } from './attribute';
+import { GameDimensionEntity } from './base/game-entity';
+import { RuntimeMeta } from './base/runtime-meta';
 
 // Data-driven: effects are mostly defined in a catalog and applied dynamically
 // Modular: should be able to alter attributes, tags, states, cooldowns, body parts, etc

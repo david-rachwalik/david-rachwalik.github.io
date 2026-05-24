@@ -1,5 +1,5 @@
-import { GameDimensionEntity } from '../utils-composite-id';
 import { AttributeInstance } from './attribute';
+import { GameDimensionEntity } from './base/game-entity';
 import { EffectInstance } from './effect';
 
 export interface Item extends GameDimensionEntity {

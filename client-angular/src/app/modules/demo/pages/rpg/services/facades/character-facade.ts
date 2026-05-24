@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   combineLatest,
@@ -46,12 +46,13 @@ import { SkillFacade } from './skill-facade';
 
 @Injectable({ providedIn: 'root' })
 export class CharacterFacade {
-  constructor(
-    private store: Store,
-    private attributeFacade: AttributeFacade,
-    private effectFacade: EffectFacade,
-    private skillFacade: SkillFacade,
-  ) {}
+  constructor(private store: Store) {}
+
+  public utils = {
+    attribute: inject(AttributeFacade),
+    effect: inject(EffectFacade),
+    skill: inject(SkillFacade),
+  };
 
   // #region 🔸 NgRx Selectors 🔸
 
@@ -383,7 +384,7 @@ export class CharacterFacade {
           return of(undefined);
         }
         // console.groupEnd();
-        return this.attributeFacade.convertInstanceToAttribute$(
+        return this.utils.attribute.convertInstanceToAttribute$(
           instance,
           instance.id,
         );
@@ -420,7 +421,7 @@ export class CharacterFacade {
               return of([key, undefined] as [string, Attribute | undefined]);
             }
             // console.groupEnd();
-            return this.attributeFacade
+            return this.utils.attribute
               .convertInstanceToAttribute$(instance, instance.id)
               .pipe(
                 map((attr) => [key, attr] as [string, Attribute | undefined]),
@@ -534,7 +535,7 @@ export class CharacterFacade {
       this.byId$(characterId),
       this.getAllEffectInstancesFor$(characterId),
       // this.effectEntities$,
-      this.effectFacade.entities$,
+      this.utils.effect.entities$,
     ]).pipe(
       map(([char, instMap, effectDefs]) => {
         if (!char) return [];
@@ -619,48 +620,15 @@ export class CharacterFacade {
 
     // Extract attributeId from path, e.g. "attributes.strength" -> "strength"
     const attributeId = effect.path.split('.').pop()!;
-
     // Safely navigate attributes in case it's completely undefined
     const inst: AttributeInstance | undefined = char.attributes?.[attributeId];
-    const current = Number(inst?.value ?? inst?.default ?? 0);
 
-    let delta: number; // amount to add, subtract, or multiply
-    if (typeof effect.value === 'number') {
-      delta = effect.value;
-    } else if (typeof effect.defaultValue === 'number') {
-      delta = effect.defaultValue;
-    } else {
-      delta = 0;
-    }
-
-    let newValue = current;
-    switch (effect.operation) {
-      case 'add':
-        newValue = current + delta;
-        break;
-      case 'subtract':
-        newValue = current - delta;
-        break;
-      case 'set':
-        newValue = delta;
-        break;
-      case 'multiply':
-        newValue = current * (typeof delta === 'number' ? delta : 1);
-        break;
-      default:
-        console.warn(
-          `[CharacterFacade] Unsupported operation: ${effect.operation}`,
-        );
-        return false;
-    }
-    const min = typeof inst?.min === 'number' ? inst.min : undefined;
-    const max = typeof inst?.max === 'number' ? inst.max : undefined;
-    if (typeof min === 'number') newValue = Math.max(min, newValue);
-    if (typeof max === 'number') newValue = Math.min(max, newValue);
-
-    const nextInstance: AttributeInstance = inst
-      ? { ...inst, value: newValue }
-      : { id: attributeId, value: newValue };
+    // Delegate pure math to utility
+    const nextInstance = this.utils.effect.calculateAttributeDelta(
+      effect,
+      inst,
+      attributeId,
+    );
 
     // Safely spread char.attributes
     const changes: Partial<Character> = {
@@ -767,7 +735,7 @@ export class CharacterFacade {
 
     // 1. Try explicit ID
     if (instance.id) {
-      base = await firstValueFrom(this.effectFacade.byId$(instance.id));
+      base = await firstValueFrom(this.utils.effect.byId$(instance.id));
     }
 
     // 2. Fallback: Build dimension ID from the target's native plane
@@ -780,7 +748,7 @@ export class CharacterFacade {
           target.planeId,
         );
         if (compositeId) {
-          base = await firstValueFrom(this.effectFacade.byId$(compositeId));
+          base = await firstValueFrom(this.utils.effect.byId$(compositeId));
         }
       }
     }
@@ -868,7 +836,7 @@ export class CharacterFacade {
 
     // Try instance.id as a full catalog ID
     if (instance.id && typeof instance.id === 'string' && instance.id.trim()) {
-      skill = await firstValueFrom(this.skillFacade.byId$(instance.id));
+      skill = await firstValueFrom(this.utils.skill.byId$(instance.id));
       if (skill) {
         resolvedSkillId = instance.id;
         console.log('Resolved skill by full ID:', instance.id);
@@ -895,7 +863,7 @@ export class CharacterFacade {
           typeof compositeId === 'string' &&
           compositeId.trim()
         ) {
-          skill = await firstValueFrom(this.skillFacade.byId$(compositeId));
+          skill = await firstValueFrom(this.utils.skill.byId$(compositeId));
           if (skill) {
             resolvedSkillId = compositeId;
             console.log(

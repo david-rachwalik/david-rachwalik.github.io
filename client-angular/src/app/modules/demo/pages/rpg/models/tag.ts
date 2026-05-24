@@ -1,5 +1,5 @@
-import { RuntimeMeta } from '../utils';
-import { GameDimensionEntity } from '../utils-composite-id';
+import { GameDimensionEntity } from './base/game-entity';
+import { RuntimeMeta } from './base/runtime-meta';
 
 // Kind / Group / Category
 export type TagGroupType =

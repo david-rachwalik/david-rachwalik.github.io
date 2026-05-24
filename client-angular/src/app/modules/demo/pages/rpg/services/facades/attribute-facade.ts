@@ -64,31 +64,24 @@ export class AttributeFacade {
       ...(Object.keys(full) as (keyof T)[]),
       ...(Object.keys(base) as (keyof T)[]),
     ]);
-    console.group('[diffFromBase]');
-    console.log('Full:', full);
-    console.log('Base:', base);
+    // console.group('[diffFromBase]');
+    // console.log('Full:', full);
+    // console.log('Base:', base);
     for (const key of keys) {
       if (omit.includes(key)) continue;
       const fv = full[key];
       const bv = base[key];
       if (fv !== undefined && !Object.is(fv, bv)) {
         out[key] = fv as T[typeof key];
-        console.log(`Diff: ${String(key)} | full:`, fv, '| base:', bv);
+        // console.log(`Diff: ${String(key)} | full:`, fv, '| base:', bv);
       }
     }
-    console.log('Result diff:', out);
-    console.groupEnd();
+    // console.log('Result diff:', out);
+    // console.groupEnd();
     return out;
   }
 
   // #region 🔸 Attribute Logic 🔸
-
-  // // Catalog lookup of Attribute
-  // getAttributeById$(id: string): Observable<Attribute | undefined> {
-  //   return this.entities$.pipe(
-  //     map((entities) => (id ? entities[id] : undefined)),
-  //   );
-  // }
 
   // Merge AttributeInstance with its catalog Attribute
   getAttributeByInstance$(
@@ -103,59 +96,7 @@ export class AttributeFacade {
 
         // Resolve property differences (prefer instance)
         const merged: Attribute = { ...def, ...inst };
-        console.log('merged:', merged);
-
-        // TODO: implement this switch logic in a GameFacade method
-
-        // const pickFirstDefined = <T>(...vals: (T | undefined)[]) =>
-        //   vals.find((v) => v !== undefined);
-        // const clampNumber = (val: number, min?: number, max?: number) => {
-        //   let out = val;
-        //   if (typeof min === 'number') out = Math.min(min, val);
-        //   if (typeof max === 'number') out = Math.max(max, val);
-        //   return out;
-        // };
-
-        // switch (def.valueType) {
-        //   case 'number': {
-        //     console.log('valueType number');
-
-        //     const val = this.pickFirstDefined<number>(
-        //       merged.value as number | undefined,
-        //       merged.base as number | undefined,
-        //       merged.default as number | undefined,
-        //     );
-        //     merged.value = this.clampNumber(val, merged.min, merged.max);
-        //     break;
-        //   }
-        //   case 'boolean': {
-        //     console.log('valueType boolean');
-
-        //     const val = this.pickFirstDefined<boolean>(
-        //       merged.value as boolean | undefined,
-        //       merged.default as boolean | undefined,
-        //     );
-        //     if (val !== undefined) merged.value = val;
-
-        //     break;
-        //   }
-        //   case 'string': {
-        //     console.log('valueType string/text');
-
-        //     const val = this.pickFirstDefined<string>(
-        //       merged.value as string | undefined,
-        //       merged.default as string | undefined,
-        //     );
-        //     if (val !== undefined) merged.value = val;
-
-        //     break;
-        //   }
-        //   default: {
-        //     console.log('valueType string/text');
-        //     break;
-        //   }
-        // }
-
+        // console.log('merged:', merged);
         return merged;
       }),
     );
@@ -164,32 +105,14 @@ export class AttributeFacade {
   // Convert full Attribute → AttributeInstance (entityId + diffs)
   attributeToInstance(full: Attribute, catalog?: Attribute): AttributeInstance {
     const base: Partial<Attribute> = catalog ?? {};
-    console.group('[attributeToInstance]');
-    console.log('Full Attribute:', full);
-    console.log('Catalog Attribute:', base);
-    // const patch = CharacterFacade.diffFromBase<Attribute>(full, base, [
-    //   'id',
-    //   'entityId',
-    //   'dimensionId',
-    //   'planeId',
-    // ] as const);
-    // const out: AttributeInstance = {
-    //   entityId: full.entityId,
-    //   ...(full.id ? ({ id: full.id } as Pick<AttributeInstance, 'id'>) : {}),
-    //   ...(patch as Partial<AttributeInstance>),
-    // };
     const patch = AttributeFacade.diffFromBase<Attribute>(full, base);
-    const out: AttributeInstance = {
+    return {
       entityId: full.entityId,
       ...patch,
     };
-    console.log('AttributeInstance:', out);
-    console.groupEnd();
-    return out;
   }
 
   isAttributeValue(val: unknown): val is string | number | boolean {
-    // isAttributeValue(val: unknown): val is AttributeValue {
     return (
       typeof val === 'string' ||
       typeof val === 'number' ||
@@ -205,24 +128,9 @@ export class AttributeFacade {
     // Even if `instance.id` exists, it must be explicitly passed as `compositeId`
     return this.entities$.pipe(
       map((entities) => {
-        // console.group(
-        //   `[convertInstanceToAttribute$] compositeId=${compositeId}`,
-        // );
-        // console.log('Instance:', instance);
         const catalogAttr = entities[compositeId];
-        // console.log('Catalog attribute:', catalogAttr);
-        if (!catalogAttr) {
-          // console.warn(
-          //   'No catalog attribute found for compositeId:',
-          //   compositeId,
-          // );
-          // console.groupEnd();
-          return undefined;
-        }
-        const merged = { ...catalogAttr, ...instance };
-        // console.log('Merged attribute:', merged);
-        // console.groupEnd();
-        return merged;
+        if (!catalogAttr) return undefined;
+        return { ...catalogAttr, ...instance };
       }),
       // share and replay last emission; refCount avoids keeping subscription when no listeners
       shareReplay({ bufferSize: 1, refCount: true }),
@@ -231,164 +139,6 @@ export class AttributeFacade {
   // #endregion
 
   // #region 🔸 Attribute Update Logic 🔸
-
-  // Convert Attribute to AttributeInstance (diff from catalog)
-  convertAttributeToInstanceOld(attr: Attribute): AttributeInstance {
-    // Find catalog for diff
-    const omit: (keyof Attribute)[] = [
-      'id',
-      'entityId',
-      'dimensionId',
-      'planeId',
-    ];
-    const out: AttributeInstance = { entityId: attr.entityId };
-    this.entities$
-      .pipe(
-        map((entities) => {
-          let base: Attribute | undefined;
-          if (attr.id && entities[attr.id]) {
-            base = entities[attr.id];
-          } else if (attr.entityId) {
-            base = Object.values(entities).find(
-              (a) => a?.entityId === attr.entityId,
-            );
-          }
-          // Only copy properties that differ from catalog
-          const keys = Object.keys(attr) as (keyof Attribute)[];
-          for (const key of keys) {
-            if (omit.includes(key)) continue;
-            const value = attr[key];
-            // const baseValue = base ? base[key] : undefined;
-            const valueType = typeof value;
-            // Log property name, type, and value
-            console.log(
-              `[convertAttributeToInstance] property: ${String(key)}, type: ${valueType}, value:`,
-              value,
-            );
-
-            // if (
-            //   value !== undefined &&
-            //   !Object.is(value, baseValue) &&
-            //   this.isAttributeValue(value)
-            // ) {
-            //   // out[key] = value as AttributeInstance[typeof key];
-            //   // out[key as keyof AttributeInstance] = value;
-            //   out[key] = value;
-            // }
-
-            // if (value !== undefined && !Object.is(value, baseValue)) {
-            //   // Assign explicitly based on type
-            //   if (valueType === 'string') {
-            //     out[key] = value as string;
-            //   } else if (valueType === 'number') {
-            //     out[key] = value as number;
-            //   } else if (valueType === 'boolean') {
-            //     out[key] = value as boolean;
-            //   }
-            //   // else skip assignment for other types
-            // }
-
-            // TODO: Only assign if key exists on AttributeInstance (Partial<Attribute>)
-            // if (value !== undefined && !Object.is(value, baseValue)) {
-            //   out[key] = value as AttributeInstance[typeof key];
-            // }
-          }
-          console.group('[convertAttributeToInstance]');
-          console.log('Attribute:', attr);
-          console.log('Catalog:', base);
-          console.log('Instance:', out);
-          console.groupEnd();
-        }),
-      )
-      .subscribe(); // This will run once, but you may want to refactor for sync use
-    return out;
-  }
-
-  // // Convert Attribute to AttributeInstance (diff from catalog)
-  // async convertAttributeToInstance(
-  //   attr: Attribute,
-  // ): Promise<AttributeInstance> {
-  //   const omit: (keyof Attribute)[] = [
-  //     'id',
-  //     'entityId',
-  //     'dimensionId',
-  //     'planeId',
-  //   ];
-
-  //   const entities = await firstValueFrom(this.entities$);
-  //   const out: AttributeInstance = { entityId: attr.entityId };
-
-  //   let base: Attribute | undefined;
-  //   if (attr.id && entities[attr.id]) {
-  //     base = entities[attr.id];
-  //   } else if (attr.entityId) {
-  //     base = Object.values(entities).find((a) => a?.entityId === attr.entityId);
-  //   }
-
-  //   const keys = Object.keys(attr) as (keyof Attribute)[];
-  //   for (const key of keys) {
-  //     if (omit.includes(key)) continue;
-  //     const value = attr[key];
-  //     const baseValue = base ? base[key] : undefined;
-  //     if (
-  //       value !== undefined &&
-  //       !Object.is(value, baseValue) &&
-  //       this.isAttributeValue(value)
-  //     ) {
-  //       // (out as AttributeInstance)[key as keyof AttributeInstance] =
-  //       //   value as AttributeInstance[typeof key];
-  //       out[key] = value;
-  //     }
-  //   }
-
-  //   if (attr.id) {
-  //     out.id = attr.id;
-  //   }
-
-  //   return out;
-  // }
-
-  // Produce an AttributeInstance diff against the Attribute catalog
-  // convertAttributeToInstance$(attr: Attribute): Observable<AttributeInstance> {
-  //   const omit: (keyof Attribute)[] = [
-  //     'id',
-  //     'entityId',
-  //     'dimensionId',
-  //     'planeId',
-  //   ];
-  //   return this.entities$.pipe(
-  //     take(1),
-  //     map((entities) => {
-  //       const out: AttributeInstance = { entityId: attr.entityId };
-  //       let base: Attribute | undefined;
-  //       if (attr.id && entities[attr.id]) {
-  //         base = entities[attr.id];
-  //       } else if (attr.entityId) {
-  //         base = Object.values(entities).find(
-  //           (a) => a?.entityId === attr.entityId,
-  //         );
-  //       }
-  //       const keys = Object.keys(attr) as (keyof Attribute)[];
-  //       for (const key of keys) {
-  //         if (omit.includes(key)) continue;
-  //         const value = attr[key];
-  //         const baseValue = base ? base[key] : undefined;
-  //         // only copy primitive values that differ from catalog
-  //         if (
-  //           value !== undefined &&
-  //           !Object.is(value, baseValue) &&
-  //           this.isAttributeValue(value)
-  //         ) {
-  //           // TS: index as any to assign to AttributeInstance flexible shape
-  //           (out as any)[key] = value;
-  //         }
-  //       }
-  //       // keep id if present (useful for instance references)
-  //       if (attr.id) (out as any).id = attr.id;
-  //       return out;
-  //     }),
-  //   );
-  // }
 
   // Produce an AttributeInstance diff against the Attribute catalog
   convertAttributeToInstance$(attr: Attribute): Observable<AttributeInstance> {
@@ -402,14 +152,10 @@ export class AttributeFacade {
     return this.entities$.pipe(
       take(1),
       map((entities) => {
-        console.group('[convertAttributeToInstance$]');
-        console.log('Input Attribute:', attr);
-
         // resolve catalog/base: prefer explicit id then entityId
         const base: Partial<Attribute> | undefined =
           (attr.id && entities[attr.id]) ||
           Object.values(entities).find((a) => a?.entityId === attr.entityId);
-        console.log('Resolved base/catalog:', base ?? '<none>');
 
         // use the existing, strongly-typed diff helper
         const patch = AttributeFacade.diffFromBase<Attribute>(
@@ -418,15 +164,11 @@ export class AttributeFacade {
           omit,
         );
 
-        const out: AttributeInstance = {
+        return {
           entityId: attr.entityId,
           ...(attr.id ? { id: attr.id } : {}),
           ...patch,
         };
-
-        console.log('Computed AttributeInstance (diff):', out);
-        console.groupEnd();
-        return out;
       }),
     );
   }
@@ -443,8 +185,6 @@ export class AttributeFacade {
   /**
    * Apply a Partial<AttributeInstance> (an instance-level patch) to catalog
    * and/or derive a full Attribute, then dispatch save and emit the merged full Attribute.
-   *
-   * Example: facade.updateAttributeFromInstancePatch$({ entityId: 'hp', value: 10, id: 'hp' })
    */
   updateAttributeFromInstancePatch$(
     instancePatch: Partial<AttributeInstance> & {
@@ -455,7 +195,7 @@ export class AttributeFacade {
     return this.entities$.pipe(
       take(1),
       map((entities) => {
-        // resolve catalog/base attribute (prefer explicit id, then entityId match)
+        // resolve catalog/base attribute (explicit id or entityId match)
         let base: Attribute | undefined;
         if (instancePatch.id && entities[instancePatch.id]) {
           base = entities[instancePatch.id];
@@ -464,7 +204,7 @@ export class AttributeFacade {
             (a) => a?.entityId === instancePatch.entityId,
           );
         }
-        // if no base, treat patch as a new full attribute (merge over empty)
+        // if no base, treat patch as new full attribute (merge over empty)
         const merged: Attribute = {
           ...(base ?? ({} as Attribute)),
           ...(instancePatch as Attribute),
@@ -482,8 +222,6 @@ export class AttributeFacade {
   /**
    * Apply an arbitrary partial Attribute to the catalog/instance and save result.
    * Emits the merged full Attribute (or undefined if no merge possible).
-   *
-   * Example: facade.updateAttributeByPartial$({ id: 'str', value: 5 })
    */
   updateAttributeByPartial$(
     partial: Partial<Attribute> & { id?: string; entityId?: string },
