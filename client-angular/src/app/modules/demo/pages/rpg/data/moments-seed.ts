@@ -1,10 +1,10 @@
 import { Moment } from '../models/moment';
 import { toId } from '../utils';
 import {
-  buildAdventureEntityTemplateId,
   buildDimensionEntityCompositeId,
   DEFAULT_DIMENSION_ID,
   DEFAULT_PLANE_ID,
+  rpgTemplateId,
 } from '../utils-composite-id';
 
 // #region 🔸 DATA SEED RAW 🔸
@@ -17,7 +17,8 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
     locationId: 'practice-zone',
     // characters: ['player', 'target-dummy'],
     // characters: ['target-dummy:rpg-demo:prime:template:system'],
-    characters: [String(buildAdventureEntityTemplateId('target-dummy'))],
+    // characters: [String(buildAdventureEntityTemplateId('target-dummy'))],
+    characters: [rpgTemplateId('target-dummy')],
     choices: [
       {
         label: 'Punch the Dummy',
@@ -91,7 +92,7 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
     description: 'A wild slime appears!',
     content: 'A slime oozes toward you, ready to attack.',
     locationId: 'dark-cave',
-    characters: ['player', 'slime'],
+    characters: ['player', rpgTemplateId('slime')],
     choices: [
       {
         label: 'Attack the slime',
@@ -211,7 +212,7 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
     description: 'A stranger offers you a gift.',
     content: 'A hooded figure approaches and hands you a shimmering potion.',
     locationId: 'village-square',
-    characters: ['player', 'stranger'],
+    characters: ['player', rpgTemplateId('stranger')],
     choices: [
       {
         label: 'Drink the potion',

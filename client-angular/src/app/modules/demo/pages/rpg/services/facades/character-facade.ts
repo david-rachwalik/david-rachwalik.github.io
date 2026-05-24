@@ -18,7 +18,6 @@ import {
 import { Character } from '../../models/character';
 import { Effect, EffectInstance } from '../../models/effect';
 import { InventorySlot, InventorySlotViewModel } from '../../models/item';
-import { Moment } from '../../models/moment';
 import { Skill, SkillInstance } from '../../models/skill';
 import {
   selectCurrentCharacter,
@@ -284,66 +283,6 @@ export class CharacterFacade {
   updateCharacter(id: string, changes: Partial<Character>): void {
     this.store.dispatch(CharacterActions.saveCharacter({ id, changes }));
   }
-
-  // --- Combat plane helpers ---
-  // Create ephemeral combat copies of characters for a combat moment.
-  // Copies get planeId='combat', a unique id suffix, and a 'combat-instance' tag.
-  async spawnCombatCharactersForMoment(moment: Moment): Promise<string[]> {
-    const ids = moment?.characters ?? [];
-    if (!ids.length) return [];
-
-    const created: string[] = [];
-    for (const id of ids) {
-      const base = await firstValueFrom(this.byId$(id));
-      if (!base) continue;
-      const planeId = 'combat';
-
-      // Generate unique combat id (stable per source id + moment id)
-      const combatId = buildAdventureEntityCompositeId(
-        base.entityId,
-        base.dimensionId,
-        planeId,
-        base.adventureId,
-        base.accountId,
-      );
-      if (!combatId) continue;
-
-      // If already exists (re-enter), skip creating again
-      const existing = await firstValueFrom(this.byId$(combatId));
-      if (existing) {
-        created.push(existing.id);
-        continue;
-      }
-
-      const clone: Character = {
-        ...base,
-        id: combatId,
-        planeId,
-        tags: Array.isArray(base.tags)
-          ? Array.from(new Set([...base.tags, 'combat-instance']))
-          : ['combat-instance'],
-      };
-
-      this.add(clone);
-      created.push(combatId);
-    }
-
-    return created;
-  }
-
-  // Remove all combat-plane characters for a moment (by the generated id pattern)
-  async clearCombatCharactersForMoment(moment: Moment): Promise<void> {
-    const ids = moment?.characters ?? [];
-    if (!ids.length) return;
-
-    for (const id of ids) {
-      const combatId = `${id}__${moment.id}__combat`;
-      const c = await firstValueFrom(this.byId$(combatId));
-      if (c?.planeId === 'combat') {
-        this.remove(combatId);
-      }
-    }
-  }
   // #endregion
 
   // #region 🔸 Attribute Logic 🔸
@@ -505,23 +444,6 @@ export class CharacterFacade {
       shareReplay({ bufferSize: 1, refCount: true }),
     );
   }
-
-  // // Get all full attributes (merged with catalog) for a character
-  // getAllAttributesFor3$(characterId: string): Observable<Attribute[]> {
-  //   return this.getAllAttributeInstancesFor$(characterId).pipe(
-  //     switchMap((instances) => {
-  //       const instanceList = Object.values(instances);
-  //       if (!instanceList.length) return of([]);
-  //       // Map each instance to its full attribute
-  //       return combineLatest(
-  //         instanceList.map((inst) =>
-  //           this.attributeFacade.convertInstanceToAttribute$(inst),
-  //         ),
-  //       ).pipe(map((attrs) => attrs.filter((a): a is Attribute => !!a)));
-  //     }),
-  //   );
-  // }
-
   // #endregion
 
   // #region 🔸 Attribute Logic (setters) 🔸

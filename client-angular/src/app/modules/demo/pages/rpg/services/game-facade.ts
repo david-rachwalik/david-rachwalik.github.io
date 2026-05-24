@@ -212,7 +212,10 @@ export class GameFacade {
   //   }
   // }
 
-  async spawnMomentCharacters(moment: Moment): Promise<void> {
+  async spawnMomentCharacters(
+    moment: Moment,
+    forceRespawn = false,
+  ): Promise<void> {
     if (!moment.characters || moment.characters.length === 0) return;
 
     const accountId = (await firstValueFrom(this.accountId$)) || 'guest';
@@ -228,6 +231,7 @@ export class GameFacade {
 
       // If it exists and is ALREADY in the active adventure, we're fully done
       if (
+        !forceRespawn &&
         templateOrExisting &&
         templateOrExisting.adventureId === adventureId
       ) {
@@ -250,7 +254,7 @@ export class GameFacade {
       const existingActive = await firstValueFrom(
         this.utils.character.byId$(activeId),
       );
-      if (existingActive) continue;
+      if (existingActive && !forceRespawn) continue;
 
       // 4. If we haven't loaded the template yet, build its expected system ID and fetch it
       const templateId = templateOrExisting
@@ -277,11 +281,51 @@ export class GameFacade {
       };
 
       console.log(
-        `[GameFacade] Spawning template "${template.id}" into active adventure as "${activeId}"`,
+        `[GameFacade] Spawning template "${template.id}" into active adventure as "${activeId}" (Force: ${forceRespawn})`,
       );
-      this.store.dispatch(
-        CharacterActions.addCharacter({ character: spawnedCharacter }),
+
+      if (existingActive) {
+        // Overwrite the existing entity with fresh template data
+        this.store.dispatch(
+          CharacterActions.saveCharacter({
+            id: activeId,
+            changes: spawnedCharacter,
+          }),
+        );
+      } else {
+        this.store.dispatch(
+          CharacterActions.addCharacter({ character: spawnedCharacter }),
+        );
+      }
+    }
+  }
+
+  // Garbage Collector: Cleans up any ephemeral NPCs in the current slot
+  async purgeEphemeralCharacters(): Promise<void> {
+    const adventureId = await firstValueFrom(this.currentAdventureId$);
+    const playerId = await firstValueFrom(this.playerId$);
+    if (!adventureId || !playerId) return;
+
+    // Fetch ALL characters loaded in the database
+    const allChars = await firstValueFrom(this.utils.character.all$);
+
+    const ephemeralNPCs = allChars.filter((char) => {
+      // Only purge characters in our active adventure (skip templates!)
+      if (char.adventureId !== adventureId) return false;
+      // Never purge the player character
+      if (char.id === playerId) return false;
+
+      // Purge if they are explicitly tagged as temporary/ephemeral mobs
+      return char.tags?.includes('ephemeral');
+    });
+
+    if (ephemeralNPCs.length > 0) {
+      console.log(
+        `[GameFacade] Purging ${ephemeralNPCs.length} ephemeral characters...`,
       );
+      for (const npc of ephemeralNPCs) {
+        this.store.dispatch(CharacterActions.removeCharacter({ id: npc.id }));
+      }
     }
   }
 
@@ -323,6 +367,9 @@ export class GameFacade {
 
   // Advances to a new moment by id
   async gotoMoment(momentId: string) {
+    // Garbage collect ephemeral mobs before leaving
+    await this.purgeEphemeralCharacters();
+
     // This should update the currentMomentId in the adventure state
     // this.utils.adventure.setCurrentMomentId(momentId);
     await this.utils.adventure.setMoment(momentId);
@@ -332,6 +379,39 @@ export class GameFacade {
     if (moment) {
       await this.spawnMomentCharacters(moment);
     }
+  }
+
+  // Dev Tool: Resets the current moment to pristine condition
+  async resetCurrentMoment(): Promise<void> {
+    const adventureId = await firstValueFrom(this.currentAdventureId$);
+    const moment = await firstValueFrom(this.currentMoment$);
+    if (!adventureId || !moment) return;
+
+    console.group('[GameFacade] Resetting Current Moment');
+
+    // 1. Heal persistent characters (Player, Allies, Persistent NPCs)
+    const allChars = await firstValueFrom(this.utils.character.all$);
+    const persistentChars = allChars.filter(
+      (c) => c.adventureId === adventureId && !c.tags?.includes('ephemeral'),
+    );
+
+    for (const char of persistentChars) {
+      const healthAttr = char.attributes?.['health'];
+      if (healthAttr) {
+        const maxHealth = Number(healthAttr.max ?? 100);
+        await this.utils.character.updateCharacterAttributeValue(
+          char.id,
+          'health',
+          maxHealth,
+        );
+      }
+    }
+
+    // 2. Force-respawn moment characters (resets ephemeral enemies to template state)
+    await this.spawnMomentCharacters(moment, true);
+
+    console.log('[GameFacade] Moment reset complete.');
+    console.groupEnd();
   }
 
   private async expandAdventureTargetId(

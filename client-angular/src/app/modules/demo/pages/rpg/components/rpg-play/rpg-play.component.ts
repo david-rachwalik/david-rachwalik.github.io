@@ -5,21 +5,19 @@ import { Component, inject, isDevMode, OnDestroy, OnInit } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import {
   combineLatest,
-  filter,
   map,
   Observable,
   of,
   shareReplay,
   Subject,
   switchMap,
-  take,
   takeUntil,
   tap,
 } from 'rxjs';
 
 import { Attribute } from '../../models/attribute';
 import { Character, EnemyViewModel } from '../../models/character';
-import { Moment, MomentChoice } from '../../models/moment';
+import { MomentChoice } from '../../models/moment';
 import { GameFacade } from '../../services/game-facade';
 import { RpgCharacterPanelComponent } from './rpg-character-panel.component';
 
@@ -93,84 +91,6 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
 
   moment$ = this.game.currentMoment$;
   choices$ = this.game.currentMomentChoices$;
-
-  // IDs of combat-plane characters for this moment (including player)
-  combatCharacterIds$: Observable<string[]> = combineLatest([
-    this.moment$,
-    this.playerId$,
-  ]).pipe(
-    switchMap(async ([moment, playerId]) => {
-      if (!moment) return [];
-      // Spawn combat-plane characters if needed
-      if (moment.isCombat || moment.tags?.includes('combat')) {
-        // includes player and all moment characters
-        // const ids: string[] = [...(moment.characters ?? []), playerId].filter(
-        //   (id): id is string => typeof id === 'string' && !!id,
-        // );
-        return this.game.utils.character.spawnCombatCharactersForMoment(moment);
-      }
-      // Non-combat: just use moment characters and player as-is
-      return [...(moment.characters ?? []), playerId].filter(
-        (id): id is string => typeof id === 'string',
-      );
-    }),
-    switchMap((ids) => (Array.isArray(ids) ? of(ids) : of([]))),
-  );
-
-  // // For UI: get all combat characters (player first, then others)
-  // combatCharacters$: Observable<Character[]> = combineLatest([
-  //   this.combatCharacterIds$,
-  //   this.game.utils.character.entities$,
-  // ]).pipe(
-  //   map(([ids, entities]): Character[] =>
-  //     ids
-  //       .filter((id): id is string => typeof id === 'string')
-  //       .map((id) => entities[id])
-  //       .filter((entity): entity is Character => !!entity),
-  //   ),
-  //   shareReplay({ bufferSize: 1, refCount: true }),
-  // );
-
-  // enemyCharacters$: Observable<EnemyViewModel[]> = combineLatest([
-  //   this.moment$,
-  //   this.player$,
-  //   this.game.utils.character.all$,
-  // ]).pipe(
-  //   map(([moment, player, allChars]) => {
-  //     if (!moment || !allChars) return [];
-  //     return (moment.characters ?? [])
-  //       .filter((id) => id !== player?.id) // exclude player
-  //       .map((id) => allChars.find((c) => c.id === id))
-  //       .filter((enemy): enemy is Character => !!enemy)
-  //       .map((enemy) => {
-  //         const currentHealth = Number(enemy.attributes['health'] ?? 0);
-  //         const maxHealth = Number(enemy.attributes['maxHealth'] ?? 100);
-  //         const healthPercent =
-  //           maxHealth > 0 ? (currentHealth / maxHealth) * 100 : 0;
-  //         const isLowHealth = currentHealth < 0.3 * maxHealth;
-  //         return {
-  //           ...enemy,
-  //           currentHealth,
-  //           maxHealth,
-  //           healthPercent,
-  //           isLowHealth,
-  //         };
-  //       });
-  //   }),
-  //   shareReplay({ bufferSize: 1, refCount: true }),
-  // );
-
-  // // Choose a target from the current moment (example: first non-player)
-  // targetId$: Observable<string> = combineLatest([
-  //   this.moment$,
-  //   this.player$,
-  // ]).pipe(
-  //   map(([moment, player]) => {
-  //     const list = moment?.characters ?? [];
-  //     return list.find((id) => id !== player?.id) ?? list[0] ?? null;
-  //   }),
-  //   shareReplay({ bufferSize: 1, refCount: true }),
-  // );
 
   // For UI: get all combat characters actively tied to this save slot
   combatCharacters$: Observable<Character[]> =
@@ -271,7 +191,6 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
     });
 
     this.initLoggingSubscriptions();
-    this.initCombatCharacterManagement();
 
     // 🔸 Validate the moment and pessimistically inject characters into the database!
     await this.game.isMomentIdValid();
@@ -318,7 +237,6 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
     this.logObservable('[Play] choices$', this.choices$);
     // this.logEntries$.subscribe((val) => console.log('[Play] logEntries$', val));
 
-    this.logObservable('[Play] combatCharacterIds$', this.combatCharacterIds$);
     this.logObservable('[Play] combatCharacters$', this.combatCharacters$);
     this.logObservable('[Play] enemyCharacters$', this.enemyCharacters$);
 
@@ -326,40 +244,6 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
     this.logObservable('[Play] targetLevel$', this.targetLevel$);
     this.logObservable('[Play] targetHealth$', this.targetHealth$);
     this.logObservable('[Play] targetHealthMax$', this.targetHealthMax$);
-  }
-
-  private initCombatCharacterManagement() {
-    // Spawn combat-plane characters (player + moment characters)
-    this.moment$
-      .pipe(
-        filter((m): m is Moment => !!m),
-        take(1),
-        filter(
-          (m: Moment) =>
-            !!m.isCombat ||
-            (Array.isArray(m.tags) && m.tags.includes('combat')),
-        ),
-        switchMap((m) =>
-          this.game.utils.character.spawnCombatCharactersForMoment(m),
-        ),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((val) =>
-        console.log('[Play] moment$ spawnCombatCharactersForMoment', val),
-      );
-
-    // Clean up combat-plane characters on moment exit
-    this.moment$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((m) => !!m),
-        switchMap((moment) =>
-          moment.isCombat || moment.tags?.includes('combat')
-            ? this.game.utils.character.clearCombatCharactersForMoment(moment)
-            : of(undefined),
-        ),
-      )
-      .subscribe();
   }
 
   getChoices(): Observable<MomentChoice[]> {
@@ -388,6 +272,10 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
   // get logEntries$(): Observable<string[]> {
   //   return this.game.logEntries$;
   // }
+
+  async resetMoment() {
+    await this.game.resetCurrentMoment();
+  }
 
   async testStatChange() {
     console.log('[Play] testStatChange() called');

@@ -83,3 +83,9 @@ export function buildAdventureEntityTemplateId(
     accountId,
   );
 }
+
+// Generates full template ID for an entity in the default dimension/plane
+export function rpgTemplateId(entityId: string): string {
+  // TODO: When the build ID function starts taking in dimension/plane, provide here
+  return buildAdventureEntityTemplateId(entityId) || '';
+}

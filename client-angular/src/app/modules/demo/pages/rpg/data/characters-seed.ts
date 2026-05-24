@@ -52,7 +52,7 @@ const CHARACTERS_SEED_RAW: CharacterSeedInput[] = [
   {
     name: 'Target Dummy',
     description: 'A sturdy wooden dummy for practicing attacks.',
-    tags: ['enemy', 'dummy', 'training'],
+    tags: ['ephemeral', 'enemy', 'dummy', 'training'],
     attributes: {
       // level: { value: 1, base: 1 },
       // health: { value: 50, base: 50, min: 0, max: 50 },
@@ -125,7 +125,7 @@ const CHARACTERS_SEED_RAW: CharacterSeedInput[] = [
     // id: 'enemy-goblin',
     name: 'Goblin',
     description: 'A sneaky goblin lurking in the shadows.',
-    tags: ['enemy', 'goblin'],
+    tags: ['ephemeral', 'enemy', 'goblin'],
     attributes: {
       // level: { value: 1, base: 1 },
       // health: { value: 8, base: 8, min: 0, max: 8 },
