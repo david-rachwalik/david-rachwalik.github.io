@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { AdminEditorComponent } from './components/admin-editor/admin.editor.component';
+import { RpgAdminComponent } from './components/admin/admin.component';
 import { RpgInfoComponent } from './components/info/info.component';
 import { NewGameComponent } from './components/new-game/new-game.component';
 import { RpgDataComponent } from './components/rpg-data/rpg-data.component';
@@ -34,10 +36,14 @@ export const rpgRoutes: Routes = [
         path: 'info',
         component: RpgInfoComponent,
       },
-      // {
-      //   path: 'admin',
-      //   component: RpgAdminComponent,
-      // },
+      {
+        path: 'admin',
+        component: RpgAdminComponent,
+      },
+      {
+        path: 'admin/:feature/:id',
+        component: AdminEditorComponent,
+      },
       {
         path: 'profile',
         component: RpgProfileComponent,

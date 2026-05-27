@@ -17,6 +17,11 @@
         }
         <!-- TODO: disable Data page if no profile -->
         <button class="rpg-btn" (click)="dataSlots()">Data</button>
+        @if (isModerator$ | async) {
+          <button class="rpg-btn admin-btn" (click)="admin()">Admin</button>
+        } @else {
+          <button class="rpg-btn" (click)="info()">Info</button>
+        }
         <button class="rpg-btn" (click)="openSettings()">Settings</button>
       </div>
     </div>

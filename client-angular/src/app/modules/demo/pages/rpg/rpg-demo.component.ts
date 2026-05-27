@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
+import { map, of } from 'rxjs';
 
 import { GameFacade } from './services/game-facade';
 
@@ -19,6 +19,9 @@ export class RpgDemoComponent {
   // Observable for whether there is a current save slot
   hasCurrentSave$ = this.game.currentSlotId$.pipe(map((id) => !!id));
 
+  // TODO: Wire this to actual User Profile / Account state
+  isModerator$ = of(true);
+
   async newGame() {
     // // Pass a flag to the play page to trigger new game flow
     // await this.router.navigate(['/demo/rpg/play'], {
@@ -33,6 +36,14 @@ export class RpgDemoComponent {
 
   async dataSlots() {
     await this.router.navigate(['/demo/rpg/data']);
+  }
+
+  async info() {
+    await this.router.navigate(['/demo/rpg/info']);
+  }
+
+  async admin() {
+    await this.router.navigate(['/demo/rpg/admin']);
   }
 
   async openSettings() {

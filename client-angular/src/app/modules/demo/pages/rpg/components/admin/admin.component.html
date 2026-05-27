@@ -1,0 +1,87 @@
+<div class="admin-page mat-typography">
+  <div class="admin-header-nav">
+    <h2>Admin Dashboard</h2>
+    <a routerLink="/demo/rpg/info" class="nav-link">Info Page &rarr;</a>
+  </div>
+
+  <div class="admin-page__controls">
+    <!-- <mat-form-field appearance="outline" class="admin-page__select slim-select"> -->
+    <mat-form-field appearance="fill" class="admin-page__select">
+      <mat-label>Dimension</mat-label>
+      <mat-select
+        [(value)]="selectedDimension"
+        (selectionChange)="onDimensionChange()">
+        @for (dim of dimensions$ | async; track dim) {
+          <mat-option [value]="dim">{{ dim }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="admin-page__select slim-select"> -->
+    <mat-form-field appearance="fill" class="admin-page__select">
+      <mat-label>Plane</mat-label>
+      <mat-select [(value)]="selectedPlane" (selectionChange)="onPlaneChange()">
+        @for (plane of planes$ | async; track plane) {
+          <mat-option [value]="plane">{{ plane }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="admin-page__select slim-select"> -->
+    <mat-form-field appearance="fill" class="admin-page__select">
+      <mat-label>Feature</mat-label>
+      <mat-select
+        [(value)]="selectedFeature"
+        (selectionChange)="onFeatureChange()">
+        @for (f of features; track f.key) {
+          <mat-option [value]="f.key">{{ f.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (data$ | async; as rows) {
+    @if (rows.length) {
+      <div class="admin-page__table">
+        <table mat-table [dataSource]="rows" class="mat-elevation-z2">
+          <!-- Dynamic unified columns -->
+          @for (col of columnMeta; track col.key) {
+            <ng-container [matColumnDef]="col.key">
+              <th mat-header-cell *matHeaderCellDef>{{ col.header }}</th>
+              <td
+                mat-cell
+                *matCellDef="let r"
+                [matTooltip]="col.tooltip ? col.tooltip(r) : ''"
+                matTooltipClass="multiline-tooltip">
+                @switch (col.key) {
+                  @case ('name') {
+                    <div class="cell-name">
+                      <span class="primary">{{ r.name }}</span>
+                      <span class="secondary" *ngIf="r.entityId">{{
+                        r.entityId
+                      }}</span>
+                    </div>
+                  }
+                  @default {
+                    {{ col.value(r) || r[col.key] || '—' }}
+                  }
+                }
+              </td>
+            </ng-container>
+          }
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="clickable-row"
+            (click)="selectItem(row)"></tr>
+        </table>
+      </div>
+    } @else {
+      <div class="admin-page__empty">No data found for this feature.</div>
+    }
+  } @else {
+    <div class="admin-page__loading">Loading…</div>
+  }
+</div>

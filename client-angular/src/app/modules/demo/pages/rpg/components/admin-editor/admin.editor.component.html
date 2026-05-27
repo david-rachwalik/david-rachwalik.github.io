@@ -1,0 +1,67 @@
+<div class="admin-editor-page mat-typography">
+  <!-- Standard Header -->
+  <div class="admin-header-nav">
+    <h2>{{ feature$ | async | titlecase }} Editor</h2>
+    <a routerLink="/demo/rpg/admin" class="nav-link"
+      >&larr; Back to Admin Dashboard</a
+    >
+  </div>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumb">
+    <span class="feature-caps">{{ feature$ | async }}</span>
+    <span class="divider">/</span>
+    <span class="id-text">{{ id$ | async }}</span>
+  </div>
+
+  <!-- Editor Toolbar -->
+  <div class="editor-toolbar">
+    <button
+      class="action-btn outline-btn"
+      (click)="openJsonDialog()"
+      title="Exports current view to Seed JSON">
+      💻 View API JSON
+    </button>
+    <button
+      class="action-btn solid-btn"
+      (click)="saveChanges()"
+      [disabled]="!hasChanges">
+      💾 Save Changes
+    </button>
+  </div>
+
+  <!-- Main Form Area -->
+  <main class="editor-main" *ngIf="editableEntity; else loading">
+    <div class="form-group">
+      <label>Entity ID</label>
+      <input
+        type="text"
+        [(ngModel)]="editableEntity['entityId']"
+        disabled
+        class="input-disabled" />
+      <small
+        >The core system identifier (cannot be changed after creation).</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label>Name / Title</label>
+      <input
+        type="text"
+        [(ngModel)]="editableEntity['name']"
+        placeholder="Display Name..." />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea
+        [(ngModel)]="editableEntity['description']"
+        rows="4"
+        placeholder="Flavor text and details..."></textarea>
+    </div>
+  </main>
+
+  <ng-template #loading>
+    <div class="loading-state">Asset not found or loading...</div>
+  </ng-template>
+</div>

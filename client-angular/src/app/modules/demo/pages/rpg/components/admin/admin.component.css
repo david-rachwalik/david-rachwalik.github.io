@@ -1,0 +1,188 @@
+.admin-page {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-page__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-page__select {
+  min-width: 180px;
+  flex: 1 1 200px;
+}
+
+.admin-page__table {
+  overflow-x: auto;
+}
+
+table,
+.mat-mdc-table {
+  width: 100%;
+}
+
+.cell-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.cell-name .primary {
+  font-weight: 600;
+}
+
+.cell-name .secondary {
+  font-size: 0.68rem;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.admin-page__empty,
+.admin-page__loading {
+  margin: 2rem 0;
+  text-align: center;
+  color: var(--rpg-text-muted, #777);
+}
+
+.admin-header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.admin-header-nav h2 {
+  margin: 0;
+  color: #f3f4f6; /* Lighter text for dark backgrounds */
+}
+
+.nav-link {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+/* Slimmer Material Dropdowns with Dark Mode contrast fixes */
+.slim-select {
+  --mat-form-field-container-height: 48px;
+}
+::ng-deep .slim-select .mdc-text-field--outlined {
+  background-color: var(--surface-card, #2a2a2a); /* Solid background */
+}
+::ng-deep .slim-select .mat-mdc-select-value-text {
+  color: #f3f4f6 !important; /* Force light text for dropdown value */
+}
+::ng-deep .slim-select .mat-mdc-select-arrow svg {
+  fill: #9ca3af !important; /* Lighter arrow */
+}
+::ng-deep .slim-select .mdc-floating-label {
+  color: #aaa !important; /* Lighter label */
+}
+::ng-deep .slim-select .mdc-text-field--outlined .mdc-notched-outline {
+  top: -8px;
+}
+::ng-deep .slim-select .mdc-notched-outline__leading,
+::ng-deep .slim-select .mdc-notched-outline__notch,
+::ng-deep .slim-select .mdc-notched-outline__trailing {
+  border-color: #4b5563 !important; /* More visible border */
+}
+
+/* Split Layout */
+/* .admin-layout-split {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.table-pane {
+  flex: 2;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.editor-pane {
+  flex: 1;
+  background: var(--surface-card, #1e1e1e);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 350px;
+  max-width: 500px;
+  position: sticky;
+  top: 1.5rem;
+}
+
+.json-textarea {
+  width: 100%;
+  height: 400px;
+  background: #121212;
+  color: #a6e22e;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+  resize: vertical;
+  box-sizing: border-box;
+} */
+
+/* Clickable Rows */
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clickable-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  /* or rgba(0,0,0,0.05) if light theme */
+}
+
+/* Multiline tooltip support */
+.multiline-tooltip {
+  white-space: pre-line;
+  font-size: 12px;
+}
+
+/* Editor Styling */
+.editor-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.editor-toolbar h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #f3f4f6; /* Fix invisible dark text on dark grey background */
+}
+
+.copy-btn {
+  background: transparent;
+  color: #60a5fa;
+  border: 1px solid #3b82f6;
+  padding: 0.25rem 0.5rem; /* Slimmer padding */
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem; /* Smaller font */
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.copy-btn:hover {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+}

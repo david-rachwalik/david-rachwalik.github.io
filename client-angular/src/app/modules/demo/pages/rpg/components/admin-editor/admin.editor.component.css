@@ -1,0 +1,143 @@
+.admin-editor-page {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+.admin-header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.admin-header-nav h2 {
+  margin: 0;
+  color: #f3f4f6;
+}
+
+.nav-link {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+/* Fix Breadcrumbs flow */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #9ca3af;
+  margin-bottom: 2rem;
+}
+.feature-caps {
+  text-transform: capitalize;
+  color: #d1d5db;
+}
+.divider {
+  color: #4b5563;
+}
+.id-text {
+  font-family: monospace;
+  color: #a6e22e;
+  background: rgba(166, 226, 46, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* Toolbar */
+.editor-toolbar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.action-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s ease;
+}
+.outline-btn {
+  background: transparent;
+  color: #60a5fa;
+  border: 1px solid #3b82f6;
+}
+.outline-btn:hover {
+  background: rgba(59, 130, 246, 0.15);
+}
+.solid-btn {
+  background: #3b82f6;
+  color: #fff;
+}
+.solid-btn:hover:not(:disabled) {
+  background: #2563eb;
+}
+.solid-btn:disabled {
+  background: #374151;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Editor Form */
+.editor-main {
+  background: var(--surface-card, #1e1e1e);
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 800px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #d1d5db;
+}
+
+.form-group input,
+.form-group textarea {
+  background: #121212;
+  border: 1px solid #4b5563;
+  color: #f3f4f6;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.input-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-group small {
+  margin-top: 0.4rem;
+  color: #6b7280;
+}
+
+.loading-state {
+  text-align: center;
+  color: #9ca3af;
+  margin-top: 2rem;
+}
