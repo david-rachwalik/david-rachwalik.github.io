@@ -72,12 +72,14 @@ export const locationFeature = createFeature({
       loading: false,
       error,
     })),
-    // Update
-    on(LocationActions.saveLocation, (state) => ({
-      ...state,
-      loading: true,
-      error: null,
-    })),
+    // Update (optimistic, lets UI immediately reflect changes)
+    on(LocationActions.saveLocation, (state, { id, changes }) =>
+      adapter.updateOne(
+        { id, changes },
+        { ...state, loading: true, error: null },
+      ),
+    ),
+    // Update with actual saved data
     on(LocationActions.saveLocationSuccess, (state, { location }) =>
       adapter.upsertOne(location, { ...state, loading: false }),
     ),

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { Item } from '../../models/item';
+import { Item, ItemInstance } from '../../models/item';
 import { ItemActions } from '../../store/item/item.actions';
 import {
   selectAllItems,
@@ -26,8 +26,15 @@ export class ItemFacade {
   loadAll() {
     this.store.dispatch(ItemActions.loadAllItems());
   }
-  save(item: Item) {
-    this.store.dispatch(ItemActions.saveItem({ item }));
+  save(changes: ItemInstance) {
+    if (!changes.id) {
+      console.warn(
+        '[ItemFacade] Save aborted: Instance is missing ID',
+        changes,
+      );
+      return;
+    }
+    this.store.dispatch(ItemActions.saveItem({ id: changes.id, changes }));
   }
   remove(id: string) {
     this.store.dispatch(ItemActions.removeItem({ id }));

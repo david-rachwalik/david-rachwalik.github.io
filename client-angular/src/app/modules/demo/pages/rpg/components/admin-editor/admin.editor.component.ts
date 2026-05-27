@@ -6,6 +6,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, switchMap, take } from 'rxjs';
 
+// --- Implied Selector Imports ---
 import { selectAllAdventures } from '../../store/adventure/adventure.selectors';
 import { selectAllAttributes } from '../../store/attribute/attribute.selectors';
 import { selectAllCharacters } from '../../store/character/character.selectors';
@@ -15,6 +16,18 @@ import { selectAllLocations } from '../../store/location/location.selectors';
 import { selectAllMoments } from '../../store/moment/moment.selectors';
 import { selectAllSkills } from '../../store/skill/skill.selectors';
 import { selectAllTags } from '../../store/tag/tag.selectors';
+
+// --- Implied Action Imports ---
+import { AdventureActions } from '../../store/adventure/adventure.actions';
+import { AttributeActions } from '../../store/attribute/attribute.actions';
+import { CharacterActions } from '../../store/character/character.actions';
+import { EffectActions } from '../../store/effect/effect.actions';
+import { ItemActions } from '../../store/item/item.actions';
+import { LocationActions } from '../../store/location/location.actions';
+import { MomentActions } from '../../store/moment/moment.actions';
+import { SkillActions } from '../../store/skill/skill.actions';
+import { TagActions } from '../../store/tag/tag.actions';
+
 import { buildDimensionEntityTemplateId } from '../../utils-composite-id';
 import { SeedJsonDialogComponent } from './admin.json.dialog.component';
 
@@ -153,9 +166,48 @@ export class AdminEditorComponent implements OnInit {
 
   saveChanges() {
     console.log('[Admin Editor] Save clicked. Entity:', this.editableEntity);
-    // TODO: Dispatch specific strict-typed update action based on this.feature$
+    if (!this.editableEntity || !this.editableEntity['id']) return;
 
-    // Update snapshot after successful save to disable the button again
-    this.originalEntityStr = JSON.stringify(this.editableEntity);
+    this.feature$.pipe(take(1)).subscribe((feature) => {
+      const id = this.editableEntity!['id'] as string;
+      console.log('[Admin Editor] saveChanges() id=', id);
+      const changes = this.editableEntity!;
+
+      switch (feature) {
+        case 'tags':
+          this.store.dispatch(TagActions.saveTag({ id, changes }));
+          break;
+        case 'attributes':
+          this.store.dispatch(AttributeActions.saveAttribute({ id, changes }));
+          break;
+        case 'effects':
+          this.store.dispatch(EffectActions.saveEffect({ id, changes }));
+          break;
+        case 'adventures':
+          this.store.dispatch(AdventureActions.saveAdventure({ id, changes }));
+          break;
+        case 'characters':
+          this.store.dispatch(CharacterActions.saveCharacter({ id, changes }));
+          break;
+        case 'items':
+          this.store.dispatch(ItemActions.saveItem({ id, changes }));
+          break;
+        case 'skills':
+          this.store.dispatch(SkillActions.saveSkill({ id, changes }));
+          break;
+        case 'moments':
+          this.store.dispatch(MomentActions.saveMoment({ id, changes }));
+          break;
+        case 'locations':
+          this.store.dispatch(LocationActions.saveLocation({ id, changes }));
+          break;
+        default:
+          console.warn(`[Admin Editor] Unhandled feature save: ${feature}`);
+          break;
+      }
+
+      // Update snapshot after successful save to disable the button again
+      this.originalEntityStr = JSON.stringify(this.editableEntity);
+    });
   }
 }

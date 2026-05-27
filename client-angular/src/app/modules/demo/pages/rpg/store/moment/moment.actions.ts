@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { Moment } from '../../models/moment';
+import { Moment, MomentInstance } from '../../models/moment';
 
 export const MomentActions = createActionGroup({
   source: 'Moment',
@@ -24,7 +24,7 @@ export const MomentActions = createActionGroup({
     'Load Moment Failure': props<{ error: string }>(),
 
     // Update
-    'Save Moment': props<{ moment: Moment }>(),
+    'Save Moment': props<{ id: string; changes: MomentInstance }>(),
     'Save Moment Success': props<{ moment: Moment }>(),
     'Save Moment Failure': props<{ error: string }>(),
 

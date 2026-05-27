@@ -1,4 +1,5 @@
 import { GameDimensionEntity } from './base/game-entity';
+import { RuntimeMeta } from './base/runtime-meta';
 import { EffectInstance } from './effect';
 import { SkillInstance } from './skill';
 
@@ -71,3 +72,6 @@ export interface Moment extends GameDimensionEntity {
   seenCount?: number;
   rarity?: number; // Optional: for rare events (higher = rarer)
 }
+
+// Optional overrides & runtime metadata
+export type MomentInstance = Partial<Moment> & RuntimeMeta;

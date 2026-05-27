@@ -76,12 +76,14 @@ export const attributeFeature = createFeature({
       loading: false,
       error,
     })),
-    // Update
-    on(AttributeActions.saveAttribute, (state) => ({
-      ...state,
-      loading: true,
-      error: null,
-    })),
+    // Update (optimistic, lets UI immediately reflect changes)
+    on(AttributeActions.saveAttribute, (state, { id, changes }) =>
+      adapter.updateOne(
+        { id, changes },
+        { ...state, loading: true, error: null },
+      ),
+    ),
+    // Update with actual saved data
     on(AttributeActions.saveAttributeSuccess, (state, { attribute }) =>
       adapter.upsertOne(attribute, { ...state, loading: false }),
     ),

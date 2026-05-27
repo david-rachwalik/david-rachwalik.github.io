@@ -169,45 +169,6 @@ export class RpgAdminComponent implements OnInit {
     this.updateTable();
   }
 
-  // selectItem(row: AdminRow) {
-  //   const editorJson = this.exportToSeedJson(row.raw);
-
-  //   // Open the Material Dialog instead of setting state
-  //   this.dialog.open(AdminSeedDialogComponent, {
-  //     data: {
-  //       title: row.name ?? row.entityId ?? row.id,
-  //       json: editorJson,
-  //     },
-  //     width: '600px',
-  //     panelClass: 'dark-seed-dialog', // Allows for global theme overrides if necessary
-  //   });
-  // }
-
-  // private exportToSeedJson(entity: unknown): string {
-  //   // Gracefully handle primitive/null fallbacks
-  //   if (!entity || typeof entity !== 'object') {
-  //     return JSON.stringify(entity, null, 2);
-  //   }
-
-  //   // Safely cast object to a Record so we can access keys
-  //   const seed: Record<string, unknown> = {
-  //     ...(entity as Record<string, unknown>),
-  //   };
-
-  //   // Strip dynamic/runtime fields that shouldn't be in the base catalog
-  //   delete seed['adventureId'];
-  //   delete seed['accountId'];
-  //   delete seed['appliedAt'];
-  //   delete seed['appliedBy'];
-
-  //   // Normalize IDs back to the system template scale so it's ready to paste
-  //   if (typeof seed['entityId'] === 'string') {
-  //     seed['id'] = buildDimensionEntityTemplateId(seed['entityId']);
-  //   }
-
-  //   return JSON.stringify(seed, null, 2);
-  // }
-
   async selectItem(row: AdminRow) {
     // Navigate straight to the dedicated editor page
     await this.router.navigate([
@@ -347,6 +308,9 @@ export class RpgAdminComponent implements OnInit {
       case 'effects':
         base$ = this.effects$;
         break;
+      case 'adventures':
+        base$ = this.adventures$;
+        break;
       case 'characters':
         base$ = this.characters$;
         break;
@@ -361,9 +325,6 @@ export class RpgAdminComponent implements OnInit {
         break;
       case 'locations':
         base$ = this.locations$;
-        break;
-      case 'adventures':
-        base$ = this.adventures$;
         break;
       default:
         base$ = of([]);
@@ -380,6 +341,8 @@ export class RpgAdminComponent implements OnInit {
             return this.mapAttributes(rows as AttributeRow[]);
           case 'effects':
             return this.mapEffects(rows as EffectRow[]);
+          case 'adventures':
+            return this.mapAdventures(rows as AdventureRow[]);
           case 'characters':
             return this.mapCharacters(rows as CharacterRow[]);
           case 'items':
@@ -390,8 +353,6 @@ export class RpgAdminComponent implements OnInit {
             return this.mapMoments(rows as MomentRow[]);
           case 'locations':
             return this.mapLocations(rows as LocationRow[]);
-          case 'adventures':
-            return this.mapAdventures(rows as AdventureRow[]);
           default:
             return [];
         }

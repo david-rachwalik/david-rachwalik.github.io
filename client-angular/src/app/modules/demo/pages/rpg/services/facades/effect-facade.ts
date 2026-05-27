@@ -28,8 +28,15 @@ export class EffectFacade {
   loadAll() {
     this.store.dispatch(EffectActions.loadAllEffects());
   }
-  save(effect: Effect) {
-    this.store.dispatch(EffectActions.saveEffect({ effect }));
+  save(changes: EffectInstance) {
+    if (!changes.id) {
+      console.warn(
+        '[EffectFacade] Save aborted: Instance is missing ID',
+        changes,
+      );
+      return;
+    }
+    this.store.dispatch(EffectActions.saveEffect({ id: changes.id, changes }));
   }
   remove(id: string) {
     this.store.dispatch(EffectActions.removeEffect({ id }));

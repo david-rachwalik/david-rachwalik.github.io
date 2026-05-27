@@ -72,12 +72,14 @@ export const effectFeature = createFeature({
       loading: false,
       error,
     })),
-    // Update
-    on(EffectActions.saveEffect, (state) => ({
-      ...state,
-      loading: true,
-      error: null,
-    })),
+    // Update (optimistic, lets UI immediately reflect changes)
+    on(EffectActions.saveEffect, (state, { id, changes }) =>
+      adapter.updateOne(
+        { id, changes },
+        { ...state, loading: true, error: null },
+      ),
+    ),
+    // Update with actual saved data
     on(EffectActions.saveEffectSuccess, (state, { effect }) =>
       adapter.upsertOne(effect, { ...state, loading: false }),
     ),

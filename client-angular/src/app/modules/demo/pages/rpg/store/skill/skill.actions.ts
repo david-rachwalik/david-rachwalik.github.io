@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { Skill } from '../../models/skill';
+import { Skill, SkillInstance } from '../../models/skill';
 
 export const SkillActions = createActionGroup({
   source: 'Skill',
@@ -24,7 +24,7 @@ export const SkillActions = createActionGroup({
     'Load Skill Failure': props<{ error: string }>(),
 
     // Update
-    'Save Skill': props<{ skill: Skill }>(),
+    'Save Skill': props<{ id: string; changes: SkillInstance }>(),
     'Save Skill Success': props<{ skill: Skill }>(),
     'Save Skill Failure': props<{ error: string }>(),
 

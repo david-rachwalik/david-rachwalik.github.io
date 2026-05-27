@@ -8,6 +8,7 @@ import {
   AdventureEvent,
   AdventureEventPayload,
   AdventureIndex,
+  AdventureInstance,
 } from '../../models/adventure';
 import { AdventureEventActions } from '../../store/adventure/adventure-event.actions';
 import {
@@ -72,8 +73,17 @@ export class AdventureFacade {
   load() {
     this.store.dispatch(AdventureActions.loadAllAdventures());
   }
-  save(id: string, changes: Partial<Adventure>) {
-    this.store.dispatch(AdventureActions.saveAdventure({ id, changes }));
+  save(changes: AdventureInstance) {
+    if (!changes.id) {
+      console.warn(
+        '[AdventureFacade] Save aborted: Instance is missing ID',
+        changes,
+      );
+      return;
+    }
+    this.store.dispatch(
+      AdventureActions.saveAdventure({ id: changes.id, changes }),
+    );
   }
   remove(id: string) {
     this.store.dispatch(AdventureActions.removeAdventure({ id }));
@@ -215,14 +225,14 @@ export class AdventureFacade {
   async setLocation(locationId: string) {
     const adventureId = await firstValueFrom(this.currentSlotId$);
     if (!adventureId) return;
-    this.save(adventureId, { currentLocationId: locationId });
+    this.save({ id: adventureId, currentLocationId: locationId });
   }
 
   // Set the current adventure moment
   async setMoment(momentId: string) {
     const adventureId = await firstValueFrom(this.currentSlotId$);
     if (!adventureId) return;
-    this.save(adventureId, { currentMomentId: momentId });
+    this.save({ id: adventureId, currentMomentId: momentId });
   }
 
   // // Advance the game clock by N units

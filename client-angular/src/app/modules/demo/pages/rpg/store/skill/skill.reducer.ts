@@ -72,12 +72,14 @@ export const skillFeature = createFeature({
       loading: false,
       error,
     })),
-    // Update
-    on(SkillActions.saveSkill, (state) => ({
-      ...state,
-      loading: true,
-      error: null,
-    })),
+    // Update (optimistic, lets UI immediately reflect changes)
+    on(SkillActions.saveSkill, (state, { id, changes }) =>
+      adapter.updateOne(
+        { id, changes },
+        { ...state, loading: true, error: null },
+      ),
+    ),
+    // Update with actual saved data
     on(SkillActions.saveSkillSuccess, (state, { skill }) =>
       adapter.upsertOne(skill, { ...state, loading: false }),
     ),

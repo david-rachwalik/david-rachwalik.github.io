@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { Adventure, AdventureEvent } from '../../models/adventure';
 import { Character } from '../../models/character';
 import { EffectInstance } from '../../models/effect';
-import { Moment } from '../../models/moment';
+import { Moment, MomentInstance } from '../../models/moment';
 import {
   selectAccountId,
   selectCurrentAdventure,
@@ -59,8 +59,15 @@ export class MomentFacade {
   loadAll() {
     this.store.dispatch(MomentActions.loadAllMoments());
   }
-  save(moment: Moment) {
-    this.store.dispatch(MomentActions.saveMoment({ moment }));
+  save(changes: MomentInstance) {
+    if (!changes.id) {
+      console.warn(
+        '[MomentFacade] Save aborted: Instance is missing ID',
+        changes,
+      );
+      return;
+    }
+    this.store.dispatch(MomentActions.saveMoment({ id: changes.id, changes }));
   }
   remove(id: string) {
     this.store.dispatch(MomentActions.removeMoment({ id }));

@@ -72,12 +72,14 @@ export const itemFeature = createFeature({
       loading: false,
       error,
     })),
-    // Update
-    on(ItemActions.saveItem, (state) => ({
-      ...state,
-      loading: true,
-      error: null,
-    })),
+    // Update (optimistic, lets UI immediately reflect changes)
+    on(ItemActions.saveItem, (state, { id, changes }) =>
+      adapter.updateOne(
+        { id, changes },
+        { ...state, loading: true, error: null },
+      ),
+    ),
+    // Update with actual saved data
     on(ItemActions.saveItemSuccess, (state, { item }) =>
       adapter.upsertOne(item, { ...state, loading: false }),
     ),

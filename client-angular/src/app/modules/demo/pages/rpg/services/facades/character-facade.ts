@@ -15,7 +15,7 @@ import {
   AttributeInstance,
   AttributeValue,
 } from '../../models/attribute';
-import { Character } from '../../models/character';
+import { Character, CharacterInstance } from '../../models/character';
 import { Effect, EffectInstance } from '../../models/effect';
 import { InventorySlot, InventorySlotViewModel } from '../../models/item';
 import { Skill, SkillInstance } from '../../models/skill';
@@ -216,8 +216,17 @@ export class CharacterFacade {
   loadAll() {
     this.store.dispatch(CharacterActions.loadAllCharacters());
   }
-  save(id: string, changes: Partial<Character>) {
-    this.store.dispatch(CharacterActions.saveCharacter({ id, changes }));
+  save(changes: CharacterInstance) {
+    if (!changes.id) {
+      console.warn(
+        '[CharacterFacade] Save aborted: Instance is missing ID',
+        changes,
+      );
+      return;
+    }
+    this.store.dispatch(
+      CharacterActions.saveCharacter({ id: changes.id, changes }),
+    );
   }
   remove(id: string) {
     this.store.dispatch(CharacterActions.removeCharacter({ id }));

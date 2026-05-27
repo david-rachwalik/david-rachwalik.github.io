@@ -1,4 +1,5 @@
 import { GameAdventureEntity } from './base/game-entity';
+import { RuntimeMeta } from './base/runtime-meta';
 
 export interface AdventurePreferences {
   enableNSFW: boolean;
@@ -27,6 +28,9 @@ export interface Adventure {
   // Optionally, for UI:
   recentEventIds?: string[]; // recent adventure events
 }
+
+// Optional overrides & runtime metadata
+export type AdventureInstance = Partial<Adventure> & RuntimeMeta;
 
 // Contains the game slot metadata (Data page)
 export interface AdventureIndex {

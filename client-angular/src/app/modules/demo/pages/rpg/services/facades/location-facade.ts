@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { Location } from '../../models/location';
+import { Location, LocationInstance } from '../../models/location';
 import { LocationActions } from '../../store/location/location.actions';
 import {
   selectAllLocations,
@@ -26,8 +26,17 @@ export class LocationFacade {
   loadAll() {
     this.store.dispatch(LocationActions.loadAllLocations());
   }
-  save(location: Location) {
-    this.store.dispatch(LocationActions.saveLocation({ location }));
+  save(changes: LocationInstance) {
+    if (!changes.id) {
+      console.warn(
+        '[LocationFacade] Save aborted: Instance is missing ID',
+        changes,
+      );
+      return;
+    }
+    this.store.dispatch(
+      LocationActions.saveLocation({ id: changes.id, changes }),
+    );
   }
   remove(id: string) {
     this.store.dispatch(LocationActions.removeLocation({ id }));

@@ -3,7 +3,11 @@ import { Store } from '@ngrx/store';
 import { filter, firstValueFrom } from 'rxjs';
 
 import { mergeEffectInstanceWithCatalog } from '../data/effects-seed';
-import { Adventure, AdventureEventPayload } from '../models/adventure';
+import {
+  Adventure,
+  AdventureEventPayload,
+  AdventureInstance,
+} from '../models/adventure';
 import { EffectInstance } from '../models/effect';
 import { Moment } from '../models/moment';
 import { SkillInstance } from '../models/skill';
@@ -118,11 +122,11 @@ export class GameFacade {
   }
 
   // Save game slot to client storage
-  saveGame(id: string, changes: Partial<Adventure>) {
-    console.log('[GameFacade] Saving game slot:', id, changes);
+  saveGame(changes: AdventureInstance) {
+    console.log('[GameFacade] Saving game slot:', changes);
     // this.store.dispatch(AdventureActions.saveAdventure({ id, changes }));
     // // AdventureIndex will be updated by effect after Adventure is persisted
-    this.utils.adventure.save(id, changes);
+    this.utils.adventure.save(changes);
   }
 
   // Delete a game slot from client storage

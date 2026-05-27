@@ -72,12 +72,14 @@ export const momentFeature = createFeature({
       loading: false,
       error,
     })),
-    // Update
-    on(MomentActions.saveMoment, (state) => ({
-      ...state,
-      loading: true,
-      error: null,
-    })),
+    // Update (optimistic, lets UI immediately reflect changes)
+    on(MomentActions.saveMoment, (state, { id, changes }) =>
+      adapter.updateOne(
+        { id, changes },
+        { ...state, loading: true, error: null },
+      ),
+    ),
+    // Update with actual saved data
     on(MomentActions.saveMomentSuccess, (state, { moment }) =>
       adapter.upsertOne(moment, { ...state, loading: false }),
     ),

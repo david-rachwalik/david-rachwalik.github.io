@@ -76,12 +76,14 @@ export const tagFeature = createFeature({
       loading: false,
       error,
     })),
-    // Update
-    on(TagActions.saveTag, (state) => ({
-      ...state,
-      loading: true,
-      error: null,
-    })),
+    // Update (optimistic, lets UI immediately reflect changes)
+    on(TagActions.saveTag, (state, { id, changes }) =>
+      adapter.updateOne(
+        { id, changes },
+        { ...state, loading: true, error: null },
+      ),
+    ),
+    // Update with actual saved data
     on(TagActions.saveTagSuccess, (state, { tag }) =>
       adapter.upsertOne(tag, { ...state, loading: false }),
     ),

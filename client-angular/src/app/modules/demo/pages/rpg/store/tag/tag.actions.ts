@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { Tag } from '../../models/tag';
+import { Tag, TagInstance } from '../../models/tag';
 
 export const TagActions = createActionGroup({
   source: 'Tag',
@@ -24,7 +24,7 @@ export const TagActions = createActionGroup({
     'Load Tag Failure': props<{ error: string }>(),
 
     // Update
-    'Save Tag': props<{ tag: Tag }>(),
+    'Save Tag': props<{ id: string; changes: TagInstance }>(),
     'Save Tag Success': props<{ tag: Tag }>(),
     'Save Tag Failure': props<{ error: string }>(),
 

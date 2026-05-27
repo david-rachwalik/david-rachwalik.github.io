@@ -26,8 +26,17 @@ export class AttributeFacade {
   loadAll() {
     this.store.dispatch(AttributeActions.loadAllAttributes());
   }
-  save(attribute: Attribute) {
-    this.store.dispatch(AttributeActions.saveAttribute({ attribute }));
+  save(changes: AttributeInstance) {
+    if (!changes.id) {
+      console.warn(
+        '[AttributeFacade] Save aborted: Instance is missing ID',
+        changes,
+      );
+      return;
+    }
+    this.store.dispatch(
+      AttributeActions.saveAttribute({ id: changes.id, changes }),
+    );
   }
   remove(id: string) {
     this.store.dispatch(AttributeActions.removeAttribute({ id }));

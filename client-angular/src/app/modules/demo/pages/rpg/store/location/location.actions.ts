@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { Location } from '../../models/location';
+import { Location, LocationInstance } from '../../models/location';
 
 export const LocationActions = createActionGroup({
   source: 'Location',
@@ -24,7 +24,7 @@ export const LocationActions = createActionGroup({
     'Load Location Failure': props<{ error: string }>(),
 
     // Update
-    'Save Location': props<{ location: Location }>(),
+    'Save Location': props<{ id: string; changes: LocationInstance }>(),
     'Save Location Success': props<{ location: Location }>(),
     'Save Location Failure': props<{ error: string }>(),
 

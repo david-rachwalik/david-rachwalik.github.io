@@ -1,5 +1,6 @@
 import { AttributeInstance } from './attribute';
 import { GameAdventureEntity } from './base/game-entity';
+import { RuntimeMeta } from './base/runtime-meta';
 import { EffectInstance } from './effect';
 
 export interface CharacterBody {
@@ -46,6 +47,9 @@ export interface Character extends GameAdventureEntity {
   // habits: string[];
   // reputations: string[];
 }
+
+// Optional overrides & runtime metadata
+export type CharacterInstance = Partial<Character> & RuntimeMeta;
 
 export interface EnemyViewModel extends Character {
   currentHealth: number;

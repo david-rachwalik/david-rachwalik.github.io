@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { Attribute } from '../../models/attribute';
+import { Attribute, AttributeInstance } from '../../models/attribute';
 
 export const AttributeActions = createActionGroup({
   source: 'Attribute',
@@ -24,7 +24,7 @@ export const AttributeActions = createActionGroup({
     'Load Attribute Failure': props<{ error: string }>(),
 
     // Update
-    'Save Attribute': props<{ attribute: Attribute }>(),
+    'Save Attribute': props<{ id: string; changes: AttributeInstance }>(),
     'Save Attribute Success': props<{ attribute: Attribute }>(),
     'Save Attribute Failure': props<{ error: string }>(),
 

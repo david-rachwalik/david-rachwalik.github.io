@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { Skill } from '../../models/skill';
+import { Skill, SkillInstance } from '../../models/skill';
 import { SkillActions } from '../../store/skill/skill.actions';
 import {
   selectAllSkills,
@@ -26,8 +26,15 @@ export class SkillFacade {
   loadAll() {
     this.store.dispatch(SkillActions.loadAllSkills());
   }
-  save(skill: Skill) {
-    this.store.dispatch(SkillActions.saveSkill({ skill }));
+  save(changes: SkillInstance) {
+    if (!changes.id) {
+      console.warn(
+        '[SkillFacade] Save aborted: Instance is missing ID',
+        changes,
+      );
+      return;
+    }
+    this.store.dispatch(SkillActions.saveSkill({ id: changes.id, changes }));
   }
   remove(id: string) {
     this.store.dispatch(SkillActions.removeSkill({ id }));
