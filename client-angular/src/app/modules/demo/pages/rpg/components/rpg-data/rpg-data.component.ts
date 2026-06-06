@@ -86,7 +86,8 @@ export class RpgDataComponent implements OnInit {
   }
 
   activateSave(slotId: string) {
-    this.store.dispatch(AppActions.setCurrentSlotId({ slotId }));
+    // Change the active adventure slot
+    this.game.setCurrentSlotId(slotId);
   }
 
   onUploadFile(event: Event) {

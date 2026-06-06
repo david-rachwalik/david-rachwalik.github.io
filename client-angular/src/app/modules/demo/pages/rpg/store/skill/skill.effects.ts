@@ -1,8 +1,10 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map } from 'rxjs';
+import { map, mergeMap } from 'rxjs';
 
+import { Skill } from '../../models/skill';
 import { GameDataService } from '../../services/game-data.service';
+import { GameSaveDexieService } from '../../services/game-save-dexie.service';
 import { AppActions } from '../app.actions';
 import { SkillActions } from './skill.actions';
 
@@ -16,109 +18,113 @@ export const seedAllSkills$ = createEffect(
           const skills = data.getAllSkills();
           // console.log('seedAllSkills$ found skills: ', skills);
           return SkillActions.seedAllSkillsSuccess({ skills });
-        } catch (error) {
-          return SkillActions.seedAllSkillsFailure({ error: String(error) });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return SkillActions.seedAllSkillsFailure({ error: errorMessage });
         }
       }),
     ),
   { functional: true },
 );
 
-// Main entry point - API loader (stub for now)
-export const loadAllSkillsApi$ = createEffect(
-  (actions$ = inject(Actions)) =>
+// #region 🔸 Database Effects 🔸
+
+export const addSkill$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
-      ofType(SkillActions.loadAllSkills),
-      // Replace with real API call later
-      // Will just use `loadSkillsSuccess`, not `loadSkillsAPISuccess`
-      map(() =>
-        SkillActions.loadAllSkillsFailure({ error: 'API not implemented' }),
-      ),
+      ofType(SkillActions.addSkill),
+      mergeMap(async ({ skill }) => {
+        try {
+          await db.saveSkill(skill);
+          return SkillActions.addSkillSuccess({ skill });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return SkillActions.addSkillFailure({ error: errorMessage });
+        }
+      }),
     ),
   { functional: true },
 );
 
-// // #region 🔸 Dexie Effects (IndexedDb, asynchronous) 🔸
+export const loadAllSkills$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(AppActions.init, SkillActions.loadAllSkills),
+      mergeMap(async () => {
+        try {
+          const skills = await db.loadAllSkills();
+          return SkillActions.loadAllSkillsSuccess({ skills });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return SkillActions.loadAllSkillsFailure({ error: errorMessage });
+        }
+      }),
+    ),
+  { functional: true },
+);
 
-// export const addSkillDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(SkillActions.addSkill),
-//       mergeMap(async ({ skill }) => {
-//         try {
-//           await saveService.saveSkill(skill);
-//           return SkillActions.addSkillSuccess({ skill });
-//         } catch (error) {
-//           return SkillActions.addSkillFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
+export const loadSkill$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(SkillActions.loadSkill),
+      mergeMap(async ({ id }) => {
+        try {
+          const skill = await db.loadSkill(id);
+          if (!skill) throw new Error(`Skill not found: ${id}`);
+          return SkillActions.loadSkillSuccess({ skill });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return SkillActions.loadSkillFailure({ error: errorMessage });
+        }
+      }),
+    ),
+  { functional: true },
+);
 
-// export const loadAllSkillsDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(AppActions.init, SkillActions.loadAllSkills),
-//       mergeMap(async () => {
-//         try {
-//           const skills = await saveService.loadAllSkills();
-//           return SkillActions.loadAllSkillsSuccess({ skills });
-//         } catch (error) {
-//           return SkillActions.loadAllSkillsFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
+export const saveSkill$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(SkillActions.saveSkill),
+      mergeMap(async ({ id, changes }) => {
+        try {
+          // Fetch the existing model and merge with partial changes
+          const current = await db.loadSkill(id);
+          if (!current) throw new Error(`Skill not found: ${id}`);
 
-// export const loadSkillDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(SkillActions.loadSkill),
-//       mergeMap(async ({ id }) => {
-//         try {
-//           const skill = await saveService.loadSkill(id);
-//           if (!skill) throw new Error(`Skill not found: ${id}`);
-//           return SkillActions.loadSkillSuccess({ skill });
-//         } catch (error) {
-//           return SkillActions.loadSkillFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
+          // Safely map partial updates and cast to strict Model
+          const updated = { ...current, ...changes } as Skill;
+          await db.saveSkill(updated);
 
-// export const saveSkillDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(SkillActions.saveSkill),
-//       mergeMap(async ({ skill }) => {
-//         try {
-//           // Directly save the full skill (no merge with existing)
-//           await saveService.saveSkill(skill);
-//           return SkillActions.saveSkillSuccess({ skill });
-//         } catch (error) {
-//           return SkillActions.saveSkillFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
+          return SkillActions.saveSkillSuccess({ skill: updated });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return SkillActions.saveSkillFailure({ error: errorMessage });
+        }
+      }),
+    ),
+  { functional: true },
+);
 
-// export const removeSkillDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(SkillActions.removeSkill),
-//       mergeMap(async ({ id }) => {
-//         try {
-//           await saveService.deleteSkill(id);
-//           return SkillActions.removeSkillSuccess({ id });
-//         } catch (error) {
-//           return SkillActions.removeSkillFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
-// // #endregion
+export const removeSkill$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(SkillActions.removeSkill),
+      mergeMap(async ({ id }) => {
+        try {
+          await db.deleteSkill(id);
+          return SkillActions.removeSkillSuccess({ id });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return SkillActions.removeSkillFailure({ error: errorMessage });
+        }
+      }),
+    ),
+  { functional: true },
+);
+// #endregion

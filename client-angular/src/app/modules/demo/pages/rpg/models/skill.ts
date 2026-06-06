@@ -2,7 +2,14 @@ import { GameDimensionEntity } from './base/game-entity';
 import { RuntimeMeta } from './base/runtime-meta';
 import { Condition, EffectElement, EffectInstance } from './effect';
 
-export interface Skill extends GameDimensionEntity {
+/**
+ * 🔸 Domain Model (Data in Motion)
+ * Represents the fully hydrated, active entity used during gameplay.
+ * Holds all required system properties, merged catalog defaults,
+ * and active session metadata (RuntimeMeta).
+ * -> Used by: NgRx State, Selectors, and UI Renderers.
+ */
+export interface Skill extends GameDimensionEntity, Partial<RuntimeMeta> {
   name: string;
   description: string;
 
@@ -20,6 +27,10 @@ export interface Skill extends GameDimensionEntity {
   // requirements?: string[];
   conditions?: Condition[]; // optional logic (e.g., only apply if target has tag)
 }
-
-// Optional overrides & runtime metadata
-export type SkillInstance = Partial<Skill> & RuntimeMeta;
+/**
+ * 🔸 Data Transfer Object (Data at Rest)
+ * A lightweight, partial blueprint of the entity. Used for scaffolding new
+ * objects or holding incomplete dataset edits before they are hydrated.
+ * -> Used by: NgRx Actions/Payloads, Editor Form Inputs, and Raw Storage (Dexie).
+ */
+export type SkillInstance = Partial<Skill>;

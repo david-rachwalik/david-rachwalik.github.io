@@ -20,6 +20,28 @@ export class ItemFacade {
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+  // Creates a temporary "blank canvas" for the UI (minimum valid model)
+  addBlank(
+    id: string,
+    entityId: string,
+    name: string,
+    dimensionId: string,
+    planeId: string,
+  ) {
+    const item: Item = {
+      id,
+      entityId,
+      dimensionId,
+      planeId,
+      name,
+      description: '',
+      tags: [],
+      // type: 'consumable',
+      attributes: [],
+      effects: [],
+    };
+    this.store.dispatch(ItemActions.addItem({ item }));
+  }
   add(item: Item) {
     this.store.dispatch(ItemActions.addItem({ item }));
   }

@@ -20,6 +20,34 @@ export class AttributeFacade {
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+  // Creates a temporary "blank canvas" for the UI (minimum valid model)
+  addBlank(
+    id: string,
+    entityId: string,
+    name: string,
+    dimensionId: string,
+    planeId: string,
+  ) {
+    const attribute: Attribute = {
+      id,
+      entityId,
+      dimensionId,
+      planeId,
+      name,
+      description: '',
+      kind: 'stat',
+      abbreviation: name.substring(0, 3).toUpperCase(),
+      valueType: 'number',
+      default: 0,
+      base: 0,
+      value: 0,
+      min: 0,
+      max: 100,
+      // tags: [],
+    };
+
+    this.store.dispatch(AttributeActions.addAttribute({ attribute }));
+  }
   add(attribute: Attribute) {
     this.store.dispatch(AttributeActions.addAttribute({ attribute }));
   }

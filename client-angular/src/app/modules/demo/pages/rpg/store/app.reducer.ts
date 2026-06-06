@@ -20,24 +20,15 @@ export const appFeature = createFeature({
   name: 'app',
   reducer: createReducer(
     initialState,
-    // // Init
-    // on(AppActions.init, (state) => ({ ...state })),
-    // // Play: can be used for tracking current slot
-    // on(AppActions.play, (state, { slotId }) => ({
-    //   ...state,
-    //   currentSlotId: slotId,
-    // })),
-    // // Seeds
-    // on(AppActions.loadAllSeeds, (state) => ({ ...state })),
-    // on(AppActions.loadAllSeedsSuccess, (state) => ({
-    //   ...state,
-    //   seeded: true,
-    // })),
-
-    // })),
+    // Init
+    on(AppActions.init, (state) => ({ ...state })),
+    on(AppActions.play, (state) => ({ ...state, loading: true })),
+    // Seeds
+    on(AppActions.loadAllSeeds, (state) => ({ ...state, loading: true })),
     on(AppActions.loadAllSeedsSuccess, (state) => ({
       ...state,
       seeded: true,
+      loading: false,
     })),
 
     // Account Id

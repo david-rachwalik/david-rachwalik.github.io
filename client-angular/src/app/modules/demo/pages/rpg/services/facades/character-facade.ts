@@ -210,11 +210,37 @@ export class CharacterFacade {
   // --- Methods ---
 
   // #region 🔸 CRUD Methods 🔸
+  // Creates a temporary "blank canvas" for the UI (minimum valid model)
+  addBlank(
+    id: string,
+    entityId: string,
+    name: string,
+    dimensionId: string,
+    planeId: string,
+  ) {
+    const character: Character = {
+      id,
+      entityId,
+      dimensionId,
+      planeId,
+      name,
+      adventureId: 'template',
+      accountId: 'system',
+      description: '',
+      tags: [],
+      effects: {},
+      attributes: {},
+      inventory: [],
+      // activeEffects: [],
+      skills: [],
+    };
+    this.store.dispatch(CharacterActions.addCharacter({ character }));
+  }
   add(character: Character) {
     this.store.dispatch(CharacterActions.addCharacter({ character }));
   }
   loadAll() {
-    this.store.dispatch(CharacterActions.loadAllCharacters());
+    this.store.dispatch(CharacterActions.loadAllCharacters({}));
   }
   save(changes: CharacterInstance) {
     if (!changes.id) {

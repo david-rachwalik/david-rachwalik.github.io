@@ -52,10 +52,103 @@
 /* Toolbar */
 .editor-toolbar {
   display: flex;
+  justify-content: space-between;
   gap: 1rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #333;
+}
+.toolbar-group {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Base button styles still exist */
+.danger-btn {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}
+.danger-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+/* Editor Form Adjustments */
+.row-group {
+  flex-direction: row !important;
+  gap: 1.5rem;
+}
+.field-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.content-group {
+  margin-top: 1rem;
+}
+
+/* Tag Manager */
+.tags-manager {
+  display: flex;
+  flex-direction: column;
+  background: #121212;
+  border: 1px solid #4b5563;
+  border-radius: 4px;
+  padding: 1rem;
+}
+.tags-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 28px;
+  margin-bottom: 1rem;
+}
+.manage-pill {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pill-remove {
+  background: transparent;
+  color: #a7f3d0;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+.pill-remove:hover {
+  color: #fff;
+}
+.muted-text {
+  color: #6b7280;
+  font-style: italic;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+/* Material Tweaks inside Editor */
+::ng-deep .tags-manager .slim-select {
+  --mat-form-field-container-height: 42px;
+  width: 100%;
+  max-width: 300px;
+}
+::ng-deep .tags-manager .mdc-text-field--outlined .mdc-notched-outline {
+  top: -6px;
+}
+::ng-deep .tags-manager .mat-mdc-select-value-text {
+  color: #f3f4f6 !important;
+}
+::ng-deep .tags-manager .mdc-floating-label {
+  color: #9ca3af !important;
 }
 
 .action-btn {

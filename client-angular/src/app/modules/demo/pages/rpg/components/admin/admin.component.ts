@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -7,9 +8,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, Observable, of } from 'rxjs';
+import { firstValueFrom, map, Observable, of } from 'rxjs';
 
-import { MatDialogModule } from '@angular/material/dialog';
+// --- Explicit Model Imports for strict typing ---
+
+// --- Implied Selector Imports ---
 import { selectAllAdventures } from '../../store/adventure/adventure.selectors';
 import { selectAllAttributes } from '../../store/attribute/attribute.selectors';
 import { selectAllCharacters } from '../../store/character/character.selectors';
@@ -19,10 +22,18 @@ import { selectAllLocations } from '../../store/location/location.selectors';
 import { selectAllMoments } from '../../store/moment/moment.selectors';
 import { selectAllSkills } from '../../store/skill/skill.selectors';
 import { selectAllTags } from '../../store/tag/tag.selectors';
+
+// --- Implied Action Imports ---
+import { AdventureActions } from '../../store/adventure/adventure.actions';
+import { CharacterActions } from '../../store/character/character.actions';
+
+import { GameFacade } from '../../services/game-facade';
 import {
+  buildDimensionEntityCompositeId,
   DEFAULT_DIMENSION_ID,
   DEFAULT_PLANE_ID,
 } from '../../utils-composite-id';
+import { AdminPromptDialogComponent } from '../admin-editor/admin.prompt.dialog.component';
 
 interface BaseRow {
   id: string;
@@ -60,16 +71,16 @@ interface AdminRow {
   id: string;
   entityId?: string;
   name?: string;
-  type?: string;
-  valueType?: string;
+  displayType?: string; // For non-array structural types
+  tagList?: string[]; // For array-based tags
   description?: string;
   raw: unknown;
 }
 
 interface ColumnMeta {
-  key: 'name' | 'type' | 'description';
+  key: 'name' | 'tags' | 'description';
   header: string;
-  value: (r: AdminRow) => string;
+  value: (r: AdminRow) => string | undefined;
   tooltip?: (r: AdminRow) => string;
 }
 
@@ -90,6 +101,8 @@ interface ColumnMeta {
   styleUrls: ['./admin.component.css'],
 })
 export class RpgAdminComponent implements OnInit {
+  private game = inject(GameFacade);
+
   // Store data streams
   tags$ = this.store.select(selectAllTags);
   attributes$ = this.store.select(selectAllAttributes);
@@ -120,29 +133,23 @@ export class RpgAdminComponent implements OnInit {
   selectedPlane: string | null = null;
   selectedFeature: string = 'attributes';
 
-  // Table data
-  // data$: Observable<unknown[]> = of([]);
-  // displayedColumns: string[] = [];
-
-  // Unified columns (Name / Type / Description) with tooltip rules
+  // Unified columns (Name / Tags / Description) with tooltip rules
   columnMeta: ColumnMeta[] = [
     {
       key: 'name',
       header: 'Name',
-      tooltip: (r) => (r.entityId ? `${r.entityId}\n` : '') + r.id,
+      tooltip: (r) => r.id, // Only show ID here now
       value: (r) => r.name ?? r.id,
     },
     {
-      key: 'type',
-      header: 'Type',
-      tooltip: (r) => r.valueType || '',
-      value: (r) => r.type || '—',
+      key: 'tags',
+      header: 'Tags / Type',
+      value: (r) => r.displayType, // Fallback string getter
     },
     {
       key: 'description',
       header: 'Description',
-      // tooltip: (r) => r.description || '',
-      value: (r) => r.description || '—',
+      value: (r) => r.description,
     },
   ];
   displayedColumns: string[] = this.columnMeta.map((c) => c.key);
@@ -151,11 +158,18 @@ export class RpgAdminComponent implements OnInit {
 
   constructor(
     private store: Store,
-    // private dialog: MatDialog,
     private router: Router,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
+    // Lazy-Load Playthrough Data only when Admin is opened
+    this.store.dispatch(AdventureActions.loadAllAdventures());
+    this.store.dispatch(CharacterActions.loadAllCharacters({ fetchAll: true }));
+
+    // TODO: If eventually add an Admin table for Events/Indexes, dispatch them here too
+    // this.store.dispatch(AdventureEventActions.loadAllAdventureEvents({ fetchAll: true }));
+
     this.updateTable();
   }
 
@@ -178,6 +192,78 @@ export class RpgAdminComponent implements OnInit {
     ]);
   }
 
+  // Generate a new blank asset
+  async createNew() {
+    const dialogRef = this.dialog.open(AdminPromptDialogComponent, {
+      data: {
+        label: `Enter new Entity ID for ${this.selectedFeature} (e.g. 'fireball', 'rusty-sword'):`,
+      },
+      width: '400px',
+      panelClass: 'dark-seed-dialog',
+    });
+
+    const rawEntityId = (await firstValueFrom(dialogRef.afterClosed())) as
+      | string
+      | undefined;
+    if (!rawEntityId) return;
+
+    const entityId = rawEntityId.trim().toLowerCase().replace(/\s+/g, '-');
+    const id = buildDimensionEntityCompositeId(
+      entityId,
+      this.selectedDimension ?? DEFAULT_DIMENSION_ID,
+      this.selectedPlane ?? DEFAULT_PLANE_ID,
+    );
+    if (!id) return;
+
+    const baseName = `New ${entityId}`;
+    const dim = this.selectedDimension ?? DEFAULT_DIMENSION_ID;
+    const plane = this.selectedPlane ?? DEFAULT_PLANE_ID;
+
+    switch (this.selectedFeature) {
+      case 'tags':
+        this.game.utils.tag.addBlank(id, entityId, baseName, dim, plane);
+        break;
+      case 'attributes':
+        this.game.utils.attribute.addBlank(id, entityId, baseName, dim, plane);
+        break;
+      case 'effects':
+        this.game.utils.effect.addBlank(id, entityId, baseName, dim, plane);
+        break;
+      case 'adventures':
+        await this.game.utils.adventure.addBlank(
+          id,
+          entityId,
+          baseName,
+          dim,
+          plane,
+        );
+        break;
+      case 'characters':
+        this.game.utils.character.addBlank(id, entityId, baseName, dim, plane);
+        break;
+      case 'items':
+        this.game.utils.item.addBlank(id, entityId, baseName, dim, plane);
+        break;
+      case 'skills':
+        this.game.utils.skill.addBlank(id, entityId, baseName, dim, plane);
+        break;
+      case 'moments':
+        this.game.utils.moment.addBlank(id, entityId, baseName, dim, plane);
+        break;
+      case 'locations':
+        this.game.utils.location.addBlank(id, entityId, baseName, dim, plane);
+        break;
+      default:
+        console.warn(
+          `[Admin] Unhandled creation fallback: ${this.selectedFeature}`,
+        );
+        return; // Break execution so it does not navigate!
+    }
+
+    // Instantly navigate to the newly created asset
+    await this.router.navigate(['/demo/rpg/admin', this.selectedFeature, id]);
+  }
+
   // --- Explicit mappers per feature (fully hardcoded) ---
 
   private mapAttributes(rows: AttributeRow[]): AdminRow[] {
@@ -185,9 +271,9 @@ export class RpgAdminComponent implements OnInit {
       id: r.id,
       entityId: r.entityId,
       name: r.name,
-      type: r.type,
-      valueType: r.valueType,
+      displayType: r.type,
       description: r.description,
+      tagList: r.tags,
       raw: r,
     }));
   }
@@ -197,9 +283,9 @@ export class RpgAdminComponent implements OnInit {
       id: r.id,
       entityId: r.entityId,
       name: r.name ?? r.id,
-      type: r.type ?? r.kind,
-      valueType: r.operation,
+      displayType: r.type ?? r.kind,
       description: r.description,
+      tagList: r.tags,
       raw: r,
     }));
   }
@@ -209,18 +295,11 @@ export class RpgAdminComponent implements OnInit {
       id: r.id,
       entityId: r.entityId,
       name: r.name ?? r.id,
-      type: r.category,
-      valueType: undefined,
+      displayType: r.category,
       description: r.description,
+      tagList: r.tags,
       raw: r,
     }));
-  }
-
-  private summarizeTags(tags?: string[]): string | undefined {
-    if (!tags?.length) return undefined;
-    return tags.length > 4
-      ? `${tags.slice(0, 4).join(', ')}…`
-      : tags.join(', ');
   }
 
   private mapCharacters(rows: CharacterRow[]): AdminRow[] {
@@ -228,8 +307,7 @@ export class RpgAdminComponent implements OnInit {
       id: r.id,
       entityId: r.entityId,
       name: r.name,
-      type: this.summarizeTags(r.tags),
-      valueType: undefined,
+      tagList: r.tags,
       description: r.description,
       raw: r,
     }));
@@ -240,8 +318,7 @@ export class RpgAdminComponent implements OnInit {
       id: r.id,
       entityId: r.entityId,
       name: r.name,
-      type: this.summarizeTags(r.tags),
-      valueType: undefined,
+      tagList: r.tags,
       description: r.description,
       raw: r,
     }));
@@ -252,8 +329,7 @@ export class RpgAdminComponent implements OnInit {
       id: r.id,
       entityId: r.entityId,
       name: r.name,
-      type: this.summarizeTags(r.tags),
-      valueType: undefined,
+      tagList: r.tags,
       description: r.description,
       raw: r,
     }));
@@ -264,8 +340,7 @@ export class RpgAdminComponent implements OnInit {
       id: r.id,
       entityId: r.entityId,
       name: r.title,
-      type: this.summarizeTags(r.tags),
-      valueType: undefined,
+      tagList: r.tags,
       description: r.description,
       raw: r,
     }));
@@ -276,8 +351,7 @@ export class RpgAdminComponent implements OnInit {
       id: r.id,
       entityId: r.entityId,
       name: r.name,
-      type: this.summarizeTags(r.tags),
-      valueType: undefined,
+      tagList: r.tags,
       description: r.description,
       raw: r,
     }));
@@ -288,8 +362,8 @@ export class RpgAdminComponent implements OnInit {
       id: r.id,
       entityId: r.entityId,
       name: r.label,
-      type: [r.dimensionId, r.planeId].filter(Boolean).join(' / '),
-      valueType: undefined,
+      displayType: [r.dimensionId, r.planeId].filter(Boolean).join(' / '),
+      tagList: r.tags,
       description: r.description,
       raw: r,
     }));

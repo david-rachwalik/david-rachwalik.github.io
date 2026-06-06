@@ -23,10 +23,6 @@ export class RpgDemoComponent {
   isModerator$ = of(true);
 
   async newGame() {
-    // // Pass a flag to the play page to trigger new game flow
-    // await this.router.navigate(['/demo/rpg/play'], {
-    //   queryParams: { new: '1' },
-    // });
     await this.router.navigate(['/demo/rpg/new-game']);
   }
 

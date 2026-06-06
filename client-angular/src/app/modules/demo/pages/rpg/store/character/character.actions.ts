@@ -15,7 +15,12 @@ export const CharacterActions = createActionGroup({
     'Add Character Failure': props<{ error: string }>(),
 
     // Read
-    'Load All Characters': emptyProps(),
+    // 'Load All Characters': emptyProps(),
+    // Optional props allow the Admin page to target specific datasets
+    'Load All Characters': props<{
+      adventureId?: string;
+      fetchAll?: boolean;
+    }>(),
     'Load All Characters Success': props<{ characters: Character[] }>(),
     'Load All Characters Failure': props<{ error: string }>(),
 

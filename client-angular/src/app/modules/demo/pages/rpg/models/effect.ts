@@ -68,8 +68,15 @@ export interface Condition {
 //       value: boolean;
 //     };
 
+/**
+ * 🔸 Domain Model (Data in Motion)
+ * Represents the fully hydrated, active entity used during gameplay.
+ * Holds all required system properties, merged catalog defaults,
+ * and active session metadata (RuntimeMeta).
+ * -> Used by: NgRx State, Selectors, and UI Renderers.
+ */
 // Used for live gameplay, calculations, and temporary state changes
-export interface Effect extends GameDimensionEntity {
+export interface Effect extends GameDimensionEntity, Partial<RuntimeMeta> {
   // Semantic info for UI or log narration
   name: string; // "heal" (aka `action`)
   gerund?: string; // "healing" (aka `process`)
@@ -104,11 +111,15 @@ export interface Effect extends GameDimensionEntity {
   cooldown?: number; // how often it can be applied
   conditions?: Condition[]; // optional logic (e.g., only apply if target has tag)
 }
+/**
+ * 🔸 Data Transfer Object (Data at Rest)
+ * A lightweight, partial blueprint of the entity. Used for scaffolding new
+ * objects or holding incomplete dataset edits before they are hydrated.
+ * -> Used by: NgRx Actions/Payloads, Editor Form Inputs, and Raw Storage (Dexie).
+ */
+export type EffectInstance = Partial<Effect>;
 
 export interface EffectViewModel {
   label: string;
   description: string;
 }
-
-// Optional overrides & runtime metadata
-export type EffectInstance = Partial<Effect> & RuntimeMeta;

@@ -9,12 +9,12 @@ export const LocationActions = createActionGroup({
     'Seed All Locations Success': props<{ locations: Location[] }>(),
     'Seed All Locations Failure': props<{ error: string }>(),
 
-    // Createitem
+    // Create
     'Add Location': props<{ location: Location }>(),
     'Add Location Success': props<{ location: Location }>(),
     'Add Location Failure': props<{ error: string }>(),
 
-    // Readitem
+    // Read
     'Load All Locations': emptyProps(),
     'Load All Locations Success': props<{ locations: Location[] }>(),
     'Load All Locations Failure': props<{ error: string }>(),
@@ -28,7 +28,7 @@ export const LocationActions = createActionGroup({
     'Save Location Success': props<{ location: Location }>(),
     'Save Location Failure': props<{ error: string }>(),
 
-    // Deleteitem
+    // Delete
     'Remove Location': props<{ id: string }>(),
     'Remove Location Success': props<{ id: string }>(),
     'Remove Location Failure': props<{ error: string }>(),

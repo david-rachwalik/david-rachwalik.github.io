@@ -2,18 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, firstValueFrom } from 'rxjs';
 
-import { mergeEffectInstanceWithCatalog } from '../data/effects-seed';
-import {
-  Adventure,
-  AdventureEventPayload,
-  AdventureInstance,
-} from '../models/adventure';
-import { EffectInstance } from '../models/effect';
-import { Moment } from '../models/moment';
-import { SkillInstance } from '../models/skill';
+// --- Selector Imports ---
 import { selectAllAdventureIndexes } from '../store/adventure/adventure-index.selectors';
-import { AdventureActions } from '../store/adventure/adventure.actions';
-import { AppActions } from '../store/app.actions';
 import {
   selectAccountId,
   selectActiveMomentCharacters,
@@ -25,22 +15,40 @@ import {
   selectCurrentMomentChoices,
   selectCurrentMomentId,
   selectCurrentSlotId,
+  selectIsGameLoading,
 } from '../store/app.selectors';
 import {
   selectAllAttributes,
   selectAttributeEntities,
 } from '../store/attribute/attribute.selectors';
+
+// --- Action Imports ---
+import { AdventureActions } from '../store/adventure/adventure.actions';
+import { AppActions } from '../store/app.actions';
 import { CharacterActions } from '../store/character/character.actions';
+
+import { mergeEffectInstanceWithCatalog } from '../data/effects-seed';
+import {
+  Adventure,
+  AdventureEventPayload,
+  AdventureInstance,
+} from '../models/adventure';
+import { EffectInstance } from '../models/effect';
+import { Moment } from '../models/moment';
+import { SkillInstance } from '../models/skill';
 import {
   buildAdventureEntityTemplateId,
   buildDimensionEntityTemplateId,
 } from '../utils-composite-id';
 import { AdventureFacade } from './facades/adventure-facade';
+import { AttributeFacade } from './facades/attribute-facade';
 import { CharacterFacade } from './facades/character-facade';
+import { EffectFacade } from './facades/effect-facade';
 import { ItemFacade } from './facades/item-facade';
 import { LocationFacade } from './facades/location-facade';
 import { MomentFacade } from './facades/moment-facade';
 import { SkillFacade } from './facades/skill-facade';
+import { TagFacade } from './facades/tag-facade';
 
 // :: Business Logic Layer ::
 // Focused on business logic and orchestration, not storage details
@@ -51,6 +59,9 @@ export class GameFacade {
 
   // Could have been `facades` but chose `utils` for reasons (shrug)
   public utils = {
+    attribute: inject(AttributeFacade),
+    tag: inject(TagFacade),
+    effect: inject(EffectFacade),
     adventure: inject(AdventureFacade),
     character: inject(CharacterFacade),
     location: inject(LocationFacade),
@@ -60,6 +71,8 @@ export class GameFacade {
   };
 
   // #region 🔸 NgRx Selectors 🔸
+
+  isLoading$ = this.store.select(selectIsGameLoading);
 
   accountId$ = this.store.select(selectAccountId);
 
@@ -110,15 +123,23 @@ export class GameFacade {
   init() {
     console.log('[GameFacade] Dispatching seed and load actions');
     this.store.dispatch(AppActions.init());
-    // // Load currentSlotId from client storage
-    // // Seed static data (attributes, items, etc.)
-    // // Load AdventureIndexes from client storage
+    // Load currentSlotId from client storage
+    // Seed static data (attributes, tags, effects..)
+    // Load AdventureIndexes from client storage
   }
 
-  async play() {
-    const slotId = await firstValueFrom(this.currentSlotId$);
-    if (!slotId) return;
-    this.store.dispatch(AppActions.play({ slotId }));
+  // async play() {
+  //   // Wait for initialization to fetch slot ID before playing
+  //   const slotId = await firstValueFrom(
+  //     this.currentSlotId$.pipe(filter((id) => !!id)),
+  //   );
+  //   if (!slotId) return;
+  //   this.store.dispatch(AppActions.play({ slotId }));
+  // }
+
+  play() {
+    this.store.dispatch(AppActions.play());
+    // Load the Adventure, AdventureEvents, & Characters
   }
 
   // Save game slot to client storage

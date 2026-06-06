@@ -2,29 +2,29 @@ import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
 
 import {
-  addAdventureEventDexie$,
+  addAdventureEvent$,
   addAdventureEventOnAdventureAdd$,
-  loadAllAdventureEventsDexie$,
-  removeAdventureEventsDexie$,
-  removeAllAdventureEventsDexie$,
-  saveAdventureEventDexie$,
+  loadAllAdventureEvents$,
+  removeAdventureEvents$,
+  removeAllAdventureEvents$,
+  saveAdventureEvent$,
 } from './adventure/adventure-event.effects';
 import { adventureEventFeature } from './adventure/adventure-event.reducer';
 import {
-  addAdventureIndexDexie$,
+  addAdventureIndex$,
   addAdventureIndexOnAdventureAdd$,
-  loadAllAdventureIndexesDexie$,
-  removeAdventureIndexDexie$,
+  loadAllAdventureIndexes$,
+  removeAdventureIndex$,
   removeAdventureIndexOnAdventureRemove$,
-  saveAdventureIndexDexie$,
+  saveAdventureIndex$,
   saveAdventureIndexOnAdventureSave$,
 } from './adventure/adventure-index.effects';
 import { adventureIndexFeature } from './adventure/adventure-index.reducer';
 import {
-  addAdventureDexie$,
-  loadAdventureDexie$,
-  removeAdventureDexie$,
-  saveAdventureDexie$,
+  addAdventure$,
+  loadAdventure$,
+  removeAdventure$,
+  saveAdventure$,
   seedAllAdventures$,
 } from './adventure/adventure.effects';
 import { adventureFeature } from './adventure/adventure.reducer';
@@ -34,7 +34,6 @@ import {
   initLoadAccountId$,
   initLoadAllSeeds$,
   initLoadCurrentSlotId$,
-  playLoadAdventure$,
   saveCurrentSlotIdLocal$,
   setCurrentSlotIdOnAdventureAdd$,
   uploadSave$,
@@ -43,14 +42,14 @@ import { appFeature } from './app.reducer';
 import { seedAllAttributes$ } from './attribute/attribute.effects';
 import { attributeFeature } from './attribute/attribute.reducer';
 import {
-  addCharacterDexie$,
-  loadAllCharactersDexie$,
-  loadCharacterDexie$,
-  removeAllCharactersDexie$,
-  removeCharacterDexie$,
-  saveAllCharactersDexie$,
+  addCharacter$,
+  loadAllCharacters$,
+  loadCharacter$,
+  removeAllCharacters$,
+  removeCharacter$,
+  saveAllCharacters$,
   saveAllCharactersOnAdventureSave$,
-  saveCharacterDexie$,
+  saveCharacter$,
   seedAllCharacters$,
 } from './character/character.effects';
 import { characterFeature } from './character/character.reducer';
@@ -67,7 +66,6 @@ import { skillFeature } from './skill/skill.reducer';
 import { seedAllTags$ } from './tag/tag.effects';
 import { tagFeature } from './tag/tag.reducer';
 
-// Add other features as you create them!
 export const RPG_STORE_PROVIDERS = [
   // Feature states included in store
   provideState(appFeature),
@@ -82,17 +80,18 @@ export const RPG_STORE_PROVIDERS = [
   provideState(momentFeature),
   provideState(itemFeature),
   provideState(skillFeature),
-  // group functionals in an object & list classes directly
+
+  // Feature effects active & listening
   provideEffects([
     {
       // --- Initialize App ---
-      // Auto-Load Effects
+      // Auto-load at startup
       initLoadAccountId$,
       initLoadCurrentSlotId$,
       initLoadAllSeeds$,
-      playLoadAdventure$,
+      // playLoadActiveGame$,
 
-      // Loading static data seeds
+      // Load static data seeds
       seedAllAdventures$,
       seedAllTags$,
       seedAllAttributes$,
@@ -104,43 +103,31 @@ export const RPG_STORE_PROVIDERS = [
       seedAllSkills$,
       appSeedSuccess$,
 
-      // // --- Init (localStorage) ---
-      // // Adventure (full game state)
-      // addAdventureLocal$,
-      // loadAdventureLocal$,
-      // saveAdventureLocal$,
-      // removeAdventureLocal$,
-      // // AdventureIndex (game metadata)
-      // addAdventureIndex$: addAdventureIndexLocal$,
-      // loadAdventureIndexesLocal$: loadAllAdventureIndexesLocal$,
-      // saveAdventureIndex$: saveAdventureIndexLocal$,
-      // removeAdventureIndex$: removeAdventureIndexLocal$,
-
-      // --- Init (IndexedDB / Dexie) ---
+      // --- Feature CRUD (IndexedDB via Dexie) ---
       // Adventure (full game state)
-      addAdventureDexie$,
-      loadAdventureDexie$,
-      saveAdventureDexie$,
-      removeAdventureDexie$,
+      addAdventure$,
+      loadAdventure$,
+      saveAdventure$,
+      removeAdventure$,
       // AdventureIndex (game metadata)
-      addAdventureIndexDexie$,
-      loadAllAdventureIndexesDexie$,
-      saveAdventureIndexDexie$,
-      removeAdventureIndexDexie$,
+      addAdventureIndex$,
+      loadAllAdventureIndexes$,
+      saveAdventureIndex$,
+      removeAdventureIndex$,
       // AdventureEvent (game history)
-      addAdventureEventDexie$,
-      loadAllAdventureEventsDexie$,
-      saveAdventureEventDexie$,
-      removeAdventureEventsDexie$,
-      removeAllAdventureEventsDexie$,
+      addAdventureEvent$,
+      loadAllAdventureEvents$,
+      saveAdventureEvent$,
+      removeAdventureEvents$,
+      removeAllAdventureEvents$,
       // Character
-      addCharacterDexie$,
-      loadAllCharactersDexie$,
-      loadCharacterDexie$,
-      saveCharacterDexie$,
-      saveAllCharactersDexie$,
-      removeCharacterDexie$,
-      removeAllCharactersDexie$,
+      addCharacter$,
+      loadAllCharacters$,
+      loadCharacter$,
+      saveCharacter$,
+      saveAllCharacters$,
+      removeCharacter$,
+      removeAllCharacters$,
 
       // --- App Method Effects (on demand) ---
       saveCurrentSlotIdLocal$,

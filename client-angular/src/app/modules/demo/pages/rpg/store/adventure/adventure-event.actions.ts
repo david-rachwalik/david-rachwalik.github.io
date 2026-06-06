@@ -1,4 +1,4 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
 
 import { AdventureEvent } from '../../models/adventure';
 
@@ -11,7 +11,12 @@ export const AdventureEventActions = createActionGroup({
     'Add Adventure Event Failure': props<{ error: string }>(),
 
     // Read
-    'Load All Adventure Events': emptyProps(),
+    // 'Load All Adventure Events': emptyProps(),
+    // Optional props allow the Admin page to target specific datasets
+    'Load All Adventure Events': props<{
+      adventureId?: string;
+      fetchAll?: boolean;
+    }>(),
     'Load All Adventure Events Success': props<{ events: AdventureEvent[] }>(),
     'Load All Adventure Events Failure': props<{ error: string }>(),
 

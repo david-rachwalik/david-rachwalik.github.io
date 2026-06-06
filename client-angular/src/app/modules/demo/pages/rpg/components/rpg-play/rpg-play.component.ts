@@ -42,6 +42,8 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
 
   // --- Observables ---
 
+  isLoading$ = this.game.isLoading$;
+
   attributes$ = this.game.attributes$;
 
   currentSlotId$ = this.game.currentSlotId$;
@@ -183,16 +185,14 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
   // --- Methods ---
 
   async ngOnInit() {
-    // this.game.loadGame();
-    this.game.currentSlotId$.subscribe((slotId) => {
-      if (slotId) {
-        this.game.loadAdventure(slotId);
-      }
-    });
-
     this.initLoggingSubscriptions();
 
-    // 🔸 Validate the moment and pessimistically inject characters into the database!
+    // Safely triggers active hydration flow (restores in-memory data if page was refreshed)
+    this.game.play();
+
+    // Validate the moment and pessimistically inject characters into the database!
+    // (This will automatically wait for the play() effect to populate the store because of
+    // its internal `firstValueFrom(this.currentAdventure$.pipe(filter((a) => !!a)))` check!)
     await this.game.isMomentIdValid();
   }
 

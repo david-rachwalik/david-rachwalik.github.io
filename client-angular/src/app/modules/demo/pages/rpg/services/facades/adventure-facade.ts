@@ -67,6 +67,18 @@ export class AdventureFacade {
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+  // Creates a temporary "blank canvas" for the UI (minimum valid model)
+  async addBlank(
+    id: string,
+    entityId: string,
+    name: string,
+    dimensionId: string,
+    planeId: string,
+  ) {
+    // 🔸 Adventures are play slots, not templates!
+    // We perfectly reuse the robust Game Creation pipeline instead of hardcoding a blank array.
+    await this.createNewGame(name, 'Admin Hero', id, dimensionId, planeId);
+  }
   add(adventure: Adventure) {
     this.store.dispatch(AdventureActions.addAdventure({ adventure }));
   }
@@ -113,18 +125,24 @@ export class AdventureFacade {
     return new Blob([json]).size / 1024;
   }
 
-  async createNewGame(label: string, characterName: string) {
+  async createNewGame(
+    label: string,
+    characterName: string,
+    overrideSlotId?: string,
+    dimensionId: string = DEFAULT_DIMENSION_ID,
+    planeId: string = DEFAULT_PLANE_ID,
+  ) {
     console.log('[AdventureFacade] Creating new game with:', {
       label,
       characterName,
     });
 
     // const { accountId } = this.userService;
-    const accountId = await firstValueFrom(this.accountId$);
+    const accountId = (await firstValueFrom(this.accountId$)) || 'system';
     if (!accountId) return;
     console.log('accountId:', accountId);
 
-    const slotId = toId(label);
+    const slotId = overrideSlotId || toId(label);
     if (!slotId) {
       throw new Error(
         'Adventure ID could not be built: missing required parts',
@@ -139,9 +157,12 @@ export class AdventureFacade {
     if (!player) {
       throw new Error(`[createNewGame] Player could not be: ${characterName}`);
     }
+
     console.log('[AdventureFacade] New character:', player);
     // Add the new character to the store and IndexedDB
     this.characterFacade.add(player);
+
+    // const timestamp = new Date().toISOString();
 
     const adventure: Adventure = {
       id: slotId,
@@ -154,14 +175,16 @@ export class AdventureFacade {
         difficulty: 'normal',
         unlockedBonuses: [],
       },
-      primeDimension: DEFAULT_DIMENSION_ID,
-      currentDimensionId: DEFAULT_DIMENSION_ID,
-      currentPlaneId: DEFAULT_PLANE_ID,
+      primeDimension: dimensionId,
+      currentDimensionId: dimensionId,
+      currentPlaneId: planeId,
       currentCharacterId: player.id,
-      currentLocationId: 'start',
-      // currentMomentId: 'start',
-      currentMomentId: 'training-room',
+      currentLocationId: 'start:rpg-demo:prime',
+      currentMomentId: 'training-room:rpg-demo:prime',
       log: [],
+      // savedAt: timestamp,
+      // createdAt: timestamp,
+      // updatedAt: timestamp,
       // eventLog: ['A new adventure begins!'],
       // history: [],
       // tags: {}, // or arrayToEntityMap(tagsArray)

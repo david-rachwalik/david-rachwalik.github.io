@@ -333,6 +333,11 @@ TAGS_SEED.forEach((e) => {
 });
 // #endregion
 
+export function getTagInstanceFromCatalog(id: string): Tag | undefined {
+  if (!id) return undefined;
+  return TAGS_CATALOG[id] ?? undefined;
+}
+
 // Merges an TagInstance with its Tag catalog definition
 export function mergeTagInstanceWithCatalog(
   instance: TagInstance,

@@ -4,99 +4,19 @@ import { map, mergeMap } from 'rxjs/operators';
 
 import { AdventureFacade } from '../../services/facades/adventure-facade';
 import { GameSaveDexieService } from '../../services/game-save-dexie.service';
-import { GameSaveLocalService } from '../../services/game-save-local.service';
 import { AppActions } from '../app.actions';
 import { AdventureIndexActions } from './adventure-index.actions';
 import { AdventureActions } from './adventure.actions';
 
-// #region 🔸 LocalStorage Effects (synchronous) 🔸
+// #region 🔸 Database Effects 🔸
 
-export const addAdventureIndexLocal$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
-    actions$.pipe(
-      ofType(AdventureIndexActions.addAdventureIndex),
-      map(({ index }) => {
-        try {
-          saveService.saveAdventureIndex(index);
-          return AdventureIndexActions.addAdventureIndexSuccess({ index });
-        } catch (error) {
-          return AdventureIndexActions.addAdventureIndexFailure({
-            error: String(error),
-          });
-        }
-      }),
-    ),
-  { functional: true },
-);
-
-export const loadAllAdventureIndexesLocal$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
-    actions$.pipe(
-      // ofType(AdventureIndexActions.loadAdventureIndexesLocal),
-      // ofType(AdventureIndexActions.loadAdventureIndexes),
-      ofType(AppActions.init, AdventureIndexActions.loadAllAdventureIndexes),
-      map(() => {
-        try {
-          const slots = saveService.listAdventureIndexes();
-          return AdventureIndexActions.loadAllAdventureIndexesSuccess({
-            slots,
-          });
-        } catch (error) {
-          return AdventureIndexActions.loadAllAdventureIndexesFailure({
-            error: String(error),
-          });
-        }
-      }),
-    ),
-  { functional: true },
-);
-
-export const saveAdventureIndexLocal$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
-    actions$.pipe(
-      ofType(AdventureIndexActions.saveAdventureIndex),
-      map(({ index }) => {
-        try {
-          saveService.saveAdventureIndex(index);
-          return AdventureIndexActions.saveAdventureIndexSuccess({ index });
-        } catch (error) {
-          return AdventureIndexActions.saveAdventureIndexFailure({
-            error: String(error),
-          });
-        }
-      }),
-    ),
-  { functional: true },
-);
-
-export const removeAdventureIndexLocal$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
-    actions$.pipe(
-      ofType(AdventureIndexActions.removeAdventureIndex),
-      map(({ id }) => {
-        try {
-          saveService.deleteAdventureIndex(id);
-          return AdventureIndexActions.removeAdventureIndexSuccess({ id });
-        } catch (error) {
-          return AdventureIndexActions.removeAdventureIndexFailure({
-            error: String(error),
-          });
-        }
-      }),
-    ),
-  { functional: true },
-);
-// #endregion
-
-// #region 🔸 Dexie Effects (IndexedDb, asynchronous) 🔸
-
-export const addAdventureIndexDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const addAdventureIndex$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AdventureIndexActions.addAdventureIndex),
       mergeMap(async ({ index }) => {
         try {
-          await saveService.saveAdventureIndex(index);
+          await db.saveAdventureIndex(index);
           return AdventureIndexActions.addAdventureIndexSuccess({ index });
         } catch (error) {
           return AdventureIndexActions.addAdventureIndexFailure({
@@ -108,14 +28,13 @@ export const addAdventureIndexDexie$ = createEffect(
   { functional: true },
 );
 
-export const loadAllAdventureIndexesDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const loadAllAdventureIndexes$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
-      // ofType(AdventureIndexActions.loadAllAdventureIndexes),
       ofType(AppActions.init, AdventureIndexActions.loadAllAdventureIndexes),
       mergeMap(async () => {
         try {
-          const slots = await saveService.loadAllAdventureIndexes();
+          const slots = await db.loadAllAdventureIndexes();
           return AdventureIndexActions.loadAllAdventureIndexesSuccess({
             slots,
           });
@@ -129,13 +48,13 @@ export const loadAllAdventureIndexesDexie$ = createEffect(
   { functional: true },
 );
 
-export const saveAdventureIndexDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const saveAdventureIndex$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AdventureIndexActions.saveAdventureIndex),
       mergeMap(async ({ index }) => {
         try {
-          await saveService.saveAdventureIndex(index);
+          await db.saveAdventureIndex(index);
           return AdventureIndexActions.saveAdventureIndexSuccess({ index });
         } catch (error) {
           return AdventureIndexActions.saveAdventureIndexFailure({
@@ -147,13 +66,13 @@ export const saveAdventureIndexDexie$ = createEffect(
   { functional: true },
 );
 
-export const removeAdventureIndexDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const removeAdventureIndex$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AdventureIndexActions.removeAdventureIndex),
       mergeMap(async ({ id }) => {
         try {
-          await saveService.deleteAdventureIndex(id);
+          await db.deleteAdventureIndex(id);
           return AdventureIndexActions.removeAdventureIndexSuccess({ id });
         } catch (error) {
           return AdventureIndexActions.removeAdventureIndexFailure({

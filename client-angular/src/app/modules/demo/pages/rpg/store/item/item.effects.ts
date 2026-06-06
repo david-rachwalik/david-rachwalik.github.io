@@ -1,8 +1,10 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map } from 'rxjs';
+import { map, mergeMap } from 'rxjs';
 
+import { Item } from '../../models/item';
 import { GameDataService } from '../../services/game-data.service';
+import { GameSaveDexieService } from '../../services/game-save-dexie.service';
 import { AppActions } from '../app.actions';
 import { ItemActions } from './item.actions';
 
@@ -16,109 +18,113 @@ export const seedAllItems$ = createEffect(
           const items = data.getAllItems();
           // console.log('seedAllItems$ found items: ', items);
           return ItemActions.seedAllItemsSuccess({ items });
-        } catch (error) {
-          return ItemActions.seedAllItemsFailure({ error: String(error) });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return ItemActions.seedAllItemsFailure({ error: errorMessage });
         }
       }),
     ),
   { functional: true },
 );
 
-// Main entry point - API loader (stub for now)
-export const loadAllItemsApi$ = createEffect(
-  (actions$ = inject(Actions)) =>
+// #region 🔸 Database Effects 🔸
+
+export const addItem$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
-      ofType(ItemActions.loadAllItems),
-      // Replace with real API call later
-      // Will just use `loadItemsSuccess`, not `loadItemsAPISuccess`
-      map(() =>
-        ItemActions.loadAllItemsFailure({ error: 'API not implemented' }),
-      ),
+      ofType(ItemActions.addItem),
+      mergeMap(async ({ item }) => {
+        try {
+          await db.saveItem(item);
+          return ItemActions.addItemSuccess({ item });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return ItemActions.addItemFailure({ error: errorMessage });
+        }
+      }),
     ),
   { functional: true },
 );
 
-// // #region 🔸 Dexie Effects (IndexedDb, asynchronous) 🔸
+export const loadAllItems$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(AppActions.init, ItemActions.loadAllItems),
+      mergeMap(async () => {
+        try {
+          const items = await db.loadAllItems();
+          return ItemActions.loadAllItemsSuccess({ items });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return ItemActions.loadAllItemsFailure({ error: errorMessage });
+        }
+      }),
+    ),
+  { functional: true },
+);
 
-// export const addItemDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(ItemActions.addItem),
-//       mergeMap(async ({ item }) => {
-//         try {
-//           await saveService.saveItem(item);
-//           return ItemActions.addItemSuccess({ item });
-//         } catch (error) {
-//           return ItemActions.addItemFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
+export const loadItem$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(ItemActions.loadItem),
+      mergeMap(async ({ id }) => {
+        try {
+          const item = await db.loadItem(id);
+          if (!item) throw new Error(`Item not found: ${id}`);
+          return ItemActions.loadItemSuccess({ item });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return ItemActions.loadItemFailure({ error: errorMessage });
+        }
+      }),
+    ),
+  { functional: true },
+);
 
-// export const loadAllItemsDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(AppActions.init, ItemActions.loadAllItems),
-//       mergeMap(async () => {
-//         try {
-//           const items = await saveService.loadAllItems();
-//           return ItemActions.loadAllItemsSuccess({ items });
-//         } catch (error) {
-//           return ItemActions.loadAllItemsFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
+export const saveItem$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(ItemActions.saveItem),
+      mergeMap(async ({ id, changes }) => {
+        try {
+          // Fetch the existing model and merge with partial changes
+          const current = await db.loadItem(id);
+          if (!current) throw new Error(`Item not found: ${id}`);
 
-// export const loadItemDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(ItemActions.loadItem),
-//       mergeMap(async ({ id }) => {
-//         try {
-//           const item = await saveService.loadItem(id);
-//           if (!item) throw new Error(`Item not found: ${id}`);
-//           return ItemActions.loadItemSuccess({ item });
-//         } catch (error) {
-//           return ItemActions.loadItemFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
+          // Safely map partial updates and cast to strict Model
+          const updated = { ...current, ...changes } as Item;
+          await db.saveItem(updated);
 
-// export const saveItemDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(ItemActions.saveItem),
-//       mergeMap(async ({ item }) => {
-//         try {
-//           // Directly save the full item (no merge with existing)
-//           await saveService.saveItem(item);
-//           return ItemActions.saveItemSuccess({ item });
-//         } catch (error) {
-//           return ItemActions.saveItemFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
+          return ItemActions.saveItemSuccess({ item: updated });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return ItemActions.saveItemFailure({ error: errorMessage });
+        }
+      }),
+    ),
+  { functional: true },
+);
 
-// export const removeItemDexie$ = createEffect(
-//   (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
-//     actions$.pipe(
-//       ofType(ItemActions.removeItem),
-//       mergeMap(async ({ id }) => {
-//         try {
-//           await saveService.deleteItem(id);
-//           return ItemActions.removeItemSuccess({ id });
-//         } catch (error) {
-//           return ItemActions.removeItemFailure({ error: String(error) });
-//         }
-//       }),
-//     ),
-//   { functional: true },
-// );
-// // #endregion
+export const removeItem$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
+    actions$.pipe(
+      ofType(ItemActions.removeItem),
+      mergeMap(async ({ id }) => {
+        try {
+          await db.deleteItem(id);
+          return ItemActions.removeItemSuccess({ id });
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          return ItemActions.removeItemFailure({ error: errorMessage });
+        }
+      }),
+    ),
+  { functional: true },
+);
+// #endregion

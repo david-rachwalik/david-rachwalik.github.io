@@ -10,7 +10,7 @@ export interface AdventurePreferences {
 }
 
 // Contains the actual game state (Play page)
-export interface Adventure {
+export interface Adventure extends Partial<RuntimeMeta> {
   id: string; // unique game slot id
   label: string; // user-friendly name of slot
   accountId: string;
@@ -28,9 +28,7 @@ export interface Adventure {
   // Optionally, for UI:
   recentEventIds?: string[]; // recent adventure events
 }
-
-// Optional overrides & runtime metadata
-export type AdventureInstance = Partial<Adventure> & RuntimeMeta;
+export type AdventureInstance = Partial<Adventure>;
 
 // Contains the game slot metadata (Data page)
 export interface AdventureIndex {

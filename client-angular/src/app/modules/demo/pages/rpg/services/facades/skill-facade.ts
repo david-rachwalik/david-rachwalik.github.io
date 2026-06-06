@@ -20,6 +20,27 @@ export class SkillFacade {
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+  // Creates a temporary "blank canvas" for the UI (minimum valid model)
+  addBlank(
+    id: string,
+    entityId: string,
+    name: string,
+    dimensionId: string,
+    planeId: string,
+  ) {
+    const skill: Skill = {
+      id,
+      entityId,
+      dimensionId,
+      planeId,
+      name,
+      description: '',
+      tags: [],
+      // type: 'spell',
+      effects: [],
+    };
+    this.store.dispatch(SkillActions.addSkill({ skill }));
+  }
   add(skill: Skill) {
     this.store.dispatch(SkillActions.addSkill({ skill }));
   }

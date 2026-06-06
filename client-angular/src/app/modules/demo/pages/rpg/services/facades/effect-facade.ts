@@ -22,6 +22,24 @@ export class EffectFacade {
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+  // Creates a temporary "blank canvas" for the UI (minimum valid model)
+  addBlank(
+    id: string,
+    entityId: string,
+    name: string,
+    dimensionId: string,
+    planeId: string,
+  ) {
+    const effect: Effect = {
+      id,
+      entityId,
+      dimensionId,
+      planeId,
+      name,
+      kind: 'attribute',
+    } as Effect;
+    this.store.dispatch(EffectActions.addEffect({ effect }));
+  }
   add(effect: Effect) {
     this.store.dispatch(EffectActions.addEffect({ effect }));
   }
@@ -92,6 +110,7 @@ export class EffectFacade {
 
   // #region 🔸 Effect Logic 🔸
 
+  // Delta: the difference between two values - represents the change/variation in a variable over time or between different states
   calculateAttributeDelta(
     effect: Effect,
     currentInstance: AttributeInstance | undefined,

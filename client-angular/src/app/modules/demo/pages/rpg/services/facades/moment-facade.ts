@@ -53,6 +53,29 @@ export class MomentFacade {
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+  // Creates a temporary "blank canvas" for the UI (minimum valid model)
+  addBlank(
+    id: string,
+    entityId: string,
+    name: string,
+    dimensionId: string,
+    planeId: string,
+  ) {
+    const moment: Moment = {
+      id,
+      entityId,
+      dimensionId,
+      planeId,
+      title: name,
+      description: '',
+      content: '',
+      locationId: '',
+      tags: [],
+      choices: [],
+      characters: [],
+    };
+    this.store.dispatch(MomentActions.addMoment({ moment }));
+  }
   add(moment: Moment) {
     this.store.dispatch(MomentActions.addMoment({ moment }));
   }

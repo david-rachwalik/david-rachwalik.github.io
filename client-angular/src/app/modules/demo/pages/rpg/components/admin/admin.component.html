@@ -38,6 +38,11 @@
         }
       </mat-select>
     </mat-form-field>
+
+    <!-- Create Button -->
+    <button class="action-btn solid-btn create-btn" (click)="createNew()">
+      ➕ Create New
+    </button>
   </div>
 
   @if (data$ | async; as rows) {
@@ -60,6 +65,19 @@
                       <span class="secondary" *ngIf="r.entityId">{{
                         r.entityId
                       }}</span>
+                    </div>
+                  }
+                  @case ('tags') {
+                    <div class="tags-cell-container">
+                      @if (r.tagList && r.tagList.length > 0) {
+                        @for (t of r.tagList; track t) {
+                          <span class="ui-pill">{{ t }}</span>
+                        }
+                      } @else {
+                        <span class="muted-type">{{
+                          r.displayType || '—'
+                        }}</span>
+                      }
                     </div>
                   }
                   @default {

@@ -6,15 +6,19 @@ export type AttributeValue = boolean | number | string;
 export type AttributeType = 'core' | 'stat' | 'skill' | 'trait';
 export type AttributeValueType = 'boolean' | 'number' | 'string';
 
-export interface Attribute extends GameDimensionEntity {
-  // id: string;
-  // entityId: string;
+/**
+ * 🔸 Domain Model (Data in Motion)
+ * Represents the fully hydrated, active entity used during gameplay.
+ * Holds all required system properties, merged catalog defaults,
+ * and active session metadata (RuntimeMeta).
+ * -> Used by: NgRx State, Selectors, and UI Renderers.
+ */
+export interface Attribute extends GameDimensionEntity, Partial<RuntimeMeta> {
   name: string;
-  // type: AttributeType;
-  // tags: string[];
   kind: AttributeType;
   abbreviation: string;
   description: string;
+  // tags: string[];
   // ---
   valueType: AttributeValueType;
   default: AttributeValue;
@@ -23,6 +27,13 @@ export interface Attribute extends GameDimensionEntity {
   min?: number;
   max?: number;
 }
+/**
+ * 🔸 Data Transfer Object (Data at Rest)
+ * A lightweight, partial blueprint of the entity. Used for scaffolding new
+ * objects or holding incomplete dataset edits before they are hydrated.
+ * -> Used by: NgRx Actions/Payloads, Editor Form Inputs, and Raw Storage (Dexie).
+ */
+export type AttributeInstance = Partial<Attribute>;
 
 export interface AttributeViewModel {
   id: string;
@@ -31,18 +42,3 @@ export interface AttributeViewModel {
   max?: number;
   description?: string;
 }
-
-// export interface AttributeInstance {
-//   attributeId: string;
-//   params: Partial<Attribute>;
-// }
-
-// export type AttributeInstance = Record<string, Partial<Attribute>>;
-
-// Delta: the difference between two values - represents the change/variation in a variable over time or between different states
-// // Restricted Partial of Attribute (only optional runtime fields & metadata)
-// export type AttributeDelta = RuntimeMeta &
-//   Partial<Pick<Attribute, 'value' | 'base' | 'min' | 'max'>>;
-
-// Optional overrides & runtime metadata
-export type AttributeInstance = Partial<Attribute> & RuntimeMeta;

@@ -20,6 +20,24 @@ export class LocationFacade {
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+  // Creates a temporary "blank canvas" for the UI (minimum valid model)
+  addBlank(
+    id: string,
+    entityId: string,
+    name: string,
+    dimensionId: string,
+    planeId: string,
+  ) {
+    const location: Location = {
+      id,
+      entityId,
+      dimensionId,
+      planeId,
+      name,
+      description: '',
+    } as Location;
+    this.store.dispatch(LocationActions.addLocation({ location }));
+  }
   add(location: Location) {
     this.store.dispatch(LocationActions.addLocation({ location }));
   }

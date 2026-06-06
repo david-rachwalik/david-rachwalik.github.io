@@ -1,12 +1,13 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, withLatestFrom } from 'rxjs';
+import { filter, map, mergeMap, switchMap, take, withLatestFrom } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { GameDataService } from '../../services/game-data.service';
 import { GameSaveDexieService } from '../../services/game-save-dexie.service';
 import { AdventureActions } from '../adventure/adventure.actions';
 import { AppActions } from '../app.actions';
+import { selectCurrentSlotId } from '../app.selectors';
 import { CharacterActions } from './character.actions';
 import { selectAllCharacters } from './character.selectors';
 
@@ -30,31 +31,15 @@ export const seedAllCharacters$ = createEffect(
   { functional: true },
 );
 
-// Main entry point - API loader (stub for now)
-export const loadAllCharactersApi$ = createEffect(
-  (actions$ = inject(Actions)) =>
-    actions$.pipe(
-      ofType(CharacterActions.loadAllCharacters),
-      // Replace with real API call later
-      // Will just use `loadCharactersSuccess`, not `loadCharactersAPISuccess`
-      map(() =>
-        CharacterActions.loadAllCharactersFailure({
-          error: 'API not implemented',
-        }),
-      ),
-    ),
-  { functional: true },
-);
+// #region 🔸 Database Effects 🔸
 
-// #region 🔸 Dexie Effects (IndexedDb, asynchronous) 🔸
-
-export const addCharacterDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const addCharacter$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(CharacterActions.addCharacter),
       mergeMap(async ({ character }) => {
         try {
-          await saveService.saveCharacter(character);
+          await db.saveCharacter(character);
           return CharacterActions.addCharacterSuccess({ character });
         } catch (error) {
           return CharacterActions.addCharacterFailure({ error: String(error) });
@@ -64,17 +49,53 @@ export const addCharacterDexie$ = createEffect(
   { functional: true },
 );
 
-export const loadAllCharactersDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const loadAllCharacters$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    db = inject(GameSaveDexieService),
+    store = inject(Store),
+  ) =>
     actions$.pipe(
-      ofType(AppActions.init, CharacterActions.loadAllCharacters),
-      mergeMap(async () => {
+      ofType(AppActions.play, CharacterActions.loadAllCharacters),
+      // This asynchronous waiter safeguards page refreshes (use with AppActions.play)
+      switchMap((action) =>
+        store.select(selectCurrentSlotId).pipe(
+          filter((id): id is string => !!id),
+          take(1), // waits for first truthy value
+          map((storeSlotId) => ({ action, storeSlotId })),
+        ),
+      ),
+      mergeMap(async ({ action, storeSlotId }) => {
         try {
-          const characters = await saveService.loadAllCharacters();
+          // Extract optional overrides safely without strict "any"
+          const payloadSlotId =
+            'adventureId' in action ? action.adventureId : undefined;
+          const fetchAll = 'fetchAll' in action ? action.fetchAll : false;
+
+          // If Admin requests ALL characters from database, bypass the ID check
+          if (fetchAll) {
+            const characters = await db.loadAllCharacters();
+            return CharacterActions.loadAllCharactersSuccess({ characters });
+          }
+
+          // Prefer explicit action ID, fallback to Store's active session ID
+          const slotId = payloadSlotId || storeSlotId;
+
+          // Fail fiercely if lacks context
+          if (!slotId) {
+            throw new Error(
+              '[loadAllCharacters] Failed: No adventureId context provided or active in Store.',
+            );
+          }
+
+          // Fetch specific active playthrough characters
+          const characters = await db.loadAllCharacters(slotId);
           return CharacterActions.loadAllCharactersSuccess({ characters });
-        } catch (error) {
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
           return CharacterActions.loadAllCharactersFailure({
-            error: String(error),
+            error: errorMessage,
           });
         }
       }),
@@ -82,13 +103,13 @@ export const loadAllCharactersDexie$ = createEffect(
   { functional: true },
 );
 
-export const loadCharacterDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const loadCharacter$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(CharacterActions.loadCharacter),
       mergeMap(async ({ id }) => {
         try {
-          const character = await saveService.loadCharacter(id);
+          const character = await db.loadCharacter(id);
           if (!character) throw new Error(`Character not found: ${id}`);
           return CharacterActions.loadCharacterSuccess({ character });
         } catch (error) {
@@ -101,17 +122,17 @@ export const loadCharacterDexie$ = createEffect(
   { functional: true },
 );
 
-export const saveCharacterDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const saveCharacter$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(CharacterActions.saveCharacter),
       mergeMap(async ({ id, changes }) => {
         try {
-          // Fetch the existing character and merge with partial changes
-          const current = await saveService.loadCharacter(id);
+          // Fetch the existing model and merge with partial changes
+          const current = await db.loadCharacter(id);
           if (!current) throw new Error(`Character not found: ${id}`);
           const updated = { ...current, ...changes };
-          await saveService.saveCharacter(updated);
+          await db.saveCharacter(updated);
           return CharacterActions.saveCharacterSuccess({ character: updated });
         } catch (error) {
           return CharacterActions.saveCharacterFailure({
@@ -123,14 +144,14 @@ export const saveCharacterDexie$ = createEffect(
   { functional: true },
 );
 
-export const saveAllCharactersDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const saveAllCharacters$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(CharacterActions.saveAllCharacters),
       mergeMap(async ({ characters }) => {
         try {
           // TODO: determine if should validate `characters` before/after `saveAllCharacters`
-          await saveService.saveAllCharacters(characters);
+          await db.saveAllCharacters(characters);
           return CharacterActions.saveAllCharactersSuccess({ characters });
         } catch (error) {
           console.error('[Character] save all error:', error);
@@ -143,13 +164,13 @@ export const saveAllCharactersDexie$ = createEffect(
   { functional: true },
 );
 
-export const removeCharacterDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const removeCharacter$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(CharacterActions.removeCharacter),
       mergeMap(async ({ id }) => {
         try {
-          await saveService.deleteCharacter(id);
+          await db.deleteCharacter(id);
           return CharacterActions.removeCharacterSuccess({ id });
         } catch (error) {
           return CharacterActions.removeCharacterFailure({
@@ -161,13 +182,13 @@ export const removeCharacterDexie$ = createEffect(
   { functional: true },
 );
 
-export const removeAllCharactersDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const removeAllCharacters$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(CharacterActions.removeAllCharacters),
       mergeMap(async ({ id }) => {
         try {
-          await saveService.deleteAllCharacters(id);
+          await db.deleteAllCharacters(id);
           return CharacterActions.removeAllCharactersSuccess({ id });
         } catch (error) {
           return CharacterActions.removeAllCharactersFailure({

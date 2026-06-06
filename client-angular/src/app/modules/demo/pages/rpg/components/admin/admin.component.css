@@ -7,8 +7,45 @@
 .admin-page__controls {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 1rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.create-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0 1.2rem;
+  height: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: -12px; /* Aligns with material input bases */
+}
+.create-btn:hover {
+  background: #059669;
+}
+
+/* Tag Pills */
+.tags-cell-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.ui-pill {
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.muted-type {
+  color: #6b7280;
+  font-style: italic;
 }
 
 .admin-page__select {

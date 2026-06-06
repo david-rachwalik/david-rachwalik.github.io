@@ -1,29 +1,33 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, take } from 'rxjs/operators';
 
+import { Store } from '@ngrx/store';
 import { AdventureEvent } from '../../models/adventure';
 import { GameSaveDexieService } from '../../services/game-save-dexie.service';
 import { UserService } from '../../services/user.service';
 import { toId } from '../../utils';
 import { buildAdventureEntityCompositeId } from '../../utils-composite-id';
 import { AppActions } from '../app.actions';
+import { selectCurrentSlotId } from '../app.selectors';
 import { AdventureEventActions } from './adventure-event.actions';
 import { AdventureActions } from './adventure.actions';
 
-// #region 🔸 Dexie Effects (EventedDb, asynchronous) 🔸
+// #region 🔸 Database Effects 🔸
 
-export const addAdventureEventDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const addAdventureEvent$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AdventureEventActions.addAdventureEvent),
       mergeMap(async ({ event }) => {
         try {
-          await saveService.saveAdventureEvent(event);
+          await db.saveAdventureEvent(event);
           return AdventureEventActions.addAdventureEventSuccess({ event });
-        } catch (error) {
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
           return AdventureEventActions.addAdventureEventFailure({
-            error: String(error),
+            error: errorMessage,
           });
         }
       }),
@@ -31,20 +35,57 @@ export const addAdventureEventDexie$ = createEffect(
   { functional: true },
 );
 
-export const loadAllAdventureEventsDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const loadAllAdventureEvents$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    db = inject(GameSaveDexieService),
+    store = inject(Store),
+  ) =>
     actions$.pipe(
-      // ofType(AdventureEventActions.loadAllAdventureEvents),
-      ofType(AppActions.init, AdventureEventActions.loadAllAdventureEvents),
-      mergeMap(async () => {
+      ofType(AppActions.play, AdventureEventActions.loadAllAdventureEvents),
+      // This asynchronous waiter safeguards page refreshes (use with AppActions.play)
+      switchMap((action) =>
+        store.select(selectCurrentSlotId).pipe(
+          filter((id): id is string => !!id),
+          take(1), // waits for first truthy value
+          map((storeSlotId) => ({ action, storeSlotId })),
+        ),
+      ),
+      mergeMap(async ({ action, storeSlotId }) => {
         try {
-          const events = await saveService.loadAllAdventureEvents();
+          // Extract optional overrides safely without strict "any"
+          const payloadSlotId =
+            'adventureId' in action ? action.adventureId : undefined;
+          const fetchAll = 'fetchAll' in action ? action.fetchAll : false;
+
+          // If Admin requests ALL events from database, bypass the ID check
+          if (fetchAll) {
+            const events = await db.loadAllAdventureEvents();
+            return AdventureEventActions.loadAllAdventureEventsSuccess({
+              events,
+            });
+          }
+
+          // Prefer explicit action ID, fallback to Store's active session ID
+          const slotId = payloadSlotId || storeSlotId;
+
+          // Fail fiercely if lacks context
+          if (!slotId) {
+            throw new Error(
+              '[loadAllAdventureEvents] Failed: No adventureId context provided or active in Store.',
+            );
+          }
+
+          // Fetch specific active playthrough events
+          const events = await db.loadAllAdventureEvents(slotId);
           return AdventureEventActions.loadAllAdventureEventsSuccess({
             events,
           });
-        } catch (error) {
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
           return AdventureEventActions.loadAllAdventureEventsFailure({
-            error: String(error),
+            error: errorMessage,
           });
         }
       }),
@@ -52,13 +93,13 @@ export const loadAllAdventureEventsDexie$ = createEffect(
   { functional: true },
 );
 
-export const saveAdventureEventDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const saveAdventureEvent$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AdventureEventActions.saveAdventureEvent),
       mergeMap(async ({ event }) => {
         try {
-          await saveService.saveAdventureEvent(event);
+          await db.saveAdventureEvent(event);
           return AdventureEventActions.saveAdventureEventSuccess({ event });
         } catch (error) {
           return AdventureEventActions.saveAdventureEventFailure({
@@ -70,13 +111,13 @@ export const saveAdventureEventDexie$ = createEffect(
   { functional: true },
 );
 
-export const removeAdventureEventsDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const removeAdventureEvents$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AdventureEventActions.removeAllAdventureEvents),
       mergeMap(async ({ id }) => {
         try {
-          await saveService.deleteAllAdventureEvents(id);
+          await db.deleteAllAdventureEvents(id);
           return AdventureEventActions.removeAllAdventureEventsSuccess({ id });
         } catch (error) {
           return AdventureEventActions.removeAllAdventureEventsFailure({
@@ -88,13 +129,13 @@ export const removeAdventureEventsDexie$ = createEffect(
   { functional: true },
 );
 
-export const removeAllAdventureEventsDexie$ = createEffect(
-  (actions$ = inject(Actions), saveService = inject(GameSaveDexieService)) =>
+export const removeAllAdventureEvents$ = createEffect(
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AdventureEventActions.removeAllAdventureEvents),
       mergeMap(async ({ id }) => {
         try {
-          await saveService.deleteAllAdventureEvents(id);
+          await db.deleteAllAdventureEvents(id);
           return AdventureEventActions.removeAllAdventureEventsSuccess({ id });
         } catch (error) {
           return AdventureEventActions.removeAllAdventureEventsFailure({

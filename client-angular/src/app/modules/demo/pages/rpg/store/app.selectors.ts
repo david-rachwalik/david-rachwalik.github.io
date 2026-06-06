@@ -2,10 +2,19 @@ import { createSelector } from '@ngrx/store';
 
 import { Character } from '../models/character';
 import { buildAdventureEntityTemplateId } from '../utils-composite-id';
-import { selectAllAdventureEvents } from './adventure/adventure-event.selectors';
-import { selectAdventureEntities } from './adventure/adventure.selectors';
+import {
+  selectAdventureEventLoading,
+  selectAllAdventureEvents,
+} from './adventure/adventure-event.selectors';
+import {
+  selectAdventureEntities,
+  selectAdventureLoading,
+} from './adventure/adventure.selectors';
 import { appFeature } from './app.reducer';
-import { selectCharacterEntities } from './character/character.selectors';
+import {
+  selectCharacterEntities,
+  selectCharacterLoading,
+} from './character/character.selectors';
 import { selectLocationEntities } from './location/location.selectors';
 import { selectMomentEntities } from './moment/moment.selectors';
 
@@ -22,6 +31,14 @@ export const {
 } = appFeature;
 
 // --- Logical Selectors ---
+
+export const selectIsGameLoading = createSelector(
+  selectAdventureLoading,
+  selectAdventureEventLoading,
+  selectCharacterLoading,
+  (advLoading, eventsLoading, charsLoading) =>
+    advLoading || eventsLoading || charsLoading,
+);
 
 // Current Adventure ID (alias for currentSlotId)
 export const selectCurrentAdventureId = selectCurrentSlotId;

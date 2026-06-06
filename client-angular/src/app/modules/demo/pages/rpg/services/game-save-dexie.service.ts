@@ -8,7 +8,7 @@ import { Moment } from '../models/moment';
 import { Skill } from '../models/skill';
 import { idb } from '../store/indexeddb-dexie';
 
-// Controls CRUD interactions for IndexedDB
+// Controls CRUD interactions for IndexedDB (asynchronous)
 
 export interface GameSaveBatchPayload {
   adventure?: Adventure;
@@ -19,6 +19,8 @@ export interface GameSaveBatchPayload {
 
 @Injectable({ providedIn: 'root' })
 export class GameSaveDexieService {
+  // #region 🔸 Active Playthrough Instances 🔸
+
   // Adventure CRUD
   async saveAdventure(adventure: Adventure): Promise<void> {
     await idb.adventures.put(adventure);
@@ -51,7 +53,14 @@ export class GameSaveDexieService {
   async saveAdventureEvent(event: AdventureEvent): Promise<void> {
     await idb.adventureEvents.put(event);
   }
-  async loadAllAdventureEvents(): Promise<AdventureEvent[]> {
+  async loadAllAdventureEvents(
+    adventureId?: string,
+  ): Promise<AdventureEvent[]> {
+    if (adventureId)
+      return idb.adventureEvents
+        .where('adventureId')
+        .equals(adventureId)
+        .toArray();
     return idb.adventureEvents.toArray();
   }
   async loadAdventureEvent(id: string): Promise<AdventureEvent | undefined> {
@@ -71,7 +80,10 @@ export class GameSaveDexieService {
   async saveAllCharacters(characters: Character[]): Promise<void> {
     await idb.characters.bulkPut(characters);
   }
-  async loadAllCharacters(): Promise<Character[]> {
+  // adventureId optional, returning specific slice or full table
+  async loadAllCharacters(adventureId?: string): Promise<Character[]> {
+    if (adventureId)
+      return idb.characters.where('adventureId').equals(adventureId).toArray();
     return idb.characters.toArray();
   }
   async loadCharacter(id: string): Promise<Character | undefined> {
@@ -83,6 +95,9 @@ export class GameSaveDexieService {
   async deleteAllCharacters(adventureId: string): Promise<void> {
     await idb.characters.where('adventureId').equals(adventureId).delete();
   }
+  // #endregion
+
+  // #region 🔸 Global Content Templates 🔸
 
   // Location CRUD
   async saveLocation(location: Location): Promise<void> {
@@ -139,6 +154,7 @@ export class GameSaveDexieService {
   async deleteSkill(id: string): Promise<void> {
     await idb.skills.delete(id);
   }
+  // #endregion
 
   // // EventLog CRUD
   // async saveEventLog(event: GameEvent): Promise<void> {
@@ -154,7 +170,7 @@ export class GameSaveDexieService {
   //   await idb.eventLogs.delete(id);
   // }
 
-  // -- Dynamic Batch Transaction for Active Playthroughs --
+  // #region 🔸 Dynamic Batch Transaction for Active Playthroughs 🔸
   async saveBatch(payload: GameSaveBatchPayload): Promise<void> {
     if (Object.keys(payload).length === 0) return;
 
@@ -181,4 +197,5 @@ export class GameSaveDexieService {
       }
     });
   }
+  // #endregion
 } // End of GameSaveDexieService

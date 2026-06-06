@@ -7,7 +7,8 @@ export const AppActions = createActionGroup({
   source: 'RPG Demo',
   events: {
     Init: emptyProps(),
-    Play: props<{ slotId: string }>(),
+    Play: emptyProps(),
+    'Play Failure': props<{ error: string }>(),
 
     'Load All Seeds': emptyProps(),
     'Load All Seeds Success': emptyProps(),

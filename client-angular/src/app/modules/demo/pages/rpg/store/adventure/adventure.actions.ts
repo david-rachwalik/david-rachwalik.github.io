@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { Adventure } from '../../models/adventure';
+import { Adventure, AdventureInstance } from '../../models/adventure';
 
 export const AdventureActions = createActionGroup({
   source: 'Adventure',
@@ -24,7 +24,7 @@ export const AdventureActions = createActionGroup({
     'Load Adventure Failure': props<{ error: string }>(),
 
     // Update (with partial changes)
-    'Save Adventure': props<{ id: string; changes: Partial<Adventure> }>(),
+    'Save Adventure': props<{ id: string; changes: AdventureInstance }>(),
     'Save Adventure Success': props<{ adventure: Adventure }>(),
     'Save Adventure Failure': props<{ error: string }>(),
 
