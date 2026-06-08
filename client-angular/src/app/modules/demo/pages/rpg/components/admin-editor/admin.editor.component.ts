@@ -7,18 +7,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { firstValueFrom, map, Observable, switchMap, take } from 'rxjs';
 
-// --- Explicit Model Imports for strict typing ---
-import { AdventureInstance } from '../../models/adventure';
-import { AttributeInstance } from '../../models/attribute';
-import { CharacterInstance } from '../../models/character';
-import { EffectInstance } from '../../models/effect';
-import { ItemInstance } from '../../models/item';
-import { LocationInstance } from '../../models/location';
-import { MomentInstance } from '../../models/moment';
-import { SkillInstance } from '../../models/skill';
-import { TagInstance } from '../../models/tag';
-
-// --- Implied Selector Imports ---
+// --- Selectors ---
 import { selectAllAdventures } from '../../store/adventure/adventure.selectors';
 import { selectAllAttributes } from '../../store/attribute/attribute.selectors';
 import { selectAllCharacters } from '../../store/character/character.selectors';
@@ -29,17 +18,7 @@ import { selectAllMoments } from '../../store/moment/moment.selectors';
 import { selectAllSkills } from '../../store/skill/skill.selectors';
 import { selectAllTags } from '../../store/tag/tag.selectors';
 
-// --- Implied Action Imports ---
-import { AdventureActions } from '../../store/adventure/adventure.actions';
-import { AttributeActions } from '../../store/attribute/attribute.actions';
-import { CharacterActions } from '../../store/character/character.actions';
-import { EffectActions } from '../../store/effect/effect.actions';
-import { ItemActions } from '../../store/item/item.actions';
-import { LocationActions } from '../../store/location/location.actions';
-import { MomentActions } from '../../store/moment/moment.actions';
-import { SkillActions } from '../../store/skill/skill.actions';
-import { TagActions } from '../../store/tag/tag.actions';
-
+import { GameFacade } from '../../services/game-facade';
 import { buildDimensionEntityTemplateId } from '../../utils-composite-id';
 import { AdminConfirmDialogComponent } from './admin.confirm.dialog.component';
 import { SeedJsonDialogComponent } from './admin.json.dialog.component';
@@ -61,6 +40,7 @@ import { SeedJsonDialogComponent } from './admin.json.dialog.component';
 export class AdminEditorComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private game = inject(GameFacade);
   private store = inject(Store);
   private dialog = inject(MatDialog);
 
@@ -241,31 +221,32 @@ export class AdminEditorComponent implements OnInit {
 
     switch (feature) {
       case 'tags':
-        this.store.dispatch(TagActions.removeTag({ id }));
+        this.game.utils.tag.remove(id);
         break;
       case 'attributes':
-        this.store.dispatch(AttributeActions.removeAttribute({ id }));
+        this.game.utils.attribute.remove(id);
         break;
       case 'effects':
-        this.store.dispatch(EffectActions.removeEffect({ id }));
+        this.game.utils.effect.remove(id);
         break;
       case 'adventures':
-        this.store.dispatch(AdventureActions.removeAdventure({ id }));
+        // Use GameFacade's built-in orchestration for adventures
+        await this.game.deleteGame(id);
         break;
       case 'characters':
-        this.store.dispatch(CharacterActions.removeCharacter({ id }));
+        this.game.utils.character.remove(id);
         break;
       case 'items':
-        this.store.dispatch(ItemActions.removeItem({ id }));
+        this.game.utils.item.remove(id);
         break;
       case 'skills':
-        this.store.dispatch(SkillActions.removeSkill({ id }));
+        this.game.utils.skill.remove(id);
         break;
       case 'moments':
-        this.store.dispatch(MomentActions.removeMoment({ id }));
+        this.game.utils.moment.remove(id);
         break;
       case 'locations':
-        this.store.dispatch(LocationActions.removeLocation({ id }));
+        this.game.utils.location.remove(id);
         break;
       default:
         console.warn(`[Admin Editor] Unhandled feature delete: ${feature}`);
@@ -281,67 +262,38 @@ export class AdminEditorComponent implements OnInit {
     if (!this.editableEntity || !this.editableEntity['id']) return;
 
     const feature = await firstValueFrom(this.feature$);
-    const id = this.editableEntity['id'] as string;
+    // const id = this.editableEntity['id'] as string;
     // console.log('[Admin Editor] saveChanges() id=', id);
     const changes = this.editableEntity;
 
     switch (feature) {
       case 'tags':
-        this.store.dispatch(
-          TagActions.saveTag({ id, changes: changes as TagInstance }),
-        );
+        this.game.utils.tag.save(changes);
         break;
       case 'attributes':
-        this.store.dispatch(
-          AttributeActions.saveAttribute({
-            id,
-            changes: changes as AttributeInstance,
-          }),
-        );
+        this.game.utils.attribute.save(changes);
         break;
       case 'effects':
-        this.store.dispatch(
-          EffectActions.saveEffect({ id, changes: changes as EffectInstance }),
-        );
+        this.game.utils.effect.save(changes);
         break;
       case 'adventures':
-        this.store.dispatch(
-          AdventureActions.saveAdventure({
-            id,
-            changes: changes as AdventureInstance,
-          }),
-        );
+        // Use GameFacade's built-in orchestration for adventures
+        this.game.saveGame(changes);
         break;
       case 'characters':
-        this.store.dispatch(
-          CharacterActions.saveCharacter({
-            id,
-            changes: changes as CharacterInstance,
-          }),
-        );
+        this.game.utils.character.save(changes);
         break;
       case 'items':
-        this.store.dispatch(
-          ItemActions.saveItem({ id, changes: changes as ItemInstance }),
-        );
+        this.game.utils.item.save(changes);
         break;
       case 'skills':
-        this.store.dispatch(
-          SkillActions.saveSkill({ id, changes: changes as SkillInstance }),
-        );
+        this.game.utils.skill.save(changes);
         break;
       case 'moments':
-        this.store.dispatch(
-          MomentActions.saveMoment({ id, changes: changes as MomentInstance }),
-        );
+        this.game.utils.moment.save(changes);
         break;
       case 'locations':
-        this.store.dispatch(
-          LocationActions.saveLocation({
-            id,
-            changes: changes as LocationInstance,
-          }),
-        );
+        this.game.utils.location.save(changes);
         break;
       default:
         console.warn(`[Admin Editor] Unhandled feature save: ${feature}`);
