@@ -79,6 +79,7 @@
 
   // -------- Code Repository (Git) --------
   "git.enabled": true,
+  "git.blame.statusBarItem.enabled": false,
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
