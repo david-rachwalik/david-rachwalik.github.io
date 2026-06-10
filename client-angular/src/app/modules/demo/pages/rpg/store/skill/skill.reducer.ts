@@ -5,10 +5,11 @@ import { Skill } from '../../models/skill';
 import { SkillActions } from './skill.actions';
 
 export interface SkillState extends EntityState<Skill> {
-  seeded: boolean; // for initial load
-  loading: boolean; // for any async operation
-  loaded: boolean; // for initial load
-  error: string | null; // for any async operation
+  seeded: boolean;
+  loading: boolean;
+  loaded: boolean;
+  saving: boolean;
+  error: string | null;
 }
 
 export const adapter = createEntityAdapter<Skill>();
@@ -17,6 +18,7 @@ export const initialState: SkillState = adapter.getInitialState({
   seeded: false,
   loading: false,
   loaded: false,
+  saving: false,
   error: null,
 });
 
@@ -25,25 +27,28 @@ export const skillFeature = createFeature({
   name: 'skill',
   reducer: createReducer(
     initialState,
+
     // Seed load
     on(SkillActions.seedAllSkillsSuccess, (state, { skills }) =>
       adapter.setAll(skills, { ...state, seeded: true }),
     ),
+
     // Create
     on(SkillActions.addSkill, (state) => ({
       ...state,
-      loading: true,
+      saving: true,
       error: null,
     })),
     on(SkillActions.addSkillSuccess, (state, { skill }) =>
       // `addOne` will only add the entity if it does not already exist (by id)
-      adapter.addOne(skill, { ...state, loading: false }),
+      adapter.addOne(skill, { ...state, saving: false }),
     ),
     on(SkillActions.addSkillFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
+
     // Read All
     on(SkillActions.loadAllSkills, (state) => ({
       ...state,
@@ -58,6 +63,7 @@ export const skillFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Read
     on(SkillActions.loadSkill, (state) => ({
       ...state,
@@ -72,34 +78,36 @@ export const skillFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Update (optimistic, lets UI immediately reflect changes)
     on(SkillActions.saveSkill, (state, { id, changes }) =>
       adapter.updateOne(
         { id, changes },
-        { ...state, loading: true, error: null },
+        { ...state, saving: true, error: null },
       ),
     ),
-    // Update with actual saved data
+    // Full update with actual saved data
     on(SkillActions.saveSkillSuccess, (state, { skill }) =>
-      adapter.upsertOne(skill, { ...state, loading: false }),
+      adapter.upsertOne(skill, { ...state, saving: false }),
     ),
     on(SkillActions.saveSkillFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
+
     // Delete
     on(SkillActions.removeSkill, (state) => ({
       ...state,
-      loading: true,
+      saving: true,
       error: null,
     })),
     on(SkillActions.removeSkillSuccess, (state, { id }) =>
-      adapter.removeOne(id, { ...state, loading: false }),
+      adapter.removeOne(id, { ...state, saving: false }),
     ),
     on(SkillActions.removeSkillFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
   ),

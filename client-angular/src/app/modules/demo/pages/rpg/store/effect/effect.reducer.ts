@@ -5,10 +5,11 @@ import { Effect } from '../../models/effect';
 import { EffectActions } from './effect.actions';
 
 export interface EffectState extends EntityState<Effect> {
-  seeded: boolean; // for initial load
-  loading: boolean; // for any async operation
-  loaded: boolean; // for initial load
-  error: string | null; // for any async operation
+  seeded: boolean;
+  loading: boolean;
+  loaded: boolean;
+  saving: boolean;
+  error: string | null;
 }
 
 export const adapter = createEntityAdapter<Effect>();
@@ -17,6 +18,7 @@ export const initialState: EffectState = adapter.getInitialState({
   seeded: false,
   loading: false,
   loaded: false,
+  saving: false,
   error: null,
 });
 
@@ -25,25 +27,28 @@ export const effectFeature = createFeature({
   name: 'effect',
   reducer: createReducer(
     initialState,
+
     // Seed load
     on(EffectActions.seedAllEffectsSuccess, (state, { effects }) =>
       adapter.setAll(effects, { ...state, seeded: true }),
     ),
+
     // Create
     on(EffectActions.addEffect, (state) => ({
       ...state,
-      loading: true,
+      saving: true,
       error: null,
     })),
     on(EffectActions.addEffectSuccess, (state, { effect }) =>
       // `addOne` will only add the entity if it does not already exist (by id)
-      adapter.addOne(effect, { ...state, loading: false }),
+      adapter.addOne(effect, { ...state, saving: false }),
     ),
     on(EffectActions.addEffectFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
+
     // Read All
     on(EffectActions.loadAllEffects, (state) => ({
       ...state,
@@ -58,6 +63,7 @@ export const effectFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Read
     on(EffectActions.loadEffect, (state) => ({
       ...state,
@@ -72,34 +78,36 @@ export const effectFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Update (optimistic, lets UI immediately reflect changes)
     on(EffectActions.saveEffect, (state, { id, changes }) =>
       adapter.updateOne(
         { id, changes },
-        { ...state, loading: true, error: null },
+        { ...state, saving: true, error: null },
       ),
     ),
-    // Update with actual saved data
+    // Full update with actual saved data
     on(EffectActions.saveEffectSuccess, (state, { effect }) =>
-      adapter.upsertOne(effect, { ...state, loading: false }),
+      adapter.upsertOne(effect, { ...state, saving: false }),
     ),
     on(EffectActions.saveEffectFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
+
     // Delete
     on(EffectActions.removeEffect, (state) => ({
       ...state,
-      loading: true,
+      saving: true,
       error: null,
     })),
     on(EffectActions.removeEffectSuccess, (state, { id }) =>
-      adapter.removeOne(id, { ...state, loading: false }),
+      adapter.removeOne(id, { ...state, saving: false }),
     ),
     on(EffectActions.removeEffectFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
   ),

@@ -5,10 +5,11 @@ import { Moment } from '../../models/moment';
 import { MomentActions } from './moment.actions';
 
 export interface MomentState extends EntityState<Moment> {
-  seeded: boolean; // for initial load
-  loading: boolean; // for any async operation
-  loaded: boolean; // for initial load
-  error: string | null; // for any async operation
+  seeded: boolean;
+  loading: boolean;
+  loaded: boolean;
+  saving: boolean;
+  error: string | null;
 }
 
 export const adapter = createEntityAdapter<Moment>();
@@ -17,6 +18,7 @@ export const initialState: MomentState = adapter.getInitialState({
   seeded: false,
   loading: false,
   loaded: false,
+  saving: false,
   error: null,
 });
 
@@ -25,25 +27,28 @@ export const momentFeature = createFeature({
   name: 'moment',
   reducer: createReducer(
     initialState,
+
     // Seed load
     on(MomentActions.seedAllMomentsSuccess, (state, { moments }) =>
       adapter.setAll(moments, { ...state, seeded: true }),
     ),
+
     // Create
     on(MomentActions.addMoment, (state) => ({
       ...state,
-      loading: true,
+      saving: true,
       error: null,
     })),
     on(MomentActions.addMomentSuccess, (state, { moment }) =>
       // `addOne` will only add the entity if it does not already exist (by id)
-      adapter.addOne(moment, { ...state, loading: false }),
+      adapter.addOne(moment, { ...state, saving: false }),
     ),
     on(MomentActions.addMomentFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
+
     // Read All
     on(MomentActions.loadAllMoments, (state) => ({
       ...state,
@@ -58,6 +63,7 @@ export const momentFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Read
     on(MomentActions.loadMoment, (state) => ({
       ...state,
@@ -72,34 +78,36 @@ export const momentFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Update (optimistic, lets UI immediately reflect changes)
     on(MomentActions.saveMoment, (state, { id, changes }) =>
       adapter.updateOne(
         { id, changes },
-        { ...state, loading: true, error: null },
+        { ...state, saving: true, error: null },
       ),
     ),
-    // Update with actual saved data
+    // Full update with actual saved data
     on(MomentActions.saveMomentSuccess, (state, { moment }) =>
-      adapter.upsertOne(moment, { ...state, loading: false }),
+      adapter.upsertOne(moment, { ...state, saving: false }),
     ),
     on(MomentActions.saveMomentFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
+
     // Delete
     on(MomentActions.removeMoment, (state) => ({
       ...state,
-      loading: true,
+      saving: true,
       error: null,
     })),
     on(MomentActions.removeMomentSuccess, (state, { id }) =>
-      adapter.removeOne(id, { ...state, loading: false }),
+      adapter.removeOne(id, { ...state, saving: false }),
     ),
     on(MomentActions.removeMomentFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
   ),

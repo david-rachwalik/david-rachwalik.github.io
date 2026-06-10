@@ -5,10 +5,11 @@ import { Item } from '../../models/item';
 import { ItemActions } from './item.actions';
 
 export interface ItemState extends EntityState<Item> {
-  seeded: boolean; // for initial load
-  loading: boolean; // for any async operation
-  loaded: boolean; // for initial load
-  error: string | null; // for any async operation
+  seeded: boolean;
+  loading: boolean;
+  loaded: boolean;
+  saving: boolean;
+  error: string | null;
 }
 
 export const adapter = createEntityAdapter<Item>();
@@ -17,6 +18,7 @@ export const initialState: ItemState = adapter.getInitialState({
   seeded: false,
   loading: false,
   loaded: false,
+  saving: false,
   error: null,
 });
 
@@ -25,25 +27,28 @@ export const itemFeature = createFeature({
   name: 'item',
   reducer: createReducer(
     initialState,
+
     // Seed load
     on(ItemActions.seedAllItemsSuccess, (state, { items }) =>
       adapter.setAll(items, { ...state, seeded: true }),
     ),
+
     // Create
     on(ItemActions.addItem, (state) => ({
       ...state,
-      loading: true,
+      saving: true,
       error: null,
     })),
     on(ItemActions.addItemSuccess, (state, { item }) =>
       // `addOne` will only add the entity if it does not already exist (by id)
-      adapter.addOne(item, { ...state, loading: false }),
+      adapter.addOne(item, { ...state, saving: false }),
     ),
     on(ItemActions.addItemFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
+
     // Read All
     on(ItemActions.loadAllItems, (state) => ({
       ...state,
@@ -58,6 +63,7 @@ export const itemFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Read
     on(ItemActions.loadItem, (state) => ({
       ...state,
@@ -72,34 +78,36 @@ export const itemFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Update (optimistic, lets UI immediately reflect changes)
     on(ItemActions.saveItem, (state, { id, changes }) =>
       adapter.updateOne(
         { id, changes },
-        { ...state, loading: true, error: null },
+        { ...state, saving: true, error: null },
       ),
     ),
-    // Update with actual saved data
+    // Full update with actual saved data
     on(ItemActions.saveItemSuccess, (state, { item }) =>
-      adapter.upsertOne(item, { ...state, loading: false }),
+      adapter.upsertOne(item, { ...state, saving: false }),
     ),
     on(ItemActions.saveItemFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
+
     // Delete
     on(ItemActions.removeItem, (state) => ({
       ...state,
-      loading: true,
+      saving: true,
       error: null,
     })),
     on(ItemActions.removeItemSuccess, (state, { id }) =>
-      adapter.removeOne(id, { ...state, loading: false }),
+      adapter.removeOne(id, { ...state, saving: false }),
     ),
     on(ItemActions.removeItemFailure, (state, { error }) => ({
       ...state,
-      loading: false,
+      saving: false,
       error,
     })),
   ),
