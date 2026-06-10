@@ -51,7 +51,6 @@ import { GameBackupService } from '../services/game-backup.service';
 import { GameSaveDexieService } from '../services/game-save-dexie.service';
 import { GameSaveLocalService } from '../services/game-save-local.service';
 import { UserService } from '../services/user.service';
-import { toId } from '../utils';
 
 // #region 🔸 Seed Effects 🔸
 
@@ -130,16 +129,10 @@ export const initLoadAccountId$ = createEffect(
   (actions$ = inject(Actions), userService = inject(UserService)) =>
     actions$.pipe(
       ofType(AppActions.init),
-      // tap(() =>
-      //   console.log('[Effect] AppActions.init received (initLoadAccountId$)'),
-      // ),
       map(() => userService.accountId),
       tap((id) => console.log('[Effect] Loaded accountId:', id)),
       filter((id): id is string => !!id),
-      map((id) => AppActions.setAccountId({ id })),
-      // tap((action) =>
-      //   console.log('[Effect] Dispatching setAccountId:', action),
-      // ),
+      map((id) => AppActions.loadAccountIdSuccess({ id })),
     ),
   { functional: true },
 );
@@ -149,14 +142,10 @@ export const initLoadCurrentSlotId$ = createEffect(
   (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
     actions$.pipe(
       ofType(AppActions.init),
-      // tap(() => console.log('[Effect] AppActions.init received')),
       map(() => saveService.loadCurrentSlotId()),
       tap((slotId) => console.log('[Effect] Loaded slotId:', slotId)),
       filter((slotId): slotId is string => !!slotId),
-      map((slotId) => AppActions.setCurrentSlotId({ slotId })),
-      // tap((action) =>
-      //   console.log('[Effect] Dispatching setCurrentSlotId:', action),
-      // ),
+      map((slotId) => AppActions.loadCurrentSlotIdSuccess({ slotId })),
     ),
   { functional: true },
 );
@@ -165,6 +154,7 @@ export const saveCurrentSlotIdLocal$ = createEffect(
   (actions$ = inject(Actions), saveService = inject(GameSaveLocalService)) =>
     actions$.pipe(
       ofType(AppActions.setCurrentSlotId),
+      filter(({ slotId }) => !!slotId),
       tap(() => console.log('[Effect] AppActions.setCurrentSlotId received')),
       tap(({ slotId }) => saveService.saveCurrentSlotId(slotId)),
     ),
@@ -276,15 +266,13 @@ export const setCurrentSlotIdOnAdventureAdd$ = createEffect(
   (actions$ = inject(Actions)) =>
     actions$.pipe(
       ofType(AdventureActions.addAdventureSuccess),
+      filter(({ adventure }) => !!adventure && !!adventure.id),
       map(({ adventure }) => {
-        // return AppActions.setCurrentSlotId({ slotId: adventure.id });
         console.log(
           '[setCurrentSlotIdOnAdventureAdd$] adventure.id=',
           adventure.id,
         );
-        const slotId = toId(adventure.label);
-        console.log('[setCurrentSlotIdOnAdventureAdd$] slotId=', slotId);
-        return AppActions.setCurrentSlotId({ slotId });
+        return AppActions.setCurrentSlotId({ slotId: adventure.id });
       }),
     ),
   { functional: true },
