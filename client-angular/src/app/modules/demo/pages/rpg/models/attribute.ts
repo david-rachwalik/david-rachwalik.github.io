@@ -15,11 +15,11 @@ export type AttributeValueType = 'boolean' | 'number' | 'string';
  */
 export interface Attribute extends GameDimensionEntity, Partial<RuntimeMeta> {
   name: string;
-  kind: AttributeType;
   abbreviation: string;
   description: string;
   // tags: string[];
   // ---
+  kind: AttributeType;
   valueType: AttributeValueType;
   default: AttributeValue;
   base: AttributeValue; // revert to if temporary effects expire

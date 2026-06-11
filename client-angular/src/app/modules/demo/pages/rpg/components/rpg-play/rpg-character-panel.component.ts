@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
-import { map, Observable, of, Subject, takeUntil } from 'rxjs';
+import { map, Observable, of, Subject } from 'rxjs';
 
 import { Attribute } from '../../models/attribute';
 import { CharacterFacade } from '../../services/facades/character-facade';
+import { debugLogObservable } from '../../utils';
 
 @Component({
   standalone: true,
@@ -69,21 +70,8 @@ export class RpgCharacterPanelComponent implements OnInit, OnDestroy {
   }
 
   // Helper to log observables if debugMode is enabled
-  logObservable<T>(
-    label: string,
-    obs: Observable<T>,
-    // destroy$: Subject<void>,
-    // enabled: boolean,
-  ): void {
-    const destroy: Subject<void> = this.destroy$;
-    const enabled: boolean = this.debugMode;
-    if (enabled) {
-      obs
-        // .pipe(takeUntil(destroy$))
-        .pipe(takeUntil(destroy))
-        // .subscribe((val) => console.log(`[Character Panel] ${label}`, val));
-        .subscribe((val) => console.log(label, val));
-    }
+  logObservable<T>(label: string, obs: Observable<T>): void {
+    debugLogObservable(label, obs, this.destroy$, this.debugMode);
   }
 
   loadCharacterData() {

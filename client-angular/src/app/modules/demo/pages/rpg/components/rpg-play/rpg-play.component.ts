@@ -11,7 +11,6 @@ import {
   shareReplay,
   Subject,
   switchMap,
-  takeUntil,
   tap,
 } from 'rxjs';
 
@@ -19,6 +18,7 @@ import { Attribute } from '../../models/attribute';
 import { Character, EnemyViewModel } from '../../models/character';
 import { MomentChoice } from '../../models/moment';
 import { GameFacade } from '../../services/game-facade';
+import { debugLogObservable } from '../../utils';
 import { RpgCharacterPanelComponent } from './rpg-character-panel.component';
 
 @Component({
@@ -43,6 +43,7 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
   // --- Observables ---
 
   isLoading$ = this.game.isLoading$;
+  logEntries$ = this.game.log$;
 
   attributes$ = this.game.attributes$;
 
@@ -93,6 +94,15 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
 
   moment$ = this.game.currentMoment$;
   choices$ = this.game.currentMomentChoices$;
+
+  activeChoices$: Observable<MomentChoice[]> = this.choices$.pipe(
+    map((choices) =>
+      (choices ?? []).map((opt) => ({
+        ...opt,
+        enabled: opt.enabled !== false, // disabled if explicitly false
+      })),
+    ),
+  );
 
   // For UI: get all combat characters actively tied to this save slot
   combatCharacters$: Observable<Character[]> =
@@ -202,21 +212,8 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
   }
 
   // Helper to log observables if debugMode is enabled
-  logObservable<T>(
-    label: string,
-    obs: Observable<T>,
-    // destroy$: Subject<void>,
-    // enabled: boolean,
-  ): void {
-    const destroy: Subject<void> = this.destroy$;
-    const enabled: boolean = this.debugMode;
-    if (enabled) {
-      obs
-        // .pipe(takeUntil(destroy$))
-        .pipe(takeUntil(destroy))
-        // .subscribe((val) => console.log(`[Character Panel] ${label}`, val));
-        .subscribe((val) => console.log(label, val));
-    }
+  logObservable<T>(label: string, obs: Observable<T>): void {
+    debugLogObservable(label, obs, this.destroy$, this.debugMode);
   }
 
   // --- Actions & Logging ---
@@ -235,8 +232,10 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
 
     this.logObservable('[Play] moment$', this.moment$);
     this.logObservable('[Play] choices$', this.choices$);
-    // this.logEntries$.subscribe((val) => console.log('[Play] logEntries$', val));
+    this.logObservable('[Play] activeChoices$', this.activeChoices$);
+    // this.logObservable('[Play] logEntries$', this.logEntries$);
 
+    // For UI: get all combat characters actively tied to this Moment
     this.logObservable('[Play] combatCharacters$', this.combatCharacters$);
     this.logObservable('[Play] enemyCharacters$', this.enemyCharacters$);
 
@@ -244,18 +243,6 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
     this.logObservable('[Play] targetLevel$', this.targetLevel$);
     this.logObservable('[Play] targetHealth$', this.targetHealth$);
     this.logObservable('[Play] targetHealthMax$', this.targetHealthMax$);
-  }
-
-  getChoices(): Observable<MomentChoice[]> {
-    return this.moment$.pipe(
-      map(
-        (moment) =>
-          (moment?.choices?.map((opt) => ({
-            ...opt,
-            enabled: opt.enabled !== false, // enabled unless explicitly false
-          })) as MomentChoice[]) ?? [],
-      ),
-    );
   }
 
   toggleMomentDetails() {
@@ -268,10 +255,6 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
       navigator.clipboard.writeText(text).catch(() => {});
     }
   }
-
-  // get logEntries$(): Observable<string[]> {
-  //   return this.game.logEntries$;
-  // }
 
   async resetMoment() {
     await this.game.resetCurrentMoment();

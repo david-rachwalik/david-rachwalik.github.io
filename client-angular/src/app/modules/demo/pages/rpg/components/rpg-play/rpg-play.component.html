@@ -1,165 +1,179 @@
-@if (isLoading$ | async) {
-  <div
-    class="loading-screen"
-    style="
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 50vh;
-    ">
-    <h2>⏳ Loading Save File...</h2>
-  </div>
-} @else {
-  <div class="play-container">
-    <!-- Sidebar: Player Stats & Status -->
-    <aside class="sidebar">
-      @if (player$ | async; as player) {
-        <div class="player-info">
-          <h2>{{ player.name }}</h2>
-          <!-- Level -->
-          @if (level$ | async; as level) {
-            <div class="player-level">Level: &nbsp;{{ level.value }}</div>
-          }
-          <!-- HP (health) -->
-          @if (health$ | async; as health) {
-            <div class="player-health">
-              <span>HP: &nbsp;</span>
-              <span class="stat-value">{{ health.value }}</span>
-              @if (health.max !== undefined) {
-                <span class="divider">/</span>
-                <span class="stat-max">{{ health.max }}</span>
-              }
-            </div>
-          }
-          <!-- Other Stats -->
-          <div class="player-stats">
-            <h4>Stats</h4>
-            <ul>
-              @for (stat of statsArray$ | async; track stat.id) {
-                <li>
-                  <span class="stat-label" matTooltip="{{ stat.id }}"
-                    >{{ stat.name }}:</span
-                  >
-                  <span class="stat-value">{{ stat.value }}</span>
-                  @if (stat.max !== undefined) {
-                    <span class="divider">/</span>
-                    <span class="stat-max">{{ stat.max }}</span>
-                  }
-                </li>
-              }
-            </ul>
+<div class="play-container">
+  <!-- Using a non-intrusive visual indicator for loading -->
+  @if (isLoading$ | async) {
+    <div
+      class="loading-overlay"
+      style="
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        z-index: 50;
+        color: #ffeb3b;
+        font-weight: bold;
+      ">
+      ⏳ Syncing...
+    </div>
+  }
+
+  <!-- Sidebar: Player Stats & Status -->
+  <aside class="sidebar">
+    @if (player$ | async; as player) {
+      <div class="player-info">
+        <h2>{{ player.name }}</h2>
+        <!-- Level -->
+        @if (level$ | async; as level) {
+          <div class="player-level">Level: &nbsp;{{ level.value }}</div>
+        }
+        <!-- HP (health) -->
+        @if (health$ | async; as health) {
+          <div class="player-health">
+            <span>HP: &nbsp;</span>
+            <span class="stat-value">{{ health.value }}</span>
+            @if (health.max !== undefined) {
+              <span class="divider">/</span>
+              <span class="stat-max">{{ health.max }}</span>
+            }
           </div>
-          <!-- <div class="player-status">
+        }
+        <!-- Other Stats -->
+        <div class="player-stats">
+          <h4>Stats</h4>
+          <ul>
+            @for (stat of statsArray$ | async; track stat.id) {
+              <li>
+                <span class="stat-label" matTooltip="{{ stat.id }}"
+                  >{{ stat.name }}:</span
+                >
+                <span class="stat-value">{{ stat.value }}</span>
+                @if (stat.max !== undefined) {
+                  <span class="divider">/</span>
+                  <span class="stat-max">{{ stat.max }}</span>
+                }
+              </li>
+            }
+          </ul>
+        </div>
+        <!-- <div class="player-status">
           @for (effect of activeEffects$ | async; track effect.label) {
             <span class="status-effect" [title]="effect.description">
               {{ effect.label }}
             </span>
           }
         </div> -->
-        </div>
-      }
-      <div class="player-inventory">
-        <h3>Inventory</h3>
-        <ul>
-          @for (item of inventory$ | async; track item.name) {
-            <li>
-              {{ item.name }}
-              @if (item.qty > 1) {
-                <span>x{{ item.qty }}</span>
-              }
-            </li>
-          }
-        </ul>
       </div>
+    }
+    <div class="player-inventory">
+      <h3>Inventory</h3>
+      <ul>
+        @for (item of inventory$ | async; track item.name) {
+          <li>
+            {{ item.name }}
+            @if (item.qty > 1) {
+              <span>x{{ item.qty }}</span>
+            }
+          </li>
+        }
+      </ul>
+    </div>
 
-      <hr />
+    <hr />
 
-      @if (player$ | async; as player) {
-        <!-- <p class="player-print">{{ player }}</p> -->
-        <div class="player-debug">
-          <div class="player-debug__header">
-            <span>Player Debug</span>
-            <button
-              type="button"
-              class="mini-btn"
-              (click)="showPlayerDebug = !showPlayerDebug">
-              {{ showPlayerDebug ? 'Hide' : 'Show' }}
-            </button>
-            <button
-              type="button"
-              class="mini-btn"
-              (click)="copyPlayerJson(player)">
-              Copy
-            </button>
-          </div>
-          @if (showPlayerDebug) {
-            <pre class="player-json">{{ player | json }}</pre>
-          }
+    @if (player$ | async; as player) {
+      <!-- <p class="player-print">{{ player }}</p> -->
+      <div class="player-debug">
+        <div class="player-debug__header">
+          <span>Player Debug</span>
+          <button
+            type="button"
+            class="mini-btn"
+            (click)="showPlayerDebug = !showPlayerDebug">
+            {{ showPlayerDebug ? 'Hide' : 'Show' }}
+          </button>
+          <button
+            type="button"
+            class="mini-btn"
+            (click)="copyPlayerJson(player)">
+            Copy
+          </button>
         </div>
-      }
+        @if (showPlayerDebug) {
+          <pre class="player-json">{{ player | json }}</pre>
+        }
+      </div>
+    }
 
-      <!-- Test stat change button for demo -->
-      <button class="action-btn" (click)="testStatChange()">
-        Test: +1 Strength, +5 HP
-      </button>
+    <!-- Test stat change button for demo -->
+    <button type="button" class="action-btn" (click)="testStatChange()">
+      Test: +1 Strength, +5 HP
+    </button>
 
-      <button class="action-btn" (click)="resetMoment()">↻ Reset Moment</button>
+    <button type="button" class="action-btn" (click)="resetMoment()">
+      ↻ Reset Moment
+    </button>
 
-      <button
-        class="action-btn"
-        style="margin-bottom: 1rem"
-        (click)="rollNextMoment()">
-        🎲 Roll Next Moment
-      </button>
-    </aside>
+    <button
+      type="button"
+      class="action-btn"
+      style="margin-bottom: 1rem"
+      (click)="rollNextMoment()">
+      🎲 Roll Next Moment
+    </button>
+  </aside>
 
-    <!-- Main Content: Current Moment & Actions -->
-    <main class="moment-main">
-      @if (enemyCharacters$ | async; as enemies) {
-        <section class="enemy-bar">
-          @for (enemy of enemies; track enemy?.id) {
-            <app-rpg-character-panel [characterId]="enemy.id">
-            </app-rpg-character-panel>
+  <!-- Main Content: Current Moment & Actions -->
+  <main class="moment-main">
+    @if (enemyCharacters$ | async; as enemies) {
+      <section class="enemy-bar">
+        @for (enemy of enemies; track enemy?.id) {
+          <app-rpg-character-panel [characterId]="enemy.id">
+          </app-rpg-character-panel>
+        }
+      </section>
+    }
+
+    @if (moment$ | async; as moment) {
+      @if (player$ | async; as player) {
+        <section class="moment-header">
+          <h1>{{ moment.title || 'Adventure' }}</h1>
+          <div class="moment-location">
+            {{ player.location || 'Unknown Location' }}
+          </div>
+          <button
+            type="button"
+            class="action-btn"
+            (click)="toggleMomentDetails()">
+            {{ showMomentDetails ? 'Hide' : 'Show' }} Debug Details
+          </button>
+        </section>
+
+        @if (showMomentDetails) {
+          <section class="moment-details">
+            <h4>Moment Details</h4>
+            <pre>{{ moment | json }}</pre>
+          </section>
+        }
+
+        <section class="moment-text">
+          <p>{{ moment.content }}</p>
+        </section>
+
+        <section class="moment-choices">
+          @for (choice of activeChoices$ | async; track choice.label) {
+            <!-- @for (choice of choices$ | async; track choice.label) { -->
+            <button
+              type="button"
+              class="action-btn"
+              [disabled]="!choice.enabled"
+              (click)="chooseChoice(choice.label)">
+              {{ choice.label }}
+            </button>
           }
         </section>
-      }
 
-      @if (moment$ | async; as moment) {
-        @if (player$ | async; as player) {
-          <section class="moment-header">
-            <h1>{{ moment.title || 'Adventure' }}</h1>
-            <div class="moment-location">
-              {{ player.location || 'Unknown Location' }}
-            </div>
-            <button class="action-btn" (click)="toggleMomentDetails()">
-              {{ showMomentDetails ? 'Hide' : 'Show' }} Debug Details
-            </button>
-          </section>
-
-          @if (showMomentDetails) {
-            <section class="moment-details">
-              <h4>Moment Details</h4>
-              <pre>{{ moment | json }}</pre>
-            </section>
-          }
-
-          <section class="moment-text">
-            <p>{{ moment.content }}</p>
-          </section>
-
-          <section class="moment-choices">
-            @for (choice of getChoices() | async; track choice.label) {
-              <!-- @for (choice of choices$ | async; track choice.label) { -->
-              <button
-                class="action-btn"
-                [disabled]="!choice.enabled"
-                (click)="chooseChoice(choice.label)">
-                {{ choice.label }}
-              </button>
-            }
-          </section>
-
-          <!-- <section class="moment-log">
+        <!-- <section class="moment-log">
           <h4>Recent Events</h4>
           <ul>
             @for (entry of logEntries$ | async; track $index) {
@@ -167,8 +181,7 @@
             }
           </ul>
         </section> -->
-        }
       }
-    </main>
-  </div>
-}
+    }
+  </main>
+</div>

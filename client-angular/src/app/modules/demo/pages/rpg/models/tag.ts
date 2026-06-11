@@ -27,8 +27,8 @@ export type TagGroupType =
  */
 export interface Tag extends GameDimensionEntity, Partial<RuntimeMeta> {
   name: string;
-  kind: TagGroupType;
   description?: string;
+  kind: TagGroupType;
 }
 /**
  * 🔸 Data Transfer Object (Data at Rest)
