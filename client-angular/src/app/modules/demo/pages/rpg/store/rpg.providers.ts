@@ -25,7 +25,6 @@ import {
   loadAdventure$,
   removeAdventure$,
   saveAdventure$,
-  seedAllAdventures$,
 } from './adventure/adventure.effects';
 import { adventureFeature } from './adventure/adventure.reducer';
 import {
@@ -69,12 +68,12 @@ import { tagFeature } from './tag/tag.reducer';
 export const RPG_STORE_PROVIDERS = [
   // Feature states included in store
   provideState(appFeature),
+  provideState(attributeFeature),
+  provideState(tagFeature),
+  provideState(effectFeature),
   provideState(adventureFeature),
   provideState(adventureIndexFeature),
   provideState(adventureEventFeature),
-  provideState(tagFeature),
-  provideState(attributeFeature),
-  provideState(effectFeature),
   provideState(characterFeature),
   provideState(locationFeature),
   provideState(momentFeature),
@@ -92,9 +91,8 @@ export const RPG_STORE_PROVIDERS = [
       // playLoadActiveGame$,
 
       // Load static data seeds
-      seedAllAdventures$,
-      seedAllTags$,
       seedAllAttributes$,
+      seedAllTags$,
       seedAllEffects$,
       seedAllCharacters$,
       seedAllLocations$,

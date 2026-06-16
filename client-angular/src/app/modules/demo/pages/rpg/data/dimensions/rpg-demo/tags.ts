@@ -1,14 +1,9 @@
-import { Tag, TagInstance } from '../models/tag';
-import { toId } from '../utils';
-import {
-  buildDimensionEntityCompositeId,
-  DEFAULT_DIMENSION_ID,
-  DEFAULT_PLANE_ID,
-} from '../utils-composite-id';
+import { Tag } from '../../../models/tag';
+import { buildTemplateEntity, SeedInput } from '../../utils-seed';
 
 // #region 🔸 DATA SEED RAW 🔸
 
-const TAGS_SEED_RAW: TagSeedInput[] = [
+const RPG_DEMO_TAGS_RAW: SeedInput<Tag>[] = [
   // Dimension (Games)
   {
     name: 'RPG Demo',
@@ -284,66 +279,9 @@ const TAGS_SEED_RAW: TagSeedInput[] = [
 ];
 // #endregion
 
-// #region 🔸 UTILITY TO FINALIZE SEED 🔸
+// #region 🔸 BUILD SEED DATA 🔸
 
-type TagTemplateOmittedKeys =
-  | 'id'
-  | 'entityId' // tagId
-  | 'dimensionId'
-  | 'planeId';
-
-type TagSeedInput = Omit<Tag, TagTemplateOmittedKeys>;
-
-function createTemplateTag(seed: TagSeedInput): Tag | undefined {
-  const entityId = toId(seed.name);
-  const id = buildDimensionEntityCompositeId(
-    entityId,
-    DEFAULT_DIMENSION_ID,
-    DEFAULT_PLANE_ID,
-  );
-  if (!id) return undefined;
-  return {
-    ...seed,
-    id,
-    entityId,
-    dimensionId: DEFAULT_DIMENSION_ID,
-    planeId: DEFAULT_PLANE_ID,
-  };
-}
-
-// Map to final Tag[]
-export const TAGS_SEED: Tag[] = TAGS_SEED_RAW.map(createTemplateTag).filter(
-  (e): e is Tag => e !== undefined,
-);
-export const TAGS_CATALOG: Record<string, Tag> = TAGS_SEED.reduce(
-  (acc, tag) => {
-    acc[tag.id] = tag;
-    return acc;
-  },
-  {} as Record<string, Tag>,
-);
-
-// TEST: Validate for duplicate IDs
-const ids = new Set<string>();
-TAGS_SEED.forEach((e) => {
-  if (ids.has(e.id)) {
-    throw new Error(`Duplicate tag id: ${e.id}`);
-  }
-  ids.add(e.id);
-});
+export const RPG_DEMO_TAGS: Tag[] = RPG_DEMO_TAGS_RAW.map((seed) =>
+  buildTemplateEntity<Tag>(seed, seed.name),
+).filter((e): e is Tag => e !== undefined);
 // #endregion
-
-export function getTagInstanceFromCatalog(id: string): Tag | undefined {
-  if (!id) return undefined;
-  return TAGS_CATALOG[id] ?? undefined;
-}
-
-// Merges an TagInstance with its Tag catalog definition
-export function mergeTagInstanceWithCatalog(
-  instance: TagInstance,
-): Tag | undefined {
-  if (!instance.id) return undefined;
-  const base: Tag = TAGS_CATALOG[instance.id];
-  if (!base) return undefined;
-  return { ...base, ...instance };
-}

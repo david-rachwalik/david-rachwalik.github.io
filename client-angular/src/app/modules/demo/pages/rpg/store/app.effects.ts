@@ -14,7 +14,6 @@ import {
 
 // --- Selector Imports ---
 import { selectAllAdventureEvents } from './adventure/adventure-event.selectors';
-import { selectAdventureSeeded } from './adventure/adventure.selectors';
 import {
   selectAppSeeded,
   selectCurrentAdventure,
@@ -74,9 +73,8 @@ export const appSeedSuccess$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) =>
     actions$.pipe(
       ofType(
-        AdventureActions.seedAllAdventuresSuccess,
-        TagActions.seedAllTagsSuccess,
         AttributeActions.seedAllAttributesSuccess,
+        TagActions.seedAllTagsSuccess,
         EffectActions.seedAllEffectsSuccess,
         CharacterActions.seedAllCharactersSuccess,
         LocationActions.seedAllLocationsSuccess,
@@ -85,9 +83,8 @@ export const appSeedSuccess$ = createEffect(
         SkillActions.seedAllSkillsSuccess,
       ),
       withLatestFrom(
-        store.select(selectAdventureSeeded),
-        store.select(selectTagSeeded),
         store.select(selectAttributeSeeded),
+        store.select(selectTagSeeded),
         store.select(selectEffectSeeded),
         store.select(selectCharacterSeeded),
         store.select(selectLocationSeeded),
@@ -98,9 +95,8 @@ export const appSeedSuccess$ = createEffect(
       filter(
         ([
           ,
-          adventuresSeeded,
-          tagSeeded,
           attributesSeeded,
+          tagSeeded,
           effectsSeeded,
           charactersSeeded,
           locationsSeeded,
@@ -108,9 +104,8 @@ export const appSeedSuccess$ = createEffect(
           itemsSeeded,
           skillsSeeded,
         ]) =>
-          adventuresSeeded &&
-          tagSeeded &&
           attributesSeeded &&
+          tagSeeded &&
           effectsSeeded &&
           charactersSeeded &&
           locationsSeeded &&
@@ -162,6 +157,7 @@ export const saveCurrentSlotIdLocal$ = createEffect(
 );
 
 // --- Auto-Load Effects ---
+// (deprecated approach saved for history, now handling through individual effects)
 
 // Centralizes side effects: Keeps business logic and side effects in one place,
 // not scattered across components or services.

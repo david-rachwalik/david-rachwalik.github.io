@@ -27,11 +27,12 @@ export class GameDB extends Dexie {
       adventureIndexes: 'id',
       adventureEvents: 'id, entityId, dimensionId, planeId, adventureId',
       characters: 'id, entityId, dimensionId, planeId, adventureId',
-      // TODO: check if below can be removed (using NgRx store instead of indexeddb)
-      locations: 'id, entityId, dimensionId, planeId', // possibly covered by eventLogs
-      moments: 'id, entityId, dimensionId, planeId', // possibly covered by eventLogs
-      items: 'id, entityId, dimensionId, planeId', // possibly covered by eventLogs
-      skills: 'id, entityId, dimensionId, planeId', // possibly covered by eventLogs
+      // Custom Templates: required for persisting static assets locally
+      locations: 'id, entityId, dimensionId, planeId',
+      moments: 'id, entityId, dimensionId, planeId',
+      items: 'id, entityId, dimensionId, planeId',
+      skills: 'id, entityId, dimensionId, planeId',
+      // TODO: will likely remove below if eventLogs are replaced by adventureEvents
       eventLogs: 'id, adventureId, dimensionId, timestamp',
       // TODO: possibly add features: Relationship, Habit
     });

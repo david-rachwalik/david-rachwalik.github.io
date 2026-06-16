@@ -17,17 +17,13 @@ import {
   selectCurrentSlotId,
   selectIsGameLoading,
 } from '../store/app.selectors';
-import {
-  selectAllAttributes,
-  selectAttributeEntities,
-} from '../store/attribute/attribute.selectors';
 
 // --- Action Imports ---
 import { AdventureActions } from '../store/adventure/adventure.actions';
 import { AppActions } from '../store/app.actions';
 import { CharacterActions } from '../store/character/character.actions';
 
-import { mergeEffectInstanceWithCatalog } from '../data/effects-seed';
+// --- Model & Util Imports ---
 import {
   Adventure,
   AdventureEventPayload,
@@ -37,9 +33,18 @@ import { EffectInstance } from '../models/effect';
 import { Moment } from '../models/moment';
 import { SkillInstance } from '../models/skill';
 import {
-  buildAdventureEntityTemplateId,
+  buildAdventureEntityCompositeId,
+  buildDimensionEntityCompositeId,
   buildDimensionEntityTemplateId,
+  DEFAULT_ACCOUNT_ID,
+  DEFAULT_ADVENTURE_ID,
+  DEFAULT_DIMENSION_ID,
+  DEFAULT_PLANE_ID,
+  GUEST_ACCOUNT_ID,
+  parseCompositeId,
 } from '../utils-composite-id';
+
+// --- Facade Imports ---
 import { AdventureFacade } from './facades/adventure-facade';
 import { AttributeFacade } from './facades/attribute-facade';
 import { CharacterFacade } from './facades/character-facade';
@@ -50,14 +55,17 @@ import { MomentFacade } from './facades/moment-facade';
 import { SkillFacade } from './facades/skill-facade';
 import { TagFacade } from './facades/tag-facade';
 
-// :: Business Logic Layer ::
-// Focused on business logic and orchestration, not storage details
-
+/**
+ * 🎮 GAME FACADE 🎮
+ *
+ * Central business logic layer and orchestration engine.
+ * Connects feature-specific facades and manages global state flow.
+ */
 @Injectable({ providedIn: 'root' })
 export class GameFacade {
   constructor(private store: Store) {}
 
-  // Could have been `facades` but chose `utils` for reasons (shrug)
+  // Consolidates sub-facades for easy centralized access across features
   public utils = {
     attribute: inject(AttributeFacade),
     tag: inject(TagFacade),
@@ -73,103 +81,77 @@ export class GameFacade {
   // #region 🔸 NgRx Selectors 🔸
 
   isLoading$ = this.store.select(selectIsGameLoading);
-
   accountId$ = this.store.select(selectAccountId);
 
-  // Translates the Moment's static seed IDs into the Active Adventure IDs for the UI
+  // Translates the Moment's static seed IDs into active DB IDs for the UI
   activeMomentCharacters$ = this.store.select(selectActiveMomentCharacters);
 
-  // --- Template Data (Dict for lookup / Array for UI) ---
-
-  attributeEntities$ = this.store.select(selectAttributeEntities);
-  attributes$ = this.store.select(selectAllAttributes);
-
-  // locationEntities$ = this.store.select(selectLocationEntities);
-  // locations$ = this.store.select(selectAllLocations);
-
-  // momentEntities$ = this.store.select(selectMomentEntities);
-  // moments$ = this.store.select(selectAllMoments);
-
-  // itemEntities$ = this.store.select(selectItemEntities);
-  // items$ = this.store.select(selectAllItems);
-
-  // --- Current Adventure ---
-
+  // Current Adventure & Play State
   currentSlotId$ = this.store.select(selectCurrentSlotId);
   allSaves$ = this.store.select(selectAllAdventureIndexes);
-
   currentAdventureId$ = this.store.select(selectCurrentAdventureId);
   currentAdventure$ = this.store.select(selectCurrentAdventure);
+
   log$ = this.utils.adventure.log$;
   events$ = this.utils.adventure.events$;
 
   playerId$ = this.utils.character.playerId$;
   player$ = this.utils.character.player$;
-  // player$ = this.utils.character.player$.pipe(
-  //   filter((player): player is Character => !!player),
-  // );
 
   currentMomentId$ = this.store.select(selectCurrentMomentId);
   currentMoment$ = this.store.select(selectCurrentMoment);
   currentMomentChoices$ = this.store.select(selectCurrentMomentChoices);
 
   currentLocationId$ = this.store.select(selectCurrentLocationId);
-  currentLocation$ = this.store.select(selectCurrentLocation); // realm
+  currentLocation$ = this.store.select(selectCurrentLocation);
   // #endregion
 
   // #region 🔸 Save/Load (Adventure Slot) Logic 🔸
 
-  // App initialization: ensure the game state is prepared & ready
+  /** Dispatches boot sequence to initialize storage and sync catalogs */
   init() {
-    console.log('[GameFacade] Dispatching seed and load actions');
+    console.log('[GameFacade] Dispatching app boot sequence');
+    // App initialization: ensure game state is prepared & ready
     this.store.dispatch(AppActions.init());
-    // Load currentSlotId from client storage
-    // Seed static data (attributes, tags, effects..)
-    // Load AdventureIndexes from client storage
+    // - Load currentSlotId from client storage
+    // - Seed static data (attributes, tags, effects..)
+    // - Load AdventureIndexes from client storage
   }
 
-  // async play() {
-  //   // Wait for initialization to fetch slot ID before playing
-  //   const slotId = await firstValueFrom(
-  //     this.currentSlotId$.pipe(filter((id) => !!id)),
-  //   );
-  //   if (!slotId) return;
-  //   this.store.dispatch(AppActions.play({ slotId }));
-  // }
-
+  /** Triggers hydration of the active save slot into memory */
   play() {
     this.store.dispatch(AppActions.play());
-    // Load the Adventure, AdventureEvents, & Characters
+    // - Load the Adventure, AdventureEvents, & Characters
+    // - Display the current Moment and its characters
   }
 
-  // Save game slot to client storage
+  /** Persists partial changes to the active Adventure slot */
   saveGame(changes: AdventureInstance) {
-    console.log('[GameFacade] Saving game slot:', changes);
-    // this.store.dispatch(AdventureActions.saveAdventure({ id, changes }));
-    // // AdventureIndex will be updated by effect after Adventure is persisted
+    console.log('[GameFacade] Saving game slot changes:', changes);
     this.utils.adventure.save(changes);
+    // AdventureIndex is updated by NgRx effect after Adventure is persisted
   }
 
-  // Delete a game slot from client storage
+  /** Deletes save slot and auto-selects the next most recent */
   async deleteGame(slotId: string): Promise<void> {
     console.log('[GameFacade] Deleting adventure slot:', slotId);
-
     this.utils.adventure.remove(slotId);
 
-    // Get the current slot id and all saves from the store
+    // Concurrently fetch the active slot & remaining saves to determine failover
     const [currentSlotId, allSaves] = await Promise.all([
       firstValueFrom(this.currentSlotId$),
       firstValueFrom(this.allSaves$),
     ]);
 
-    // If the deleted slot was the current slot, pick the next most recent
+    // If deleting the active slot, then activate next most recent
     if (currentSlotId === slotId) {
       // Filter out the deleted slot and sort by savedAt (latest first)
       const remaining = allSaves
         .filter((s) => s.id !== slotId)
         .sort((a, b) => b.savedAt.localeCompare(a.savedAt));
+
       if (remaining.length > 0) {
-        // Set the most recently played as the new current slot
+        // Set most recently played as the new current slot
         this.store.dispatch(
           AppActions.setCurrentSlotId({ slotId: remaining[0].id }),
         );
@@ -186,7 +168,7 @@ export class GameFacade {
     console.log('[GameFacade] Deleted slot:', slotId);
   }
 
-  // Change the active adventure slot
+  /** Updates the active Adventure slot pointer in the app */
   setCurrentSlotId(slotId: string) {
     this.store.dispatch(AppActions.setCurrentSlotId({ slotId }));
   }
@@ -196,121 +178,112 @@ export class GameFacade {
   //   this.store.dispatch(AppActions.setCurrentMomentId({ momentId }));
   // }
 
-  // Add a new adventure and its index (metadata)
+  /** Bootstraps a brand new Adventure and its index (metadata) */
   addAdventure(adventure: Adventure) {
     this.store.dispatch(AdventureActions.addAdventure({ adventure }));
-    // AdventureIndex will be added by effect after Adventure is persisted
-    // (effect will dispatch AdventureIndexActions.addAdventureIndex)
+    // AdventureIndex is added by NgRx effect after Adventure is persisted
   }
 
-  // Load adventure slot
+  /** Dispatches explicit command to load a specific Adventure slot */
   loadAdventure(id: string) {
     this.store.dispatch(AdventureActions.loadAdventure({ id }));
   }
   // #endregion
 
-  // #region 🔸 Moment Logic 🔸
+  // #region 🔸 Engine & Moment Logic 🔸
 
-  // // Handles a choice: applies effects, skills, and advances the moment
-  // async chooseMomentChoice(choice: MomentChoice) {
-  //   // 1. Apply direct effects (if any)
-  //   if (choice.effects) {
-  //     for (const effect of choice.effects) {
-  //       // Default to player if no target specified
-  //       await this.utils.character.applyEffectInstance(effect, effect['target'] || 'player');
-  //     }
-  //     await Promise.all(
-  //       choice.effects.map((effect: EffectInstance & { target?: string }) =>
-  //         this.utils.character.applyEffectInstance(effect, effect.target ?? 'player'),
-  //       ),
-  //     );
-  //   }
-  //   // 2. Apply skills (if any)
-  //   if (choice.skills) {
-  //     for (const skillUse of choice.skills) {
-  //       await this.applySkillUse(skillUse);
-  //     }
-  //   }
-  //   // 3. Advance to next moment if specified
-  //   if (choice.nextMomentId) {
-  //     this.gotoMoment(choice.nextMomentId);
-  //   }
-  // }
-
+  /**
+   * Translates relational character templates explicitly into the active session database.
+   * @param forceRespawn Factory resets records even if they already exist in the database.
+   */
   async spawnMomentCharacters(
     moment: Moment,
     forceRespawn = false,
   ): Promise<void> {
     if (!moment.characters || moment.characters.length === 0) return;
 
-    const accountId = (await firstValueFrom(this.accountId$)) || 'guest';
-    const adventureId = await firstValueFrom(this.currentAdventureId$);
-
-    if (!adventureId) return;
+    // Fast-fail if not in an active session
+    const ctx = await this.getPlayContext();
+    if (!ctx) return;
 
     for (const charRef of moment.characters) {
-      // 1. TEST EXACT TARGET AS ID FIRST
-      const templateOrExisting = await firstValueFrom(
-        this.utils.character.byId$(charRef),
-      );
+      // Always safely skip player mapping as it's governed independently
+      if (charRef === 'player') continue;
 
-      // If it exists and is ALREADY in the active adventure, we're fully done
-      if (
-        !forceRespawn &&
-        templateOrExisting &&
-        templateOrExisting.adventureId === adventureId
-      ) {
-        continue;
-      }
+      // Safely parse character ID into discrete parts
+      const parsed = parseCompositeId(charRef);
+      if (!parsed.entityId) continue;
 
-      // 2. Extract entityId cleanly: from the loaded model if found, or assume charRef IS the entityId
-      const entityId = templateOrExisting
-        ? templateOrExisting.entityId
-        : charRef;
+      // Infer missing context from current Moment
+      const dimId = parsed.dimensionId || moment.dimensionId;
+      const planeId = parsed.planeId || moment.planeId;
 
-      // 3. Build Active ID and check if we already spawned it
-      const activeId = buildAdventureEntityTemplateId(
-        entityId,
-        adventureId,
-        accountId,
+      // Ensure active slot ID targets the player's active playthrough
+      const activeId = buildAdventureEntityCompositeId(
+        parsed.entityId,
+        dimId,
+        planeId,
+        ctx.adventureId,
+        ctx.accountId,
       );
       if (!activeId) continue;
 
+      // Check if instance is already alive and tracked in active database
       const existingActive = await firstValueFrom(
         this.utils.character.byId$(activeId),
       );
+      // Done here if already spawned and not forcing respawn
       if (existingActive && !forceRespawn) continue;
 
-      // 4. If we haven't loaded the template yet, build its expected system ID and fetch it
-      const templateId = templateOrExisting
-        ? templateOrExisting.id
-        : buildAdventureEntityTemplateId(entityId, 'template', 'system');
-      if (!templateId) continue;
+      // Build pristine ID to query engine's static dictionaries safely
+      const catalogId = buildDimensionEntityCompositeId(
+        parsed.entityId,
+        dimId,
+        planeId,
+      );
+      let template = catalogId
+        ? this.utils.character.getFromCatalog(catalogId)
+        : undefined;
 
-      const template =
-        templateOrExisting ??
-        (await firstValueFrom(this.utils.character.byId$(templateId)));
+      // Fallback: If not in static memory, check templates in IndexedDB
+      if (!template) {
+        // Using full builder because `buildAdventureEntityTemplateId` hardcodes 'rpg-demo'/'prime'
+        const customTemplateId = buildAdventureEntityCompositeId(
+          parsed.entityId,
+          dimId,
+          planeId,
+          DEFAULT_ADVENTURE_ID, // default for Custom templates
+          DEFAULT_ACCOUNT_ID, // default for Custom templates
+        );
+        if (customTemplateId) {
+          template = await firstValueFrom(
+            this.utils.character.byId$(customTemplateId),
+          );
+        }
+      }
+
       if (!template) {
         console.warn(
-          `[GameFacade] Cannot spawn: Template character not found "${templateId}"`,
+          `[GameFacade] Cannot spawn: Template character not found for "${charRef}"`,
         );
         continue;
       }
 
-      // 5. Clone and spawn into active session
+      // Deep clone and spawn into active session
+      // (severs the memory reference to static Catalog so don't accidentally mutate the universe)
       const spawnedCharacter: typeof template = {
-        ...template,
+        ...structuredClone(template),
         id: activeId,
-        adventureId,
-        accountId,
+        adventureId: ctx.adventureId,
+        accountId: ctx.accountId,
       };
 
       console.log(
-        `[GameFacade] Spawning template "${template.id}" into active adventure as "${activeId}" (Force: ${forceRespawn})`,
+        `[GameFacade] Spawning template "${template.id}" -> active "${activeId}"`,
       );
 
       if (existingActive) {
-        // Overwrite the existing entity with fresh template data
+        // Overwrite existing character with template data
         this.store.dispatch(
           CharacterActions.saveCharacter({
             id: activeId,
@@ -318,6 +291,7 @@ export class GameFacade {
           }),
         );
       } else {
+        // Add ignores existing records
         this.store.dispatch(
           CharacterActions.addCharacter({ character: spawnedCharacter }),
         );
@@ -325,22 +299,28 @@ export class GameFacade {
     }
   }
 
-  // Garbage Collector: Cleans up any ephemeral NPCs in the current slot
-  async purgeEphemeralCharacters(): Promise<void> {
-    const adventureId = await firstValueFrom(this.currentAdventureId$);
-    const playerId = await firstValueFrom(this.playerId$);
-    if (!adventureId || !playerId) return;
+  /**
+   * Garbage Collector: Cleans up any ephemeral NPCs in the current slot.
+   * @param sparedEntityIds Optional array of purely defined entityIds to spare from deletion.
+   */
+  async purgeEphemeralCharacters(
+    sparedEntityIds: string[] = [],
+  ): Promise<void> {
+    const ctx = await this.getPlayContext();
+    if (!ctx) return;
 
-    // Fetch ALL characters loaded in the database
+    // Collect entire character payload
     const allChars = await firstValueFrom(this.utils.character.all$);
 
     const ephemeralNPCs = allChars.filter((char) => {
-      // Only purge characters in our active adventure (skip templates!)
-      if (char.adventureId !== adventureId) return false;
+      // Only purge characters in active Adventure (skip templates)
+      if (char.adventureId !== ctx.adventureId) return false;
       // Never purge the player character
-      if (char.id === playerId) return false;
-
-      // Purge if they are explicitly tagged as temporary/ephemeral mobs
+      if (char.id === ctx.playerId) return false;
+      // Safely spare explicit entities (e.g., Moment characters)
+      // (entities not spared: random summons, temporary minions, etc.)
+      if (sparedEntityIds.includes(char.entityId)) return false;
+      // Purge if explicitly tagged as ephemeral/temporary mobs
       return char.tags?.includes('ephemeral');
     });
 
@@ -354,74 +334,76 @@ export class GameFacade {
     }
   }
 
-  // Ensures the currentMomentId points to a valid moment
+  /** Bootstraps the current moment pointer upon load and safely spawns missing actors */
   async isMomentIdValid(): Promise<void> {
-    // const adventure = await firstValueFrom(this.currentAdventure$);
-
-    // 🔸 explicitly wait for the async load to finish and truthy data to exist
+    // Explicitly wait for concurrent load resolutions
     const adventure = await firstValueFrom(
       this.currentAdventure$.pipe(filter((a) => !!a)),
     );
-
-    console.log('[isMomentIdValid] adventure:', adventure);
     if (!adventure) return;
+
     const momentId = adventure.currentMomentId;
-    console.log('[isMomentIdValid] adventure.currentMomentId:', momentId);
     let moment = await firstValueFrom(this.utils.moment.byId$(momentId));
+
     if (!moment) {
-      // Fallback to hardcoded default
-      const fallbackId = 'training-room:rpg-demo:prime';
-      moment = await firstValueFrom(this.utils.moment.byId$(fallbackId));
-      if (moment) {
+      // Dev-Tool Fallback mapping if database points temporarily to invalid Moment
+      const fallbackId = buildDimensionEntityTemplateId('training-room');
+      moment = fallbackId
+        ? await firstValueFrom(this.utils.moment.byId$(fallbackId))
+        : undefined;
+
+      if (moment && fallbackId) {
         await this.utils.adventure.setMoment(fallbackId);
-        console.warn(
-          `[GameFacade] Moment not found for "${momentId}", fallback to "${fallbackId}"`,
-        );
-      } else {
-        console.error(
-          `[GameFacade] Fallback moment "${fallbackId}" not found in catalog!`,
-        );
       }
     }
-    // Spawn any necessary actors for the loaded moment
-    if (moment) {
-      await this.spawnMomentCharacters(moment);
-    }
-    // return moment;
+
+    // Automatically ensure the world is always populated
+    if (moment) await this.spawnMomentCharacters(moment);
   }
 
-  // Advances to a new moment by id
+  /** Cleans up the previous Moment and handles transition to next */
   async gotoMoment(momentId: string) {
     // Garbage collect ephemeral mobs before leaving
     await this.purgeEphemeralCharacters();
 
-    // This should update the currentMomentId in the adventure state
-    // this.utils.adventure.setCurrentMomentId(momentId);
+    // Re-assign active Moment pointer
     await this.utils.adventure.setMoment(momentId);
 
-    // Spawn any necessary actors for the new moment
+    // Ensure all characters exist for this Moment
     const moment = await firstValueFrom(this.utils.moment.byId$(momentId));
-    if (moment) {
-      await this.spawnMomentCharacters(moment);
-    }
+    if (moment) await this.spawnMomentCharacters(moment);
   }
 
-  // Dev Tool: Resets the current moment to pristine condition
+  /** FOR TESTING ONLY: Completely resets the current Moment to pristine condition (heals active characters, explicitly respawns characters) */
   async resetCurrentMoment(): Promise<void> {
-    const adventureId = await firstValueFrom(this.currentAdventureId$);
-    const moment = await firstValueFrom(this.currentMoment$);
-    if (!adventureId || !moment) return;
+    const ctx = await this.getPlayContext();
+    if (!ctx) return;
 
     console.group('[GameFacade] Resetting Current Moment');
 
-    // 1. Heal persistent characters (Player, Allies, Persistent NPCs)
-    const allChars = await firstValueFrom(this.utils.character.all$);
-    const persistentChars = allChars.filter(
-      (c) => c.adventureId === adventureId && !c.tags?.includes('ephemeral'),
+    // Extract the pure entityIds to match against Moment securely
+    const momentEntityIds = (ctx.moment.characters ?? []).map(
+      (ref) => parseCompositeId(ref).entityId,
     );
 
+    // Selectively purge dynamically spawned minions
+    // (spare Moment's characters to reset without race conditions)
+    await this.purgeEphemeralCharacters(momentEntityIds);
+
+    // Identify persistent local characters (e.g. self/allies) avoiding resets
+    const allChars = await firstValueFrom(this.utils.character.all$);
+    const persistentChars = allChars.filter(
+      (c) =>
+        c.adventureId === ctx.adventureId &&
+        !c.tags?.includes('ephemeral') &&
+        !momentEntityIds.includes(c.entityId),
+    );
+
+    // Heal persistent characters (Player, Allies, NPCs..)
     for (const char of persistentChars) {
-      const healthAttr = char.attributes?.['health'];
+      const healthAttr = await firstValueFrom(
+        this.utils.character.getAttributeFor$(char.id, 'health'),
+      );
       if (healthAttr) {
         const maxHealth = Number(healthAttr.max ?? 100);
         await this.utils.character.updateCharacterAttributeValue(
@@ -432,287 +414,164 @@ export class GameFacade {
       }
     }
 
-    // 2. Force-respawn moment characters (resets ephemeral enemies to template state)
-    await this.spawnMomentCharacters(moment, true);
+    // Factory respawn all characters with pristine templates
+    await this.spawnMomentCharacters(ctx.moment, true);
 
     console.log('[GameFacade] Moment reset complete.');
     console.groupEnd();
   }
 
-  private async expandAdventureTargetId(
-    playerId: string,
-    rawTarget?: string,
-  ): Promise<string | undefined> {
-    // 1. Fail gracefully if undefined
-    if (!rawTarget) {
-      console.warn('[GameFacade.expandTarget] No target specified.');
-      return undefined;
-    }
-
-    // 2. Explicitly handle 'player' or 'self' shorthands
-    if (rawTarget === 'player' || rawTarget === 'self') {
-      console.log(
-        `[GameFacade.expandTarget] raw: "${rawTarget}" → expanded: "${playerId}"`,
-      );
-      return playerId;
-    }
-
-    // 3. TEST EXACT TARGET AS ID FIRST
-    const targetCharacter = await firstValueFrom(
-      this.utils.character.byId$(rawTarget),
-    );
-
-    // 4. Extract entityId cleanly: from the loaded model if found, or assume the raw string IS the entityId
-    const entityId = targetCharacter ? targetCharacter.entityId : rawTarget;
-
-    const accountId = (await firstValueFrom(this.accountId$)) || 'guest';
-    const adventureId =
-      (await firstValueFrom(this.currentAdventureId$)) || 'template';
-
-    // 5. Build the strict active ID for the current play session
-    const finalTargetId = buildAdventureEntityTemplateId(
-      entityId,
-      adventureId,
-      accountId,
-    );
-
-    if (finalTargetId) {
-      // 6. Verify the active version legitimately exists
-      const activeCharacter = await firstValueFrom(
-        this.utils.character.byId$(finalTargetId),
-      );
-      if (activeCharacter) {
-        console.log(
-          `[GameFacade.expandTarget] raw: "${rawTarget}" → mapped to active: "${finalTargetId}"`,
-        );
-        return finalTargetId;
-      }
-    }
-
-    // 7. STRICT ENFORCEMENT FAILURE
-    console.error(
-      `[GameFacade.expandTarget] Strict Check Failed: "${rawTarget}" could not be resolved in active adventure!`,
-    );
-    return undefined;
-  }
-
-  // Handle a choice selection (applies all effects/skills, logs, advances moment, etc.)
+  /** Processes interactive Moment payload (applying targeted effects, logging output, advancing flow) */
   async chooseMomentChoice(choiceLabel: string): Promise<void> {
     const timestamp = new Date().toISOString();
     console.group('[GameFacade.chooseMomentChoice]', choiceLabel, timestamp);
 
-    // --- 1. Validate Core Context ---
-    const playerId = await firstValueFrom(this.playerId$);
-    if (!playerId) {
-      console.error('[GameFacade] No player ID found - cannot proceed');
+    // --- Validate Core Context ---
+
+    // Extract unified required game state natively
+    const ctx = await this.getPlayContext();
+    if (!ctx) {
+      console.error('Incomplete context state - cannot proceed');
       console.groupEnd();
       return;
     }
-    console.log('[GameFacade] ✓ Player ID:', playerId);
 
-    const moment = await firstValueFrom(this.currentMoment$);
-    if (!moment) {
-      console.error('[GameFacade] No current moment found - cannot proceed');
-      console.groupEnd();
-      return;
-    }
-    console.log('[GameFacade] Current moment:', moment);
-
-    const choice = moment.choices?.find((c) => c.label === choiceLabel);
+    // Map structural explicit choice from interface mappings natively
+    const choice = ctx.moment.choices?.find((c) => c.label === choiceLabel);
     if (!choice) {
       console.error(
-        `[GameFacade] Choice "${choiceLabel}" not found in moment choices:`,
-        moment.choices,
+        `Choice "${choiceLabel}" not found in moment choices:`,
+        ctx.moment.choices,
       );
       console.groupEnd();
       return;
     }
-    console.log('[GameFacade] ✓ Resolved choice:', choice);
+    console.log('✓ Resolved choice:', choice);
 
-    const adventureId = await firstValueFrom(this.currentAdventureId$);
-    if (!adventureId) {
-      console.error('[GameFacade] No adventure ID - cannot persist changes');
-      console.groupEnd();
-      return;
-    }
-    console.log('[GameFacade] ✓ Adventure ID:', adventureId);
+    // --- Apply Effects ---
 
-    // --- 2. Apply Direct Effects ---
+    // Dispatch explicitly bound direct-level effects
     if (choice.effects && Object.keys(choice.effects).length > 0) {
       const effects: EffectInstance[] = Object.values(choice.effects);
-      console.group(
-        `[GameFacade] Applying ${effects.length} direct effects for choice: ${choiceLabel}`,
-      );
-      console.log('[GameFacade] Effect instances to apply:', effects);
+      console.group(`Applying ${effects.length} direct effects...`);
 
-      // for (const inst of effects) {
       for (let i = 0; i < effects.length; i += 1) {
         const inst = effects[i];
-        console.group(`[GameFacade] Effect ${i + 1}/${effects.length}`, inst);
-
         try {
-          const rawTarget = inst.targetId;
-          const targetId = await this.expandAdventureTargetId(
-            playerId,
+          // Identify explicitly via Moment context bindings
+          const targetId = await this.resolveActiveTargetId(
             inst.targetId,
+            ctx.moment.dimensionId,
+            ctx.moment.planeId,
           );
-
           // Gracefully skip applying this effect if the target failed to resolve
-          if (!targetId) {
-            console.warn(
-              '[GameFacade] Skipping effect: No valid target resolved.',
-              inst,
-            );
-            console.groupEnd();
-            continue;
-          }
+          if (!targetId) continue;
 
-          console.log(
-            '[GameFacade] Effect instance raw target:',
-            rawTarget,
-            '→ resolved:',
-            targetId,
-          );
-
+          // Assemble provenance data natively
           const effectInstance: EffectInstance = {
             ...inst,
             targetId,
             sourceType: inst.sourceType ?? 'moment',
-            sourceId: inst.sourceId ?? moment.id,
-            appliedBy: playerId,
+            sourceId: inst.sourceId ?? ctx.moment.id,
+            appliedBy: ctx.playerId,
             appliedAt: timestamp,
           };
 
-          console.log('[GameFacade] Complete effect instance:', effectInstance);
-
-          // merge defaults from catalog if needed (existing helper)
+          // Combine with catalog defaults & apply to character
           const merged =
-            mergeEffectInstanceWithCatalog(effectInstance) ?? effectInstance;
-          console.log('[GameFacade] Merged effect (with catalog):', merged);
-
-          // apply to character; continue on error (don't abort whole flow)
+            this.utils.effect.mergeWithCatalog(effectInstance) ??
+            effectInstance;
           const applied =
             await this.utils.character.applyEffectInstance(merged);
-          console.log('[GameFacade] Effect applied:', applied);
+          console.log('Effect applied:', applied);
         } catch (err) {
-          console.error('[GameFacade] Error applying effect', inst, err);
+          console.error('Error applying effect', inst, err);
         }
       }
       console.groupEnd();
     }
 
-    // 2. Apply skills (if any)
+    // --- Apply Skills ---
+
+    // Dispatch structurally decoupled dynamic skills
     if (choice.skills && Object.keys(choice.skills).length > 0) {
-      console.group('[GameFacade] Applying skills for choice:', choiceLabel);
+      console.group('Applying skills for choice:', choiceLabel);
       const skills: EffectInstance[] = Object.values(choice.skills);
-      console.log('[GameFacade] Skill uses to apply:', skills);
+      console.log('Skill uses to apply:', skills);
 
       for (const instance of skills) {
         try {
-          console.log('[GameFacade] Processing skill use:', instance);
+          console.log('Processing skill use:', instance);
 
-          // Test explicit ID first, fallback to expanding .entityId
+          // Test as explicit full ID first
           let skillId = instance.id;
           let skill = skillId
             ? await firstValueFrom(this.utils.skill.byId$(skillId))
             : undefined;
 
+          // Fallback to entityId with Moment context
           if (!skill && instance.entityId) {
-            skillId = buildDimensionEntityTemplateId(instance.entityId);
+            skillId = buildDimensionEntityCompositeId(
+              instance.entityId,
+              ctx.moment.dimensionId,
+              ctx.moment.planeId,
+            );
             skill = skillId
               ? await firstValueFrom(this.utils.skill.byId$(skillId))
               : undefined;
           }
 
-          if (!skill) {
+          if (!skill || !skillId) {
             console.warn(
-              '[GameFacade] Skill not found by .id or .entityId fallback:',
+              'Skill map failed to resolve catalog via .id or .entityId:',
               instance,
             );
             continue;
           }
+          console.log('Found skill:', skill);
 
-          console.log('[GameFacade] Found skill by id:', skill);
-          // if (!skill) continue;
-
-          // Resolve target: support 'player' shorthand and explicit ids
-          const rawTarget = instance.targetId;
-          const targetId = await this.expandAdventureTargetId(
-            playerId,
+          // Evaluate structural inputs into active targets
+          const targetId = await this.resolveActiveTargetId(
             instance.targetId,
+            ctx.moment.dimensionId,
+            ctx.moment.planeId,
           );
-
           // Gracefully skip applying this skill if the target failed to resolve
-          if (!targetId) {
-            console.warn(
-              '[GameFacade] Skipping skill: No valid target resolved.',
-              instance,
-            );
-            console.groupEnd();
-            continue;
-          }
+          if (!targetId) continue;
 
-          if (!targetId) {
-            console.warn('[GameFacade] No valid target for skill use');
-            continue;
-          }
-
-          console.log(
-            '[GameFacade] Skill target resolved:',
-            rawTarget,
-            '→',
-            targetId,
-          );
-
-          if (!targetId) {
-            console.warn(
-              '[GameFacade] No valid target for skill use',
-              instance,
-            );
-            continue;
-          }
-
+          // Hydrate and execute completely isolated skill sequence
           const skillInstance: SkillInstance = {
             ...instance,
             id: skillId,
             targetId,
-            sourceId: moment.id,
+            sourceId: ctx.moment.id,
             sourceType: instance.sourceType ?? 'moment',
             appliedAt: timestamp,
-            appliedBy: playerId,
-            // appliedTo: entityId,
+            appliedBy: ctx.playerId,
           };
-          console.log('[GameFacade] Complete skill instance:', skillInstance);
+          console.log('Complete skill instance:', skillInstance);
 
           const applied =
             await this.utils.character.applySkillInstance(skillInstance);
-          console.log('[GameFacade] Skill applied:', applied);
-
-          // await this.utils.character.applySkillToTarget(
-          //   entityId,
-          //   playerId,
-          //   skill,
-          //   appliedBy: playerId,
-          //   appliedAt: timestamp,
-          // );
+          console.log('Skill applied:', applied);
         } catch (err) {
-          console.error('[GameFacade] Error applying skill', instance, err);
+          console.error('Error applying skill', instance, err);
         }
       }
       console.groupEnd();
     }
 
-    // 3. Note which action chosen (short-term game log)
+    // Note which action chosen (in short-term game logs)
     await this.log(`You chose: ${choice.label}`);
 
-    // 4. Save AdventureEvent (long-term game history)
+    // Save AdventureEvent (in long-term game history)
     const payload: AdventureEventPayload = {
-      momentId: moment.id,
+      momentId: ctx.moment.id,
       choiceId: choice.label,
     };
-    await this.utils.adventure.addMomentCompleteEvent(moment.id, payload);
+    await this.utils.adventure.addMomentCompleteEvent(ctx.moment.id, payload);
 
-    // 5. Advance to next moment if specified
+    // Advance to next moment if specified
     if (choice.nextMomentId) {
       // TODO: also check for moment completion
       await this.gotoMoment(choice.nextMomentId);
@@ -721,115 +580,144 @@ export class GameFacade {
   }
   // #endregion
 
-  // #region 🔸 Utility/Log/Testing 🔸
+  // #region 🔸 Utility/Internal 🔸
 
+  /** Wraps common store dispatches to active Adventure slot log safely */
   async log(message: string): Promise<void> {
     await this.utils.adventure.addLogEntry(message);
   }
 
-  async testStatChangeOld() {
-    const player = await firstValueFrom(this.player$);
-    console.log('[GameFacade] testStatChange() - currentCharacter:', player);
-    if (!player) {
-      console.warn('[GameFacade] No current character found!');
-      return;
+  /** FOR TESTING ONLY: Sandbox diagnostic helper */
+  async testStatChange() {
+    const ctx = await this.getPlayContext();
+    if (!ctx) return;
+
+    // Evaluate ID of test character
+    const dummyId = await this.resolveActiveTargetId(
+      'target-dummy',
+      ctx.moment.dimensionId,
+      ctx.moment.planeId,
+    );
+    const punchId = buildDimensionEntityTemplateId('punch');
+    const roarId = buildDimensionEntityTemplateId('roar');
+    const potionId = buildDimensionEntityTemplateId('drink-potion');
+
+    if (dummyId && punchId) {
+      // Punch: Player uses "Punch" skill on Target Dummy (deals damage)
+      const punchSkill = await firstValueFrom(this.utils.skill.byId$(punchId));
+      if (punchSkill)
+        await this.utils.character.applySkillToTarget(
+          dummyId,
+          ctx.playerId,
+          punchSkill,
+        );
     }
 
-    // STR: +1
-    const strEffect: EffectInstance = {
-      id: buildDimensionEntityTemplateId('enhance'),
-      kind: 'attribute',
-      path: 'attributes.strength',
-      value: 1,
-    };
-    const mergedStrEffect = mergeEffectInstanceWithCatalog(strEffect);
-    const currentStr = Number(player.attributes['str'] ?? 0);
-    const newStr =
-      currentStr +
-      Number(mergedStrEffect?.value ?? mergedStrEffect?.defaultValue);
-    console.log(`[GameFacade] STR: ${currentStr} -> ${newStr}`);
-    await this.utils.character.updateCharacterAttributeValue(
-      player.id,
-      'str',
-      newStr,
-    );
+    // Roar: Player uses "Roar" skill (buffs self)
+    if (roarId) {
+      const roarSkill = await firstValueFrom(this.utils.skill.byId$(roarId));
+      if (roarSkill)
+        await this.utils.character.applySkillToTarget(
+          ctx.playerId,
+          ctx.playerId,
+          roarSkill,
+        );
+    }
 
-    // HEALTH: +5, capped at max
-    const healEffect: EffectInstance = {
-      id: buildDimensionEntityTemplateId('restore'),
-      kind: 'attribute',
-      path: 'attributes.health',
-      value: 5,
-    };
-    const mergedHealEffect = mergeEffectInstanceWithCatalog(healEffect);
-    const attributeEntities = await firstValueFrom(this.attributeEntities$);
-    const healthAttr = attributeEntities['health'];
-    const currentHealth = Number(player.attributes['health'] ?? 0);
-    const maxHealth = Number(healthAttr?.max ?? 100);
-    // const newHealth = Math.min(currentHealth + 5, maxHealth);
-    const newHealth = Math.min(
-      currentHealth +
-        Number(mergedHealEffect?.value ?? mergedHealEffect?.defaultValue),
-      maxHealth,
-    );
-    console.log(
-      `[GameFacade] HEALTH: ${currentHealth} -> ${newHealth} (max: ${maxHealth})`,
-    );
-    await this.utils.character.updateCharacterAttributeValue(
-      player.id,
-      'health',
-      newHealth,
-    );
+    // Drink Potion: Player uses "Drink Potion" skill (heals self)
+    if (potionId) {
+      const potionSkill = await firstValueFrom(
+        this.utils.skill.byId$(potionId),
+      );
+      if (potionSkill)
+        await this.utils.character.applySkillToTarget(
+          ctx.playerId,
+          ctx.playerId,
+          potionSkill,
+        );
+    }
   }
 
-  async testStatChange() {
-    // Hardcoded character IDs for test
-    const dummyId = 'target-dummy'; // Replace with actual dummy id in your seed
-    const playerId = await firstValueFrom(this.playerId$);
-    if (!playerId) {
-      console.warn('[GameFacade] No player character found!');
-      return;
-    }
+  // --- Internal Context State Builders ---
 
-    // 1. Punch: Player uses "Punch" skill on Target Dummy
-    const punchSkillId = buildDimensionEntityTemplateId('punch');
-    if (!punchSkillId) return;
-    const punchSkill = await firstValueFrom(
-      this.utils.skill.byId$(punchSkillId),
+  /** Fetches fundamental active states collectively without blocking the thread repetitively */
+  private async getPlayContext() {
+    const [adventureId, accountId, playerId, moment] = await Promise.all([
+      firstValueFrom(this.currentAdventureId$),
+      firstValueFrom(this.accountId$),
+      firstValueFrom(this.playerId$),
+      firstValueFrom(this.currentMoment$),
+    ]);
+
+    if (!adventureId || !playerId || !moment) return null;
+
+    return {
+      adventureId,
+      // Active players default to 'guest' if not signed in, never 'system' (templates)
+      accountId: accountId ?? GUEST_ACCOUNT_ID,
+      playerId,
+      moment,
+    };
+  }
+
+  /**
+   * Smart resolver taking raw ID strings (shorthands, exact IDs, mappings)
+   * and deriving the fully qualified character ID.
+   */
+  private async resolveActiveTargetId(
+    rawTarget?: string,
+    contextDim?: string,
+    contextPlane?: string,
+  ): Promise<string | undefined> {
+    if (!rawTarget) return undefined;
+
+    const ctx = await this.getPlayContext();
+    if (!ctx) return undefined;
+
+    // Instantly process any exact relational UI mappings natively
+    if (rawTarget === 'player' || rawTarget === 'self') return ctx.playerId;
+
+    // Optimistic match: See if raw string natively resolves immediately
+    const targetCharacter = await firstValueFrom(
+      this.utils.character.byId$(rawTarget),
     );
-    if (punchSkill) {
-      await this.utils.character.applySkillToTarget(
-        dummyId,
-        playerId,
-        punchSkill,
-      );
-    }
 
-    // 2. Roar: Player uses "Roar" skill (buffs self)
-    const roarSkillId = buildDimensionEntityTemplateId('roar');
-    if (!roarSkillId) return;
-    const roarSkill = await firstValueFrom(this.utils.skill.byId$(roarSkillId));
-    if (roarSkill) {
-      await this.utils.character.applySkillToTarget(
-        playerId,
-        playerId,
-        roarSkill,
-      );
-    }
+    // Fallback: grab ID parts available & infer the rest
+    const parsed = parseCompositeId(rawTarget);
 
-    // 3. Drink Potion: Player uses "Drink Potion" skill (heals self)
-    const drinkPotionSkillId = buildDimensionEntityTemplateId('drink-potion');
-    if (!drinkPotionSkillId) return;
-    const drinkPotionSkill = await firstValueFrom(
-      this.utils.skill.byId$(drinkPotionSkillId),
+    const entityId = targetCharacter
+      ? targetCharacter.entityId
+      : parsed.entityId;
+    const dimId =
+      targetCharacter?.dimensionId ||
+      parsed.dimensionId ||
+      contextDim ||
+      DEFAULT_DIMENSION_ID;
+    const planeId =
+      targetCharacter?.planeId ||
+      parsed.planeId ||
+      contextPlane ||
+      DEFAULT_PLANE_ID;
+
+    // Assemble full ID via inferred mapping sequence
+    const finalTargetId = buildAdventureEntityCompositeId(
+      entityId,
+      dimId,
+      planeId,
+      ctx.adventureId,
+      ctx.accountId,
     );
-    if (drinkPotionSkill) {
-      await this.utils.character.applySkillToTarget(
-        playerId,
-        playerId,
-        drinkPotionSkill,
+
+    // Verify database guarantees exactly matched instances
+    if (finalTargetId) {
+      const activeCharacter = await firstValueFrom(
+        this.utils.character.byId$(finalTargetId),
       );
+      if (activeCharacter) return finalTargetId;
     }
+
+    console.error(`Strict Check Failed: "${rawTarget}" could not be resolved!`);
+    return undefined;
   }
   // #endregion
 }

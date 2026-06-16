@@ -1,27 +1,31 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs';
+import { mergeMap } from 'rxjs';
 
+import { ALL_LOCATIONS } from '../../data/game-catalogs';
+import { mergeHybridData } from '../../data/utils-seed';
 import { Location } from '../../models/location';
-import { GameDataService } from '../../services/game-data.service';
 import { GameSaveDexieService } from '../../services/game-save-dexie.service';
 import { AppActions } from '../app.actions';
 import { LocationActions } from './location.actions';
 
 // Seed loader
 export const seedAllLocations$ = createEffect(
-  (actions$ = inject(Actions), data = inject(GameDataService)) =>
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
-      // ofType(LocationActions.loadLocationsSeed),
       ofType(AppActions.loadAllSeeds),
-      map(() => {
+      mergeMap(async () => {
         try {
-          const locations = data.getAllLocations();
-          // console.log('seedAllLocations$ found locations: ', locations);
+          // Fetch custom templates from IndexedDB
+          const dbTemplates = await db.loadAllLocations();
+          // Merge static seed data with custom templates
+          const locations = mergeHybridData(ALL_LOCATIONS, dbTemplates);
           return LocationActions.seedAllLocationsSuccess({ locations });
-        } catch (error) {
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
           return LocationActions.seedAllLocationsFailure({
-            error: String(error),
+            error: errorMessage,
           });
         }
       }),

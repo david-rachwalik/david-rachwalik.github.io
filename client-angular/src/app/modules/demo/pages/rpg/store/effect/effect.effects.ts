@@ -2,30 +2,23 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs';
 
-import { GameDataService } from '../../services/game-data.service';
+import { ALL_EFFECTS } from '../../data/game-catalogs';
 import { AppActions } from '../app.actions';
 import { EffectActions } from './effect.actions';
 
 // Seed loader
 export const seedAllEffects$ = createEffect(
-  (actions$ = inject(Actions), data = inject(GameDataService)) =>
+  (actions$ = inject(Actions)) =>
     actions$.pipe(
       ofType(AppActions.loadAllSeeds),
-      map(() => {
-        try {
-          const effects = data.getAllEffects();
-          // console.log('seedAllEffects$ found effects: ', effects);
-          return EffectActions.seedAllEffectsSuccess({ effects });
-        } catch (error) {
-          return EffectActions.seedAllEffectsFailure({ error: String(error) });
-        }
-      }),
+      // Directly pass static catalog
+      map(() => EffectActions.seedAllEffectsSuccess({ effects: ALL_EFFECTS })),
     ),
   { functional: true },
 );
 
 // Main entry point - API loader (stub for now)
-export const loadAllEffectsApi$ = createEffect(
+export const loadAllEffects$ = createEffect(
   (actions$ = inject(Actions)) =>
     actions$.pipe(
       ofType(EffectActions.loadAllEffects),

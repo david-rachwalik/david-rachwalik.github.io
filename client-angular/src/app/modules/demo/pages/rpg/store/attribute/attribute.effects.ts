@@ -2,27 +2,21 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs';
 
-import { GameDataService } from '../../services/game-data.service';
+import { ALL_ATTRIBUTES } from '../../data/game-catalogs';
 import { AppActions } from '../app.actions';
 import { AttributeActions } from './attribute.actions';
 
 // Seed loader
 export const seedAllAttributes$ = createEffect(
-  (actions$ = inject(Actions), data = inject(GameDataService)) =>
+  (actions$ = inject(Actions)) =>
     actions$.pipe(
-      // ofType(AttributeActions.loadAttributesSeed),
       ofType(AppActions.loadAllSeeds),
-      map(() => {
-        try {
-          const attributes = data.getAllAttributes();
-          // console.log('seedAllAttributes$ found attributes: ', attributes);
-          return AttributeActions.seedAllAttributesSuccess({ attributes });
-        } catch (error) {
-          return AttributeActions.seedAllAttributesFailure({
-            error: String(error),
-          });
-        }
-      }),
+      // Directly pass static catalog
+      map(() =>
+        AttributeActions.seedAllAttributesSuccess({
+          attributes: ALL_ATTRIBUTES,
+        }),
+      ),
     ),
   { functional: true },
 );

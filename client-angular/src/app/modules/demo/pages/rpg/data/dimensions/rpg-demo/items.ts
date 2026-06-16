@@ -1,14 +1,9 @@
-import { Item } from '../models/item';
-import { toId } from '../utils';
-import {
-  buildDimensionEntityCompositeId,
-  DEFAULT_DIMENSION_ID,
-  DEFAULT_PLANE_ID,
-} from '../utils-composite-id';
+import { Item } from '../../../models/item';
+import { buildTemplateEntity, SeedInput } from '../../utils-seed';
 
 // #region 🔸 DATA SEED RAW 🔸
 
-const ITEMS_SEED_RAW: ItemSeedInput[] = [
+const RPG_DEMO_ITEMS_RAW: SeedInput<Item>[] = [
   {
     name: 'Healing Potion',
     description: 'Restores 20 HP when used.',
@@ -93,44 +88,9 @@ const ITEMS_SEED_RAW: ItemSeedInput[] = [
 ];
 // #endregion
 
-// #region 🔸 UTILITY TO FINALIZE SEED 🔸
+// #region 🔸 BUILD SEED DATA 🔸
 
-type ItemTemplateOmittedKeys =
-  | 'id'
-  | 'entityId' // itemId
-  | 'dimensionId'
-  | 'planeId';
-
-type ItemSeedInput = Omit<Item, ItemTemplateOmittedKeys>;
-
-function createTemplateItem(seed: ItemSeedInput): Item | undefined {
-  const entityId = toId(seed.name);
-  const id = buildDimensionEntityCompositeId(
-    entityId,
-    DEFAULT_DIMENSION_ID,
-    DEFAULT_PLANE_ID,
-  );
-  if (!id) return undefined;
-  return {
-    ...seed,
-    id,
-    entityId,
-    dimensionId: DEFAULT_DIMENSION_ID,
-    planeId: DEFAULT_PLANE_ID,
-  };
-}
-
-// Map to final Item[]
-export const ITEMS_SEED: Item[] = ITEMS_SEED_RAW.map(createTemplateItem).filter(
-  (e): e is Item => e !== undefined,
-);
-
-// TEST: Validate for duplicate IDs
-const ids = new Set<string>();
-ITEMS_SEED.forEach((e) => {
-  if (ids.has(e.id)) {
-    throw new Error(`Duplicate item id: ${e.id}`);
-  }
-  ids.add(e.id);
-});
+export const RPG_DEMO_ITEMS: Item[] = RPG_DEMO_ITEMS_RAW.map((seed) =>
+  buildTemplateEntity<Item>(seed, seed.name),
+).filter((e): e is Item => e !== undefined);
 // #endregion

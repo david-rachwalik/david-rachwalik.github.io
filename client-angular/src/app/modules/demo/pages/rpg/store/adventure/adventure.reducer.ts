@@ -7,7 +7,6 @@ import { AdventureActions } from './adventure.actions';
 const MAX_LOG_ENTRIES = 200;
 
 export interface AdventureState extends EntityState<Adventure> {
-  seeded: boolean; // for initial load
   loading: boolean; // for any async operation
   loaded: boolean; // for initial load
   error: string | null; // for any async operation
@@ -16,7 +15,6 @@ export interface AdventureState extends EntityState<Adventure> {
 export const adapter = createEntityAdapter<Adventure>();
 
 export const initialState: AdventureState = adapter.getInitialState({
-  seeded: false,
   loading: false,
   loaded: false,
   error: null,
@@ -27,10 +25,7 @@ export const adventureFeature = createFeature({
   name: 'adventure',
   reducer: createReducer(
     initialState,
-    // Seed load
-    on(AdventureActions.seedAllAdventuresSuccess, (state, { adventures }) =>
-      adapter.setAll(adventures, { ...state, seeded: true }),
-    ),
+
     // Create
     on(AdventureActions.addAdventure, (state) => ({
       ...state,
@@ -46,6 +41,7 @@ export const adventureFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Read All
     on(AdventureActions.loadAllAdventures, (state) => ({
       ...state,
@@ -64,6 +60,7 @@ export const adventureFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Read
     on(AdventureActions.loadAdventure, (state) => ({
       ...state,
@@ -78,6 +75,7 @@ export const adventureFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Update (optimistic, lets UI immediately reflect changes)
     on(AdventureActions.saveAdventure, (state, { id, changes }) =>
       adapter.updateOne(
@@ -85,7 +83,7 @@ export const adventureFeature = createFeature({
         { ...state, loading: true, error: null },
       ),
     ),
-    // Update with actual saved data
+    // Full update with actual saved data
     on(AdventureActions.saveAdventureSuccess, (state, { adventure }) =>
       adapter.upsertOne(adventure, { ...state, loading: false }),
     ),
@@ -94,6 +92,7 @@ export const adventureFeature = createFeature({
       loading: false,
       error,
     })),
+
     // Delete
     on(AdventureActions.removeAdventure, (state) => ({
       ...state,

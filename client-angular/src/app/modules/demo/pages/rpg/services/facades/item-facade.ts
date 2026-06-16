@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { ITEMS_CATALOG } from '../../data/game-catalogs';
+import {
+  extractSaveInstance,
+  getEntityFromCatalog,
+  mergeInstanceWithCatalog,
+} from '../../data/utils-seed';
 import { Item, ItemInstance } from '../../models/item';
 import { ItemActions } from '../../store/item/item.actions';
 import {
@@ -15,11 +21,16 @@ export class ItemFacade {
 
   // #region 🔸 NgRx Selectors 🔸
 
-  all$ = this.store.select(selectAllItems);
-  entities$ = this.store.select(selectItemEntities);
+  all$ = this.store.select(selectAllItems); // for UI
+  entities$ = this.store.select(selectItemEntities); // for lookup
+
+  byId$(id: string) {
+    return this.store.select(selectItemById(id));
+  }
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+
   // Creates a temporary "blank canvas" for the UI (minimum valid model)
   addBlank(
     id: string,
@@ -61,8 +72,31 @@ export class ItemFacade {
   remove(id: string) {
     this.store.dispatch(ItemActions.removeItem({ id }));
   }
-  byId$(id: string) {
-    return this.store.select(selectItemById(id));
+  // #endregion
+
+  // #region 🔸 Catalog & Instance Domain Logic 🔸
+
+  // Retrieves the pure default template from the active static registry
+  getFromCatalog(id: string): Item | undefined {
+    return getEntityFromCatalog(ITEMS_CATALOG, id);
+  }
+
+  // Hydrates a partial instance save file into a complete usable data model
+  mergeWithCatalog(instance: ItemInstance) {
+    return mergeInstanceWithCatalog(ITEMS_CATALOG, instance);
+  }
+
+  // Strips full object down to its bare differences to be saved more efficiently
+  toInstance(full: Item): ItemInstance | undefined {
+    const base = this.getFromCatalog(full.entityId);
+    if (!base) {
+      console.warn(
+        `[ItemFacade] Cannot create instance: template not found for entityId "${full.entityId}"`,
+      );
+      return undefined;
+    }
+
+    return extractSaveInstance<Item>(full, base);
   }
   // #endregion
 }

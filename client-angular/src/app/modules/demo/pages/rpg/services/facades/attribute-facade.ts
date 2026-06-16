@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { firstValueFrom, map, Observable, shareReplay, take } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 
+import { ATTRIBUTES_CATALOG } from '../../data/game-catalogs';
+import {
+  extractSaveInstance,
+  getEntityFromCatalog,
+  mergeInstanceWithCatalog,
+} from '../../data/utils-seed';
 import { Attribute, AttributeInstance } from '../../models/attribute';
 import { AttributeActions } from '../../store/attribute/attribute.actions';
 import {
@@ -15,11 +21,17 @@ export class AttributeFacade {
   constructor(private store: Store) {}
 
   // #region 🔸 NgRx Selectors 🔸
-  all$ = this.store.select(selectAllAttributes);
-  entities$ = this.store.select(selectAttributeEntities);
+
+  all$ = this.store.select(selectAllAttributes); // for UI
+  entities$ = this.store.select(selectAttributeEntities); // for lookup
+
+  byId$(id: string) {
+    return this.store.select(selectAttributeById(id));
+  }
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+
   // Creates a temporary "blank canvas" for the UI (minimum valid model)
   addBlank(
     id: string,
@@ -69,85 +81,36 @@ export class AttributeFacade {
   remove(id: string) {
     this.store.dispatch(AttributeActions.removeAttribute({ id }));
   }
-  byId$(id: string) {
-    return this.store.select(selectAttributeById(id));
-  }
   // #endregion
 
-  // ---- Typed, dynamic utilities (no any, no unsafe indexing) ----
-  private static mergeInstanceOverBase<T extends object, U extends Partial<T>>(
-    base: T,
-    inst: U,
-    omit: readonly (keyof T)[] = [],
-  ): T {
-    const patch: Partial<T> = {};
-    for (const key of Object.keys(inst) as (keyof T)[]) {
-      if (omit.includes(key)) continue;
-      const val = inst[key as keyof U];
-      if (val !== undefined) {
-        patch[key] = val as T[typeof key];
-      }
-    }
-    return { ...base, ...patch };
+  // #region 🔸 Catalog & Instance Domain Logic 🔸
+
+  // Retrieves the pure default template from the active static registry
+  getFromCatalog(id: string): Attribute | undefined {
+    return getEntityFromCatalog(ATTRIBUTES_CATALOG, id);
   }
 
-  private static diffFromBase<T extends object>(
-    full: T,
-    base: Partial<T>,
-    omit: readonly (keyof T)[] = [],
-  ): Partial<T> {
-    const out: Partial<T> = {};
-    const keys = new Set<keyof T>([
-      ...(Object.keys(full) as (keyof T)[]),
-      ...(Object.keys(base) as (keyof T)[]),
-    ]);
-    // console.group('[diffFromBase]');
-    // console.log('Full:', full);
-    // console.log('Base:', base);
-    for (const key of keys) {
-      if (omit.includes(key)) continue;
-      const fv = full[key];
-      const bv = base[key];
-      if (fv !== undefined && !Object.is(fv, bv)) {
-        out[key] = fv as T[typeof key];
-        // console.log(`Diff: ${String(key)} | full:`, fv, '| base:', bv);
-      }
-    }
-    // console.log('Result diff:', out);
-    // console.groupEnd();
-    return out;
-  }
-
-  // #region 🔸 Attribute Logic 🔸
-
-  // Merge AttributeInstance with its catalog Attribute
-  getAttributeByInstance$(
-    inst: AttributeInstance | undefined,
-  ): Observable<Attribute | undefined> {
-    return this.entities$.pipe(
-      map((entities) => {
-        if (!inst?.id) return undefined;
-        // Lookup full Attribute definition in catalog
-        const def = entities[inst.id];
-        if (!def) return undefined;
-
-        // Resolve property differences (prefer instance)
-        const merged: Attribute = { ...def, ...inst };
-        // console.log('merged:', merged);
-        return merged;
-      }),
-    );
+  // Hydrates a partial instance save file into a complete usable data model
+  mergeWithCatalog(instance: AttributeInstance) {
+    return mergeInstanceWithCatalog(ATTRIBUTES_CATALOG, instance);
   }
 
   // Convert full Attribute → AttributeInstance (entityId + diffs)
-  attributeToInstance(full: Attribute, catalog?: Attribute): AttributeInstance {
-    const base: Partial<Attribute> = catalog ?? {};
-    const patch = AttributeFacade.diffFromBase<Attribute>(full, base);
-    return {
-      entityId: full.entityId,
-      ...patch,
-    };
+  // Strips full object down to its bare differences to be saved more efficiently
+  toInstance(full: Attribute): AttributeInstance | undefined {
+    const base = this.getFromCatalog(full.entityId);
+    if (!base) {
+      console.warn(
+        `[AttributeFacade] Cannot create instance: template not found for entityId "${full.entityId}"`,
+      );
+      return undefined;
+    }
+
+    return extractSaveInstance<Attribute>(full, base);
   }
+  // #endregion
+
+  // #region 🔸 Attribute Logic 🔸
 
   isAttributeValue(val: unknown): val is string | number | boolean {
     return (
@@ -155,68 +118,6 @@ export class AttributeFacade {
       typeof val === 'number' ||
       typeof val === 'boolean'
     );
-  }
-
-  // Converts an AttributeInstance to a full Attribute by merging with catalog
-  convertInstanceToAttribute$(
-    instance: AttributeInstance,
-    compositeId: string,
-  ): Observable<Attribute | undefined> {
-    // Even if `instance.id` exists, it must be explicitly passed as `compositeId`
-    return this.entities$.pipe(
-      map((entities) => {
-        const catalogAttr = entities[compositeId];
-        if (!catalogAttr) return undefined;
-        return { ...catalogAttr, ...instance };
-      }),
-      // share and replay last emission; refCount avoids keeping subscription when no listeners
-      shareReplay({ bufferSize: 1, refCount: true }),
-    );
-  }
-  // #endregion
-
-  // #region 🔸 Attribute Update Logic 🔸
-
-  // Produce an AttributeInstance diff against the Attribute catalog
-  convertAttributeToInstance$(attr: Attribute): Observable<AttributeInstance> {
-    const omit: (keyof Attribute)[] = [
-      'id',
-      'entityId',
-      'dimensionId',
-      'planeId',
-    ];
-
-    return this.entities$.pipe(
-      take(1),
-      map((entities) => {
-        // resolve catalog/base: prefer explicit id then entityId
-        const base: Partial<Attribute> | undefined =
-          (attr.id && entities[attr.id]) ||
-          Object.values(entities).find((a) => a?.entityId === attr.entityId);
-
-        // use the existing, strongly-typed diff helper
-        const patch = AttributeFacade.diffFromBase<Attribute>(
-          attr,
-          base ?? {},
-          omit,
-        );
-
-        return {
-          entityId: attr.entityId,
-          ...(attr.id ? { id: attr.id } : {}),
-          ...patch,
-        };
-      }),
-    );
-  }
-
-  /**
-   * Convenience imperative wrapper when you need a Promise / single value.
-   */
-  async convertAttributeToInstanceOnce(
-    attr: Attribute,
-  ): Promise<AttributeInstance> {
-    return firstValueFrom(this.convertAttributeToInstance$(attr));
   }
 
   /**

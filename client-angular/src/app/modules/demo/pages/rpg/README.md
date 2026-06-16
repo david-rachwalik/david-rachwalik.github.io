@@ -28,11 +28,9 @@
 
 | Layer             | Does                                                                  |
 | ----------------- | --------------------------------------------------------------------- |
-| `GameDataService` | Load static data (tags, locations, characters, etc.)                  |
 | `AdventureFacade` | Handles the game state and only used by facades or other services     |
 | `GameFacade`      | Exposes high-level, UI-friendly properties and methods for game state |
 | `GameSaveService` | Used to save/load game state with localStorage                        |
-| `ActionService`   | `attack`, `useItem`, `applyEffect`, `triggerMoment`, `gainXP`         |
 
 ### Game Facade
 
@@ -47,15 +45,10 @@ Architecture uses normalized, ID-based references with a mix of mutable game sta
 
 #### Static vs Mutable Data
 
-| Type    | Source            | Example                                       |
-| ------- | ----------------- | --------------------------------------------- |
-| Static  | `GameDataService` | Items, Locations, Moments                     |
-| Mutable | `AdventureFacade` | Characters, Inventory, History, Relationships |
-
-In the facade, you bridge both by:
-
-- Looking up dynamic IDs in `AdventureFacade` (formerly `GameStateService`)
-- Resolving them into full data via `GameDataService`
+| Type    | Source             | Example                                    |
+| ------- | ------------------ | ------------------------------------------ |
+| Static  | `game-catalogs.ts` | Items, Locations, Moments                  |
+| Mutable | `AdventureFacade`  | Characters, Events, History, Relationships |
 
 #### Benefits of the Facade
 
@@ -86,3 +79,11 @@ A clean separation as the app grows: data storage, game logic, and user-facing c
 So those `applyEffect`, `useItem`, `initializeCharacter`, etc. belong in `ActionService`, which uses the `GameFacade` and `AdventureFacade` underneath.
 
 This way, **state is just state** — no logic.
+
+---
+
+### 3-Tier Data Architecture
+
+- **NgRx** (In-Memory L1 Cache):&nbsp; The fastest layer.&nbsp; Used for active play session and static reference catalogs.
+- **IndexedDB** (Local L2 Cache):&nbsp; The persistent local layer.&nbsp; Stores user save fles and custom admin-tool overrides.
+- **PostgreSQL** (External Source of Truth):&nbsp; (Future) The master backend syncing layer.

@@ -1,14 +1,9 @@
-import { Effect, EffectInstance } from '../models/effect';
-import { toId } from '../utils';
-import {
-  buildDimensionEntityCompositeId,
-  DEFAULT_DIMENSION_ID,
-  DEFAULT_PLANE_ID,
-} from '../utils-composite-id';
+import { Effect } from '../../../models/effect';
+import { buildTemplateEntity, SeedInput } from '../../utils-seed';
 
 // #region 🔸 DATA SEED RAW 🔸
 
-const EFFECTS_SEED_RAW: EffectSeedInput[] = [
+const RPG_DEMO_EFFECTS_RAW: SeedInput<Effect>[] = [
   // --- Attribute Manipulation ---
   {
     // name: 'Damage Attribute',
@@ -512,73 +507,9 @@ const EFFECTS_SEED_RAW: EffectSeedInput[] = [
 ];
 // #endregion
 
-// #region 🔸 UTILITY TO FINALIZE SEED 🔸
+// #region 🔸 BUILD SEED DATA 🔸
 
-type EffectTemplateOmittedKeys =
-  | 'id'
-  | 'entityId' // effectId
-  | 'dimensionId'
-  | 'planeId'
-  | 'current';
-
-type EffectSeedInput = Omit<Effect, EffectTemplateOmittedKeys>;
-
-// function createTemplateEffect(seed: EffectSeedInput): Effect {
-//   const nameId = toId(seed.name);
-//   return { ...seed, id: nameId, dimensionId: DEFAULT_DIMENSION_ID };
-// }
-
-function createTemplateEffect(seed: EffectSeedInput): Effect | undefined {
-  const entityId = toId(seed.name);
-  const id = buildDimensionEntityCompositeId(
-    entityId,
-    DEFAULT_DIMENSION_ID,
-    DEFAULT_PLANE_ID,
-  );
-  if (!id) return undefined;
-  return {
-    ...seed,
-    id,
-    entityId,
-    dimensionId: DEFAULT_DIMENSION_ID,
-    planeId: DEFAULT_PLANE_ID,
-  };
-}
-
-// Map to final Effect[]
-export const EFFECTS_SEED: Effect[] = EFFECTS_SEED_RAW.map(
-  createTemplateEffect,
+export const RPG_DEMO_EFFECTS: Effect[] = RPG_DEMO_EFFECTS_RAW.map((seed) =>
+  buildTemplateEntity<Effect>(seed, seed.name),
 ).filter((e): e is Effect => e !== undefined);
-export const EFFECTS_CATALOG: Record<string, Effect> = EFFECTS_SEED.reduce(
-  (acc, effect) => {
-    acc[effect.id] = effect;
-    return acc;
-  },
-  {} as Record<string, Effect>,
-);
-
-// TEST: Validate for duplicate IDs
-const ids = new Set<string>();
-EFFECTS_SEED.forEach((e) => {
-  if (ids.has(e.id)) {
-    throw new Error(`Duplicate effect id: ${e.id}`);
-  }
-  ids.add(e.id);
-});
 // #endregion
-
-export function getEffectInstanceFromCatalog(id: string): Effect | undefined {
-  if (!id) return undefined;
-  return EFFECTS_CATALOG[id] ?? undefined;
-}
-
-// Merges an EffectInstance with its Effect catalog definition
-export function mergeEffectInstanceWithCatalog(
-  instance: EffectInstance,
-): Effect | undefined {
-  if (!instance.id) return undefined;
-  const base = EFFECTS_CATALOG[instance.id];
-  if (!base) return undefined;
-  return { ...base, ...instance };
-}
-// TODO: replace with characterFacade.resolveAndMergeEffect

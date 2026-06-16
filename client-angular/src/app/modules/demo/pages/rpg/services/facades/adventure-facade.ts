@@ -32,6 +32,7 @@ import { toId } from '../../utils';
 import {
   buildAdventureEntityCompositeId,
   buildDimensionEntityCompositeId,
+  DEFAULT_ACCOUNT_ID,
   DEFAULT_DIMENSION_ID,
   DEFAULT_PLANE_ID,
 } from '../../utils-composite-id';
@@ -51,8 +52,13 @@ export class AdventureFacade {
 
   // #region 🔸 NgRx Selectors 🔸
 
-  all$ = this.store.select(selectAllAdventures);
-  entities$ = this.store.select(selectAdventureEntities);
+  all$ = this.store.select(selectAllAdventures); // for UI
+  entities$ = this.store.select(selectAdventureEntities); // for lookup
+
+  byId$(id: string) {
+    return this.store.select(selectAdventureById(id));
+  }
+
   currentSlotId$ = this.store.select(selectCurrentSlotId);
   current$ = this.store.select(selectCurrentAdventure);
 
@@ -67,6 +73,7 @@ export class AdventureFacade {
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+
   // Creates a temporary "blank canvas" for the UI (minimum valid model)
   async addBlank(
     id: string,
@@ -99,9 +106,6 @@ export class AdventureFacade {
   }
   remove(id: string) {
     this.store.dispatch(AdventureActions.removeAdventure({ id }));
-  }
-  byId$(id: string) {
-    return this.store.select(selectAdventureById(id));
   }
   // #endregion
 
@@ -138,7 +142,8 @@ export class AdventureFacade {
     });
 
     // const { accountId } = this.userService;
-    const accountId = (await firstValueFrom(this.accountId$)) || 'system';
+    const accountId =
+      (await firstValueFrom(this.accountId$)) || DEFAULT_ACCOUNT_ID;
     if (!accountId) return;
     console.log('accountId:', accountId);
 

@@ -1,22 +1,25 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs';
+import { mergeMap } from 'rxjs';
 
+import { ALL_ITEMS } from '../../data/game-catalogs';
+import { mergeHybridData } from '../../data/utils-seed';
 import { Item } from '../../models/item';
-import { GameDataService } from '../../services/game-data.service';
 import { GameSaveDexieService } from '../../services/game-save-dexie.service';
 import { AppActions } from '../app.actions';
 import { ItemActions } from './item.actions';
 
 // Seed loader
 export const seedAllItems$ = createEffect(
-  (actions$ = inject(Actions), data = inject(GameDataService)) =>
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AppActions.loadAllSeeds),
-      map(() => {
+      mergeMap(async () => {
         try {
-          const items = data.getAllItems();
-          // console.log('seedAllItems$ found items: ', items);
+          // Fetch custom templates from IndexedDB
+          const dbTemplates = await db.loadAllItems();
+          // Merge static seed data with custom templates
+          const items = mergeHybridData(ALL_ITEMS, dbTemplates);
           return ItemActions.seedAllItemsSuccess({ items });
         } catch (error: unknown) {
           const errorMessage =

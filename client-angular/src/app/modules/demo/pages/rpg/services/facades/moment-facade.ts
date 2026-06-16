@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { firstValueFrom } from 'rxjs';
 
+import { MOMENTS_CATALOG } from '../../data/game-catalogs';
+import {
+  extractSaveInstance,
+  getEntityFromCatalog,
+  mergeInstanceWithCatalog,
+} from '../../data/utils-seed';
 import { Adventure, AdventureEvent } from '../../models/adventure';
 import { Character } from '../../models/character';
 import { EffectInstance } from '../../models/effect';
@@ -38,8 +44,12 @@ export class MomentFacade {
 
   // #region 🔸 NgRx Selectors 🔸
 
-  all$ = this.store.select(selectAllMoments);
-  entities$ = this.store.select(selectMomentEntities);
+  all$ = this.store.select(selectAllMoments); // for UI
+  entities$ = this.store.select(selectMomentEntities); // for lookup
+
+  byId$(id: string) {
+    return this.store.select(selectMomentById(id));
+  }
 
   current$ = this.store.select(selectCurrentMoment);
 
@@ -53,6 +63,7 @@ export class MomentFacade {
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+
   // Creates a temporary "blank canvas" for the UI (minimum valid model)
   addBlank(
     id: string,
@@ -95,8 +106,31 @@ export class MomentFacade {
   remove(id: string) {
     this.store.dispatch(MomentActions.removeMoment({ id }));
   }
-  byId$(id: string) {
-    return this.store.select(selectMomentById(id));
+  // #endregion
+
+  // #region 🔸 Catalog & Instance Domain Logic 🔸
+
+  // Retrieves the pure default template from the active static registry
+  getFromCatalog(id: string): Moment | undefined {
+    return getEntityFromCatalog(MOMENTS_CATALOG, id);
+  }
+
+  // Hydrates a partial instance save file into a complete usable data model
+  mergeWithCatalog(instance: MomentInstance) {
+    return mergeInstanceWithCatalog(MOMENTS_CATALOG, instance);
+  }
+
+  // Strips full object down to its bare differences to be saved more efficiently
+  toInstance(full: Moment): MomentInstance | undefined {
+    const base = this.getFromCatalog(full.entityId);
+    if (!base) {
+      console.warn(
+        `[MomentFacade] Cannot create instance: template not found for entityId "${full.entityId}"`,
+      );
+      return undefined;
+    }
+
+    return extractSaveInstance<Moment>(full, base);
   }
   // #endregion
 
@@ -120,7 +154,8 @@ export class MomentFacade {
       // const encounterId = `${charRef}:${moment.id}:${adventureId}`;
       const encounterId = buildAdventureEntityCompositeId(
         charRef,
-        adventure.currentDimensionId,
+        // adventure.currentDimensionId,
+        adventure.primeDimension,
         adventure.currentPlaneId,
         adventure.id,
         adventure.accountId,
@@ -268,7 +303,10 @@ export class MomentFacade {
   async enterMoment(momentId: string) {
     const moment = await firstValueFrom(this.byId$(momentId));
     if (!moment || !moment.effects?.onEnter) return;
-    const effects: EffectInstance[] = Object.values(moment.effects?.onEnter);
+
+    const effects: EffectInstance[] = Object.values(
+      moment.effects.onEnter ?? {},
+    );
     const timestamp = new Date().toISOString();
 
     // Apply onEnter effects to all characters in the moment
@@ -298,7 +336,10 @@ export class MomentFacade {
   async completeMoment(momentId: string) {
     const moment = await firstValueFrom(this.byId$(momentId));
     if (!moment || !moment.effects?.onComplete) return;
-    const effects: EffectInstance[] = Object.values(moment.effects?.onComplete);
+
+    const effects: EffectInstance[] = Object.values(
+      moment.effects.onComplete ?? {},
+    );
     const timestamp = new Date().toISOString();
 
     // 1. Apply onComplete effects to all relevant characters

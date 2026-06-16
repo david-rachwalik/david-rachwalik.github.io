@@ -1,7 +1,13 @@
 import { createSelector } from '@ngrx/store';
 
 import { Character } from '../models/character';
-import { buildAdventureEntityTemplateId } from '../utils-composite-id';
+import {
+  buildAdventureEntityCompositeId,
+  DEFAULT_DIMENSION_ID,
+  DEFAULT_PLANE_ID,
+  GUEST_ACCOUNT_ID,
+  parseCompositeId,
+} from '../utils-composite-id';
 import {
   selectAdventureEventLoading,
   selectAllAdventureEvents,
@@ -62,7 +68,8 @@ export const selectCurrentAdventureEvents = createSelector(
 
 export const selectCurrentDimensionId = createSelector(
   selectCurrentAdventure,
-  (adventure) => adventure?.primeDimension,
+  // Fallback to native origin if current is missing
+  (adventure) => adventure?.currentDimensionId || adventure?.primeDimension,
 );
 
 export const selectCurrentPlaneId = createSelector(
@@ -76,53 +83,10 @@ export const selectCurrentCharacterId = createSelector(
   (adventure) => adventure?.currentCharacterId,
 );
 
-// export const selectCurrentCharacter = createSelector(
-//   selectCurrentCharacterId,
-//   selectCharacterEntities,
-//   (characterId, entities) => (characterId ? entities[characterId] : undefined),
-// );
-
-// export const selectCurrentCharacter = createSelector(
-//   selectCurrentAdventure,
-//   (adventure) =>
-//     adventure && adventure.currentCharacterId
-//       ? adventure.characters?.[adventure.currentCharacterId]
-//       : undefined,
-// );
-
-// Composite ID approach, but ended up passing full characterId, not just entityId
-// export const selectCurrentCharacter = createSelector(
-//   selectCharacterEntities,
-//   selectCurrentCharacterId,
-//   selectCurrentDimensionId,
-//   selectCurrentPlaneId,
-//   selectCurrentAdventureId,
-//   selectAccountId,
-//   (entities, entityId, dimensionId, planeId, adventureId, accountId) => {
-//     console.log('selectCurrentCharacter', {
-//       entities,
-//       entityId,
-//       dimensionId,
-//       planeId,
-//       adventureId,
-//       accountId,
-//     });
-//     const id = buildAdventureEntityCompositeId(
-//       entityId,
-//       dimensionId,
-//       planeId,
-//       adventureId,
-//       accountId,
-//     );
-//     return id ? entities[id] : undefined;
-//   },
-// );
-
 export const selectCurrentCharacter = createSelector(
   selectCharacterEntities,
   selectCurrentCharacterId,
   (entities, characterId) => {
-    // console.log('selectCurrentCharacter', { entities, characterId });
     return characterId ? entities[characterId] : undefined;
   },
 );
@@ -162,19 +126,29 @@ export const selectActiveMomentCharacters = createSelector(
   selectAccountId,
   selectCharacterEntities,
   (moment, adventureId, accountId, entities) => {
-    if (!moment || !moment.characters) return [];
-    const safeAccountId = accountId || 'guest';
-    const safeAdventureId = adventureId || 'template';
+    // Fast fail: if no active adventure, there are no active characters
+    if (!moment || !moment.characters || !adventureId) return [];
+
+    // Active players default to 'guest' if not signed in, never 'system' (templates)
+    const safeAccountId = accountId || GUEST_ACCOUNT_ID;
 
     return moment.characters
       .map((charRef) => {
-        // Safe base extraction (turns "target-dummy:template:system" into "target-dummy")
-        const baseId = charRef.split(':')[0];
+        // Safely parse the character request string into discrete parts
+        const parsed = parseCompositeId(charRef);
+        if (!parsed.entityId) return undefined;
 
-        // Rebuild specifically targeting the running save slot!
-        const activeId = buildAdventureEntityTemplateId(
-          baseId,
-          safeAdventureId,
+        // Infer dimensional context coordinates dynamically
+        const dimId =
+          parsed.dimensionId || moment.dimensionId || DEFAULT_DIMENSION_ID;
+        const planeId = parsed.planeId || moment.planeId || DEFAULT_PLANE_ID;
+
+        // Specifically target the running save slot
+        const activeId = buildAdventureEntityCompositeId(
+          parsed.entityId,
+          dimId,
+          planeId,
+          adventureId,
           safeAccountId,
         );
 

@@ -1,15 +1,10 @@
-import { EffectInstance } from '../models/effect';
-import { Skill } from '../models/skill';
-import { toId } from '../utils';
-import {
-  buildDimensionEntityCompositeId,
-  DEFAULT_DIMENSION_ID,
-  DEFAULT_PLANE_ID,
-} from '../utils-composite-id';
+import { EffectInstance } from '../../../models/effect';
+import { Skill } from '../../../models/skill';
+import { buildTemplateEntity, SeedInput } from '../../utils-seed';
 
 // #region 🔸 DATA SEED RAW 🔸
 
-const SKILLS_SEED_RAW: SkillSeedInput[] = [
+const RPG_DEMO_SKILLS_RAW: SeedInput<Skill>[] = [
   {
     name: 'Punch',
     description: 'A basic physical attack.',
@@ -255,44 +250,9 @@ const SKILLS_SEED_RAW: SkillSeedInput[] = [
 ];
 // #endregion
 
-// #region 🔸 UTILITY TO FINALIZE SEED 🔸
+// #region 🔸 BUILD SEED DATA 🔸
 
-type SkillTemplateOmittedKeys =
-  | 'id'
-  | 'entityId' // skillId
-  | 'dimensionId'
-  | 'planeId';
-
-type SkillSeedInput = Omit<Skill, SkillTemplateOmittedKeys>;
-
-function createTemplateSkill(seed: SkillSeedInput): Skill | undefined {
-  const entityId = toId(seed.name);
-  const id = buildDimensionEntityCompositeId(
-    entityId,
-    DEFAULT_DIMENSION_ID,
-    DEFAULT_PLANE_ID,
-  );
-  if (!id) return undefined;
-  return {
-    ...seed,
-    id,
-    entityId,
-    dimensionId: DEFAULT_DIMENSION_ID,
-    planeId: DEFAULT_PLANE_ID,
-  };
-}
-
-// Map to final Skill[]
-export const SKILLS_SEED: Skill[] = SKILLS_SEED_RAW.map(
-  createTemplateSkill,
+export const RPG_DEMO_SKILLS: Skill[] = RPG_DEMO_SKILLS_RAW.map((seed) =>
+  buildTemplateEntity<Skill>(seed, seed.name),
 ).filter((e): e is Skill => e !== undefined);
-
-// TEST: Validate for duplicate IDs
-const ids = new Set<string>();
-SKILLS_SEED.forEach((e) => {
-  if (ids.has(e.id)) {
-    throw new Error(`Duplicate skill id: ${e.id}`);
-  }
-  ids.add(e.id);
-});
 // #endregion

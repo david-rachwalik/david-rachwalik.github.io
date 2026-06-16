@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { toId } from '../utils';
+import { GUEST_ACCOUNT_ID } from '../utils-composite-id';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private accountIdSubject = new BehaviorSubject<string>('guest');
+  private accountIdSubject = new BehaviorSubject<string>(GUEST_ACCOUNT_ID);
   accountId$ = this.accountIdSubject.asObservable();
 
   get accountId(): string {
@@ -16,7 +17,7 @@ export class UserService {
   }
 
   init(accountId?: string) {
-    this.accountIdSubject.next(accountId ?? 'guest');
+    this.accountIdSubject.next(accountId ?? GUEST_ACCOUNT_ID);
   }
 
   setGuestUsername(username: string) {

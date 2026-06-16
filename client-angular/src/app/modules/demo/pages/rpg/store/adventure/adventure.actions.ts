@@ -5,10 +5,6 @@ import { Adventure, AdventureInstance } from '../../models/adventure';
 export const AdventureActions = createActionGroup({
   source: 'Adventure',
   events: {
-    'Seed All Adventures': emptyProps(),
-    'Seed All Adventures Success': props<{ adventures: Adventure[] }>(),
-    'Seed All Adventures Failure': props<{ error: string }>(),
-
     // Create (uses rollback)
     'Add Adventure': props<{ adventure: Adventure }>(),
     'Add Adventure Success': props<{ adventure: Adventure }>(),

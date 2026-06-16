@@ -1,17 +1,9 @@
-import { Character } from '../models/character';
-import { toId } from '../utils';
-import {
-  buildAdventureEntityTemplateId,
-  DEFAULT_ACCOUNT_ID,
-  DEFAULT_ADVENTURE_ID,
-  DEFAULT_DIMENSION_ID,
-  DEFAULT_PLANE_ID,
-} from '../utils-composite-id';
+import { Character } from '../../../models/character';
+import { buildTemplateEntity, SeedInput } from '../../utils-seed';
 
 // #region 🔸 DATA SEED RAW 🔸
 
-// export const CHARACTERS_SEED: Character[] = [
-const CHARACTERS_SEED_RAW: CharacterSeedInput[] = [
+const RPG_DEMO_CHARACTERS_RAW: SeedInput<Character>[] = [
   // --- Player Template ---
   {
     // id: 'player-default',
@@ -191,56 +183,9 @@ const CHARACTERS_SEED_RAW: CharacterSeedInput[] = [
 ];
 // #endregion
 
-// #region 🔸 UTILITY TO FINALIZE SEED 🔸
+// #region 🔸 BUILD SEED DATA 🔸
 
-type CharacterTemplateOmittedKeys =
-  | 'id'
-  | 'entityId' // characterId
-  | 'dimensionId'
-  | 'planeId'
-  | 'adventureId'
-  | 'accountId';
-
-type CharacterSeedInput = Omit<Character, CharacterTemplateOmittedKeys>;
-
-function createTemplateCharacter(
-  seed: CharacterSeedInput,
-): Character | undefined {
-  const entityId = toId(seed.name);
-  // const userService = inject(UserService, { optional: true });
-  // const accountId = userService?.accountId || 'guest';
-  const accountId = DEFAULT_ACCOUNT_ID;
-  // const id = buildCompositeAdventureEntityId(
-  //   entityId,
-  //   DIMENSION_RPGDEMO_ID,
-  //   PLANE_PRIME_ID,
-  //   ADVENTURE_TEMPLATE_ID,
-  //   accountId,
-  // );
-  const id = buildAdventureEntityTemplateId(entityId);
-  if (!id) return undefined;
-  return {
-    ...seed,
-    id,
-    entityId,
-    adventureId: DEFAULT_ADVENTURE_ID,
-    dimensionId: DEFAULT_DIMENSION_ID,
-    planeId: DEFAULT_PLANE_ID,
-    accountId,
-  };
-}
-
-// Map to final Character[]
-export const CHARACTERS_SEED: Character[] = CHARACTERS_SEED_RAW.map(
-  createTemplateCharacter,
-).filter((char): char is Character => char !== undefined);
-
-// Validate for duplicate IDs
-const ids = new Set<string>();
-CHARACTERS_SEED.forEach((char) => {
-  if (ids.has(char.id)) {
-    throw new Error(`Duplicate character id: ${char.id}`);
-  }
-  ids.add(char.id);
-});
+export const RPG_DEMO_CHARACTERS: Character[] = RPG_DEMO_CHARACTERS_RAW.map(
+  (seed) => buildTemplateEntity<Character>(seed, seed.name),
+).filter((e): e is Character => e !== undefined);
 // #endregion

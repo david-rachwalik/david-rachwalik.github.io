@@ -4,30 +4,10 @@ import { filter, map, mergeMap, switchMap, take } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { Adventure } from '../../models/adventure';
-import { GameDataService } from '../../services/game-data.service';
 import { GameSaveDexieService } from '../../services/game-save-dexie.service';
 import { AppActions } from '../app.actions';
 import { selectCurrentSlotId } from '../app.selectors';
 import { AdventureActions } from './adventure.actions';
-
-// Seed loader
-export const seedAllAdventures$ = createEffect(
-  (actions$ = inject(Actions), data = inject(GameDataService)) =>
-    actions$.pipe(
-      ofType(AppActions.loadAllSeeds),
-      map(() => {
-        try {
-          const adventures = data.getAllAdventures();
-          return AdventureActions.seedAllAdventuresSuccess({ adventures });
-        } catch (error) {
-          return AdventureActions.seedAllAdventuresFailure({
-            error: String(error),
-          });
-        }
-      }),
-    ),
-  { functional: true },
-);
 
 // #region 🔸 Database Effects 🔸
 

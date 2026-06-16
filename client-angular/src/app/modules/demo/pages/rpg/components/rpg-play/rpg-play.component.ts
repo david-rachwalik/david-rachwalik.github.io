@@ -45,14 +45,14 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
   isLoading$ = this.game.isLoading$;
   logEntries$ = this.game.log$;
 
-  attributes$ = this.game.attributes$;
+  attributes$ = this.game.utils.attribute.all$;
 
   currentSlotId$ = this.game.currentSlotId$;
 
   playerId$ = this.game.utils.character.playerId$;
   player$ = this.game.utils.character.player$;
 
-  stats$ = this.game.utils.character.playerStats$;
+  stats$ = this.game.utils.character.playerAttributes$;
   // statsArray$ = this.stats$.pipe(map((statsObj) => Object.values(statsObj)));
 
   // // Use the facade-provided playerStats$ (Record<string, Attribute>) and make it shareReplay

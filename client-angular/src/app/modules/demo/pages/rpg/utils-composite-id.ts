@@ -6,6 +6,7 @@ export const DEFAULT_DIMENSION_ID = 'rpg-demo'; // game name
 export const DEFAULT_PLANE_ID = 'prime'; // corporeal/material
 export const DEFAULT_ADVENTURE_ID = 'template';
 export const DEFAULT_ACCOUNT_ID = 'system';
+export const GUEST_ACCOUNT_ID = 'guest';
 
 // http://www.marvunapp.com/ohotmu/appendixes/omnapp.htm
 // http://www.marvunapp.com/ohotmu/appendixes/mdapp.htm
@@ -46,6 +47,27 @@ export function buildAdventureEntityCompositeId(
   ].join(':');
 }
 
+export interface ParsedCompositeId {
+  entityId: string;
+  dimensionId?: string;
+  planeId?: string;
+  adventureId?: string;
+  accountId?: string;
+}
+
+export function parseCompositeId(id?: string): ParsedCompositeId {
+  if (!id) return { entityId: '' };
+  const parts = id.split(':');
+  return {
+    entityId: parts[0] || '',
+    dimensionId: parts[1] || undefined,
+    planeId: parts[2] || undefined,
+    adventureId: parts[3] || undefined,
+    accountId: parts[4] || undefined,
+  };
+}
+
+// entityId:dimensionId:planeId
 export function buildDimensionEntityTemplateId(entityId?: string) {
   if (!entityId) return undefined;
   return buildDimensionEntityCompositeId(
@@ -55,6 +77,7 @@ export function buildDimensionEntityTemplateId(entityId?: string) {
   );
 }
 
+// entityId:dimensionId:planeId:adventureId:accountId
 export function buildAdventureEntityTemplateId(
   entityId?: string,
   adventureId: string = DEFAULT_ADVENTURE_ID,
@@ -68,10 +91,4 @@ export function buildAdventureEntityTemplateId(
     adventureId,
     accountId,
   );
-}
-
-// Generates full template ID for an entity in the default dimension/plane
-export function rpgTemplateId(entityId: string): string {
-  // TODO: When the build ID function starts taking in dimension/plane, provide here
-  return buildAdventureEntityTemplateId(entityId) || '';
 }

@@ -1,22 +1,25 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs';
+import { mergeMap } from 'rxjs';
 
+import { ALL_MOMENTS } from '../../data/game-catalogs';
+import { mergeHybridData } from '../../data/utils-seed';
 import { Moment } from '../../models/moment';
-import { GameDataService } from '../../services/game-data.service';
 import { GameSaveDexieService } from '../../services/game-save-dexie.service';
 import { AppActions } from '../app.actions';
 import { MomentActions } from './moment.actions';
 
 // Seed loader
 export const seedAllMoments$ = createEffect(
-  (actions$ = inject(Actions), data = inject(GameDataService)) =>
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AppActions.loadAllSeeds),
-      map(() => {
+      mergeMap(async () => {
         try {
-          const moments = data.getAllMoments();
-          // console.log('seedAllMoments$ found moments: ', moments);
+          // Fetch custom templates from IndexedDB
+          const dbTemplates = await db.loadAllMoments();
+          // Merge static seed data with custom templates
+          const moments = mergeHybridData(ALL_MOMENTS, dbTemplates);
           return MomentActions.seedAllMomentsSuccess({ moments });
         } catch (error: unknown) {
           const errorMessage =

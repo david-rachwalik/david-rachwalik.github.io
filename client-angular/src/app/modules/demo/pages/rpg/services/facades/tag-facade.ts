@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { getTagInstanceFromCatalog } from '../../data/tags-seed';
+import { TAGS_CATALOG } from '../../data/game-catalogs';
+import {
+  extractSaveInstance,
+  getEntityFromCatalog,
+  mergeInstanceWithCatalog,
+} from '../../data/utils-seed';
 import { Tag, TagInstance } from '../../models/tag';
 import { TagActions } from '../../store/tag/tag.actions';
 import {
@@ -16,11 +21,16 @@ export class TagFacade {
 
   // #region 🔸 NgRx Selectors 🔸
 
-  all$ = this.store.select(selectAllTags);
-  entities$ = this.store.select(selectTagEntities);
+  all$ = this.store.select(selectAllTags); // for UI
+  entities$ = this.store.select(selectTagEntities); // for lookup
+
+  byId$(id: string) {
+    return this.store.select(selectTagById(id));
+  }
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+
   // Creates a temporary "blank canvas" for the UI (minimum valid model)
   addBlank(
     id: string,
@@ -56,92 +66,31 @@ export class TagFacade {
   remove(id: string) {
     this.store.dispatch(TagActions.removeTag({ id }));
   }
-  byId$(id: string) {
-    return this.store.select(selectTagById(id));
-  }
   // #endregion
 
-  // ---- Typed, dynamic utilities (no any, no unsafe indexing) ----
-  private static mergeInstanceOverBase<T extends object, U extends Partial<T>>(
-    base: T,
-    inst: U,
-    omit: readonly (keyof T)[] = [],
-  ): T {
-    const patch: Partial<T> = {};
-    for (const key of Object.keys(inst) as (keyof T)[]) {
-      if (omit.includes(key)) continue;
-      const val = inst[key as keyof U];
-      if (val !== undefined) {
-        patch[key] = val as T[typeof key];
-      }
-    }
-    return { ...base, ...patch };
+  // #region 🔸 Catalog & Instance Domain Logic 🔸
+
+  // Retrieves the pure default template from the active static registry
+  getFromCatalog(id: string): Tag | undefined {
+    return getEntityFromCatalog(TAGS_CATALOG, id);
   }
 
-  private static diffFromBase<T extends object>(
-    full: T,
-    base: Partial<T>,
-    omit: readonly (keyof T)[] = [],
-  ): Partial<T> {
-    const out: Partial<T> = {};
-    const keys = new Set<keyof T>([
-      ...(Object.keys(full) as (keyof T)[]),
-      ...(Object.keys(base) as (keyof T)[]),
-    ]);
-    console.group('[diffFromBase]');
-    console.log('Full:', full);
-    console.log('Base:', base);
-    for (const key of keys) {
-      if (omit.includes(key)) continue;
-      const fv = full[key];
-      const bv = base[key];
-      if (fv !== undefined && !Object.is(fv, bv)) {
-        out[key] = fv as T[typeof key];
-        console.log(`Diff: ${String(key)} | full:`, fv, '| base:', bv);
-      }
-    }
-    console.log('Result diff:', out);
-    console.groupEnd();
-    return out;
+  // Hydrates a partial instance save file into a complete usable data model
+  mergeWithCatalog(instance: TagInstance) {
+    return mergeInstanceWithCatalog(TAGS_CATALOG, instance);
   }
 
-  // #region 🔸 Tag Logic 🔸
-
-  // Convert full Tag → TagInstance (entityId + diffs)
-  tagToInstance(full: Tag): TagInstance | undefined {
-    // const base = getTagInstanceFromCatalog(full.entityId);
-    const base = getTagInstanceFromCatalog(full.entityId) as
-      | TagInstance
-      | undefined;
-
-    console.group('[tagToInstance]');
-    console.log('Full Tag:', full);
-    console.log('Catalog Tag:', base);
-    // if (!base) return undefined;
+  // Strips full object down to its bare differences to be saved more efficiently
+  toInstance(full: Tag): TagInstance | undefined {
+    const base = this.getFromCatalog(full.entityId);
     if (!base) {
-      console.warn('No catalog tag found for entityId:', full.entityId);
-      console.groupEnd();
+      console.warn(
+        `[TagFacade] Cannot create instance: template not found for entityId "${full.entityId}"`,
+      );
       return undefined;
     }
-    // const patch = CharacterFacade.diffFromBase<Tag>(full, base, [
-    //   'id',
-    //   'entityId',
-    //   'dimensionId',
-    //   'planeId',
-    // ] as const);
-    // const out: TagInstance = {
-    //   entityId: full.entityId,
-    //   ...(full.id ? ({ id: full.id } as Pick<TagInstance, 'id'>) : {}),
-    //   ...(patch as Partial<TagInstance>),
-    // };
-    const patch = TagFacade.diffFromBase<Tag>(full, base);
-    const out: TagInstance = {
-      entityId: full.entityId,
-      ...patch,
-    };
-    console.log('TagInstance:', out);
-    console.groupEnd();
-    return out;
+
+    return extractSaveInstance<Tag>(full, base);
   }
   // #endregion
 }

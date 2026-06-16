@@ -2,8 +2,8 @@
 export interface GameDimensionEntity {
   id: string;
   entityId: string;
-  dimensionId: string; // game world/content universe
-  planeId: string;
+  dimensionId: string; // origin game world/universe
+  planeId: string; // origin plane of existence
   authorId?: string;
 }
 

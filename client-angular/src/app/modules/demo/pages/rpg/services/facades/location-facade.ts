@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { LOCATIONS_CATALOG } from '../../data/game-catalogs';
+import {
+  extractSaveInstance,
+  getEntityFromCatalog,
+  mergeInstanceWithCatalog,
+} from '../../data/utils-seed';
 import { Location, LocationInstance } from '../../models/location';
 import { LocationActions } from '../../store/location/location.actions';
 import {
@@ -15,11 +21,16 @@ export class LocationFacade {
 
   // #region 🔸 NgRx Selectors 🔸
 
-  all$ = this.store.select(selectAllLocations);
-  entities$ = this.store.select(selectLocationEntities);
+  all$ = this.store.select(selectAllLocations); // for UI
+  entities$ = this.store.select(selectLocationEntities); // for lookup
+
+  byId$(id: string) {
+    return this.store.select(selectLocationById(id));
+  }
   // #endregion
 
   // #region 🔸 Feature CRUD Methods 🔸
+
   // Creates a temporary "blank canvas" for the UI (minimum valid model)
   addBlank(
     id: string,
@@ -59,8 +70,31 @@ export class LocationFacade {
   remove(id: string) {
     this.store.dispatch(LocationActions.removeLocation({ id }));
   }
-  byId$(id: string) {
-    return this.store.select(selectLocationById(id));
+  // #endregion
+
+  // #region 🔸 Catalog & Instance Domain Logic 🔸
+
+  // Retrieves the pure default template from the active static registry
+  getFromCatalog(id: string): Location | undefined {
+    return getEntityFromCatalog(LOCATIONS_CATALOG, id);
+  }
+
+  // Hydrates a partial instance save file into a complete usable data model
+  mergeWithCatalog(instance: LocationInstance) {
+    return mergeInstanceWithCatalog(LOCATIONS_CATALOG, instance);
+  }
+
+  // Strips full object down to its bare differences to be saved more efficiently
+  toInstance(full: Location): LocationInstance | undefined {
+    const base = this.getFromCatalog(full.entityId);
+    if (!base) {
+      console.warn(
+        `[LocationFacade] Cannot create instance: template not found for entityId "${full.entityId}"`,
+      );
+      return undefined;
+    }
+
+    return extractSaveInstance<Location>(full, base);
   }
   // #endregion
 }

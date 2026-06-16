@@ -1,15 +1,9 @@
-import { Moment } from '../models/moment';
-import { toId } from '../utils';
-import {
-  buildDimensionEntityCompositeId,
-  DEFAULT_DIMENSION_ID,
-  DEFAULT_PLANE_ID,
-  rpgTemplateId,
-} from '../utils-composite-id';
+import { Moment } from '../../../models/moment';
+import { buildTemplateEntity, SeedInput } from '../../utils-seed';
 
 // #region 🔸 DATA SEED RAW 🔸
 
-const MOMENTS_SEED_RAW: MomentSeedInput[] = [
+const RPG_DEMO_MOMENTS_RAW: SeedInput<Moment>[] = [
   {
     title: 'Training Room',
     description: 'Practice your skills on the Target Dummy.',
@@ -18,7 +12,7 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
     // characters: ['player', 'target-dummy'],
     // characters: ['target-dummy:rpg-demo:prime:template:system'],
     // characters: [String(buildAdventureEntityTemplateId('target-dummy'))],
-    characters: [rpgTemplateId('target-dummy')],
+    characters: ['target-dummy'],
     choices: [
       {
         label: 'Punch the Dummy',
@@ -92,7 +86,7 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
     description: 'A wild slime appears!',
     content: 'A slime oozes toward you, ready to attack.',
     locationId: 'dark-cave',
-    characters: ['player', rpgTemplateId('slime')],
+    characters: ['player', 'slime'],
     choices: [
       {
         label: 'Attack the slime',
@@ -212,7 +206,7 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
     description: 'A stranger offers you a gift.',
     content: 'A hooded figure approaches and hands you a shimmering potion.',
     locationId: 'village-square',
-    characters: ['player', rpgTemplateId('stranger')],
+    characters: ['player', 'stranger'],
     choices: [
       {
         label: 'Drink the potion',
@@ -264,44 +258,9 @@ const MOMENTS_SEED_RAW: MomentSeedInput[] = [
 ];
 // #endregion
 
-// #region 🔸 UTILITY TO FINALIZE SEED 🔸
+// #region 🔸 BUILD SEED DATA 🔸
 
-type MomentTemplateOmittedKeys =
-  | 'id'
-  | 'entityId' // momentId
-  | 'dimensionId'
-  | 'planeId';
-
-type MomentSeedInput = Omit<Moment, MomentTemplateOmittedKeys>;
-
-function createTemplateMoment(seed: MomentSeedInput): Moment | undefined {
-  const entityId = toId(seed.title);
-  const id = buildDimensionEntityCompositeId(
-    entityId,
-    DEFAULT_DIMENSION_ID,
-    DEFAULT_PLANE_ID,
-  );
-  if (!id) return undefined;
-  return {
-    ...seed,
-    id,
-    entityId,
-    dimensionId: DEFAULT_DIMENSION_ID,
-    planeId: DEFAULT_PLANE_ID,
-  };
-}
-
-// Map to final Moment[]
-export const MOMENTS_SEED: Moment[] = MOMENTS_SEED_RAW.map(
-  createTemplateMoment,
+export const RPG_DEMO_MOMENTS: Moment[] = RPG_DEMO_MOMENTS_RAW.map((seed) =>
+  buildTemplateEntity<Moment>(seed, seed.title),
 ).filter((e): e is Moment => e !== undefined);
-
-// TEST: Validate for duplicate IDs
-const ids = new Set<string>();
-MOMENTS_SEED.forEach((e) => {
-  if (ids.has(e.id)) {
-    throw new Error(`Duplicate moment id: ${e.id}`);
-  }
-  ids.add(e.id);
-});
 // #endregion

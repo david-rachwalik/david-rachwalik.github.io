@@ -7,7 +7,10 @@ import { AdventureEvent } from '../../models/adventure';
 import { GameSaveDexieService } from '../../services/game-save-dexie.service';
 import { UserService } from '../../services/user.service';
 import { toId } from '../../utils';
-import { buildAdventureEntityCompositeId } from '../../utils-composite-id';
+import {
+  buildAdventureEntityCompositeId,
+  GUEST_ACCOUNT_ID,
+} from '../../utils-composite-id';
 import { AppActions } from '../app.actions';
 import { selectCurrentSlotId } from '../app.selectors';
 import { AdventureEventActions } from './adventure-event.actions';
@@ -161,7 +164,7 @@ export const addAdventureEventOnAdventureAdd$ = createEffect(
         const timestamp = new Date().toISOString();
         const entityId = toId(timestamp);
         // const userService = inject(UserService, { optional: true });
-        const accountId = userService?.accountId || 'guest';
+        const accountId = userService?.accountId || GUEST_ACCOUNT_ID;
         // const id = buildAdventureTemplateId(timestamp, adventure.id) ?? '';
         const id =
           buildAdventureEntityCompositeId(

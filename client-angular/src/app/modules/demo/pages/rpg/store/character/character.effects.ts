@@ -1,10 +1,12 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { filter, map, mergeMap, switchMap, take, withLatestFrom } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-import { GameDataService } from '../../services/game-data.service';
+import { ALL_CHARACTERS } from '../../data/game-catalogs';
+import { mergeHybridData } from '../../data/utils-seed';
 import { GameSaveDexieService } from '../../services/game-save-dexie.service';
+import { DEFAULT_ADVENTURE_ID } from '../../utils-composite-id';
 import { AdventureActions } from '../adventure/adventure.actions';
 import { AppActions } from '../app.actions';
 import { selectCurrentSlotId } from '../app.selectors';
@@ -13,17 +15,21 @@ import { selectAllCharacters } from './character.selectors';
 
 // Seed loader
 export const seedAllCharacters$ = createEffect(
-  (actions$ = inject(Actions), data = inject(GameDataService)) =>
+  (actions$ = inject(Actions), db = inject(GameSaveDexieService)) =>
     actions$.pipe(
       ofType(AppActions.loadAllSeeds),
-      map(() => {
+      mergeMap(async () => {
         try {
-          const characters = data.getAllCharacters();
-          // console.log('seedAllCharacters$ found characters: ', characters);
+          // Fetch custom templates from IndexedDB (bypass active playthroughs)
+          const dbTemplates = await db.loadAllCharacters(DEFAULT_ADVENTURE_ID);
+          // Merge static seed data with custom templates
+          const characters = mergeHybridData(ALL_CHARACTERS, dbTemplates);
           return CharacterActions.seedAllCharactersSuccess({ characters });
-        } catch (error) {
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
           return CharacterActions.seedAllCharactersFailure({
-            error: String(error),
+            error: errorMessage,
           });
         }
       }),
