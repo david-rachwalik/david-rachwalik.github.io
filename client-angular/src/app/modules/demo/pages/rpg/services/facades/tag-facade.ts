@@ -19,7 +19,7 @@ import {
 export class TagFacade {
   constructor(private store: Store) {}
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   all$ = this.store.select(selectAllTags); // for UI
   entities$ = this.store.select(selectTagEntities); // for lookup
@@ -29,27 +29,27 @@ export class TagFacade {
   }
   // #endregion
 
-  // #region 🔸 Feature CRUD Methods 🔸
+  // #region 🔸 CRUD Methods 🔸
 
-  // Creates a temporary "blank canvas" for the UI (minimum valid model)
-  addBlank(
+  /** Creates a temporary "blank canvas" for the UI (minimum valid model) */
+  buildBlank(
     id: string,
     entityId: string,
     dimensionId: string,
     planeId: string,
     name: string,
-  ) {
-    const tag: Tag = {
+  ): Tag {
+    return {
       id,
       entityId,
       dimensionId,
       planeId,
       name,
       kind: 'system',
-      category: 'general',
-    } as Tag;
-    this.store.dispatch(TagActions.addTag({ tag }));
+      // category: 'general',
+    };
   }
+
   add(tag: Tag) {
     this.store.dispatch(TagActions.addTag({ tag }));
   }

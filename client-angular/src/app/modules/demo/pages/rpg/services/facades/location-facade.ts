@@ -19,7 +19,7 @@ import {
 export class LocationFacade {
   constructor(private store: Store) {}
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   all$ = this.store.select(selectAllLocations); // for UI
   entities$ = this.store.select(selectLocationEntities); // for lookup
@@ -29,26 +29,28 @@ export class LocationFacade {
   }
   // #endregion
 
-  // #region 🔸 Feature CRUD Methods 🔸
+  // #region 🔸 CRUD Methods 🔸
 
-  // Creates a temporary "blank canvas" for the UI (minimum valid model)
-  addBlank(
+  /** Creates a temporary "blank canvas" for the UI (minimum valid model) */
+  buildBlank(
     id: string,
     entityId: string,
     name: string,
     dimensionId: string,
     planeId: string,
-  ) {
-    const location: Location = {
+  ): Location {
+    return {
       id,
       entityId,
       dimensionId,
       planeId,
       name,
       description: '',
-    } as Location;
-    this.store.dispatch(LocationActions.addLocation({ location }));
+      tags: [],
+      effects: [],
+    };
   }
+
   add(location: Location) {
     this.store.dispatch(LocationActions.addLocation({ location }));
   }

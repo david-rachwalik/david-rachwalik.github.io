@@ -68,13 +68,14 @@ export const selectCurrentAdventureEvents = createSelector(
 
 export const selectCurrentDimensionId = createSelector(
   selectCurrentAdventure,
-  // Fallback to native origin if current is missing
-  (adventure) => adventure?.currentDimensionId || adventure?.primeDimension,
+  // Fallback to birth dimension if current is missing
+  (adventure) => adventure?.currentDimensionId || adventure?.originDimensionId,
 );
 
 export const selectCurrentPlaneId = createSelector(
   selectCurrentAdventure,
-  (adventure) => adventure?.currentPlaneId,
+  // Fallback to birth plane if current is missing
+  (adventure) => adventure?.currentPlaneId || adventure?.originPlaneId,
 );
 
 // Current Character ID

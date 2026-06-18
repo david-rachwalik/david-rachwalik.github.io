@@ -20,7 +20,7 @@ import {
 export class EffectFacade {
   constructor(private store: Store) {}
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   all$ = this.store.select(selectAllEffects); // for UI
   entities$ = this.store.select(selectEffectEntities); // for lookup
@@ -30,26 +30,31 @@ export class EffectFacade {
   }
   // #endregion
 
-  // #region 🔸 Feature CRUD Methods 🔸
+  // #region 🔸 CRUD Methods 🔸
 
-  // Creates a temporary "blank canvas" for the UI (minimum valid model)
-  addBlank(
+  /** Creates a temporary "blank canvas" for the UI (minimum valid model) */
+  buildBlank(
     id: string,
     entityId: string,
     name: string,
     dimensionId: string,
     planeId: string,
-  ) {
-    const effect: Effect = {
+  ): Effect {
+    return {
       id,
       entityId,
       dimensionId,
       planeId,
       name,
+      description: '',
+      type: 'damage',
       kind: 'attribute',
-    } as Effect;
-    this.store.dispatch(EffectActions.addEffect({ effect }));
+      path: '',
+      operation: 'add',
+      defaultValue: 0,
+    };
   }
+
   add(effect: Effect) {
     this.store.dispatch(EffectActions.addEffect({ effect }));
   }

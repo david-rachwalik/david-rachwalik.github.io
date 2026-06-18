@@ -15,7 +15,8 @@ export interface Adventure extends Partial<RuntimeMeta> {
   label: string; // user-friendly name of slot
   accountId: string;
   preferences: AdventurePreferences;
-  primeDimension: string; // dimensional origin of birth
+  originDimensionId: string; // birth dimension
+  originPlaneId: string; // birth plane of existence
   currentDimensionId: string; // possibly already covered by currentMomentId
   currentPlaneId: string;
   currentCharacterId: string;
@@ -111,7 +112,8 @@ export interface AdventureViewModel {
   id: string; // unique game slot id
   label: string; // user-friendly name of slot
   preferences: AdventurePreferences;
-  primeDimension: string; // dimensional origin of birth
+  originDimensionId: string; // birth dimension
+  originPlaneId: string; // birth plane of existence
   currentCharacterId: string;
   currentLocationId: string;
   currentMomentId: string;

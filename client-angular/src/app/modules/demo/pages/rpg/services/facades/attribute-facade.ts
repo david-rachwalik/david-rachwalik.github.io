@@ -8,7 +8,12 @@ import {
   getEntityFromCatalog,
   mergeInstanceWithCatalog,
 } from '../../data/utils-seed';
-import { Attribute, AttributeInstance } from '../../models/attribute';
+import {
+  Attribute,
+  AttributeInstance,
+  AttributeValue,
+  AttributeValueType,
+} from '../../models/attribute';
 import { AttributeActions } from '../../store/attribute/attribute.actions';
 import {
   selectAllAttributes,
@@ -20,7 +25,7 @@ import {
 export class AttributeFacade {
   constructor(private store: Store) {}
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   all$ = this.store.select(selectAllAttributes); // for UI
   entities$ = this.store.select(selectAttributeEntities); // for lookup
@@ -30,17 +35,17 @@ export class AttributeFacade {
   }
   // #endregion
 
-  // #region 🔸 Feature CRUD Methods 🔸
+  // #region 🔸 CRUD Methods 🔸
 
-  // Creates a temporary "blank canvas" for the UI (minimum valid model)
-  addBlank(
+  /** Creates a temporary "blank canvas" for the UI (minimum valid model) */
+  buildBlank(
     id: string,
     entityId: string,
     name: string,
     dimensionId: string,
     planeId: string,
-  ) {
-    const attribute: Attribute = {
+  ): Attribute {
+    return {
       id,
       entityId,
       dimensionId,
@@ -55,11 +60,9 @@ export class AttributeFacade {
       value: 0,
       min: 0,
       max: 100,
-      // tags: [],
     };
-
-    this.store.dispatch(AttributeActions.addAttribute({ attribute }));
   }
+
   add(attribute: Attribute) {
     this.store.dispatch(AttributeActions.addAttribute({ attribute }));
   }
@@ -110,15 +113,130 @@ export class AttributeFacade {
   }
   // #endregion
 
-  // #region 🔸 Attribute Logic 🔸
+  // #region 🔸 Value Logic 🔸
 
-  isAttributeValue(val: unknown): val is string | number | boolean {
+  /** Looks up the primitive type of Attribute from static catalog */
+  getValueType(attributeId: string): AttributeValueType | undefined {
+    const template = this.getFromCatalog(attributeId);
+    return template?.valueType;
+  }
+
+  private getNumberValue(
+    instance?: AttributeInstance,
+    fallback: number = 0,
+  ): number {
+    if (!instance || typeof instance !== 'object') return fallback;
+    const raw = instance.value ?? instance.default ?? fallback;
+    const parsed = Number(raw);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  private getBooleanValue(
+    instance?: AttributeInstance,
+    fallback: boolean = false,
+  ): boolean {
+    if (!instance || typeof instance !== 'object') return fallback;
+    const raw = instance.value ?? instance.default ?? fallback;
+    if (typeof raw === 'boolean') return raw;
+    if (typeof raw === 'string') return raw.toLowerCase() === 'true';
+    return Boolean(raw);
+  }
+
+  private getStringValue(
+    instance?: AttributeInstance,
+    fallback: string = '',
+  ): string {
+    if (!instance || typeof instance !== 'object') return fallback;
+    const raw = instance.value ?? instance.default ?? fallback;
+    return String(raw);
+  }
+
+  /**
+   * Universal getter driven by the catalog's `valueType`.
+   * Pass a typed fallback and TypeScript infers the return type automatically.
+   * All ugly casts are buried here so no caller ever needs one.
+   *
+   * @example
+   * const level = this.utils.attribute.getValue(player.attributes, 'level', 1);      // number
+   * const name  = this.utils.attribute.getValue(player.attributes, 'name', '');       // string
+   * const toxic = this.utils.attribute.getValue(player.attributes, 'is-toxic', false); // boolean
+   */
+  getValue<T extends AttributeValue>(
+    attributes: Record<string, AttributeInstance> | undefined,
+    attributeId: string,
+    fallback: T,
+  ): T {
+    const template = this.getFromCatalog(attributeId);
+    const instance = attributes?.[attributeId];
+    const valueType = template?.valueType;
+
+    switch (valueType) {
+      case 'number': {
+        let val = this.getNumberValue(
+          instance,
+          typeof fallback === 'number' ? fallback : 0,
+        );
+        // Enforce bounds defined by template or instance overrides
+        const min = instance?.min ?? template?.min;
+        const max = instance?.max ?? template?.max;
+        if (typeof min === 'number' && val < min) val = min;
+        if (typeof max === 'number' && val > max) val = max;
+        return val as T;
+      }
+
+      case 'boolean':
+        return this.getBooleanValue(
+          instance,
+          typeof fallback === 'boolean' ? fallback : false,
+        ) as T;
+
+      case 'string':
+        return this.getStringValue(
+          instance,
+          typeof fallback === 'string' ? fallback : '',
+        ) as T;
+
+      default:
+        // Graceful degradation if catalog lookup fails (e.g. invalid ID)
+        if (!instance) return fallback;
+        return (instance.value ?? instance.default ?? fallback) as T;
+    }
+  }
+
+  getMin(
+    attributes: Record<string, AttributeInstance> | undefined,
+    attributeId: string,
+    fallback: number = 0,
+  ): number {
+    const template = this.getFromCatalog(attributeId);
+    const instance = attributes?.[attributeId];
+    const raw = instance?.min ?? template?.min ?? fallback;
+    const parsed = Number(raw);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  getMax(
+    attributes: Record<string, AttributeInstance> | undefined,
+    attributeId: string,
+    fallback: number = 0,
+  ): number {
+    const template = this.getFromCatalog(attributeId);
+    const instance = attributes?.[attributeId];
+    const raw = instance?.max ?? template?.max ?? fallback;
+    const parsed = Number(raw);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  isAttributeValue(val: unknown): val is AttributeValue {
     return (
       typeof val === 'string' ||
       typeof val === 'number' ||
       typeof val === 'boolean'
     );
   }
+  // #endregion
+
+  // #region 🔸 Attribute Logic 🔸
 
   /**
    * Apply a Partial<AttributeInstance> (an instance-level patch) to catalog

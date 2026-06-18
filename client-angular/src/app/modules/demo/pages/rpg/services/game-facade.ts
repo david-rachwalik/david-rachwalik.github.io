@@ -78,7 +78,7 @@ export class GameFacade {
     item: inject(ItemFacade),
   };
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   isLoading$ = this.store.select(selectIsGameLoading);
   accountId$ = this.store.select(selectAccountId);
@@ -362,7 +362,7 @@ export class GameFacade {
   }
 
   /** Cleans up the previous Moment and handles transition to next */
-  async gotoMoment(momentId: string) {
+  async enterMoment(momentId: string) {
     // Garbage collect ephemeral mobs before leaving
     await this.purgeEphemeralCharacters();
 
@@ -374,51 +374,28 @@ export class GameFacade {
     if (moment) await this.spawnMomentCharacters(moment);
   }
 
-  /** FOR TESTING ONLY: Completely resets the current Moment to pristine condition (heals active characters, explicitly respawns characters) */
-  async resetCurrentMoment(): Promise<void> {
-    const ctx = await this.getPlayContext();
-    if (!ctx) return;
-
-    console.group('[GameFacade] Resetting Current Moment');
-
-    // Extract the pure entityIds to match against Moment securely
-    const momentEntityIds = (ctx.moment.characters ?? []).map(
-      (ref) => parseCompositeId(ref).entityId,
-    );
-
-    // Selectively purge dynamically spawned minions
-    // (spare Moment's characters to reset without race conditions)
-    await this.purgeEphemeralCharacters(momentEntityIds);
-
-    // Identify persistent local characters (e.g. self/allies) avoiding resets
-    const allChars = await firstValueFrom(this.utils.character.all$);
-    const persistentChars = allChars.filter(
-      (c) =>
-        c.adventureId === ctx.adventureId &&
-        !c.tags?.includes('ephemeral') &&
-        !momentEntityIds.includes(c.entityId),
-    );
-
-    // Heal persistent characters (Player, Allies, NPCs..)
-    for (const char of persistentChars) {
-      const healthAttr = await firstValueFrom(
-        this.utils.character.getAttributeFor$(char.id, 'health'),
-      );
-      if (healthAttr) {
-        const maxHealth = Number(healthAttr.max ?? 100);
-        await this.utils.character.updateCharacterAttributeValue(
-          char.id,
-          'health',
-          maxHealth,
-        );
-      }
+  /** Handles resolving a room, triggering onComplete effects, rewarding the player, and saving history */
+  async completeMoment(moment: Moment, nextMomentId?: string) {
+    // A. Process Native onComplete Effects (e.g. resting recovers stamina)
+    if (moment.effects?.onComplete) {
+      // Apply onComplete effects
     }
 
-    // Factory respawn all characters with pristine templates
-    await this.spawnMomentCharacters(ctx.moment, true);
+    // B. Distribute Native Rewards (EXP, Gold, Items)
+    if (moment.rewards) {
+      // e.g. this.utils.character.addItemToInventory(...)
+    }
 
-    console.log('[GameFacade] Moment reset complete.');
-    console.groupEnd();
+    // C. Advance the running game clock
+    if (moment.timeAdvance) {
+      // e.g. this.utils.adventure.advanceTime(moment.timeAdvance)
+    }
+
+    // D. Finally, handle the transition safely
+    // TODO: consider `nextMomentId` may also come from Moment itself
+    if (nextMomentId) {
+      await this.enterMoment(nextMomentId);
+    }
   }
 
   /** Processes interactive Moment payload (applying targeted effects, logging output, advancing flow) */
@@ -574,7 +551,7 @@ export class GameFacade {
     // Advance to next moment if specified
     if (choice.nextMomentId) {
       // TODO: also check for moment completion
-      await this.gotoMoment(choice.nextMomentId);
+      await this.enterMoment(choice.nextMomentId);
     }
     console.groupEnd();
   }
@@ -585,57 +562,6 @@ export class GameFacade {
   /** Wraps common store dispatches to active Adventure slot log safely */
   async log(message: string): Promise<void> {
     await this.utils.adventure.addLogEntry(message);
-  }
-
-  /** FOR TESTING ONLY: Sandbox diagnostic helper */
-  async testStatChange() {
-    const ctx = await this.getPlayContext();
-    if (!ctx) return;
-
-    // Evaluate ID of test character
-    const dummyId = await this.resolveActiveTargetId(
-      'target-dummy',
-      ctx.moment.dimensionId,
-      ctx.moment.planeId,
-    );
-    const punchId = buildDimensionEntityTemplateId('punch');
-    const roarId = buildDimensionEntityTemplateId('roar');
-    const potionId = buildDimensionEntityTemplateId('drink-potion');
-
-    if (dummyId && punchId) {
-      // Punch: Player uses "Punch" skill on Target Dummy (deals damage)
-      const punchSkill = await firstValueFrom(this.utils.skill.byId$(punchId));
-      if (punchSkill)
-        await this.utils.character.applySkillToTarget(
-          dummyId,
-          ctx.playerId,
-          punchSkill,
-        );
-    }
-
-    // Roar: Player uses "Roar" skill (buffs self)
-    if (roarId) {
-      const roarSkill = await firstValueFrom(this.utils.skill.byId$(roarId));
-      if (roarSkill)
-        await this.utils.character.applySkillToTarget(
-          ctx.playerId,
-          ctx.playerId,
-          roarSkill,
-        );
-    }
-
-    // Drink Potion: Player uses "Drink Potion" skill (heals self)
-    if (potionId) {
-      const potionSkill = await firstValueFrom(
-        this.utils.skill.byId$(potionId),
-      );
-      if (potionSkill)
-        await this.utils.character.applySkillToTarget(
-          ctx.playerId,
-          ctx.playerId,
-          potionSkill,
-        );
-    }
   }
 
   // --- Internal Context State Builders ---
@@ -718,6 +644,107 @@ export class GameFacade {
 
     console.error(`Strict Check Failed: "${rawTarget}" could not be resolved!`);
     return undefined;
+  }
+  // #endregion
+
+  // #region 🔸 Dev Test Methods 🔸
+
+  /** FOR TESTING ONLY: Completely resets the current Moment to pristine condition (heals active characters, explicitly respawns characters) */
+  async resetCurrentMoment(): Promise<void> {
+    const ctx = await this.getPlayContext();
+    if (!ctx) return;
+
+    console.group('[GameFacade] Resetting Current Moment');
+
+    // Extract the pure entityIds to match against Moment securely
+    const momentEntityIds = (ctx.moment.characters ?? []).map(
+      (ref) => parseCompositeId(ref).entityId,
+    );
+
+    // Selectively purge dynamically spawned minions
+    // (spare Moment's characters to reset without race conditions)
+    await this.purgeEphemeralCharacters(momentEntityIds);
+
+    // Identify persistent local characters (e.g. self/allies) avoiding resets
+    const allChars = await firstValueFrom(this.utils.character.all$);
+    const persistentChars = allChars.filter(
+      (c) =>
+        c.adventureId === ctx.adventureId &&
+        !c.tags?.includes('ephemeral') &&
+        !momentEntityIds.includes(c.entityId),
+    );
+
+    // Heal persistent characters (Player, Allies, NPCs..)
+    for (const char of persistentChars) {
+      const healthAttr = await firstValueFrom(
+        this.utils.character.getAttributeFor$(char.id, 'health'),
+      );
+      if (healthAttr) {
+        const maxHealth = Number(healthAttr.max ?? 100);
+        await this.utils.character.updateCharacterAttributeValue(
+          char.id,
+          'health',
+          maxHealth,
+        );
+      }
+    }
+
+    // Factory respawn all characters with pristine templates
+    await this.spawnMomentCharacters(ctx.moment, true);
+
+    console.log('[GameFacade] Moment reset complete.');
+    console.groupEnd();
+  }
+
+  /** FOR TESTING ONLY: Sandbox diagnostic helper */
+  async testStatChange() {
+    const ctx = await this.getPlayContext();
+    if (!ctx) return;
+
+    // Evaluate ID of test character
+    const dummyId = await this.resolveActiveTargetId(
+      'target-dummy',
+      ctx.moment.dimensionId,
+      ctx.moment.planeId,
+    );
+    const punchId = buildDimensionEntityTemplateId('punch');
+    const roarId = buildDimensionEntityTemplateId('roar');
+    const potionId = buildDimensionEntityTemplateId('drink-potion');
+
+    if (dummyId && punchId) {
+      // Punch: Player uses "Punch" skill on Target Dummy (deals damage)
+      const punchSkill = await firstValueFrom(this.utils.skill.byId$(punchId));
+      if (punchSkill)
+        await this.utils.character.applySkillToTarget(
+          dummyId,
+          ctx.playerId,
+          punchSkill,
+        );
+    }
+
+    // Roar: Player uses "Roar" skill (buffs self)
+    if (roarId) {
+      const roarSkill = await firstValueFrom(this.utils.skill.byId$(roarId));
+      if (roarSkill)
+        await this.utils.character.applySkillToTarget(
+          ctx.playerId,
+          ctx.playerId,
+          roarSkill,
+        );
+    }
+
+    // Drink Potion: Player uses "Drink Potion" skill (heals self)
+    if (potionId) {
+      const potionSkill = await firstValueFrom(
+        this.utils.skill.byId$(potionId),
+      );
+      if (potionSkill)
+        await this.utils.character.applySkillToTarget(
+          ctx.playerId,
+          ctx.playerId,
+          potionSkill,
+        );
+    }
   }
   // #endregion
 }

@@ -19,7 +19,7 @@ import {
 export class ItemFacade {
   constructor(private store: Store) {}
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   all$ = this.store.select(selectAllItems); // for UI
   entities$ = this.store.select(selectItemEntities); // for lookup
@@ -29,17 +29,17 @@ export class ItemFacade {
   }
   // #endregion
 
-  // #region 🔸 Feature CRUD Methods 🔸
+  // #region 🔸 CRUD Methods 🔸
 
-  // Creates a temporary "blank canvas" for the UI (minimum valid model)
-  addBlank(
+  /** Creates a temporary "blank canvas" for the UI (minimum valid model) */
+  buildBlank(
     id: string,
     entityId: string,
     name: string,
     dimensionId: string,
     planeId: string,
-  ) {
-    const item: Item = {
+  ): Item {
+    return {
       id,
       entityId,
       dimensionId,
@@ -51,8 +51,8 @@ export class ItemFacade {
       attributes: [],
       effects: [],
     };
-    this.store.dispatch(ItemActions.addItem({ item }));
   }
+
   add(item: Item) {
     this.store.dispatch(ItemActions.addItem({ item }));
   }

@@ -114,7 +114,8 @@ export function mergeInstanceWithCatalog<
   if (!instance.id) return undefined;
   const base = catalog[instance.id];
   if (!base) return undefined;
-  return { ...base, ...instance };
+  // Deep clone the base before merging so nested properties aren't accidentally mutated by gameplay
+  return { ...structuredClone(base), ...instance };
 }
 
 // 🔸 Generic Instance Extractor

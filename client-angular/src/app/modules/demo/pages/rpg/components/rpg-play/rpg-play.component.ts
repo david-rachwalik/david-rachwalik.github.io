@@ -52,7 +52,7 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
   playerId$ = this.game.utils.character.playerId$;
   player$ = this.game.utils.character.player$;
 
-  stats$ = this.game.utils.character.playerAttributes$;
+  playerStats$ = this.game.utils.character.playerAttributes$;
   // statsArray$ = this.stats$.pipe(map((statsObj) => Object.values(statsObj)));
 
   // // Use the facade-provided playerStats$ (Record<string, Attribute>) and make it shareReplay
@@ -78,7 +78,7 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
   // );
 
   // safe array view for templates — include only attributes of kind 'stat'
-  statsArray$: Observable<Attribute[]> = this.stats$.pipe(
+  statsArray$: Observable<Attribute[]> = this.playerStats$.pipe(
     map((statsObj: Record<string, Attribute> | undefined) =>
       Object.values(statsObj ?? {}).filter(
         (s): s is Attribute => !!s && s.kind === 'stat',
@@ -119,12 +119,12 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
       return chars
         .filter((c) => c.id !== playerId) // exclude player
         .map((enemy) => {
-          // Properly extract active values from AttributeInstance objects
-          const healthAttr = enemy.attributes?.['health'];
           const currentHealth = Number(
-            healthAttr?.value ?? healthAttr?.default ?? 0,
+            this.game.utils.attribute.getValue(enemy.attributes, 'health', 0),
           );
-          const maxHealth = Number(healthAttr?.max ?? 100);
+          const maxHealth = Number(
+            this.game.utils.attribute.getMax(enemy.attributes, 'health', 100),
+          );
 
           const healthPercent =
             maxHealth > 0 ? (currentHealth / maxHealth) * 100 : 0;
@@ -156,39 +156,25 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
 
   targetLevel$: Observable<number | undefined> = this.targetId$.pipe(
     switchMap((id) =>
-      id
-        ? this.game.utils.character.getAttributeFor$(id, 'level')
-        : of(undefined),
+      id ? this.game.utils.character.byId$(id) : of(undefined),
     ),
-    map((a) => (typeof a?.value === 'number' ? a.value : undefined)),
+    map((c) => this.game.utils.attribute.getValue(c?.attributes, 'level', 1)),
     shareReplay({ bufferSize: 1, refCount: true }),
   );
 
   targetHealth$: Observable<number | undefined> = this.targetId$.pipe(
     switchMap((id) =>
-      id
-        ? this.game.utils.character.getAttributeFor$(id, 'health')
-        : of(undefined),
+      id ? this.game.utils.character.byId$(id) : of(undefined),
     ),
-    map((a) => (typeof a?.value === 'number' ? a.value : undefined)),
+    map((c) => this.game.utils.attribute.getValue(c?.attributes, 'health', 0)),
     shareReplay({ bufferSize: 1, refCount: true }),
   );
 
   targetHealthMax$: Observable<number | undefined> = this.targetId$.pipe(
     switchMap((id) =>
-      id
-        ? this.game.utils.character.getAttributeFor$(id, 'health')
-        : of(undefined),
+      id ? this.game.utils.character.byId$(id) : of(undefined),
     ),
-    map((a) => {
-      if (typeof a?.max === 'number') {
-        return a.max;
-      }
-      if (typeof a?.value === 'number') {
-        return a.value;
-      }
-      return undefined;
-    }),
+    map((c) => this.game.utils.attribute.getMax(c?.attributes, 'health', 100)),
     shareReplay({ bufferSize: 1, refCount: true }),
   );
 
@@ -227,7 +213,7 @@ export class RpgPlayComponent implements OnInit, OnDestroy {
     this.logObservable('[Play] player$', this.player$);
 
     this.logObservable('[Play] player attributes$', this.attributes$);
-    this.logObservable('[Play] player stats$', this.stats$);
+    this.logObservable('[Play] player stats$', this.playerStats$);
     this.logObservable('[Play] player inventory$', this.inventory$);
 
     this.logObservable('[Play] moment$', this.moment$);

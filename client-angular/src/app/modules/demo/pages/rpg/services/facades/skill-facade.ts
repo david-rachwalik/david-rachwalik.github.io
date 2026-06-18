@@ -19,7 +19,7 @@ import {
 export class SkillFacade {
   constructor(private store: Store) {}
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   all$ = this.store.select(selectAllSkills); // for UI
   entities$ = this.store.select(selectSkillEntities); // for lookup
@@ -29,17 +29,17 @@ export class SkillFacade {
   }
   // #endregion
 
-  // #region 🔸 Feature CRUD Methods 🔸
+  // #region 🔸 CRUD Methods 🔸
 
-  // Creates a temporary "blank canvas" for the UI (minimum valid model)
-  addBlank(
+  /** Creates a temporary "blank canvas" for the UI (minimum valid model) */
+  buildBlank(
     id: string,
     entityId: string,
     name: string,
     dimensionId: string,
     planeId: string,
-  ) {
-    const skill: Skill = {
+  ): Skill {
+    return {
       id,
       entityId,
       dimensionId,
@@ -50,8 +50,8 @@ export class SkillFacade {
       // type: 'spell',
       effects: [],
     };
-    this.store.dispatch(SkillActions.addSkill({ skill }));
   }
+
   add(skill: Skill) {
     this.store.dispatch(SkillActions.addSkill({ skill }));
   }

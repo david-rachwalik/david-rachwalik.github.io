@@ -39,10 +39,9 @@ import {
   buildAdventureEntityCompositeId,
   buildAdventureEntityTemplateId,
   buildDimensionEntityCompositeId,
+  buildDimensionEntityTemplateId,
   DEFAULT_ACCOUNT_ID,
   DEFAULT_ADVENTURE_ID,
-  DEFAULT_DIMENSION_ID,
-  DEFAULT_PLANE_ID,
 } from '../../utils-composite-id';
 import { AttributeFacade } from './attribute-facade';
 import { EffectFacade } from './effect-facade';
@@ -62,7 +61,7 @@ export class CharacterFacade {
     item: inject(ItemFacade),
   };
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   all$ = this.store.select(selectAllCharacters); // for UI
   entities$ = this.store.select(selectCharacterEntities); // for lookup
@@ -102,13 +101,13 @@ export class CharacterFacade {
     return this.playerAttributes$.pipe(map((attrs) => attrs[attributeId]));
   }
 
-  playerHealth$: Observable<number | undefined> = this.getPlayerAttribute$(
-    'health',
-  ).pipe(map((a) => (typeof a?.value === 'number' ? a.value : undefined)));
+  playerHealth$: Observable<number | undefined> = this.playerAttributes$.pipe(
+    map((attrs) => Number(this.utils.attribute.getValue(attrs, 'health', 0))),
+  );
 
-  playerLevel$: Observable<number | undefined> = this.getPlayerAttribute$(
-    'level',
-  ).pipe(map((a) => (typeof a?.value === 'number' ? a.value : undefined)));
+  playerLevel$: Observable<number | undefined> = this.playerAttributes$.pipe(
+    map((attrs) => Number(this.utils.attribute.getValue(attrs, 'level', 1))),
+  );
 
   // Convenience: filtered player attributes excluding provided ids
   playerAttributesExcluding$ = (exclude: string[]): Observable<Attribute[]> =>
@@ -143,15 +142,15 @@ export class CharacterFacade {
 
   // #region 🔸 CRUD Methods 🔸
 
-  // Creates a temporary "blank canvas" for the UI (minimum valid model)
-  addBlank(
+  /** Creates a temporary "blank canvas" for the UI (minimum valid model) */
+  buildBlank(
     id: string,
     entityId: string,
     name: string,
     dimensionId: string,
     planeId: string,
-  ) {
-    const character: Character = {
+  ): Character {
+    return {
       id,
       entityId,
       dimensionId,
@@ -167,8 +166,8 @@ export class CharacterFacade {
       // activeEffects: [],
       skills: [],
     };
-    this.store.dispatch(CharacterActions.addCharacter({ character }));
   }
+
   add(character: Character) {
     this.store.dispatch(CharacterActions.addCharacter({ character }));
   }
@@ -227,31 +226,37 @@ export class CharacterFacade {
     accountId: string,
     lookupName = 'adventurer',
   ): Promise<Character | undefined> {
-    const lookupId = buildAdventureEntityTemplateId(lookupName);
-    console.log('character template id:', lookupId);
+    const catalogId = buildDimensionEntityTemplateId(lookupName);
+    console.log('Character template catalog id:', catalogId);
+
+    // Try static catalog first
+    let template = catalogId ? this.getFromCatalog(catalogId) : undefined;
+
+    // Fallback to custom templates
+    if (!template) {
+      const customTemplateId = buildAdventureEntityTemplateId(lookupName);
+      if (customTemplateId) {
+        template = await firstValueFrom(this.byId$(customTemplateId));
+      }
+    }
+
+    if (!template) throw new Error('Template character not found');
+    console.log('Template resolved:', template.id);
+
     const entityId = toId(name);
-    // const slotId = await firstValueFrom(this.store.select(selectCurrentSlotId));
-    // if (!slotId) {
-    //   console.warn('No current slotId found');
-    //   return undefined;
-    // }
-    // const id = buildAdventureEntityTemplateId(entityId, adventureId);
     const id = buildAdventureEntityCompositeId(
       entityId,
-      DEFAULT_DIMENSION_ID,
-      DEFAULT_PLANE_ID,
+      template.dimensionId,
+      template.planeId,
       adventureId,
       accountId,
     );
-    console.log('new player id:', id);
-    if (!id || !lookupId) return undefined;
-    const template = await firstValueFrom(this.byId$(lookupId));
-    console.log('template:', template);
-    if (!template) throw new Error('Template character not found');
+    console.log('New player id:', id);
+    if (!id) return undefined;
+
     return {
-      // Deep clone (if planning to mutate nested fields)
-      // ...JSON.parse(JSON.stringify(template)),
-      ...template,
+      // Deep clone strictly detaches nested property array references
+      ...structuredClone(template),
       id,
       name,
       entityId,

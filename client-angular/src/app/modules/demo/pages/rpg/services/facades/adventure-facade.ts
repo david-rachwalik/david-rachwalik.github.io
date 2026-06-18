@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-// import { map, of, switchMap } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
 
 import {
@@ -36,6 +35,7 @@ import {
   DEFAULT_DIMENSION_ID,
   DEFAULT_PLANE_ID,
 } from '../../utils-composite-id';
+import { AttributeFacade } from './attribute-facade';
 import { CharacterFacade } from './character-facade';
 
 // :: Focused on business logic and orchestration, not storage details ::
@@ -47,10 +47,11 @@ type AdventureEventInput = Omit<AdventureEvent, AdventureEventOmittedKeys>;
 export class AdventureFacade {
   constructor(
     private store: Store,
+    private attributeFacade: AttributeFacade,
     private characterFacade: CharacterFacade,
   ) {}
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   all$ = this.store.select(selectAllAdventures); // for UI
   entities$ = this.store.select(selectAdventureEntities); // for lookup
@@ -72,20 +73,8 @@ export class AdventureFacade {
   player$ = this.characterFacade.player$;
   // #endregion
 
-  // #region 🔸 Feature CRUD Methods 🔸
+  // #region 🔸 CRUD Methods 🔸
 
-  // Creates a temporary "blank canvas" for the UI (minimum valid model)
-  async addBlank(
-    id: string,
-    entityId: string,
-    name: string,
-    dimensionId: string,
-    planeId: string,
-  ) {
-    // 🔸 Adventures are play slots, not templates!
-    // We perfectly reuse the robust Game Creation pipeline instead of hardcoding a blank array.
-    await this.createNewGame(name, 'Admin Hero', id, dimensionId, planeId);
-  }
   add(adventure: Adventure) {
     this.store.dispatch(AdventureActions.addAdventure({ adventure }));
   }
@@ -94,10 +83,7 @@ export class AdventureFacade {
   }
   save(changes: AdventureInstance) {
     if (!changes.id) {
-      console.warn(
-        '[AdventureFacade] Save aborted: Instance is missing ID',
-        changes,
-      );
+      console.warn('Save aborted: Instance is missing ID', changes);
       return;
     }
     this.store.dispatch(
@@ -132,26 +118,29 @@ export class AdventureFacade {
   async createNewGame(
     label: string,
     characterName: string,
-    overrideSlotId?: string,
     dimensionId: string = DEFAULT_DIMENSION_ID,
     planeId: string = DEFAULT_PLANE_ID,
-  ) {
-    console.log('[AdventureFacade] Creating new game with:', {
-      label,
-      characterName,
-    });
+  ): Promise<Adventure> {
+    const slotId = toId(label);
+    if (!slotId) throw new Error('Adventure ID could not be built');
 
-    // const { accountId } = this.userService;
     const accountId =
       (await firstValueFrom(this.accountId$)) || DEFAULT_ACCOUNT_ID;
-    if (!accountId) return;
-    console.log('accountId:', accountId);
+    if (!accountId) throw new Error('Missing accountId');
 
-    const slotId = overrideSlotId || toId(label);
-    if (!slotId) {
-      throw new Error(
-        'Adventure ID could not be built: missing required parts',
-      );
+    const currentLocationId = buildDimensionEntityCompositeId(
+      'start',
+      dimensionId,
+      planeId,
+    );
+    const currentMomentId = buildDimensionEntityCompositeId(
+      'training-room',
+      dimensionId,
+      planeId,
+    );
+
+    if (!currentLocationId || !currentMomentId) {
+      throw new Error('Failed to build starting location/moment IDs');
     }
 
     const player = await this.characterFacade.createNewCharacterFromTemplate(
@@ -159,15 +148,9 @@ export class AdventureFacade {
       slotId,
       accountId,
     );
-    if (!player) {
-      throw new Error(`[createNewGame] Player could not be: ${characterName}`);
-    }
 
-    console.log('[AdventureFacade] New character:', player);
-    // Add the new character to the store and IndexedDB
-    this.characterFacade.add(player);
-
-    // const timestamp = new Date().toISOString();
+    if (!player)
+      throw new Error(`Player could not be created: ${characterName}`);
 
     const adventure: Adventure = {
       id: slotId,
@@ -180,32 +163,23 @@ export class AdventureFacade {
         difficulty: 'normal',
         unlockedBonuses: [],
       },
-      primeDimension: dimensionId,
+      originDimensionId: dimensionId,
+      originPlaneId: planeId,
       currentDimensionId: dimensionId,
       currentPlaneId: planeId,
       currentCharacterId: player.id,
-      currentLocationId: 'start:rpg-demo:prime',
-      currentMomentId: 'training-room:rpg-demo:prime',
+      currentLocationId,
+      currentMomentId,
       log: [],
-      // savedAt: timestamp,
-      // createdAt: timestamp,
-      // updatedAt: timestamp,
-      // eventLog: ['A new adventure begins!'],
-      // history: [],
-      // tags: {}, // or arrayToEntityMap(tagsArray)
-      // characters: { [player.id]: player }, // or arrayToEntityMap([player])
-      // moments: {}, // or arrayToEntityMap(momentsArray)
-      // locations: {},
-      // reputationMap: {},
-      // items: {},
     };
-    console.log('[AdventureFacade] New adventure:', adventure);
-    // const index = await this.buildAdventureIndex(adventure, label);
 
+    console.log('New character:', player);
+    console.log('New adventure:', adventure);
+
+    this.characterFacade.add(player);
     this.add(adventure);
 
-    // this.setCurrentSlotId(slotId);
-    // Now handled by `setCurrentSlotIdOnAdventureAdd$` effect
+    return adventure;
   }
 
   // Helper utility to build AdventureIndex from Adventure
@@ -228,8 +202,10 @@ export class AdventureFacade {
         return undefined;
       }
 
-      const level = Number(player.attributes?.['level']);
-      console.log('[buildAdventureIndexFromAdventure] level:', level);
+      const playerLevel = Number(
+        this.attributeFacade.getValue(player.attributes, 'level', 1),
+      );
+      console.log('[buildAdventureIndexFromAdventure] level:', playerLevel);
 
       const index: AdventureIndex = {
         id: adventure.id,
@@ -238,7 +214,7 @@ export class AdventureFacade {
         sizeKB: this.sizeInKB(adventure),
         storageType: 'local',
         playerName: player.name || 'Unknown',
-        playerLevel: Number(player.attributes?.['level']) || 1,
+        playerLevel,
         playerLocation: player.location,
       };
       console.log('[buildAdventureIndexFromAdventure] index:', index);

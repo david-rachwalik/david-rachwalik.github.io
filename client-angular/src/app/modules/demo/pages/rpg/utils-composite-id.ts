@@ -18,7 +18,7 @@ export const GUEST_ACCOUNT_ID = 'guest';
 // Adventure:  Continuity, Saga, Chronicle, Campaign, Journey, Legacy, Odyssey
 // Dimension:  Universe, Realm, World, Plane, Domain, Verse, Continuum, Shard
 
-// entityId:dimensionId:planeId
+/** entityId:dimensionId:planeId */
 export function buildDimensionEntityCompositeId(
   entityId?: string,
   dimensionId?: string,
@@ -28,7 +28,7 @@ export function buildDimensionEntityCompositeId(
   return [toId(entityId), toId(dimensionId), toId(planeId)].join(':');
 }
 
-// entityId:dimensionId:planeId:adventureId:accountId
+/** entityId:dimensionId:planeId:adventureId:accountId */
 export function buildAdventureEntityCompositeId(
   entityId?: string,
   dimensionId?: string,
@@ -67,7 +67,7 @@ export function parseCompositeId(id?: string): ParsedCompositeId {
   };
 }
 
-// entityId:dimensionId:planeId
+/** entityId:dimensionId:planeId */
 export function buildDimensionEntityTemplateId(entityId?: string) {
   if (!entityId) return undefined;
   return buildDimensionEntityCompositeId(
@@ -77,7 +77,7 @@ export function buildDimensionEntityTemplateId(entityId?: string) {
   );
 }
 
-// entityId:dimensionId:planeId:adventureId:accountId
+/** entityId:dimensionId:planeId:adventureId:accountId */
 export function buildAdventureEntityTemplateId(
   entityId?: string,
   adventureId: string = DEFAULT_ADVENTURE_ID,

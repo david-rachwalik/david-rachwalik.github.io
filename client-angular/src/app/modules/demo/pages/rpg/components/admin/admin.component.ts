@@ -220,44 +220,100 @@ export class RpgAdminComponent implements OnInit {
     const plane = this.selectedPlane ?? DEFAULT_PLANE_ID;
 
     switch (this.selectedFeature) {
-      case 'tags':
-        this.game.utils.tag.addBlank(id, entityId, baseName, dim, plane);
-        break;
-      case 'attributes':
-        this.game.utils.attribute.addBlank(id, entityId, baseName, dim, plane);
-        break;
-      case 'effects':
-        this.game.utils.effect.addBlank(id, entityId, baseName, dim, plane);
-        break;
-      case 'adventures':
-        await this.game.utils.adventure.addBlank(
+      case 'tags': {
+        const tag = this.game.utils.tag.buildBlank(
           id,
           entityId,
           baseName,
           dim,
           plane,
         );
+        this.game.utils.tag.add(tag);
         break;
-      case 'characters':
-        this.game.utils.character.addBlank(id, entityId, baseName, dim, plane);
+      }
+      case 'attributes': {
+        const attribute = this.game.utils.attribute.buildBlank(
+          id,
+          entityId,
+          baseName,
+          dim,
+          plane,
+        );
+        this.game.utils.attribute.add(attribute);
         break;
-      case 'items':
-        this.game.utils.item.addBlank(id, entityId, baseName, dim, plane);
+      }
+      case 'effects': {
+        const effect = this.game.utils.effect.buildBlank(
+          id,
+          entityId,
+          baseName,
+          dim,
+          plane,
+        );
+        this.game.utils.effect.add(effect);
         break;
-      case 'skills':
-        this.game.utils.skill.addBlank(id, entityId, baseName, dim, plane);
+      }
+      case 'characters': {
+        const character = this.game.utils.character.buildBlank(
+          id,
+          entityId,
+          baseName,
+          dim,
+          plane,
+        );
+        this.game.utils.character.add(character);
         break;
-      case 'moments':
-        this.game.utils.moment.addBlank(id, entityId, baseName, dim, plane);
+      }
+      case 'items': {
+        const item = this.game.utils.item.buildBlank(
+          id,
+          entityId,
+          baseName,
+          dim,
+          plane,
+        );
+        this.game.utils.item.add(item);
         break;
-      case 'locations':
-        this.game.utils.location.addBlank(id, entityId, baseName, dim, plane);
+      }
+      case 'skills': {
+        const skill = this.game.utils.skill.buildBlank(
+          id,
+          entityId,
+          baseName,
+          dim,
+          plane,
+        );
+        this.game.utils.skill.add(skill);
         break;
-      default:
+      }
+      case 'moments': {
+        const moment = this.game.utils.moment.buildBlank(
+          id,
+          entityId,
+          baseName,
+          dim,
+          plane,
+        );
+        this.game.utils.moment.add(moment);
+        break;
+      }
+      case 'locations': {
+        const location = this.game.utils.location.buildBlank(
+          id,
+          entityId,
+          baseName,
+          dim,
+          plane,
+        );
+        this.game.utils.location.add(location);
+        break;
+      }
+      default: {
         console.warn(
           `[Admin] Unhandled creation fallback: ${this.selectedFeature}`,
         );
-        return; // Break execution so it does not navigate!
+        return; // Break execution so it does not navigate
+      }
     }
 
     // Instantly navigate to the newly created asset

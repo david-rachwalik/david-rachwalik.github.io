@@ -27,6 +27,7 @@ import {
 } from '../../store/moment/moment.selectors';
 import { buildAdventureEntityCompositeId } from '../../utils-composite-id';
 import { AdventureFacade } from './adventure-facade';
+import { AttributeFacade } from './attribute-facade';
 import { CharacterFacade } from './character-facade';
 
 export interface WeightedMoment {
@@ -39,10 +40,11 @@ export class MomentFacade {
   constructor(
     private store: Store,
     private adventureFacade: AdventureFacade,
+    private attributeFacade: AttributeFacade,
     private characterFacade: CharacterFacade,
   ) {}
 
-  // #region 🔸 NgRx Selectors 🔸
+  // #region 🔸 Selectors 🔸
 
   all$ = this.store.select(selectAllMoments); // for UI
   entities$ = this.store.select(selectMomentEntities); // for lookup
@@ -62,17 +64,17 @@ export class MomentFacade {
   player$ = this.characterFacade.player$;
   // #endregion
 
-  // #region 🔸 Feature CRUD Methods 🔸
+  // #region 🔸 CRUD Methods 🔸
 
-  // Creates a temporary "blank canvas" for the UI (minimum valid model)
-  addBlank(
+  /** Creates a temporary "blank canvas" for the UI (minimum valid model) */
+  buildBlank(
     id: string,
     entityId: string,
     name: string,
     dimensionId: string,
     planeId: string,
-  ) {
-    const moment: Moment = {
+  ): Moment {
+    return {
       id,
       entityId,
       dimensionId,
@@ -85,8 +87,8 @@ export class MomentFacade {
       choices: [],
       characters: [],
     };
-    this.store.dispatch(MomentActions.addMoment({ moment }));
   }
+
   add(moment: Moment) {
     this.store.dispatch(MomentActions.addMoment({ moment }));
   }
@@ -145,25 +147,24 @@ export class MomentFacade {
     if (!adventure || !accountId) return;
     for (const charRef of moment.characters ?? []) {
       if (charRef === 'player') continue; // skip player, already loaded
-      // Lookup template
+
       const template = await firstValueFrom(
         this.characterFacade.byId$(charRef),
       );
       if (!template) continue;
+
       // Create unique encounter ID
-      // const encounterId = `${charRef}:${moment.id}:${adventureId}`;
       const encounterId = buildAdventureEntityCompositeId(
         charRef,
-        // adventure.currentDimensionId,
-        adventure.primeDimension,
-        adventure.currentPlaneId,
+        adventure.currentDimensionId || adventure.originDimensionId,
+        adventure.currentPlaneId || adventure.originPlaneId,
         adventure.id,
         adventure.accountId,
       );
       if (!encounterId) continue;
       // Clone and add to store
       const mob: Character = {
-        ...template,
+        ...structuredClone(template),
         id: encounterId,
         adventureId: adventure.id,
         accountId,
@@ -239,12 +240,11 @@ export class MomentFacade {
     // Difficulty pacing (example: scale by player level)
     // if (moment.tags.includes('challenge') && player.attributes['level'] < 5) weight -= 3;
 
+    const health = Number(
+      this.attributeFacade.getValue(player.attributes, 'health', 0),
+    );
     // Custom: low health, show healing moments
-    if (
-      Number(player.attributes['health']) < 20 &&
-      moment.tags.includes('healing')
-    )
-      weight += 8;
+    if (health < 20 && moment.tags.includes('healing')) weight += 8;
 
     // Custom: flags
     if (player.tags.includes('knowsAboutCult') && moment.tags.includes('cult'))
@@ -392,6 +392,6 @@ export class MomentFacade {
 
     // 5. Advance to next moment if specified by win condition or design
     // ... (handled by choice or win condition)
-    // (Handled elsewhere, e.g. after calling completeMoment, you may call gotoMoment)
+    // (Handled elsewhere, e.g. after calling completeMoment, you may call enterMoment)
   }
 }
