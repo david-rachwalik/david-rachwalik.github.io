@@ -4,6 +4,7 @@
   "explorer.fileNesting.enabled": true,
   "files.associations": {
     "hosts": "ini",
+    "config": "ini",
     "*.json": "jsonc",
     "*.css": "postcss",
     "*.ejs": "html"
@@ -23,27 +24,23 @@
   "editor.fontLigatures": false,
   "editor.linkedEditing": true,
   "editor.wordWrapColumn": 160,
+  "editor.inlayHints.enabled": "offUnlessPressed",
 
   // --- Formatting ---
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
-  },
+  "editor.codeActionsOnSave": {},
   // :: Prettier Supported Language Targets ::
-  // [javascript, typescript, javascriptreact, typescriptreact]
-  // [html, css, scss, less, vue]
-  // [json, yaml, markdown]
-  // [graphql, handlebars, toml, ruby]
+  // [javascript][typescript][javascriptreact][typescriptreact]
+  // [html][css][scss][less][vue]
+  // [json][yaml][markdown]
+  // [graphql][handlebars][toml][ruby]
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.printWidth": 160,
   "prettier.tabWidth": 2,
   "prettier.ignorePath": ".prettierignore",
 
   // --- Formatting (Web) ---
-  "[javascript, typescript, javascriptreact, typescriptreact]": {
-    "editor.formatOnSave": false
-  },
   "eslint.debug": true,
   "eslint.format.enable": true,
   // "[html]": {
@@ -58,6 +55,9 @@
     "MD007": { "indent": 2 },
     "MD030": { "ul_single": 1, "ul_multi": 1 }
   },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
@@ -65,12 +65,6 @@
   "yaml.format.singleQuote": true,
   "yaml.format.bracketSpacing": true,
   "yaml.format.proseWrap": "preserve",
-  "[ignore]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format"
-  },
-  "[properties]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format"
-  },
 
   // -------- Terminal (CLI) --------
   "terminal.explorerKind": "external",
@@ -88,6 +82,11 @@
   "merge-conflict.codeLens.enabled": false,
 
   // -------- Code Language (Web) --------
+  "[javascript][typescript][javascriptreact][typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
   "js/ts.updateImportsOnFileMove.enabled": "always",
   "js/ts.referencesCodeLens.enabled": true,
   "js/ts.referencesCodeLens.showOnAllFunctions": true,
@@ -102,8 +101,8 @@
 
 
   // =========================================================================
-  // GitHub Copilot (VS Code AI)
-  // Goal: Keep AI limited to manual Copilot Chat usage only.
+  // VS Code AI (GitHub Copilot, Continue+Ollama)
+  // Goal: Keep AI limited to manual chat usage with readonly access.
   // Disable agents, auto-actions, terminal execution, and intrusive editing.
   // =========================================================================
 
@@ -122,6 +121,7 @@
   },
 
   // -------- Editor AI Behavior --------
+  "continue.showInlineTip": false,
   // Disable predictive edit suggestions
   "github.copilot.nextEditSuggestions.enabled": false,
   // Disable AI quick fixes/refactors
