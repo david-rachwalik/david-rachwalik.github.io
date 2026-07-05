@@ -11,7 +11,7 @@ import { GameFacade } from '../../services/game-facade';
   selector: 'app-new-game',
   imports: [CommonModule, FormsModule],
   templateUrl: './new-game.component.html',
-  // styleUrls: ['./new-game.component.css'],
+  // styleUrl: './new-game.component.scss',
 })
 export class NewGameComponent {
   inputLimit = 24;

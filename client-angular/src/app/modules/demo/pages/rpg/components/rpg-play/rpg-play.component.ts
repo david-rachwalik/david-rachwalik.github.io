@@ -26,7 +26,7 @@ import { RpgCharacterPanelComponent } from './rpg-character-panel.component';
   selector: 'app-rpg-play',
   imports: [CommonModule, RpgCharacterPanelComponent, MatTooltip],
   templateUrl: './rpg-play.component.html',
-  styleUrls: ['./rpg-play.component.css'],
+  styleUrl: './rpg-play.component.scss',
 })
 export class RpgPlayComponent implements OnInit, OnDestroy {
   // private route = inject(ActivatedRoute);

@@ -8,7 +8,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-rpg-demo-layout',
   templateUrl: './rpg-demo-layout.component.html',
-  // styleUrls: ['./rpg-demo-layout.component.css'],
+  // styleUrl: './rpg-demo-layout.component.scss',
   // encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [RouterOutlet],

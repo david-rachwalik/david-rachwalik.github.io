@@ -10,7 +10,7 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-api-tests',
   templateUrl: './api-tests.component.html',
-  styleUrls: ['./api-tests.component.css'],
+  styleUrl: './api-tests.component.scss',
   standalone: true,
   imports: [
     MatCard,
@@ -22,7 +22,7 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
   ],
 })
 export class ApiTestsComponent implements OnInit {
-  constructor() {}
+  // constructor() {}
 
   ngOnInit(): void {}
 }

@@ -9,7 +9,7 @@ import {
 @Component({
   selector: 'portfolio-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrl: './home.component.scss',
   standalone: true,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })

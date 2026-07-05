@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
   selector: 'app-rpg-simple-demo',
   imports: [CommonModule, MatButtonModule, MatCardModule],
   templateUrl: './rpg-simple-demo.component.html',
-  styleUrls: ['./rpg-simple-demo.component.css'],
+  styleUrl: './rpg-simple-demo.component.scss',
 })
 export class RpgSimpleDemoComponent {
   log: string[] = [];

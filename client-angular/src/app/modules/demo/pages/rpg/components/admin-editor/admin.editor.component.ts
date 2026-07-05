@@ -35,7 +35,7 @@ import { SeedJsonDialogComponent } from './admin.json.dialog.component';
     TitleCasePipe,
   ],
   templateUrl: './admin.editor.component.html',
-  styleUrls: ['./admin.editor.component.css'],
+  styleUrl: './admin.editor.component.scss',
 })
 export class AdminEditorComponent implements OnInit {
   private route = inject(ActivatedRoute);

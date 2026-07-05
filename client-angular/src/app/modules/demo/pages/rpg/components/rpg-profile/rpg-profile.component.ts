@@ -8,7 +8,7 @@ import { GameFacade } from '../../services/game-facade';
   selector: 'app-rpg-profile',
   imports: [CommonModule],
   templateUrl: './rpg-profile.component.html',
-  styleUrls: ['./rpg-profile.component.css'],
+  styleUrl: './rpg-profile.component.scss',
 })
 export class RpgProfileComponent {
   private game = inject(GameFacade);

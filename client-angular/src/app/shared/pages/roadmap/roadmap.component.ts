@@ -19,7 +19,7 @@ import { TASK_DATA, TaskNode } from './roadmap.data';
 @Component({
   selector: 'app-roadmap',
   templateUrl: './roadmap.component.html',
-  styleUrls: ['./roadmap.component.css'],
+  styleUrl: './roadmap.component.scss',
   standalone: true,
   imports: [
     MatCard,
@@ -32,8 +32,8 @@ import { TASK_DATA, TaskNode } from './roadmap.data';
     MatIcon,
     MatNestedTreeNode,
     MatIconButton,
-    MatTreeNodeOutlet
-],
+    MatTreeNodeOutlet,
+  ],
 })
 export class RoadmapComponent implements OnInit {
   treeControl = new NestedTreeControl<TaskNode>((node) => node.children);

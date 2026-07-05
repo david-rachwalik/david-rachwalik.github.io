@@ -44,7 +44,7 @@ import { debugLogObservable } from '../../utils';
       </ng-container>
     }
   `,
-  styleUrls: ['./rpg-character-panel.component.css'],
+  styleUrl: './rpg-character-panel.component.scss',
 })
 export class RpgCharacterPanelComponent implements OnInit, OnDestroy {
   @Input() characterId!: string;

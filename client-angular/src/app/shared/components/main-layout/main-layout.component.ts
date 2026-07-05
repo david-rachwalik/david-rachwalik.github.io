@@ -9,7 +9,7 @@ import { BackgroundStyleService } from '@shared/services/background-style.servic
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.css'],
+  styleUrl: './main-layout.component.scss',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [RouterOutlet, RouterLink, MatIcon, MatSlideToggle],

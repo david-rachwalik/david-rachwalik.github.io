@@ -16,7 +16,7 @@ import { SubheaderComponent } from './subheader/subheader.component';
 @Component({
   selector: 'app-portfolio-layout',
   templateUrl: './portfolio-layout.component.html',
-  styleUrls: ['./portfolio-layout.component.css'],
+  // styleUrl: './portfolio-layout.component.scss',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [RouterOutlet, HeaderComponent, SubheaderComponent, FooterComponent],

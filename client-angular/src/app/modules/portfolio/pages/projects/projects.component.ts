@@ -20,7 +20,7 @@ interface ProjectCard {
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.css'],
+  styleUrl: './projects.component.scss',
   standalone: true,
   imports: [
     MatCard,

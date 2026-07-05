@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-icon-btn',
   standalone: true,
   templateUrl: './icon-button.component.html',
-  styleUrls: ['./icon-button.component.css'],
+  styleUrl: './icon-button.component.scss',
   imports: [MatIconModule],
 })
 export class IconBtnComponent {

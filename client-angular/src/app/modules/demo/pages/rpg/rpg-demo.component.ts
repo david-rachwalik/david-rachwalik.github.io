@@ -9,7 +9,7 @@ import { GameFacade } from './services/game-facade';
   standalone: true,
   selector: 'app-rpg-demo',
   templateUrl: './rpg-demo.component.html',
-  // styleUrls: ['./rpg-demo.component.css'],
+  // styleUrl: './rpg-demo.component.scss',
   imports: [CommonModule],
 })
 export class RpgDemoComponent {

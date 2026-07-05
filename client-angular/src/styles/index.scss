@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* --- Initial Global Styles --- */
+
+@use 'tailwind'; /* Load TailwindCSS (must occur before themes) */
+/* https://material.angular.io/guide/theming */
+@use '@angular/material/prebuilt-themes/indigo-pink';
+
+/* --- Application Styles  --- */
+
+@use 'ng-fixes';
+@use 'global';
+@use 'backgrounds';
+@use 'buwebdev';
+
+/* --- Lazy-Loaded Styles  --- */
+/* imported here (instead of layouts) for accurate source tracking in browser debugger */
+
+@use 'main';
+@use 'buwebdev/bioSite';
+@use 'portfolio';
+@use 'demos/rpg-demo';

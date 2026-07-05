@@ -98,7 +98,7 @@ interface ColumnMeta {
     RouterLink,
   ],
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css'],
+  styleUrl: './admin.component.scss',
 })
 export class RpgAdminComponent implements OnInit {
   private game = inject(GameFacade);

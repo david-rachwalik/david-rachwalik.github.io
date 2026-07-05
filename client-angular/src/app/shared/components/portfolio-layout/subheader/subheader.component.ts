@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'portfolio-subheader',
   templateUrl: './subheader.component.html',
-  styleUrls: ['./subheader.component.css'],
+  styleUrl: './subheader.component.scss',
   standalone: true,
   imports: [RouterLink],
 })

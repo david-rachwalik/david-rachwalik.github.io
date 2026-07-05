@@ -12,7 +12,7 @@ import { BlogService } from '@modules/blog/blog.service';
 @Component({
   selector: 'app-blog-post',
   templateUrl: './blog-post.component.html',
-  styleUrl: './blog-post.component.css',
+  styleUrl: './blog-post.component.scss',
   standalone: true,
   imports: [FormsModule, MarkdownComponent, AsyncPipe, MatDivider],
 })

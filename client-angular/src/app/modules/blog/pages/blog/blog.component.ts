@@ -13,7 +13,7 @@ import { BlogMetadata } from '@modules/blog/blog.models';
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.component.html',
-  styleUrl: './blog.component.css',
+  styleUrl: './blog.component.scss',
   standalone: true,
   imports: [
     RouterLink,

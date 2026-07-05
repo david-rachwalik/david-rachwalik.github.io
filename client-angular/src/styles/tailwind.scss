@@ -11,10 +11,9 @@
 /* --- Initialize TailwindCSS --- */
 
 /* https://tailwindcss.com/docs/using-with-preprocessors */
-/* https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/defaultConfig.stub.js */
-@import 'tailwindcss/base'; /* @tailwind base; */
-@import 'tailwindcss/components'; /* @tailwind components; */
-@import 'tailwindcss/utilities'; /* @tailwind utilities; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* --- Default Styles for TailwindCSS --- */
 

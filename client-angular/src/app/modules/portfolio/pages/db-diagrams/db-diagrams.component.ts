@@ -10,7 +10,7 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-db-diagrams',
   templateUrl: './db-diagrams.component.html',
-  styleUrls: ['./db-diagrams.component.css'],
+  styleUrl: './db-diagrams.component.scss',
   standalone: true,
   imports: [
     MatCard,
@@ -22,7 +22,7 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
   ],
 })
 export class DbDiagramsComponent implements OnInit {
-  constructor() {}
+  // constructor() {}
 
   ngOnInit(): void {}
 }

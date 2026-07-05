@@ -83,7 +83,7 @@ interface ColumnMeta {
     MatTooltipModule,
   ],
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.css'],
+  styleUrl: './info.component.scss',
 })
 export class RpgInfoComponent implements OnInit {
   // Store data streams
