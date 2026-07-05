@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
 
-import { AdminEditorComponent } from './components/admin-editor/admin.editor.component';
-import { RpgAdminComponent } from './components/admin/admin.component';
-import { RpgInfoComponent } from './components/info/info.component';
-import { NewGameComponent } from './components/new-game/new-game.component';
-import { RpgDataComponent } from './components/rpg-data/rpg-data.component';
 import { RpgDemoLayoutComponent } from './components/rpg-demo-layout/rpg-demo-layout.component';
-import { RpgPlayComponent } from './components/rpg-play/rpg-play.component';
 import { RpgProfileComponent } from './components/rpg-profile/rpg-profile.component';
+import { AdminEditorComponent } from './pages/admin-editor/admin.editor.component';
+import { RpgAdminComponent } from './pages/admin/admin.component';
+import { RpgInfoComponent } from './pages/info/info.component';
+import { NewGameComponent } from './pages/new-game/new-game.component';
+import { RpgDataComponent } from './pages/rpg-data/rpg-data.component';
+import { RpgPlayComponent } from './pages/rpg-play/rpg-play.component';
 import { RpgDemoComponent } from './rpg-demo.component';
 
 export const rpgRoutes: Routes = [

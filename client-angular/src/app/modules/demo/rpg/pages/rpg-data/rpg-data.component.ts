@@ -5,12 +5,12 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, firstValueFrom, map, Observable } from 'rxjs';
 
+import { IconBtnComponent } from '../../components/icon-button/icon-button.component';
 import { AdventureIndex } from '../../models/adventure';
 import { GameFacade } from '../../services/game-facade';
 import { selectAllAdventureIndexes } from '../../store/adventure/adventure-index.selectors';
 import { AppActions } from '../../store/app.actions';
 import { selectCurrentSlotId } from '../../store/app.selectors';
-import { IconBtnComponent } from '../icon-button/icon-button.component';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component';
 
 @Component({

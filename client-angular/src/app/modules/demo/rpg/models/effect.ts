@@ -123,3 +123,54 @@ export interface EffectViewModel {
   label: string;
   description: string;
 }
+
+// #region 🔸 Effect Option Lists 🔸
+
+export const EFFECT_TYPE_OPTIONS: readonly EffectType[] = [
+  'status',
+  'damage',
+  'heal',
+  'charm',
+  'curse',
+  'buff',
+  'debuff',
+  'absorb',
+  'dispel',
+  'summon',
+  'conjure',
+  'transform',
+  'boon',
+] as const;
+
+export const EFFECT_ELEMENT_OPTIONS: readonly EffectElement[] = [
+  'physical',
+  'water',
+  'air',
+  'energy',
+  'void',
+  'fire',
+  'ice',
+] as const;
+
+export const EFFECT_KIND_OPTIONS: readonly Effect['kind'][] = [
+  'attribute',
+  'tag',
+  'character',
+  'bodyPart',
+  'state',
+  'custom',
+] as const;
+
+export const EFFECT_OPERATION_OPTIONS: readonly Effect['operation'][] = [
+  'add',
+  'subtract',
+  'multiply',
+  'set',
+  'remove',
+  'clear',
+  'toggle',
+] as const;
+
+export const CONDITION_COMPARISON_OPTIONS: readonly Condition['comparison'][] =
+  ['equals', 'gt', 'lt', 'contains'] as const;
+// #endregion
