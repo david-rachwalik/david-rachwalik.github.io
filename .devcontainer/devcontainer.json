@@ -40,53 +40,42 @@
   ],
 
   "runArgs": [
-    // Allow services running on host (e.g. Ollama) to be accessed via `host.docker.internal`
-    // "--add-host=host.docker.internal:host-gateway"
-    // docker network create shared-dev-net
+    // Allow services running on Ollama host to be accessed
+    // > docker network create shared-dev-net
     "--network=shared-dev-net"
   ],
 
-  // Configure tool-specific properties.
+  // Configure tool-specific properties
   "customizations": {
     "vscode": {
       // Add the IDs of extensions to install when container is created
       "extensions": [
+        // -------- Core / Docker / Formatting --------
         "ms-vscode-remote.remote-containers",
-        "ms-azuretools.vscode-containers", // Docker
-        "esbenp.prettier-vscode", // formatter
-        // [JavaScript|TypeScript]
-        "dbaeumer.vscode-eslint", // linter
-        "christian-kohler.path-intellisense", // autocompletes filenames
-        "mike-co.import-sorter", // TS
-        "steoates.autoimport", // TS
-        // [CSS]
-        "small-tech.comment-out-css",
-        "kamikillerto.vscode-colorize",
-        "pucelle.vscode-css-navigation",
-        "csstools.postcss",
-        "bradlc.vscode-tailwindcss",
-        // [Other Languages]
-        "DavidAnson.vscode-markdownlint",
-        "redhat.vscode-yaml",
-        // "ms-dotnettools.csharp",
-        // "bowlerhatllc.vscode-as3mxml",
-        "mikestead.dotenv",
-        "formulahendry.auto-close-tag", // HTML/XML
-        "formulahendry.auto-rename-tag", // HTML/XML
-        "christian-kohler.npm-intellisense",
-        // "theumletteam.umlet",
-        // "42Crunch.vscode-openapi",
+        "ms-azuretools.vscode-containers",  // Docker
+        "esbenp.prettier-vscode",  // formatter
+
+        // -------- Web Stack (JS, TS, HTML, CSS) --------
+        "dbaeumer.vscode-eslint",  // linter
         "Angular.ng-template",
         // "Vue.volar",
+        "bradlc.vscode-tailwindcss",
+
+        // -------- Config & Markdown --------
+        "DavidAnson.vscode-markdownlint",
+        "redhat.vscode-yaml",
+        "mikestead.dotenv",
         // "hashicorp.terraform",
-        // [Other]
+
+        // -------- Utilities & UI --------
         "natqe.reload",
+        "vscode-icons-team.vscode-icons",
         "donjayamanne.githistory",
         "bierner.markdown-preview-github-styles",
-        "vscode-icons-team.vscode-icons",
         "wayou.vscode-todo-highlight",
-        "lihui.vs-color-picker",
-        // "mongodb.mongodb-vscode"
+        // "mongodb.mongodb-vscode",
+        // "theumletteam.umlet",
+        // "42Crunch.vscode-openapi",
         "Continue.continue"
       ]
     }
