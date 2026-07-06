@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  standalone: true,
 })
 export class BiositeHomeComponent implements OnInit {
   // constructor() {}

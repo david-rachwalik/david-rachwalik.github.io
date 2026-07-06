@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
-import { RouterLink, RouterOutlet } from '@angular/router';
+// import { MatIcon } from '@angular/material/icon';
+// import { MatSlideToggle } from '@angular/material/slide-toggle';
+// import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 // import { Subscription } from 'rxjs';
 
 import { BackgroundStyleService } from '@shared/services/background-style.service';
@@ -11,7 +12,8 @@ import { BackgroundStyleService } from '@shared/services/background-style.servic
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterOutlet, RouterLink, MatIcon, MatSlideToggle],
+  // imports: [RouterOutlet, RouterLink, MatIcon, MatSlideToggle],
+  imports: [RouterOutlet],
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
   private readonly className = 'bg-main-layout';
