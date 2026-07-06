@@ -25,7 +25,6 @@ import { SeedJsonDialogComponent } from './admin.json.dialog.component';
 
 @Component({
   selector: 'app-admin-editor',
-  standalone: true,
   imports: [
     CommonModule,
     RouterLink,

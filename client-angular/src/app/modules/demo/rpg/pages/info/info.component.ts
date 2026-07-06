@@ -73,7 +73,6 @@ interface ColumnMeta {
 
 @Component({
   selector: 'app-info-page',
-  standalone: true,
   imports: [
     CommonModule,
     MatSelectModule,

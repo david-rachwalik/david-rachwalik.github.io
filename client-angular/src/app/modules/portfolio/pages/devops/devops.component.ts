@@ -20,7 +20,6 @@ interface ProjectCard {
   selector: 'app-devops',
   templateUrl: './devops.component.html',
   styleUrl: './devops.component.scss',
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

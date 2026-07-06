@@ -14,7 +14,6 @@ interface ThemeDetails {
   templateUrl: './base-layout.component.html',
   styleUrl: './base-layout.component.scss',
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [RouterLink, MatIcon, MatSlideToggle, RouterOutlet],
 })
 export class BaseLayoutComponent implements OnInit {

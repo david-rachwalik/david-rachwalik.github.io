@@ -11,7 +11,6 @@ export interface SeedDialogData {
 
 @Component({
   selector: 'app-seed-json-dialog',
-  standalone: true,
   imports: [MatDialogModule],
   template: `
     <h2 mat-dialog-title class="dialog-title">Seed JSON Export</h2>

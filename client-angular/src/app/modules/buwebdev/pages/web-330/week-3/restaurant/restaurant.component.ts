@@ -25,7 +25,6 @@ import { Appetizer, Beverage, Bill, Dessert, MainCourse } from './models/index';
   templateUrl: './restaurant.component.html',
   // styleUrls: ['./restaurant.component.css'],
   styleUrls: ['../../styles/theme.css', '../../styles/site.css'],
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

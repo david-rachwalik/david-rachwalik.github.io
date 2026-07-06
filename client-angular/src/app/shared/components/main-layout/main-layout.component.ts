@@ -11,7 +11,6 @@ import { BackgroundStyleService } from '@shared/services/background-style.servic
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [RouterOutlet, RouterLink, MatIcon, MatSlideToggle],
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {

@@ -8,7 +8,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-temp-conversion',
   templateUrl: './temp-conversion.component.html',
   styleUrls: ['./temp-conversion.component.css'],
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

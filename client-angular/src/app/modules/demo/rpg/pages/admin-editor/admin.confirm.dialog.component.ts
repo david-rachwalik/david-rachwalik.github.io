@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-confirm-dialog',
-  standalone: true,
   imports: [MatDialogModule],
   template: `
     <h2 mat-dialog-title class="dialog-title">Confirm Deletion</h2>

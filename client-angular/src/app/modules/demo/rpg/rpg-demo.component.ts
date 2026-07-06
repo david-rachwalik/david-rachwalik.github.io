@@ -6,7 +6,6 @@ import { map, of } from 'rxjs';
 import { GameFacade } from './services/game-facade';
 
 @Component({
-  standalone: true,
   selector: 'app-rpg-demo',
   templateUrl: './rpg-demo.component.html',
   // styleUrl: './rpg-demo.component.scss',

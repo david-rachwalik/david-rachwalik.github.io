@@ -10,7 +10,6 @@ import { UserService } from '../../services/user.service';
   templateUrl: './rpg-demo-layout.component.html',
   // styleUrl: './rpg-demo-layout.component.scss',
   // encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [RouterOutlet],
 })
 export class RpgDemoLayoutComponent implements OnInit, OnDestroy {

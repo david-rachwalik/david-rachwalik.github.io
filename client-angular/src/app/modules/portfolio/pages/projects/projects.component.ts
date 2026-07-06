@@ -21,7 +21,6 @@ interface ProjectCard {
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

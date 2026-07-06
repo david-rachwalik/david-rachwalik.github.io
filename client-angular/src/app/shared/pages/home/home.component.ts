@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  standalone: true,
   imports: [MatDivider, RouterLink],
 })
 export class HomeComponent implements OnInit {

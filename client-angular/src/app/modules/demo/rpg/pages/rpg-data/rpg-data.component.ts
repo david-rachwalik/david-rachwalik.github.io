@@ -14,7 +14,6 @@ import { selectCurrentSlotId } from '../../store/app.selectors';
 import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component';
 
 @Component({
-  standalone: true,
   selector: 'app-rpg-data',
   imports: [CommonModule, IconBtnComponent],
   templateUrl: './rpg-data.component.html',

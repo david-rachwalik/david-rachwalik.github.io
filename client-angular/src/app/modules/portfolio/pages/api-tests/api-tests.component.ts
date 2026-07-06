@@ -11,7 +11,6 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
   selector: 'app-api-tests',
   templateUrl: './api-tests.component.html',
   styleUrl: './api-tests.component.scss',
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

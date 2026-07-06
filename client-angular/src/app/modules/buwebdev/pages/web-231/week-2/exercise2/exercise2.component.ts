@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-exercise2',
   templateUrl: './exercise2.component.html',
   styleUrls: ['./exercise2.component.css'],
-  standalone: true,
   imports: [MatButton, RouterLink],
 })
 export class Exercise2Component {

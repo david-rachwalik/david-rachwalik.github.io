@@ -8,7 +8,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-sequence-game',
   templateUrl: './sequence-game.component.html',
   styleUrls: ['./sequence-game.component.css'],
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

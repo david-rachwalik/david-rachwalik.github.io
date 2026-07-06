@@ -10,7 +10,6 @@ import {
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',
-  standalone: true,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })
 export class AboutComponent implements OnInit {

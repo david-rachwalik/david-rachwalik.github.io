@@ -36,7 +36,6 @@ interface MyFormGroup {
   // <link rel="stylesheet" type="text/css" href="../styles/theme.css">
   // <link rel="stylesheet" type="text/css" href="../styles/site.css">
   styleUrls: ['../../styles/theme.css', '../../styles/site.css'],
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

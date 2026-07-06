@@ -10,7 +10,6 @@ import {
   selector: 'app-ca-processes',
   templateUrl: './ca-processes.component.html',
   styleUrls: ['./ca-processes.component.css'],
-  standalone: true,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })
 export class CaProcessesComponent implements OnInit {

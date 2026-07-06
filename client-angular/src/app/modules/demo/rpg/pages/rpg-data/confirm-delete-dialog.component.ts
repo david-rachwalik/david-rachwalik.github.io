@@ -7,7 +7,6 @@ import {
 } from '@angular/material/dialog';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, MatDialogModule],
   template: `
     <h2 mat-dialog-title>Delete Save?</h2>

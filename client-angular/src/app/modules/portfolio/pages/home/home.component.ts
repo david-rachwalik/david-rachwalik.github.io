@@ -10,7 +10,6 @@ import {
   selector: 'portfolio-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  standalone: true,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })
 export class PortfolioHomeComponent implements OnInit {

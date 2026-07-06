@@ -41,7 +41,6 @@ export interface BookElement {
   selector: 'app-whatabook1',
   templateUrl: './whatabook1.component.html',
   styleUrls: ['./whatabook1.component.css'],
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

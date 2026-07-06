@@ -39,7 +39,6 @@ interface MyFormGroup {
     '../../styles/site.css',
     './calorie.component.css',
   ],
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

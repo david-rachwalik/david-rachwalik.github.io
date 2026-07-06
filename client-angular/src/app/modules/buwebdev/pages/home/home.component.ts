@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
   selector: 'buwebdev-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  standalone: true,
   imports: [MatDivider, RouterLink],
 })
 export class BuwebdevHomeComponent implements OnInit {

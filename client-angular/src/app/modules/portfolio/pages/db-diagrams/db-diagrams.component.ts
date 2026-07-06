@@ -11,7 +11,6 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
   selector: 'app-db-diagrams',
   templateUrl: './db-diagrams.component.html',
   styleUrl: './db-diagrams.component.scss',
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

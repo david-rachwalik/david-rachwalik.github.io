@@ -10,7 +10,6 @@ import {
   selector: 'app-source-control-security',
   templateUrl: './source-control-security.component.html',
   styleUrls: ['./source-control-security.component.css'],
-  standalone: true,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })
 export class SourceControlSecurityComponent implements OnInit {

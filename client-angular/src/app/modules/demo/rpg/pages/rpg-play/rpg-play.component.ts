@@ -22,7 +22,6 @@ import { debugLogObservable } from '../../utils';
 import { RpgCharacterPanelComponent } from './rpg-character-panel.component';
 
 @Component({
-  standalone: true,
   selector: 'app-rpg-play',
   imports: [CommonModule, RpgCharacterPanelComponent, MatTooltip],
   templateUrl: './rpg-play.component.html',

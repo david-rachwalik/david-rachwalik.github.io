@@ -20,7 +20,6 @@ import { TASK_DATA, TaskNode } from './roadmap.data';
   selector: 'app-roadmap',
   templateUrl: './roadmap.component.html',
   styleUrl: './roadmap.component.scss',
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

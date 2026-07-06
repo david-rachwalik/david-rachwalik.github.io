@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-prompt-dialog',
-  standalone: true,
   imports: [MatDialogModule, FormsModule],
   template: `
     <h2 mat-dialog-title class="dialog-title">Create New Asset</h2>

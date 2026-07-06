@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  standalone: true,
   selector: 'app-rpg-simple-demo',
   imports: [CommonModule, MatButtonModule, MatCardModule],
   templateUrl: './rpg-simple-demo.component.html',

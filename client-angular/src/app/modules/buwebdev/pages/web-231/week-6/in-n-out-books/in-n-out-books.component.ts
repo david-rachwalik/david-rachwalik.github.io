@@ -8,7 +8,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-in-n-out-books',
   templateUrl: './in-n-out-books.component.html',
   styleUrls: ['./in-n-out-books.component.css'],
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

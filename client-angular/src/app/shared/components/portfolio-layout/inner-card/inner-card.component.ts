@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
   selector: 'portfolio-inner-card',
   templateUrl: './inner-card.component.html',
   styleUrl: './inner-card.component.scss',
-  standalone: true,
   imports: [RouterLink, MatCard, MatCardTitle, MatCardContent],
 })
 export class InnerCardComponent implements OnInit {

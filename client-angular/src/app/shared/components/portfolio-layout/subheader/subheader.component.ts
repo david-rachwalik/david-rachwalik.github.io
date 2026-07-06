@@ -5,7 +5,6 @@ import { RouterLink } from '@angular/router';
   selector: 'portfolio-subheader',
   templateUrl: './subheader.component.html',
   styleUrl: './subheader.component.scss',
-  standalone: true,
   imports: [RouterLink],
 })
 export class SubheaderComponent implements OnInit {

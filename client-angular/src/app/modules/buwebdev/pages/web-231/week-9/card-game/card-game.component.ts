@@ -11,7 +11,6 @@ import { Dealer } from './models/dealer.model';
   selector: 'app-card-game',
   templateUrl: './card-game.component.html',
   styleUrls: ['./card-game.component.css'],
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

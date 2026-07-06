@@ -8,7 +8,6 @@ import { CharacterFacade } from '../../services/facades/character-facade';
 import { debugLogObservable } from '../../utils';
 
 @Component({
-  standalone: true,
   selector: 'app-rpg-character-panel',
   imports: [CommonModule, MatTooltip],
   template: `

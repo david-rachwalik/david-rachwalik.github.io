@@ -6,11 +6,10 @@ import { RouterLink } from '@angular/router';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  standalone: true,
   imports: [MatDivider, RouterLink],
 })
 export class Web330HomeComponent implements OnInit {
-  constructor() {}
+  // constructor() {}
 
   ngOnInit(): void {}
 }

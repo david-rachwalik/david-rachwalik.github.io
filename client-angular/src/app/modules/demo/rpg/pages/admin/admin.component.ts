@@ -86,7 +86,6 @@ interface ColumnMeta {
 
 @Component({
   selector: 'app-admin-page',
-  standalone: true,
   imports: [
     CommonModule,
     MatSelectModule,

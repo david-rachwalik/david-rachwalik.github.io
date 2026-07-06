@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { GameFacade } from '../../services/game-facade';
 
 @Component({
-  standalone: true,
   selector: 'app-new-game',
   imports: [CommonModule, FormsModule],
   templateUrl: './new-game.component.html',

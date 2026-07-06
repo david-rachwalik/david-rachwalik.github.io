@@ -13,7 +13,6 @@ import { BlogService } from '@modules/blog/blog.service';
   selector: 'app-blog-post',
   templateUrl: './blog-post.component.html',
   styleUrl: './blog-post.component.scss',
-  standalone: true,
   imports: [FormsModule, MarkdownComponent, AsyncPipe, MatDivider],
 })
 export class BlogPostComponent implements OnInit {

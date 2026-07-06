@@ -10,7 +10,6 @@ import {
   selector: 'app-change-management',
   templateUrl: './change-management.component.html',
   styleUrls: ['./change-management.component.css'],
-  standalone: true,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })
 export class ChangeManagementComponent implements OnInit {

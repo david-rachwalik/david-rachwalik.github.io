@@ -10,7 +10,6 @@ import {
   selector: 'app-ci',
   templateUrl: './ci.component.html',
   styleUrls: ['./ci.component.css'],
-  standalone: true,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })
 export class CiComponent implements OnInit {

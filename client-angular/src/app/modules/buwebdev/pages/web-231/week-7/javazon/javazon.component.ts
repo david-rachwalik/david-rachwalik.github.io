@@ -12,7 +12,6 @@ import { Service } from './models/service.model';
   selector: 'app-javazon',
   templateUrl: './javazon.component.html',
   styleUrls: ['./javazon.component.css'],
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

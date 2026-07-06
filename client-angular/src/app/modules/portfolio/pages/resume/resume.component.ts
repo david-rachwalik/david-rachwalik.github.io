@@ -13,7 +13,6 @@ import { MatIcon } from '@angular/material/icon';
   selector: 'app-resume',
   templateUrl: './resume.component.html',
   styleUrl: './resume.component.scss',
-  standalone: true,
   imports: [
     MatCard,
     MatCardTitle,

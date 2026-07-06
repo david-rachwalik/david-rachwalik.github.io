@@ -18,7 +18,6 @@ import { SubheaderComponent } from './subheader/subheader.component';
   templateUrl: './portfolio-layout.component.html',
   // styleUrl: './portfolio-layout.component.scss',
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [RouterOutlet, HeaderComponent, SubheaderComponent, FooterComponent],
 })
 // export class PortfolioLayoutComponent implements OnInit {

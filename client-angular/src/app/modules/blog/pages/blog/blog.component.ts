@@ -14,7 +14,6 @@ import { BlogMetadata } from '@modules/blog/blog.models';
   selector: 'app-blog',
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
-  standalone: true,
   imports: [
     RouterLink,
     FormsModule,

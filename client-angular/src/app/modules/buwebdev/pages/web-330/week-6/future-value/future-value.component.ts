@@ -25,7 +25,6 @@ import { Validator } from './models/validator';
   selector: 'app-future-value',
   templateUrl: './future-value.component.html',
   styleUrls: ['./future-value.component.css'],
-  standalone: true,
   imports: [
     RouterLink,
     FormsModule,

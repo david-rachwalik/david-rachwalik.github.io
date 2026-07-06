@@ -14,7 +14,6 @@ interface ThemeDetails {
   templateUrl: './buwebdev-layout.component.html',
   styleUrls: ['./buwebdev-layout.component.css'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [RouterLink, MatIcon, MatSlideToggle, RouterOutlet],
 })
 export class BuwebdevLayoutComponent implements OnInit {

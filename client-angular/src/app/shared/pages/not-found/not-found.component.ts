@@ -7,7 +7,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-not-found',
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.scss',
-  standalone: true,
   imports: [MatCard, MatCardTitle, MatCardContent, MatButton, RouterLink],
 })
 export class NotFoundComponent implements OnInit {
