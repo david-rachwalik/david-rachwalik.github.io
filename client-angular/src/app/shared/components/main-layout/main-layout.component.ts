@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 // import { MatIcon } from '@angular/material/icon';
 // import { MatSlideToggle } from '@angular/material/slide-toggle';
 // import { RouterLink, RouterOutlet } from '@angular/router';
@@ -13,6 +19,7 @@ import { BackgroundStyleService } from '@shared/services/background-style.servic
   styleUrl: './main-layout.component.scss',
   encapsulation: ViewEncapsulation.None,
   // imports: [RouterOutlet, RouterLink, MatIcon, MatSlideToggle],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterOutlet],
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {

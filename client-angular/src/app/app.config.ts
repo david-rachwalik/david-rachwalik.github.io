@@ -1,6 +1,10 @@
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors,
+  withXhr,
+} from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   PreloadAllModules,
   provideRouter,
@@ -14,10 +18,10 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     // https://angular.dev/guide/http/interceptors
-    provideHttpClient(withInterceptors([])),
+    provideHttpClient(withXhr(), withInterceptors([])),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
-    provideAnimations(), // BrowserAnimationsModule
+    provideAnimationsAsync(), // Lazy-loaded BrowserAnimations
     provideMarkdown(),
     ...NGRX_PROVIDERS, // Data Store
   ],

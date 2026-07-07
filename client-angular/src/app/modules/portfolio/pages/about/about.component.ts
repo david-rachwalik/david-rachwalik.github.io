@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   MatCard,
   MatCardContent,
@@ -10,6 +10,7 @@ import {
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })
 export class AboutComponent implements OnInit {

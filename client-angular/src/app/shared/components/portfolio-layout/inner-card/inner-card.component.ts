@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 
@@ -6,6 +11,7 @@ import { RouterLink } from '@angular/router';
   selector: 'portfolio-inner-card',
   templateUrl: './inner-card.component.html',
   styleUrl: './inner-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, MatCard, MatCardTitle, MatCardContent],
 })
 export class InnerCardComponent implements OnInit {

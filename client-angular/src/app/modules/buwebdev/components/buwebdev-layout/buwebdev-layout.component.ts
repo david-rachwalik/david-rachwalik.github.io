@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -14,6 +19,7 @@ interface ThemeDetails {
   templateUrl: './buwebdev-layout.component.html',
   styleUrls: ['./buwebdev-layout.component.css'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, MatIcon, MatSlideToggle, RouterOutlet],
 })
 export class BuwebdevLayoutComponent implements OnInit {

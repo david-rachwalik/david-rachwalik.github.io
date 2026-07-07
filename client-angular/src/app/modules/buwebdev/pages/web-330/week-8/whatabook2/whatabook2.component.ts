@@ -9,7 +9,7 @@
 
 import { CdkTableDataSourceInput } from '@angular/cdk/table';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import {
   MatCell,
@@ -86,6 +86,7 @@ interface BookApiResponse {
   selector: 'app-whatabook2',
   templateUrl: './whatabook2.component.html',
   styleUrls: ['./whatabook2.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatCardTitle,

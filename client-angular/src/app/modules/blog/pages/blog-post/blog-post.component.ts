@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDivider } from '@angular/material/divider';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +13,7 @@ import { BlogService } from '@modules/blog/blog.service';
   selector: 'app-blog-post',
   templateUrl: './blog-post.component.html',
   styleUrl: './blog-post.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, MarkdownComponent, AsyncPipe, MatDivider],
 })
 export class BlogPostComponent implements OnInit {

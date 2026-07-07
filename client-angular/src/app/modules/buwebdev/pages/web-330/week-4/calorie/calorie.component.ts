@@ -7,7 +7,7 @@
 ;===========================================
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -39,6 +39,7 @@ interface MyFormGroup {
     '../../styles/site.css',
     './calorie.component.css',
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatCardTitle,

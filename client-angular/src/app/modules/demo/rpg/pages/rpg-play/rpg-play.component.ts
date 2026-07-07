@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, isDevMode, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  isDevMode,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 // import { MatDialog } from '@angular/material/dialog';
 // import { ActivatedRoute, Router } from '@angular/router';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -25,6 +32,7 @@ import { RpgCharacterPanelComponent } from './rpg-character-panel.component';
   selector: 'app-rpg-play',
   imports: [CommonModule, RpgCharacterPanelComponent, MatTooltip],
   templateUrl: './rpg-play.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './rpg-play.component.scss',
 })
 export class RpgPlayComponent implements OnInit, OnDestroy {

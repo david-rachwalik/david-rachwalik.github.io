@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MatCard,
@@ -13,6 +13,7 @@ import { MatIcon } from '@angular/material/icon';
   selector: 'app-resume',
   templateUrl: './resume.component.html',
   styleUrl: './resume.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatCardTitle,

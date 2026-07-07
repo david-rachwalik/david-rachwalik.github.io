@@ -7,7 +7,7 @@
 ;===========================================
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -36,6 +36,7 @@ interface MyFormGroup {
   // <link rel="stylesheet" type="text/css" href="../styles/theme.css">
   // <link rel="stylesheet" type="text/css" href="../styles/site.css">
   styleUrls: ['../../styles/theme.css', '../../styles/site.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatCardTitle,

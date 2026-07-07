@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 
@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-exercise2',
   templateUrl: './exercise2.component.html',
   styleUrls: ['./exercise2.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatButton, RouterLink],
 })
 export class Exercise2Component {

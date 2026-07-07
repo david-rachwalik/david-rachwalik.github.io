@@ -7,7 +7,7 @@
 ;===========================================
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MatCard,
@@ -25,6 +25,7 @@ import { Appetizer, Beverage, Bill, Dessert, MainCourse } from './models/index';
   templateUrl: './restaurant.component.html',
   // styleUrls: ['./restaurant.component.css'],
   styleUrls: ['../../styles/theme.css', '../../styles/site.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatCardTitle,

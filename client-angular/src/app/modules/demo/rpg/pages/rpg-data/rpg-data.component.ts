@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -18,6 +23,7 @@ import { ConfirmDeleteDialogComponent } from './confirm-delete-dialog.component'
   imports: [CommonModule, IconBtnComponent],
   templateUrl: './rpg-data.component.html',
   // styleUrl: './rpg-data.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     .save-actions {
       display: flex;

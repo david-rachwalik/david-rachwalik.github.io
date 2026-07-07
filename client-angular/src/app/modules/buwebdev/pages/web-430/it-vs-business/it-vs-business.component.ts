@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   MatCard,
   MatCardContent,
@@ -10,6 +10,7 @@ import {
   selector: 'app-it-vs-business',
   templateUrl: './it-vs-business.component.html',
   styleUrls: ['./it-vs-business.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent],
 })
 export class ItVsBusinessComponent implements OnInit {

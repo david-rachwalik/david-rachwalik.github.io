@@ -7,7 +7,7 @@
 ;===========================================
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import {
@@ -25,6 +25,7 @@ import { Product, ShoppingCart } from './models/index';
   selector: 'app-bobs-auto-repair',
   templateUrl: './bobs-auto-repair.component.html',
   styleUrls: ['./bobs-auto-repair.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatCardTitle,

@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { map, Observable, of, Subject } from 'rxjs';
 
@@ -43,6 +49,7 @@ import { debugLogObservable } from '../../utils';
       </ng-container>
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './rpg-character-panel.component.scss',
 })
 export class RpgCharacterPanelComponent implements OnInit, OnDestroy {

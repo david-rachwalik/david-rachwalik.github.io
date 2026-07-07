@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -82,6 +82,7 @@ interface ColumnMeta {
     MatTooltipModule,
   ],
   templateUrl: './info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './info.component.scss',
 })
 export class RpgInfoComponent implements OnInit {

@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { BackgroundStyleService } from '@shared/services/background-style.service';
@@ -10,6 +15,7 @@ import { UserService } from '../../services/user.service';
   templateUrl: './rpg-demo-layout.component.html',
   // styleUrl: './rpg-demo-layout.component.scss',
   // encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterOutlet],
 })
 export class RpgDemoLayoutComponent implements OnInit, OnDestroy {

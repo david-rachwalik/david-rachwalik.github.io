@@ -1,5 +1,10 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
@@ -34,6 +39,7 @@ import { SeedJsonDialogComponent } from './admin.json.dialog.component';
     TitleCasePipe,
   ],
   templateUrl: './admin.editor.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin.editor.component.scss',
 })
 export class AdminEditorComponent implements OnInit {

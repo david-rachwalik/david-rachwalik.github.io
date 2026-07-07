@@ -1,6 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -20,6 +20,7 @@ import { TASK_DATA, TaskNode } from './roadmap.data';
   selector: 'app-roadmap',
   templateUrl: './roadmap.component.html',
   styleUrl: './roadmap.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatCardTitle,

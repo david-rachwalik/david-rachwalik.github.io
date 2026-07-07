@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
   selector: 'app-rpg-simple-demo',
   imports: [MatButtonModule, MatCardModule],
   templateUrl: './rpg-simple-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './rpg-simple-demo.component.scss',
 })
 export class RpgSimpleDemoComponent {

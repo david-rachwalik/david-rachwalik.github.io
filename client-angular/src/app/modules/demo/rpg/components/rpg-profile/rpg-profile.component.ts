@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { GameFacade } from '../../services/game-facade';
 
@@ -7,6 +7,7 @@ import { GameFacade } from '../../services/game-facade';
   selector: 'app-rpg-profile',
   imports: [CommonModule],
   templateUrl: './rpg-profile.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './rpg-profile.component.scss',
 })
 export class RpgProfileComponent {

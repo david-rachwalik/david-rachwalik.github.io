@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, of } from 'rxjs';
 
@@ -9,6 +9,7 @@ import { GameFacade } from './services/game-facade';
   selector: 'app-rpg-demo',
   templateUrl: './rpg-demo.component.html',
   // styleUrl: './rpg-demo.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule],
 })
 export class RpgDemoComponent {

@@ -7,7 +7,7 @@
 ;===========================================
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import {
@@ -25,6 +25,7 @@ import { Validator } from './models/validator';
   selector: 'app-future-value',
   templateUrl: './future-value.component.html',
   styleUrls: ['./future-value.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RouterLink,
     FormsModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   MatCard,
   MatCardContent,
@@ -20,6 +20,7 @@ interface ProjectCard {
   selector: 'app-devops',
   templateUrl: './devops.component.html',
   styleUrl: './devops.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatCardTitle,

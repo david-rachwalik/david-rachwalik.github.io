@@ -5,6 +5,7 @@ import {
   OnInit,
   // ElementRef,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
@@ -18,6 +19,7 @@ import { SubheaderComponent } from './subheader/subheader.component';
   templateUrl: './portfolio-layout.component.html',
   // styleUrl: './portfolio-layout.component.scss',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterOutlet, HeaderComponent, SubheaderComponent, FooterComponent],
 })
 // export class PortfolioLayoutComponent implements OnInit {

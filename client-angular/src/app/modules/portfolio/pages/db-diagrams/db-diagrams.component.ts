@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   MatCard,
   MatCardContent,
@@ -11,6 +11,7 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
   selector: 'app-db-diagrams',
   templateUrl: './db-diagrams.component.html',
   styleUrl: './db-diagrams.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatCard,
     MatCardTitle,
