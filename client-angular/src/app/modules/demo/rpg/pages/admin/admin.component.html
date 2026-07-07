@@ -62,9 +62,9 @@
                   @case ('name') {
                     <div class="cell-name">
                       <span class="primary">{{ r.name }}</span>
-                      <span class="secondary" *ngIf="r.entityId">{{
-                        r.entityId
-                      }}</span>
+                      @if (r.entityId) {
+                        <span class="secondary">{{ r.entityId }}</span>
+                      }
                     </div>
                   }
                   @case ('tags') {

@@ -41,111 +41,111 @@
   </div>
 
   <!-- Main Form Area -->
-  <main class="editor-main" *ngIf="editableEntity; else loading">
-    <div class="form-group row-group">
-      <div class="field-half">
-        <label>Entity ID</label>
-        <input
-          type="text"
-          [(ngModel)]="editableEntity['entityId']"
-          disabled
-          class="input-disabled" />
-        <small>System identifier (cannot be changed after creation)</small>
+  @if (editableEntity) {
+    <main class="editor-main">
+      <div class="form-group row-group">
+        <div class="field-half">
+          <label>Entity ID</label>
+          <input
+            type="text"
+            [(ngModel)]="editableEntity['entityId']"
+            disabled
+            class="input-disabled" />
+          <small>System identifier (cannot be changed after creation)</small>
+        </div>
+        <div class="field-half">
+          <label>Name / Title</label>
+          <input
+            type="text"
+            [(ngModel)]="editableEntity['name']"
+            placeholder="Display Name..." />
+        </div>
       </div>
-      <div class="field-half">
-        <label>Name / Title</label>
-        <input
-          type="text"
-          [(ngModel)]="editableEntity['name']"
-          placeholder="Display Name..." />
+
+      <!-- CMS Addition: Dynamic System Properties specific to the loaded Feature -->
+      <div class="form-group row-group content-group">
+        @if (editableEntity['kind'] !== undefined) {
+          <div class="field-half">
+            <label>Kind</label>
+            <input
+              type="text"
+              [(ngModel)]="editableEntity['kind']"
+              placeholder="e.g. 'core', 'attribute'" />
+          </div>
+        }
+        @if (editableEntity['category'] !== undefined) {
+          <div class="field-half">
+            <label>Category</label>
+            <input
+              type="text"
+              [(ngModel)]="editableEntity['category']"
+              placeholder="e.g. 'mechanic'" />
+          </div>
+        }
+        @if (editableEntity['type'] !== undefined) {
+          <div class="field-half">
+            <label>Type</label>
+            <input type="text" [(ngModel)]="editableEntity['type']" />
+          </div>
+        }
+        @if (editableEntity['valueType'] !== undefined) {
+          <div class="field-half">
+            <label>Value Type</label>
+            <input
+              type="text"
+              [(ngModel)]="editableEntity['valueType']"
+              placeholder="'number', 'string', etc." />
+          </div>
+        }
       </div>
-    </div>
 
-    <!-- CMS Addition: Dynamic System Properties specific to the loaded Feature -->
-    <div class="form-group row-group content-group">
-      @if (editableEntity['kind'] !== undefined) {
-        <div class="field-half">
-          <label>Kind</label>
-          <input
-            type="text"
-            [(ngModel)]="editableEntity['kind']"
-            placeholder="e.g. 'core', 'attribute'" />
-        </div>
-      }
-      @if (editableEntity['category'] !== undefined) {
-        <div class="field-half">
-          <label>Category</label>
-          <input
-            type="text"
-            [(ngModel)]="editableEntity['category']"
-            placeholder="e.g. 'mechanic'" />
-        </div>
-      }
-      @if (editableEntity['type'] !== undefined) {
-        <div class="field-half">
-          <label>Type</label>
-          <input type="text" [(ngModel)]="editableEntity['type']" />
-        </div>
-      }
-      @if (editableEntity['valueType'] !== undefined) {
-        <div class="field-half">
-          <label>Value Type</label>
-          <input
-            type="text"
-            [(ngModel)]="editableEntity['valueType']"
-            placeholder="'number', 'string', etc." />
-        </div>
-      }
-    </div>
-
-    <!-- Tags Editor Component -->
-    <div class="form-group content-group">
-      <label>Tags</label>
-      <div class="tags-manager">
-        <div class="tags-pool">
-          @for (t of editableTags; track t) {
-            <span class="manage-pill">
-              {{ t }}
-              <button class="pill-remove" (click)="removeTag(t)">×</button>
-            </span>
-          }
-          @if (editableTags.length === 0) {
-            <span class="muted-text">No tags attached.</span>
-          }
-        </div>
-
-        <mat-form-field appearance="outline" class="slim-select">
-          <mat-label>Assign existing Tag...</mat-label>
-          <mat-select
-            [(value)]="selectedTagToAdd"
-            (selectionChange)="addTag($event)">
-            @for (catTag of allTags$ | async; track catTag.id) {
-              <!-- Disable options that are already selected -->
-              <mat-option
-                [value]="catTag.id"
-                [disabled]="editableTags.includes(catTag.id)">
-                {{ catTag.name || catTag.id }}
-              </mat-option>
+      <!-- Tags Editor Component -->
+      <div class="form-group content-group">
+        <label>Tags</label>
+        <div class="tags-manager">
+          <div class="tags-pool">
+            @for (t of editableTags; track t) {
+              <span class="manage-pill">
+                {{ t }}
+                <button class="pill-remove" (click)="removeTag(t)">×</button>
+              </span>
             }
-          </mat-select>
-        </mat-form-field>
+            @if (editableTags.length === 0) {
+              <span class="muted-text">No tags attached.</span>
+            }
+          </div>
+
+          <mat-form-field appearance="outline" class="slim-select">
+            <mat-label>Assign existing Tag...</mat-label>
+            <mat-select
+              [(value)]="selectedTagToAdd"
+              (selectionChange)="addTag($event)">
+              @for (catTag of allTags$ | async; track catTag.id) {
+                <!-- Disable options that are already selected -->
+                <mat-option
+                  [value]="catTag.id"
+                  [disabled]="editableTags.includes(catTag.id)">
+                  {{ catTag.name || catTag.id }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <small
+          >Tags categorize assets and dictate engine logic (e.g. traits,
+          behaviors).</small
+        >
       </div>
-      <small
-        >Tags categorize assets and dictate engine logic (e.g. traits,
-        behaviors).</small
-      >
-    </div>
 
-    <div class="form-group content-group">
-      <label>Description</label>
-      <textarea
-        [(ngModel)]="editableEntity['description']"
-        rows="4"
-        placeholder="Flavor text and engine details..."></textarea>
-    </div>
-  </main>
-
-  <ng-template #loading>
+      <div class="form-group content-group">
+        <label>Description</label>
+        <textarea
+          [(ngModel)]="editableEntity['description']"
+          rows="4"
+          placeholder="Flavor text and engine details..."></textarea>
+      </div>
+    </main>
+  } @else {
     <div class="loading-state">Asset not found or loading...</div>
-  </ng-template>
+  }
 </div>

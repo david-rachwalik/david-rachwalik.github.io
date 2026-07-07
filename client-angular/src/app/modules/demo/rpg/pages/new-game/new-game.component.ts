@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,7 +7,7 @@ import { GameFacade } from '../../services/game-facade';
 
 @Component({
   selector: 'app-new-game',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './new-game.component.html',
   // styleUrl: './new-game.component.scss',
 })

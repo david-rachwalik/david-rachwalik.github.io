@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-rpg-simple-demo',
-  imports: [CommonModule, MatButtonModule, MatCardModule],
+  imports: [MatButtonModule, MatCardModule],
   templateUrl: './rpg-simple-demo.component.html',
   styleUrl: './rpg-simple-demo.component.scss',
 })

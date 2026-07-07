@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
@@ -7,7 +6,7 @@ import {
 } from '@angular/material/dialog';
 
 @Component({
-  imports: [CommonModule, MatDialogModule],
+  imports: [MatDialogModule],
   template: `
     <h2 mat-dialog-title>Delete Save?</h2>
     <mat-dialog-content>
