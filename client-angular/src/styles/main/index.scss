@@ -40,20 +40,20 @@ app-main-layout app-db-diagrams .mat-mdc-tab-body img.ng-star-inserted {
 /* --------------------------------------------------- */
 
 /* .mat-mdc-standard-chip {
-  --mdc-chip-label-text-size: 12px;
-  --mdc-chip-label-text-font: 'Open Sans';
-  --mdc-chip-container-height: 25px;
-  --mdc-chip-elevated-container-color: rgb(221, 163, 163);
+  --mat-chip-label-text-size: 12px;
+  --mat-chip-label-text-font: 'Open Sans';
+  --mat-chip-container-height: 25px;
+  --mat-chip-elevated-container-color: rgb(221, 163, 163);
 } */
 /* @media (max-width: 1500px) {
   .mat-mdc-standard-chip {
-    --mdc-chip-label-text-size: 8px;
+    --mat-chip-label-text-size: 8px;
   }
 } */
 
 .mat-mdc-standard-chip {
-  --mdc-chip-label-text-size: 12px;
-  --mdc-chip-container-height: 24px;
+  --mat-chip-label-text-size: 12px;
+  --mat-chip-container-height: 24px;
 }
 
 /* --- Material Tab Styles --- */
