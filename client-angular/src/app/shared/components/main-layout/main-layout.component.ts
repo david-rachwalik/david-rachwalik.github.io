@@ -1,14 +1,13 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 // import { MatIcon } from '@angular/material/icon';
 // import { MatSlideToggle } from '@angular/material/slide-toggle';
-// import { RouterLink, RouterOutlet } from '@angular/router';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 // import { Subscription } from 'rxjs';
 
 import { BackgroundStyleService } from '@shared/services/background-style.service';
@@ -20,7 +19,7 @@ import { BackgroundStyleService } from '@shared/services/background-style.servic
   encapsulation: ViewEncapsulation.None,
   // imports: [RouterOutlet, RouterLink, MatIcon, MatSlideToggle],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink],
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
   private readonly className = 'bg-main-layout';

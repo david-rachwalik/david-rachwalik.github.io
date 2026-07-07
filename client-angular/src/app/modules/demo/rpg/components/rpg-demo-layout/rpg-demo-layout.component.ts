@@ -1,8 +1,8 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
