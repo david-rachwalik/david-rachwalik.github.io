@@ -27,8 +27,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"],
-    "resolveJsonModule": true, /* for JSON import */
+    "resolveJsonModule": true /* for JSON import */,
     "esModuleInterop": true /* for JSON import */
   },
   "angularCompilerOptions": {
